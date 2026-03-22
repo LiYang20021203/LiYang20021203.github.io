@@ -38,7 +38,7 @@ gpt等，不同的卡适用范围不同。
 
 主要有[4种](https://youtu.be/6Zm5t_2nqCk?si=W5OsZJgzBIaWobn)
 
-![海外银行卡类型](https://liyang20021203.github.io/run/card/pic/银行卡类型.png)
+![银行卡类型](https://liyang20021203.github.io/run/card/pic/银行卡类型.png)
 
 
 我想办的卡：
