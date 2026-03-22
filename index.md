@@ -12,13 +12,6 @@
 ### run
 
   - [card](https://liyang20021203.github.io/run/card/card.md)
-  - [vpn]()
-
-### After reading
-  - [Conversations with God](https://liyang20021203.github.io/Reading/Conversations%20with%20God) 
-  - [看见](https://liyang20021203.github.io/Reading/看见)
-  - [送你一颗子弹](https://liyang20021203.github.io/Reading/送你一颗子弹/目录)
-  - [未来简史](https://liyang20021203.github.io/Reading/未来简史/contents)
 
 ---
 
