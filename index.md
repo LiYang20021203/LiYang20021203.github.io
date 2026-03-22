@@ -9,7 +9,7 @@
 
 ### run
 
-  - [card](https://liyang20021203.github.io/run/card/card.md)
+  - [card](https://liyang20021203.github.io/run/card/card)
 
 ---
 
