@@ -6,7 +6,7 @@
 
 主要有使用外汇储备和加密货币两种方式。
 
-![两种方式](https://liyang20021203.github.io/run/银行卡/pic/两种方式.png)
+![两种方式](https://liyang20021203.github.io/run/card/pic/两种方式.png)
 
 
 - 外汇储备每年5w美金，用国内银行卡汇款到海外银行卡，再用海外银行卡购买海外服务。
@@ -27,7 +27,7 @@ gpt等，不同的卡适用范围不同。
 
 ## 购买加密货币
 
-![虚拟币](github.com/run/银行卡/pic/虚拟币.png)
+![虚拟币](https://liyang20021203.github.io/run/card/pic/虚拟币.png)
 
 由于额度小，要开卡或者汇款，都建议使用加密货币
 
@@ -38,7 +38,7 @@ gpt等，不同的卡适用范围不同。
 
 主要有[4种](https://youtu.be/6Zm5t_2nqCk?si=W5OsZJgzBIaWobn)
 
-![海外银行卡类型](github.com/run/银行卡/pic/银行卡类型.png)
+![海外银行卡类型](https://liyang20021203.github.io/run/card/pic/银行卡类型.png)
 
 
 我想办的卡：
@@ -63,7 +63,7 @@ gpt等，不同的卡适用范围不同。
 
 > PokePay有实体卡和虚拟卡
 
-![实体虚拟PokePay说明](github.com/run/银行卡/pic/实体虚拟PokePay说明.png)
+![实体虚拟PokePay说明](https://liyang20021203.github.io/run/card/pic/实体虚拟PokePay说明.png)
 
 
 > 充值方式：[支持USDT、USDC、BTC、ETH等加密货币充值](https://github.com/cezvuy34/PokePay)。
