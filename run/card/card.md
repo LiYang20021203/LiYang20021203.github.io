@@ -178,4 +178,3 @@ chatgpt、youtube等，不同的卡适用范围不同。
 > 2. 使用PokePay银行卡，将加密货币存入银行卡，换成USD、HKD、EUR、GBP等法币。PokePay相当于一个VISA卡，已经可以用来买ChatGPT、Spotify等海外服务。
 > 3. 将PokePay银行卡里面的法币可以转入到Wise、N26等银行卡。但是注意不同法币之间的转化可能需要手续费。以及大陆开设的PokePay在汇款的时候也需要手续费。
 > 4. Wise卡里面的钱基本可以实现全球流传。N26银行卡提供的IBAN、BIC等信息可以用来接受汇款。
-> 5. 
