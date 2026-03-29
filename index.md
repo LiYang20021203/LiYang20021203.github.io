@@ -10,7 +10,9 @@
 
 ---
 
+### Atomic Habits
 
+  - [plan in 2026](https://liyang20021203.github.io/run/knowledge/ideas)
 
 
 ### Music
