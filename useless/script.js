@@ -1,0 +1,544 @@
+const dimensions = {
+  meeting: { label: "组会表达", color: "#3764b7" },
+  experiment: { label: "实验韧性", color: "#2d9c7b" },
+  cleanroom: { label: "超净间体质", color: "#8a63b8" },
+  tang: { label: "微笑稳态", color: "#dc6b55" },
+  literature: { label: "文献内驱", color: "#6f8f2f" },
+  life: { label: "组内适配", color: "#d07a33" },
+  project: { label: "任务推进", color: "#2f7f93" },
+  efficiency: { label: "效率洁癖", color: "#455a64" },
+  tolerance: { label: "同门容错", color: "#c4517f" },
+  social: { label: "协作互救", color: "#9b5a2e" },
+  intuition: { label: "脑洞联想", color: "#6c5ce7" },
+  planning: { label: "DDL计划", color: "#b8872d" }
+};
+
+const questions = [
+  {
+    axis: "组内生活",
+    title: "如果给现在的课题组生活打一个体感分，你更像？",
+    options: [
+      { text: "像在科研主题密室逃脱，累是真的，通关欲也是真的", scores: { life: 4, experiment: 1 } },
+      { text: "今天想退组，明天数据一好又觉得本组也不是不行", scores: { life: 2, experiment: 2, tang: 1 } },
+      { text: "只要别让组会和实验一起夹击，我愿称之为可持续生活", scores: { life: 3, planning: 2 } },
+      { text: "我主打长期持有：论文、技能、同门感情都算资产", scores: { literature: 2, social: 2, life: 1 } }
+    ]
+  },
+  {
+    axis: "实验频率",
+    title: "一周来做实验的次数，更接近你的哪种状态？",
+    options: [
+      { text: "样品一召唤我就上线，主打一个实验室 NPC 常驻", scores: { experiment: 4, cleanroom: 2 } },
+      { text: "按计划出勤，少跑空趟，拒绝无效打卡，栓Q", scores: { planning: 3, experiment: 3 } },
+      { text: "看样品脸色加场，今天它不做人，我也只能陪它发疯", scores: { project: 3, experiment: 2 } },
+      { text: "集中爆肝几天，然后回去读文献回血，科研版充放电循环", scores: { literature: 3, efficiency: 2 } }
+    ]
+  },
+  {
+    axis: "文献习惯",
+    title: "一周私下读论文的次数，更像哪种？",
+    options: [
+      { text: "经常读，看到妙招就收藏，像在囤科研皮肤", scores: { literature: 4, intuition: 2 } },
+      { text: "实验一卡住就开始搜，属于被样品逼成文献猎人", scores: { literature: 3, experiment: 3 } },
+      { text: "组会前读得最猛，临时抱佛脚但佛祖是 Web of Science", scores: { meeting: 3, literature: 2 } },
+      { text: "读得不多但会做笔记，主打给未来的自己递纸条", scores: { efficiency: 3, literature: 2 } }
+    ]
+  },
+  {
+    axis: "不怕语录",
+    title: "老唐说“不怕的不怕的”，你更容易进入哪种状态？",
+    options: [
+      { text: "真的会心安一点，至少先把情绪稳住", scores: { tang: 4, life: 1 } },
+      { text: "我懂，这是口头禅，不代表变量真的会自己变乖", scores: { experiment: 3, efficiency: 2 } },
+      { text: "我就知道你会说这个，于是默默打开记录本", scores: { tang: 2, planning: 3 } },
+      { text: "先不怕，再复盘；精神鼓励和对照实验都要有", scores: { experiment: 3, tang: 2 } }
+    ]
+  },
+  {
+    axis: "I/E 点名",
+    title: "组会上老唐突然点名问你怎么看，你第一秒更像？",
+    options: [
+      { text: "终于到我发挥了，麦克风请递给本组嘴替", scores: { meeting: 4, social: 1 } },
+      { text: "先停两秒，在脑子里排好逻辑再回答", scores: { planning: 3, meeting: 2 } },
+      { text: "如果刚好懂，我会补充；不懂就诚实说需要确认", scores: { tolerance: 2, efficiency: 2 } },
+      { text: "内心弹窗：怎么是我，但表面还是稳定接球", scores: { tang: 3, meeting: 1 } }
+    ]
+  },
+  {
+    axis: "电话长线",
+    title: "老唐的会前电话进入长线模式，大家都在等，你通常？",
+    options: [
+      { text: "太好了，短暂摸鱼窗口，先让大脑加载一下", scores: { life: 3, tang: 1 } },
+      { text: "趁机看看图有没有美感，能不能得到科研美图秀秀掌门人的认可", scores: { meeting: 2, intuition: 3 } },
+      { text: "打开待办：有没有 DDL 可以趁这几分钟救一下", scores: { planning: 4, efficiency: 2 } },
+      { text: "顺手确认文件、投屏、数据版本，别等开会再手忙脚乱", scores: { efficiency: 3, social: 2 } }
+    ]
+  },
+  {
+    axis: "师门校准",
+    title: "如果你发现老唐某个分析逻辑可能有点问题，你会？",
+    options: [
+      { text: "沉默不语，自己知道就行，心里默默开一个数据小法庭", scores: { tolerance: 3, tang: 2 } },
+      { text: "私下把原始数据和文献证据攒齐，主打温和但有锤", scores: { literature: 3, planning: 2 } },
+      { text: "组会上轻轻补一句“这里可能还要验证”，像给逻辑贴创可贴", scores: { meeting: 3, efficiency: 2 } },
+      { text: "先不站队，把问题拆成实验能回答的小块，别急着开庭", scores: { experiment: 2, tolerance: 2, planning: 2 } }
+    ]
+  },
+  {
+    axis: "S/N 现场",
+    title: "讨论一个新方向时，你更自然的反应是？",
+    options: [
+      { text: "先看现有数据，能做再说，别一上来就赛博许愿", scores: { experiment: 3, efficiency: 3 } },
+      { text: "先脑洞起飞，万一离谱想法就是论文隐藏款呢", scores: { intuition: 4, literature: 1 } },
+      { text: "先查别人有没有翻车，前人栽树，我来避坑", scores: { literature: 4, planning: 1 } },
+      { text: "先看能不能接上当前任务节点，别让新方向变成新大饼", scores: { project: 3, planning: 2 } }
+    ]
+  },
+  {
+    axis: "成功反应",
+    title: "实验终于做出一组漂亮结果，你第一反应是？",
+    options: [
+      { text: "先复现，能重复的漂亮才是真漂亮，拒绝一次性烟花", scores: { experiment: 4, planning: 2 } },
+      { text: "立刻整理图和逻辑，准备在组会优雅开屏", scores: { meeting: 4, experiment: 1 } },
+      { text: "回头翻文献：我要给这个结果找一个高级户口", scores: { literature: 4, intuition: 1 } },
+      { text: "先发给同门一起爽一下，快乐不扩散等于没做出来", scores: { social: 4, life: 1 } }
+    ]
+  },
+  {
+    axis: "失败反应",
+    title: "实验连续失败几次后，你更可能？",
+    options: [
+      { text: "把变量拆开，先找最可能的失败源", scores: { experiment: 4, efficiency: 2 } },
+      { text: "读几篇相近体系，看看别人是不是也踩过这个坑", scores: { literature: 4, experiment: 1 } },
+      { text: "找同门聊聊，换一个脑子看问题", scores: { social: 3, tolerance: 2 } },
+      { text: "允许自己低落一会儿，然后继续做下一组", scores: { tang: 3, life: 2 } }
+    ]
+  },
+  {
+    axis: "超净间",
+    title: "进超净间前，你最在意什么？",
+    options: [
+      { text: "想着几点能出来干饭，科研人也需要碳水续命", scores: { life: 4, cleanroom: 1 } },
+      { text: "今天风水如何，样品和仪器会不会愿意给我面子", scores: { intuition: 3, tang: 2 } },
+      { text: "只想着实验步骤，进去以后人和杂念一起静音", scores: { cleanroom: 4, experiment: 2 } },
+      { text: "又是不想进去的一天，但来都来了，做完再说", scores: { tang: 3, cleanroom: 2 } }
+    ]
+  },
+  {
+    axis: "同门容错",
+    title: "同门和你的实验节奏完全不同，你更容易？",
+    options: [
+      { text: "可以理解，每个人都有自己的科研操作系统，别蓝屏就行", scores: { tolerance: 4, life: 1 } },
+      { text: "只要不影响关键节点，节奏不同也能和平共处，主打尊重祝福", scores: { tolerance: 3, project: 2 } },
+      { text: "如果影响协作，我会早点说清楚，不搞沉默文学", scores: { social: 3, efficiency: 2 } },
+      { text: "我倾向把流程写明白，少靠玄学默契在线配对", scores: { planning: 3, efficiency: 2 } }
+    ]
+  },
+  {
+    axis: "师兄师姐",
+    title: "面对师兄师姐的科研存在感，你更像？",
+    options: [
+      { text: "离不开一点，关键时刻一句话能少走三天弯路", scores: { social: 4, tolerance: 1 } },
+      { text: "跟着他们成长，但也想慢慢拥有自己的判断", scores: { literature: 2, experiment: 2, life: 1 } },
+      { text: "舍不得，组里很多安全感其实是他们撑起来的", scores: { life: 3, social: 2 } },
+      { text: "感谢但不依赖，经验要听，自己的坑也要自己踩", scores: { experiment: 3, planning: 2 } }
+    ]
+  },
+  {
+    axis: "科研偏好",
+    title: "你更享受哪一种科研时刻？",
+    options: [
+      { text: "实验条件一点点被调顺，结果终于开始听话", scores: { experiment: 4, cleanroom: 1 } },
+      { text: "读文献读到一条线，把自己的数据突然串起来", scores: { literature: 4, intuition: 1 } },
+      { text: "把复杂进展讲清楚，让别人也听懂你的判断", scores: { meeting: 4, efficiency: 1 } },
+      { text: "团队配合顺畅，样品、仪器、时间都刚好接上", scores: { social: 3, planning: 2 } }
+    ]
+  },
+  {
+    axis: "私下节奏",
+    title: "没有硬性 deadline 的晚上，你更可能？",
+    options: [
+      { text: "补读几篇论文，给之后的实验攒点底气", scores: { literature: 4, life: 1 } },
+      { text: "整理数据和记录，不想未来的自己考古", scores: { efficiency: 4, experiment: 1 } },
+      { text: "休息一下，科研续航也需要维护", scores: { life: 4, tang: 1 } },
+      { text: "和同门聊聊最近卡点，说不定互相解锁", scores: { social: 3, intuition: 2 } }
+    ]
+  },
+  {
+    axis: "P/J DDL",
+    title: "一个重要 DDL 还有三天，你更像？",
+    options: [
+      { text: "已经倒排时间表，连崩溃时间都预留了 20 分钟", scores: { planning: 4, efficiency: 2 } },
+      { text: "先搭框架，细节交给灵感和凌晨两点的我", scores: { intuition: 3, meeting: 2 } },
+      { text: "先拆最容易爆炸的部分，别让 DDL 变成科研春晚倒计时", scores: { planning: 3, experiment: 2 } },
+      { text: "我和 DDL 的关系是暧昧拉扯：不到最后不完全来电", scores: { tang: 2, efficiency: 2 } }
+    ]
+  },
+  {
+    axis: "多线任务",
+    title: "实验、组会、项目小任务和 DDL 同时出现，你会？",
+    options: [
+      { text: "排优先级，能闭环的先闭环，不能闭环的先写进遗嘱式待办", scores: { planning: 4, efficiency: 2 } },
+      { text: "先抓最关键变量，其他任务能蹭一点是一点，雨露均沾但不包售后", scores: { experiment: 3, project: 2 } },
+      { text: "主动同步节奏，别让信息断线，不然全组一起加载失败", scores: { social: 4, project: 1 } },
+      { text: "先深呼吸：不怕是不怕，但待办多到可以出一篇综述", scores: { tang: 3, planning: 2 } }
+    ]
+  },
+  {
+    axis: "组会前夜",
+    title: "组会前一晚，你的 PPT 还差一点，你通常？",
+    options: [
+      { text: "先保主线，图可以少一点，但逻辑不能塌", scores: { meeting: 4, planning: 2 } },
+      { text: "补关键实验细节，让别人能判断这个结果靠不靠谱", scores: { experiment: 3, meeting: 2 } },
+      { text: "去文献里捞一句能撑住讨论的问题背景", scores: { literature: 3, meeting: 2 } },
+      { text: "如果来不及，我会诚实标注“待验证”，不硬装圆满", scores: { tolerance: 2, efficiency: 3 } }
+    ]
+  },
+  {
+    axis: "数据异常",
+    title: "看到一组异常数据，你脑子里先冒出来的是？",
+    options: [
+      { text: "先排查条件和仪器，别急着把 bug 包装成天选之子", scores: { experiment: 4, efficiency: 2 } },
+      { text: "会不会是新机制在探头？先脑洞一下，万一呢", scores: { intuition: 4, experiment: 1 } },
+      { text: "查文献看看有没有同款离谱，科研不能只靠我自己脑补", scores: { literature: 4, planning: 1 } },
+      { text: "如果要组会讲，我先给不确定性穿件体面外套", scores: { meeting: 3, tolerance: 1 } }
+    ]
+  },
+  {
+    axis: "再次选择",
+    title: "如果再来一次，你还会来这个课题组吗？",
+    options: [
+      { text: "会，这里有压力，但也有我想要的成长和题目", scores: { life: 4, experiment: 2 } },
+      { text: "大概率会，但我会更早学会规划节奏和边界", scores: { life: 3, planning: 2 } },
+      { text: "看方向、导师风格、同门氛围和个人目标是否匹配", scores: { tolerance: 2, literature: 2 } },
+      { text: "不确定，但这段经历确实让我更懂自己适合什么科研模式", scores: { intuition: 2, life: 2, efficiency: 1 } }
+    ]
+  },
+  {
+    axis: "终极称号",
+    title: "如果给你发一个组内称号，你最想拿到？",
+    options: [
+      { text: "量点狠人：失败很多次，但我还能把变量捞回来", scores: { experiment: 4, tang: 2 } },
+      { text: "文献潜水员：平时安静，关键时刻捞出一篇救命论文", scores: { literature: 4, meeting: 1 } },
+      { text: "DDL秩序官：世界可以乱，我的节点不能乱", scores: { planning: 4, efficiency: 2 } },
+      { text: "科研适配家：会做事，也会照顾自己的节奏", scores: { life: 4, tolerance: 1 } }
+    ]
+  }
+];
+
+const typeAxes = {
+  energy: {
+    left: { code: "E", label: "外放协作", detail: "靠讨论、回应和现场互动充电" },
+    right: { code: "I", label: "内稳深潜", detail: "靠独处、整理和安静推演回血" }
+  },
+  info: {
+    left: { code: "S", label: "实证复现", detail: "先看数据、条件和可验证路径" },
+    right: { code: "N", label: "脑洞联想", detail: "先抓可能性、机制感和隐藏路线" }
+  },
+  work: {
+    left: { code: "J", label: "计划推进", detail: "喜欢节点、闭环和可执行清单" },
+    right: { code: "P", label: "弹性开摆", detail: "擅长临场救火、边做边调和灵感续命" }
+  }
+};
+
+const typeResults = {
+  ESJ: {
+    title: "组会推进队长",
+    summary: "你是那种被点名也能接住、看到 DDL 也能排表的人。外放协作加实证路线加计划推进，基本就是课题组里的“人形甘特图+嘴替”。",
+    teacherLine: "对老唐来说，你是很省心的推进型学生：问你进展，你能给路线；问你问题，你能给下一步。",
+    badges: ["能开麦", "重证据", "会闭环"]
+  },
+  ESP: {
+    title: "实验冲锋显眼包",
+    summary: "你靠现场感活着，实验一有动静就想上手。你不一定每次都按剧本走，但很会在样品发疯时把局面先稳住。",
+    teacherLine: "对老唐来说，你是那种“先去试试”的行动派学生，偶尔有点开摆气质，但真到关键时刻能顶上。",
+    badges: ["敢上手", "会救场", "不怕翻车"]
+  },
+  ENJ: {
+    title: "科研美图秀秀掌门",
+    summary: "你能把脑洞、图、逻辑和组会表达串成一个完整故事。你不是只会想，也很会把想法推进成别人听得懂的版本。",
+    teacherLine: "对老唐来说，你是很会把事情讲漂亮的学生：图有美感，逻辑有包装，讨论时还能贡献新路线。",
+    badges: ["脑洞强", "会表达", "能导演"]
+  },
+  ENP: {
+    title: "脑洞乐子人",
+    summary: "你对新方向和异常数据很敏感，看到一点苗头就能开出好几条支线。你的科研风格像弹幕很多的探索游戏，偶尔开摆，但经常有惊喜。",
+    teacherLine: "对老唐来说，你是灵感型学生：不一定永远按计划走，但常常能突然冒出一句“诶这个好像可以”。",
+    badges: ["会联想", "有梗", "灵感流"]
+  },
+  ISJ: {
+    title: "超净间秩序僧",
+    summary: "你偏安静，但做事很稳。实验、记录、复现、DDL，在你这里都讲究一个别出事故，属于低调但很能兜底的类型。",
+    teacherLine: "对老唐来说，你是靠谱型学生：不一定抢话，但该有的数据、记录和进度基本都能拿出来。",
+    badges: ["稳", "靠谱", "复现控"]
+  },
+  ISP: {
+    title: "低调实验狠人",
+    summary: "你不爱大声宣传自己，但实验现场很能扛。失败了就复盘，烦了就短暂躺平，回血后继续把变量一个个捞回来。",
+    teacherLine: "对老唐来说，你是沉默但能做事的学生：嘴上不一定热闹，手里经常有活。",
+    badges: ["低调", "抗失败", "能续航"]
+  },
+  INJ: {
+    title: "文献预言家",
+    summary: "你喜欢先把逻辑想透，把文献查明白，再下场出手。你不是慢，是在加载高质量补丁，属于“别催，催就是在脑内建模”。",
+    teacherLine: "对老唐来说，你是有后劲的学生：可能现场不抢答，但一旦准备好，给出的判断很有信息量。",
+    badges: ["会检索", "有框架", "预判型"]
+  },
+  INP: {
+    title: "躺平脑洞家",
+    summary: "你看起来像在开摆，其实脑子里支线任务很多。你需要一点空间和自由度，才能把文献、异常和灵感慢慢熬成新想法。",
+    teacherLine: "对老唐来说，你是需要被温柔催一下的学生：催太狠会卡住，放一点空间反而可能憋出新东西。",
+    badges: ["脑洞", "慢热", "弹性流"]
+  }
+};
+
+const state = {
+  index: 0,
+  answers: Array(questions.length).fill(null)
+};
+
+const quizView = document.querySelector("#quiz-view");
+const resultView = document.querySelector("#result-view");
+const stepLabel = document.querySelector("#step-label");
+const axisLabel = document.querySelector("#axis-label");
+const progressBar = document.querySelector("#progress-bar");
+const questionTitle = document.querySelector("#question-title");
+const optionList = document.querySelector("#option-list");
+const prevButton = document.querySelector("#prev-question");
+const resultTitle = document.querySelector("#result-title");
+const resultSummary = document.querySelector("#result-summary");
+const resultDetail = document.querySelector("#result-detail");
+const badgeList = document.querySelector("#badge-list");
+const scoreGrid = document.querySelector("#score-grid");
+const copyStatus = document.querySelector("#copy-status");
+
+function getScores() {
+  const scores = Object.fromEntries(Object.keys(dimensions).map((key) => [key, 0]));
+
+  state.answers.forEach((answer) => {
+    if (!answer) {
+      return;
+    }
+
+    Object.entries(answer.scores).forEach(([key, value]) => {
+      scores[key] += value;
+    });
+  });
+
+  return scores;
+}
+
+function renderQuestion() {
+  const question = questions[state.index];
+  const selectedAnswer = state.answers[state.index];
+
+  stepLabel.textContent = `第 ${state.index + 1} / ${questions.length} 题`;
+  axisLabel.textContent = question.axis;
+  progressBar.style.width = `${((state.index + 1) / questions.length) * 100}%`;
+  questionTitle.textContent = question.title;
+  prevButton.disabled = state.index === 0;
+  optionList.innerHTML = "";
+
+  question.options.forEach((option, optionIndex) => {
+    const button = document.createElement("button");
+    button.className = "option-button";
+    button.type = "button";
+    if (selectedAnswer === option) {
+      button.classList.add("selected");
+    }
+    button.innerHTML = `
+      <span class="option-key">${String.fromCharCode(65 + optionIndex)}</span>
+      <span class="option-text">${option.text}</span>
+    `;
+    button.addEventListener("click", () => chooseOption(option));
+    optionList.appendChild(button);
+  });
+}
+
+function chooseOption(option) {
+  state.answers[state.index] = option;
+
+  if (state.index < questions.length - 1) {
+    state.index += 1;
+    renderQuestion();
+    return;
+  }
+
+  renderResult();
+}
+
+function goBack() {
+  if (state.index === 0) {
+    return;
+  }
+
+  state.index -= 1;
+  renderQuestion();
+}
+
+function getTypeProfile(scores) {
+  const axisScores = {
+    energy: {
+      left: scores.meeting + scores.social + scores.project + scores.tolerance,
+      right: scores.literature + scores.life + scores.cleanroom + scores.tang
+    },
+    info: {
+      left: scores.experiment + scores.cleanroom + scores.efficiency + scores.planning,
+      right: scores.intuition + scores.literature + scores.meeting + Math.round(scores.life / 2)
+    },
+    work: {
+      left: scores.planning + scores.efficiency + scores.project + scores.cleanroom,
+      right: scores.intuition + scores.tang + scores.life + scores.social
+    }
+  };
+
+  const picks = {
+    energy: axisScores.energy.left >= axisScores.energy.right ? "left" : "right",
+    info: axisScores.info.left >= axisScores.info.right ? "left" : "right",
+    work: axisScores.work.left >= axisScores.work.right ? "left" : "right"
+  };
+  const code = `${typeAxes.energy[picks.energy].code}${typeAxes.info[picks.info].code}${typeAxes.work[picks.work].code}`;
+
+  return {
+    code,
+    axisScores,
+    picks,
+    labels: [
+      typeAxes.energy[picks.energy].label,
+      typeAxes.info[picks.info].label,
+      typeAxes.work[picks.work].label
+    ]
+  };
+}
+
+function getResult(scores) {
+  const profile = getTypeProfile(scores);
+  const result = typeResults[profile.code] || typeResults.ISJ;
+
+  return {
+    ...result,
+    code: profile.code,
+    profile
+  };
+}
+
+function getAnswerByAxis(axis) {
+  const questionIndex = questions.findIndex((question) => question.axis === axis);
+  return questionIndex >= 0 ? state.answers[questionIndex] : null;
+}
+
+function buildResultDetails(scores, rankedScores, result) {
+  const topLabels = rankedScores
+    .slice(0, 3)
+    .map(([key]) => dimensions[key].label)
+    .join(" / ");
+  const lifeAnswer = getAnswerByAxis("组内生活");
+  const cleanroomAnswer = getAnswerByAxis("超净间");
+  const ddlAnswer = getAnswerByAxis("P/J DDL");
+  const tangAnswer = getAnswerByAxis("不怕语录");
+  const seniorAnswer = getAnswerByAxis("师兄师姐");
+  const errorAnswer = getAnswerByAxis("师门校准");
+  const axisText = result.profile.labels.join(" + ");
+  const detailItems = [
+    `你的三轴代码是 ${result.code}：${axisText}。翻译成人话就是：你在课题组里不是随机刷新，而是有一套稳定的科研操作系统。`,
+    `你的突出副属性是：${topLabels}。这些是你人格结果里的隐藏装备，不是主称号，但很影响你平时怎么做实验、开组会和赶 DDL。`
+  ];
+
+  if (lifeAnswer) {
+    detailItems.push(`组内生活你选了“${lifeAnswer.text}”。这说明你不是单纯喊累，你是在认真判断：这份科研生活我到底能不能长期持有。`);
+  }
+
+  if (cleanroomAnswer) {
+    detailItems.push(`超净间你选了“${cleanroomAnswer.text}”。很好，进门前的精神状态已经暴露：有的人想实验，有的人想干饭，有的人只想栓Q。`);
+  }
+
+  if (ddlAnswer) {
+    detailItems.push(`DDL 题你选了“${ddlAnswer.text}”。你的赶工风格基本写在脸上：要么提前排兵布阵，要么和 deadline 极限暧昧拉扯。`);
+  }
+
+  if (tangAnswer) {
+    detailItems.push(`听到“不怕的不怕的”时，你选了“${tangAnswer.text}”。说明你已经掌握本组语音包的正确打开方式：可以心安，但不能真的开摆。`);
+  }
+
+  if (seniorAnswer) {
+    detailItems.push(`师兄师姐题你选了“${seniorAnswer.text}”。你对他们的态度很明显：是离不开、跟着长大、舍不得，还是已经在练习单飞。`);
+  }
+
+  if (errorAnswer) {
+    detailItems.push(`当分析逻辑可能有 bug 时，你选了“${errorAnswer.text}”。这题很关键，因为它暴露了你是沉默型懂哥，还是温和补刀型科研人。`);
+  }
+
+  detailItems.push(`${result.teacherLine}总结一下：你不是普通学生，你是老唐科研生态位里的“${result.title}”。请合理使用这份人设，别拿去申请经费。`);
+
+  return detailItems;
+}
+
+function renderResult() {
+  const scores = getScores();
+  const result = getResult(scores);
+  const maxScore = Math.max(...Object.values(scores), 1);
+  const rankedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+  quizView.classList.add("hidden");
+  resultView.classList.remove("hidden");
+  resultTitle.textContent = result.title;
+  resultSummary.textContent = result.summary;
+  resultDetail.innerHTML = "";
+  buildResultDetails(scores, rankedScores, result).forEach((detail) => {
+    const item = document.createElement("p");
+    item.textContent = detail;
+    resultDetail.appendChild(item);
+  });
+  badgeList.innerHTML = "";
+  [`${result.code} 型`, ...result.profile.labels, ...result.badges].forEach((badge) => {
+    const item = document.createElement("span");
+    item.textContent = badge;
+    badgeList.appendChild(item);
+  });
+
+  scoreGrid.innerHTML = "";
+  rankedScores.forEach(([key, value]) => {
+    const row = document.createElement("div");
+    row.className = "score-row";
+    row.innerHTML = `
+      <span>${dimensions[key].label}</span>
+      <div class="score-line"><i style="width: ${Math.max(8, Math.round((value / maxScore) * 100))}%; background: ${dimensions[key].color}"></i></div>
+    `;
+    scoreGrid.appendChild(row);
+  });
+
+  copyStatus.textContent = "";
+}
+
+function restartQuiz() {
+  state.index = 0;
+  state.answers = Array(questions.length).fill(null);
+  resultView.classList.add("hidden");
+  quizView.classList.remove("hidden");
+  renderQuestion();
+}
+
+function editLastQuestion() {
+  state.index = questions.length - 1;
+  resultView.classList.add("hidden");
+  quizView.classList.remove("hidden");
+  renderQuestion();
+}
+
+async function copyResult() {
+  const text = `我的课题组人格是「${resultTitle.textContent}」：${resultSummary.textContent}`;
+
+  try {
+    await navigator.clipboard.writeText(text);
+    copyStatus.textContent = "已复制，可以发给同门精准互测。";
+  } catch {
+    copyStatus.textContent = text;
+  }
+}
+
+prevButton.addEventListener("click", goBack);
+document.querySelector("#edit-last").addEventListener("click", editLastQuestion);
+document.querySelector("#restart-quiz").addEventListener("click", restartQuiz);
+document.querySelector("#copy-result").addEventListener("click", copyResult);
+
+renderQuestion();
