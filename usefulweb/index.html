@@ -3,22 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>黑科技售后群💻 VIP 实用工具导航</title>
-  <meta name="description" content="黑科技售后群 VIP 专属实用网站和程序导航，收录 PDF 工具、翻译工具和学习工具。">
+  <title>黑科技售后群💻 VIP 实用导航</title>
+  <meta name="description" content="黑科技售后群 VIP 专属实用网站导航，整理办公效率、文献知识库、编程与 AI 学习、长期网络服务。">
   <style>
     :root {
       color-scheme: light;
-      --bg: #f6f8fb;
-      --panel: #ffffff;
-      --panel-soft: #eef5f4;
-      --ink: #142027;
-      --muted: #5c6872;
-      --line: #dbe3e7;
-      --brand: #0f766e;
-      --brand-strong: #075e57;
-      --accent: #d65f45;
-      --gold: #b9812c;
-      --shadow: 0 18px 55px rgba(20, 32, 39, 0.11);
+      --bg: #f5f7f7;
+      --paper: #ffffff;
+      --ink: #172026;
+      --muted: #64717a;
+      --line: #d9e1e3;
+      --line-strong: #c8d3d7;
+      --forest: #456b5c;
+      --fjord: #537c91;
+      --clay: #b9785f;
+      --moss: #7d916f;
+      --amber: #bd8b4f;
+      --night: #10242b;
+      --shadow: 0 18px 46px rgba(24, 36, 44, 0.08);
+      --soft-shadow: 0 10px 28px rgba(24, 36, 44, 0.06);
       --radius: 8px;
     }
 
@@ -32,17 +35,30 @@
 
     body {
       margin: 0;
+      overflow-x: hidden;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
-      background:
-        linear-gradient(180deg, rgba(238, 245, 244, 0.95) 0%, rgba(246, 248, 251, 0.9) 38%, #f6f8fb 100%),
-        var(--bg);
       color: var(--ink);
       letter-spacing: 0;
+      background:
+        linear-gradient(180deg, rgba(229, 237, 236, 0.92) 0%, rgba(245, 247, 247, 0.96) 42%, #f5f7f7 100%),
+        var(--bg);
     }
 
     a {
       color: inherit;
       text-decoration: none;
+    }
+
+    [data-lang="en"] {
+      display: none;
+    }
+
+    body.lang-en [data-lang="zh"] {
+      display: none;
+    }
+
+    body.lang-en [data-lang="en"] {
+      display: revert;
     }
 
     .page {
@@ -53,19 +69,19 @@
       position: sticky;
       top: 0;
       z-index: 20;
-      border-bottom: 1px solid rgba(219, 227, 231, 0.86);
-      background: rgba(255, 255, 255, 0.88);
+      border-bottom: 1px solid rgba(217, 225, 227, 0.88);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(16px);
     }
 
     .nav {
-      width: min(1120px, calc(100% - 32px));
-      min-height: 68px;
+      width: min(1240px, calc(100% - 32px));
+      min-height: 70px;
       margin: 0 auto;
-      display: flex;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      gap: 18px;
     }
 
     .brand {
@@ -76,41 +92,60 @@
     }
 
     .brand-mark {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       display: grid;
       place-items: center;
       border-radius: var(--radius);
-      background: #10252b;
-      color: #f3c76f;
-      font-weight: 800;
-      box-shadow: 0 10px 24px rgba(16, 37, 43, 0.16);
-    }
-
-    .brand-text {
-      display: grid;
-      gap: 2px;
-      min-width: 0;
+      background: var(--night);
+      color: #f3d084;
+      font-weight: 900;
+      box-shadow: 0 10px 24px rgba(16, 36, 43, 0.14);
     }
 
     .brand-title {
+      display: block;
+      max-width: 260px;
       font-size: 15px;
-      font-weight: 800;
+      font-weight: 900;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .brand-subtitle {
+      display: block;
+      margin-top: 2px;
       color: var(--muted);
       font-size: 12px;
     }
 
-    .nav-actions {
+    .nav-links {
       display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .nav-links a {
+      min-height: 34px;
+      padding: 0 11px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      color: var(--muted);
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 850;
+      white-space: nowrap;
+      transition: 160ms ease;
+    }
+
+    .nav-links a:hover {
+      border-color: var(--line);
+      background: #f9fbfb;
+      color: var(--ink);
     }
 
     .lang-switch {
@@ -120,40 +155,41 @@
       padding: 3px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: #f8fafb;
+      background: #f9fbfb;
     }
 
     .lang-switch button {
+      min-width: 46px;
+      min-height: 32px;
       border: 0;
       border-radius: 6px;
       background: transparent;
       color: var(--muted);
       font: inherit;
       font-size: 13px;
-      font-weight: 700;
-      padding: 8px 10px;
+      font-weight: 900;
       cursor: pointer;
       transition: 160ms ease;
     }
 
     .lang-switch button.active {
-      background: var(--ink);
+      background: var(--night);
       color: #fff;
-      box-shadow: 0 6px 16px rgba(20, 32, 39, 0.16);
+      box-shadow: 0 8px 18px rgba(16, 36, 43, 0.15);
     }
 
     .hero {
-      width: min(1120px, calc(100% - 32px));
+      width: min(1240px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 56px 0 28px;
+      padding: 54px 0 30px;
       display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.72fr);
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.72fr);
       gap: 28px;
       align-items: stretch;
     }
 
     .hero-copy {
-      padding: 28px 0;
+      padding: 26px 0;
     }
 
     .eyebrow {
@@ -161,28 +197,28 @@
       align-items: center;
       gap: 8px;
       margin-bottom: 18px;
-      color: var(--brand-strong);
+      color: var(--forest);
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .eyebrow::before {
       content: "";
       width: 28px;
       height: 2px;
-      background: var(--accent);
+      background: var(--clay);
     }
 
     h1 {
       margin: 0;
-      max-width: 820px;
-      font-size: clamp(36px, 6vw, 72px);
-      line-height: 1.02;
+      max-width: 850px;
+      font-size: clamp(36px, 5.7vw, 66px);
+      line-height: 1.04;
       letter-spacing: 0;
     }
 
     .hero-lede {
-      max-width: 680px;
+      max-width: 720px;
       margin: 22px 0 0;
       color: var(--muted);
       font-size: 18px;
@@ -205,18 +241,18 @@
       border-radius: var(--radius);
       border: 1px solid transparent;
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 900;
       transition: 170ms ease;
     }
 
     .button.primary {
-      background: var(--brand);
+      background: var(--forest);
       color: white;
-      box-shadow: 0 14px 30px rgba(15, 118, 110, 0.22);
+      box-shadow: 0 14px 30px rgba(69, 107, 92, 0.22);
     }
 
     .button.primary:hover {
-      background: var(--brand-strong);
+      background: #34564a;
       transform: translateY(-1px);
     }
 
@@ -227,12 +263,12 @@
     }
 
     .button.secondary:hover {
-      border-color: #b8c7ce;
+      border-color: var(--line-strong);
       transform: translateY(-1px);
     }
 
     .hero-panel {
-      border: 1px solid rgba(219, 227, 231, 0.9);
+      border: 1px solid rgba(217, 225, 227, 0.94);
       border-radius: var(--radius);
       background: #fff;
       box-shadow: var(--shadow);
@@ -242,7 +278,7 @@
     .panel-head {
       padding: 18px;
       border-bottom: 1px solid var(--line);
-      background: #10252b;
+      background: var(--night);
       color: white;
       display: flex;
       align-items: center;
@@ -250,16 +286,12 @@
       gap: 14px;
     }
 
-    .panel-head strong {
-      font-size: 15px;
-    }
-
     .status-dot {
       width: 10px;
       height: 10px;
       border-radius: 99px;
-      background: #4ade80;
-      box-shadow: 0 0 0 5px rgba(74, 222, 128, 0.18);
+      background: #85d8a6;
+      box-shadow: 0 0 0 5px rgba(133, 216, 166, 0.18);
     }
 
     .panel-body {
@@ -268,40 +300,91 @@
       gap: 12px;
     }
 
-    .metric {
+    .directory-item {
+      --category-color: var(--forest);
+      --category-soft: #edf4ef;
       display: grid;
       grid-template-columns: 48px 1fr;
       gap: 12px;
       align-items: center;
       padding: 14px;
-      border: 1px solid var(--line);
+      border: 1px solid color-mix(in srgb, var(--category-color) 24%, var(--line));
+      border-left: 5px solid var(--category-color);
       border-radius: var(--radius);
-      background: #fbfcfd;
+      background: linear-gradient(90deg, var(--category-soft), #fff 72%);
+      overflow-wrap: anywhere;
     }
 
-    .metric-number {
+    .directory-item.office {
+      --category-color: var(--forest);
+      --category-soft: #edf4ef;
+    }
+
+    .directory-item.knowledge {
+      --category-color: var(--fjord);
+      --category-soft: #eef5f8;
+    }
+
+    .directory-item.study {
+      --category-color: var(--clay);
+      --category-soft: #faf1ed;
+    }
+
+    .directory-item.network {
+      --category-color: var(--amber);
+      --category-soft: #fbf5ea;
+    }
+
+    .directory-icon {
       width: 48px;
       height: 48px;
       display: grid;
       place-items: center;
       border-radius: var(--radius);
-      background: var(--panel-soft);
-      color: var(--brand-strong);
+      background: #fff;
+      color: var(--category-color);
+      border: 1px solid color-mix(in srgb, var(--category-color) 24%, var(--line));
       font-weight: 900;
-      font-size: 20px;
+      font-size: 19px;
     }
 
-    .metric span {
+    .directory-item strong,
+    .directory-item span {
       display: block;
+    }
+
+    .directory-item span {
       color: var(--muted);
       font-size: 13px;
       line-height: 1.55;
     }
 
     .section {
-      width: min(1120px, calc(100% - 32px));
+      width: min(1240px, calc(100% - 32px));
       margin: 0 auto;
       padding: 34px 0;
+      --section-color: var(--forest);
+      --section-soft: #edf4ef;
+    }
+
+    .section.office {
+      --section-color: var(--forest);
+      --section-soft: #edf4ef;
+    }
+
+    .section.knowledge {
+      --section-color: var(--fjord);
+      --section-soft: #eef5f8;
+    }
+
+    .section.study {
+      --section-color: var(--clay);
+      --section-soft: #faf1ed;
+    }
+
+    .section.network {
+      --section-color: var(--amber);
+      --section-soft: #fbf5ea;
     }
 
     .section-head {
@@ -312,6 +395,23 @@
       margin-bottom: 18px;
     }
 
+    .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      color: var(--section-color);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .section-kicker::before {
+      content: "";
+      width: 22px;
+      height: 2px;
+      background: var(--section-color);
+    }
+
     .section-head h2 {
       margin: 0;
       font-size: 28px;
@@ -320,7 +420,7 @@
     }
 
     .section-head p {
-      max-width: 540px;
+      max-width: 580px;
       margin: 0;
       color: var(--muted);
       line-height: 1.7;
@@ -329,17 +429,18 @@
     .tool-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
+      gap: 14px;
     }
 
     .tool-card {
       display: grid;
       grid-template-rows: auto 1fr auto;
-      min-height: 380px;
+      min-height: 306px;
       border: 1px solid var(--line);
+      border-top: 5px solid var(--section-color);
       border-radius: var(--radius);
-      background: var(--panel);
-      box-shadow: 0 12px 34px rgba(20, 32, 39, 0.07);
+      background: var(--paper);
+      box-shadow: var(--soft-shadow);
       overflow: hidden;
     }
 
@@ -347,22 +448,22 @@
       display: flex;
       gap: 14px;
       align-items: center;
-      padding: 18px;
+      padding: 14px;
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(90deg, #ffffff 0%, #f3f8f7 100%);
+      background: linear-gradient(90deg, var(--section-soft) 0%, #fff 82%);
     }
 
     .tool-icon {
-      width: 54px;
-      height: 54px;
+      width: 48px;
+      height: 48px;
       display: grid;
       place-items: center;
-      border: 1px solid var(--line);
+      border: 1px solid color-mix(in srgb, var(--section-color) 24%, var(--line));
       border-radius: var(--radius);
       background: #fff;
       overflow: hidden;
       flex: 0 0 auto;
-      color: var(--brand-strong);
+      color: var(--section-color);
       font-size: 13px;
       font-weight: 900;
       position: relative;
@@ -377,8 +478,8 @@
     }
 
     .tool-icon img {
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
       object-fit: contain;
       position: relative;
       z-index: 1;
@@ -390,53 +491,61 @@
     }
 
     .tool-title h3 {
-      margin: 0 0 6px;
-      font-size: 20px;
+      margin: 0 0 4px;
+      font-size: 18px;
       line-height: 1.25;
       letter-spacing: 0;
+      overflow-wrap: anywhere;
     }
 
     .tool-title p {
       margin: 0;
       color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
+      font-size: 12px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
     }
 
     .tool-body {
-      padding: 18px;
+      padding: 14px;
       display: grid;
-      gap: 16px;
+      gap: 12px;
     }
 
     .tag-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
     }
 
     .tag {
       display: inline-flex;
       align-items: center;
-      min-height: 28px;
-      padding: 0 10px;
-      border: 1px solid #cbdbe0;
+      min-height: 24px;
+      padding: 0 8px;
+      border: 1px solid color-mix(in srgb, var(--section-color) 24%, var(--line));
       border-radius: 999px;
-      background: #f8fafb;
-      color: #30414b;
-      font-size: 12px;
-      font-weight: 800;
+      background: var(--section-soft);
+      color: color-mix(in srgb, var(--section-color) 82%, var(--ink));
+      font-size: 11px;
+      font-weight: 850;
     }
 
     .tag.warn {
-      border-color: rgba(214, 95, 69, 0.34);
-      background: rgba(214, 95, 69, 0.08);
-      color: #8f321f;
+      border-color: rgba(185, 120, 95, 0.34);
+      background: rgba(185, 120, 95, 0.08);
+      color: #8e4f3d;
+    }
+
+    .tag.good {
+      border-color: rgba(69, 107, 92, 0.28);
+      background: rgba(69, 107, 92, 0.09);
+      color: #34564a;
     }
 
     .detail-list {
       display: grid;
-      gap: 10px;
+      gap: 8px;
       margin: 0;
       padding: 0;
       list-style: none;
@@ -444,17 +553,18 @@
 
     .detail-list li {
       display: grid;
-      grid-template-columns: 96px 1fr;
-      gap: 12px;
+      grid-template-columns: 82px 1fr;
+      gap: 10px;
       align-items: start;
       color: var(--muted);
-      font-size: 14px;
-      line-height: 1.65;
+      font-size: 13px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
     }
 
     .detail-list b {
       color: var(--ink);
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .tool-footer {
@@ -462,7 +572,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 16px 18px;
+      padding: 12px 14px;
       border-top: 1px solid var(--line);
       background: #fbfcfd;
     }
@@ -474,22 +584,37 @@
     }
 
     .open-link {
-      min-width: 108px;
-      min-height: 38px;
+      min-width: 100px;
+      min-height: 34px;
       padding: 0 14px;
       border-radius: var(--radius);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: var(--ink);
+      background: var(--night);
       color: #fff;
-      font-size: 13px;
-      font-weight: 800;
+      font-size: 12px;
+      font-weight: 900;
       white-space: nowrap;
     }
 
     .open-link:hover {
       background: #263942;
+    }
+
+    .notice {
+      border: 1px solid rgba(189, 139, 79, 0.34);
+      border-left: 5px solid var(--amber);
+      border-radius: var(--radius);
+      background: #fffaf1;
+      padding: 18px;
+      color: #614620;
+      line-height: 1.75;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .notice strong {
+      color: #3f2d14;
     }
 
     .playbook {
@@ -500,10 +625,11 @@
 
     .playbook-item {
       border: 1px solid var(--line);
+      border-top: 5px solid var(--section-color);
       border-radius: var(--radius);
       background: #fff;
       padding: 18px;
-      box-shadow: 0 12px 34px rgba(20, 32, 39, 0.06);
+      box-shadow: var(--soft-shadow);
     }
 
     .playbook-item strong {
@@ -522,12 +648,12 @@
     .footer {
       margin-top: 28px;
       border-top: 1px solid var(--line);
-      background: #10252b;
+      background: var(--night);
       color: #dce9e8;
     }
 
     .footer-inner {
-      width: min(1120px, calc(100% - 32px));
+      width: min(1240px, calc(100% - 32px));
       margin: 0 auto;
       padding: 28px 0;
       display: flex;
@@ -541,33 +667,36 @@
     }
 
     .footer a {
-      color: #f3c76f;
-      font-weight: 800;
+      color: #f3d084;
+      font-weight: 900;
     }
 
-    [data-lang="en"] {
-      display: none;
-    }
+    @media (max-width: 980px) {
+      .nav {
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        padding: 12px 0;
+      }
 
-    body.lang-en [data-lang="zh"] {
-      display: none;
-    }
+      .lang-switch {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+      }
 
-    body.lang-en [data-lang="en"] {
-      display: revert;
-    }
+      .nav-links {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+      }
 
-    body.lang-en .section-head[data-lang="en"] {
-      display: flex;
-    }
+      .nav-links::-webkit-scrollbar {
+        display: none;
+      }
 
-    body.lang-en .tool-card[data-lang="en"],
-    body.lang-en .playbook-item[data-lang="en"],
-    body.lang-en .metric[data-lang="en"] {
-      display: grid;
-    }
-
-    @media (max-width: 860px) {
       .hero {
         grid-template-columns: 1fr;
         padding-top: 36px;
@@ -577,7 +706,6 @@
         padding: 8px 0 0;
       }
 
-      .tool-grid,
       .playbook {
         grid-template-columns: 1fr;
       }
@@ -592,10 +720,20 @@
       }
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 640px) {
       .nav {
-        width: min(100% - 24px, 1120px);
+        width: min(100% - 24px, 1240px);
         min-height: 62px;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+      }
+
+      .brand-title {
+        max-width: 210px;
+        font-size: 15px;
       }
 
       .brand-subtitle {
@@ -603,31 +741,195 @@
       }
 
       .lang-switch button {
-        padding: 7px 8px;
+        min-width: 40px;
+        min-height: 30px;
+        font-size: 12px;
+      }
+
+      .nav-links a {
+        flex: 0 0 auto;
+        min-height: 38px;
+        border-color: var(--line);
+        background: #fff;
+        padding: 0 12px;
+        font-size: 12px;
       }
 
       .hero,
       .section,
       .footer-inner {
-        width: min(100% - 24px, 1120px);
+        width: min(100% - 24px, 1240px);
+      }
+
+      .hero {
+        padding: 24px 0 18px;
+        gap: 16px;
+      }
+
+      .eyebrow,
+      .section-kicker {
+        font-size: 12px;
+      }
+
+      h1 {
+        font-size: clamp(30px, 9.2vw, 38px);
+        line-height: 1.12;
       }
 
       .hero-lede {
+        margin-top: 16px;
         font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .button {
+        width: 100%;
+        min-height: 46px;
+      }
+
+      .hero-panel,
+      .tool-card,
+      .playbook-item,
+      .notice {
+        box-shadow: 0 8px 22px rgba(20, 32, 39, 0.06);
+      }
+
+      .panel-head,
+      .panel-body {
+        padding: 14px;
+      }
+
+      .directory-item {
+        grid-template-columns: 42px 1fr;
+        gap: 10px;
+        padding: 12px;
+      }
+
+      .directory-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 17px;
+      }
+
+      .section {
+        padding: 24px 0;
+      }
+
+      .section-head {
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .section-head h2 {
+        font-size: 23px;
+      }
+
+      .section-head p {
+        font-size: 14px;
+        line-height: 1.65;
+      }
+
+      .tool-grid,
+      .playbook {
+        gap: 12px;
+      }
+
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-card {
+        min-height: auto;
+      }
+
+      .tool-top {
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px;
+      }
+
+      .tool-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 12px;
+      }
+
+      .tool-icon img {
+        width: 30px;
+        height: 30px;
+      }
+
+      .tool-title h3 {
+        font-size: 18px;
+        line-height: 1.32;
+      }
+
+      .tool-body {
+        padding: 14px;
+        gap: 12px;
+      }
+
+      .tag-row {
+        gap: 6px;
+      }
+
+      .tag {
+        min-height: 26px;
+        padding: 0 8px;
+        font-size: 11px;
       }
 
       .tool-footer {
         align-items: stretch;
         flex-direction: column;
+        padding: 14px;
       }
 
       .open-link {
         width: 100%;
+        min-height: 42px;
       }
 
       .detail-list li {
         grid-template-columns: 1fr;
         gap: 2px;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .playbook-item,
+      .notice {
+        padding: 14px;
+      }
+
+      .footer {
+        margin-top: 18px;
+      }
+
+      .footer-inner {
+        padding: 22px 0;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .brand-title {
+        max-width: 178px;
+        font-size: 14px;
+      }
+
+      h1 {
+        font-size: 29px;
+      }
+
+      .tool-title h3 {
+        font-size: 17px;
       }
     }
   </style>
@@ -635,360 +937,406 @@
 <body>
   <div class="page">
     <header class="topbar">
-      <nav class="nav" aria-label="Main navigation">
-        <a class="brand" href="#top" aria-label="Useful web home">
+      <nav class="nav" aria-label="主导航">
+        <a class="brand" href="#top" aria-label="返回顶部">
           <span class="brand-mark">VIP</span>
-          <span class="brand-text">
+          <span>
             <span class="brand-title">黑科技售后群💻</span>
             <span class="brand-subtitle">Useful Web & Programs</span>
           </span>
         </a>
-        <div class="nav-actions">
-          <div class="lang-switch" aria-label="Language switch">
-            <button type="button" class="active" data-set-lang="zh" aria-pressed="true">中文</button>
-            <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
-          </div>
+
+        <div class="nav-links" aria-label="目录">
+          <a href="#office"><span data-lang="zh">办公效率</span><span data-lang="en">Office</span></a>
+          <a href="#knowledge"><span data-lang="zh">文献知识库</span><span data-lang="en">Knowledge</span></a>
+          <a href="#study"><span data-lang="zh">编程与 AI 学习</span><span data-lang="en">Coding & AI</span></a>
+          <a href="#network"><span data-lang="zh">长期服务</span><span data-lang="en">Long-Term Service</span></a>
+          <a href="#tips"><span data-lang="zh">使用原则</span><span data-lang="en">Principles</span></a>
+        </div>
+
+        <div class="lang-switch" aria-label="Language switch">
+          <button type="button" class="active" data-set-lang="zh" aria-pressed="true">中文</button>
+          <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
         </div>
       </nav>
     </header>
 
     <main id="top">
       <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy" data-lang="zh">
-          <div class="eyebrow">VIP 专属工具导航</div>
-          <h1 id="hero-title">欢迎来到黑科技售后群💻实用网站收藏夹</h1>
-          <p class="hero-lede">这里整理适合群内 VIP 日常使用的网站、程序和小工具。重点是：打开快、用途明确、少踩坑，尤其适合 PDF 处理、文档翻译、学习和效率场景。</p>
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span data-lang="zh">VIP 专属实用导航</span>
+            <span data-lang="en">VIP Practical Directory</span>
+          </div>
+          <h1 id="hero-title">
+            <span data-lang="zh">黑科技售后群💻实用网站收藏夹</span>
+            <span data-lang="en">Useful Web Hub for 黑科技售后群💻</span>
+          </h1>
+          <p class="hero-lede">
+            <span data-lang="zh">按真实使用场景整理网站、程序和小工具：办公处理、资料查询、编程学习、AI 入门、长期网络服务。重点是打开快、用途明确、少踩坑，并坚持依法合规、正规学习和科研用途。</span>
+            <span data-lang="en">A practical collection of websites, programs, and tools for real daily use: office documents, references, coding, AI learning, and long-term access services. The focus is fast access, clear purpose, fewer mistakes, and lawful study or research use.</span>
+          </p>
           <div class="hero-actions">
-            <a class="button primary" href="#tools">查看工具</a>
-            <a class="button secondary" href="#tips">使用建议</a>
+            <a class="button primary" href="#office"><span data-lang="zh">进入目录</span><span data-lang="en">Browse Directory</span></a>
+            <a class="button secondary" href="#tips"><span data-lang="zh">查看使用原则</span><span data-lang="en">View Principles</span></a>
           </div>
         </div>
 
-        <div class="hero-copy" data-lang="en">
-          <div class="eyebrow">VIP Tool Directory</div>
-          <h1>Welcome to the Useful Web Hub for 黑科技售后群💻</h1>
-          <p class="hero-lede">A clean collection of websites, programs, and mini tools for VIP members. The focus is simple: fast access, clear use cases, fewer mistakes, and practical value for PDF work, translation, study, and productivity.</p>
-          <div class="hero-actions">
-            <a class="button primary" href="#tools">Browse Tools</a>
-            <a class="button secondary" href="#tips">Usage Tips</a>
-          </div>
-        </div>
-
-        <aside class="hero-panel" aria-label="Directory summary">
+        <aside class="hero-panel" aria-label="分类目录">
           <div class="panel-head">
-            <strong data-lang="zh">当前收录</strong>
-            <strong data-lang="en">Current Library</strong>
+            <strong><span data-lang="zh">分类目录</span><span data-lang="en">Categories</span></strong>
             <span class="status-dot" aria-hidden="true"></span>
           </div>
           <div class="panel-body">
-            <div class="metric" data-lang="zh">
-              <div class="metric-number">4</div>
-              <div><strong>精选工具</strong><span>PDF 编辑、PDF 翻译、化学百科与学习工具。</span></div>
-            </div>
-            <div class="metric" data-lang="zh">
-              <div class="metric-number">2</div>
-              <div><strong>语言版本</strong><span>默认简体中文，同时提供完整英文版本。</span></div>
-            </div>
-            <div class="metric" data-lang="zh">
-              <div class="metric-number">VIP</div>
-              <div><strong>群内专用</strong><span>适合发给黑科技售后群成员快速查找。</span></div>
-            </div>
-
-            <div class="metric" data-lang="en">
-              <div class="metric-number">4</div>
-              <div><strong>Curated Tools</strong><span>PDF editing, PDF translation, chemistry reference, and study utilities.</span></div>
-            </div>
-            <div class="metric" data-lang="en">
-              <div class="metric-number">2</div>
-              <div><strong>Languages</strong><span>Simplified Chinese by default, with a complete English version.</span></div>
-            </div>
-            <div class="metric" data-lang="en">
-              <div class="metric-number">VIP</div>
-              <div><strong>Group Ready</strong><span>Built for quick sharing inside the VIP WeChat group.</span></div>
-            </div>
+            <a class="directory-item office" href="#office">
+              <span class="directory-icon">文</span>
+              <span>
+                <strong><span data-lang="zh">办公效率</span><span data-lang="en">Office Productivity</span></strong>
+                <span data-lang="zh">PDF 编辑、转换、压缩和文档翻译。</span>
+                <span data-lang="en">PDF editing, conversion, compression, and translation.</span>
+              </span>
+            </a>
+            <a class="directory-item knowledge" href="#knowledge">
+              <span class="directory-icon">书</span>
+              <span>
+                <strong><span data-lang="zh">文献知识库</span><span data-lang="en">Literature & Knowledge</span></strong>
+                <span data-lang="zh">电子书、资料检索和专业知识查询。</span>
+                <span data-lang="en">Books, references, and focused knowledge lookup.</span>
+              </span>
+            </a>
+            <a class="directory-item study" href="#study">
+              <span class="directory-icon">AI</span>
+              <span>
+                <strong><span data-lang="zh">编程与 AI 学习</span><span data-lang="en">Coding & AI Learning</span></strong>
+                <span data-lang="zh">代码、项目教程和入门学习路线。</span>
+                <span data-lang="en">Coding basics, project tutorials, and AI learning paths.</span>
+              </span>
+            </a>
+            <a class="directory-item network" href="#network">
+              <span class="directory-icon">🪜</span>
+              <span>
+                <strong><span data-lang="zh">长期网络服务</span><span data-lang="en">Long-Term Service</span></strong>
+                <span data-lang="zh">登录、注册和群内开通说明。</span>
+                <span data-lang="en">Login, registration, and group setup notes.</span>
+              </span>
+            </a>
           </div>
         </aside>
       </section>
 
-      <section class="section" id="tools" aria-labelledby="tools-title">
-        <div class="section-head" data-lang="zh">
+      <section class="section office" id="office" aria-labelledby="office-title">
+        <div class="section-head">
           <div>
-            <h2 id="tools-title">实用工具清单</h2>
+            <div class="section-kicker"><span data-lang="zh">文档处理</span><span data-lang="en">Documents</span></div>
+            <h2 id="office-title"><span data-lang="zh">办公效率</span><span data-lang="en">Office Productivity</span></h2>
           </div>
-          <p>每个工具都附带推荐用途、限制说明和使用提醒。遇到重要文件时，优先保留原文件备份。</p>
-        </div>
-        <div class="section-head" data-lang="en">
-          <div>
-            <h2>Useful Tools</h2>
-          </div>
-          <p>Each entry includes best use cases, limits, and practical notes. Keep a backup before processing important files.</p>
+          <p>
+            <span data-lang="zh">适合处理 PDF、翻译资料、整理文件。涉及隐私、证件、合同或考试资料时，先确认是否适合上传到在线工具。</span>
+            <span data-lang="en">For PDF work, document translation, and file cleanup. For private, ID, contract, or exam materials, confirm whether online upload is appropriate first.</span>
+          </p>
         </div>
 
         <div class="tool-grid">
-          <article class="tool-card" data-lang="zh">
+          <article class="tool-card">
             <div class="tool-top">
               <div class="tool-icon" data-initial="PDF"><img src="https://www.google.com/s2/favicons?domain=ilovepdf.com&sz=64" alt="" onerror="this.style.display='none'"></div>
               <div class="tool-title">
                 <h3>I Love PDF</h3>
-                <p>一站式 PDF 编辑和转换工具</p>
+                <p><span data-lang="zh">一站式 PDF 编辑和转换工具</span><span data-lang="en">All-in-one PDF editing and conversion tool</span></p>
               </div>
             </div>
             <div class="tool-body">
               <div class="tag-row">
-                <span class="tag">合并 PDF</span>
-                <span class="tag">压缩</span>
-                <span class="tag">转换格式</span>
-                <span class="tag">页面整理</span>
+                <span class="tag"><span data-lang="zh">合并 PDF</span><span data-lang="en">Merge PDF</span></span>
+                <span class="tag"><span data-lang="zh">压缩</span><span data-lang="en">Compress</span></span>
+                <span class="tag"><span data-lang="zh">格式转换</span><span data-lang="en">Convert</span></span>
+                <span class="tag"><span data-lang="zh">页面整理</span><span data-lang="en">Organize</span></span>
               </div>
               <ul class="detail-list">
-                <li><b>适合场景</b><span>把多个 PDF 合并成一个、压缩文件大小、PDF 转 Word / PPT / 图片、删除或重排页面。</span></li>
-                <li><b>优点</b><span>功能集中，界面清楚，上手快，适合临时处理作业、合同、扫描件和资料包。</span></li>
-                <li><b>提醒</b><span>涉及隐私、证件、合同或考试资料时，建议先确认文件是否适合上传到在线工具。</span></li>
+                <li><b><span data-lang="zh">适合场景</span><span data-lang="en">Best for</span></b><span><span data-lang="zh">把多个 PDF 合并成一个、压缩文件大小、PDF 转 Word / PPT / 图片、删除或重排页面。</span><span data-lang="en">Merging files, reducing PDF size, converting PDF to Word / PPT / images, and deleting or reordering pages.</span></span></li>
+                <li><b><span data-lang="zh">优点</span><span data-lang="en">Strength</span></b><span><span data-lang="zh">功能集中，界面清楚，上手快，适合临时处理作业、合同、扫描件和资料包。</span><span data-lang="en">Centralized features, clear interface, and a quick workflow for assignments, contracts, scans, and document bundles.</span></span></li>
+                <li><b><span data-lang="zh">提醒</span><span data-lang="en">Note</span></b><span><span data-lang="zh">重要文件建议保留原件备份，再上传处理。</span><span data-lang="en">Keep an original backup before uploading important files.</span></span></li>
               </ul>
             </div>
             <div class="tool-footer">
-              <span class="tool-note">推荐作为 PDF 日常处理入口。</span>
-              <a class="open-link" href="https://www.ilovepdf.com/" target="_blank" rel="noopener noreferrer">打开网站</a>
+              <span class="tool-note"><span data-lang="zh">推荐作为 PDF 日常处理入口。</span><span data-lang="en">Recommended as a daily PDF toolbox.</span></span>
+              <a class="open-link" href="https://www.ilovepdf.com/" target="_blank" rel="noopener noreferrer"><span data-lang="zh">打开网站</span><span data-lang="en">Open Site</span></a>
             </div>
           </article>
 
-          <article class="tool-card" data-lang="en">
-            <div class="tool-top">
-              <div class="tool-icon" data-initial="PDF"><img src="https://www.google.com/s2/favicons?domain=ilovepdf.com&sz=64" alt="" onerror="this.style.display='none'"></div>
-              <div class="tool-title">
-                <h3>I Love PDF</h3>
-                <p>All-in-one PDF editing and conversion</p>
-              </div>
-            </div>
-            <div class="tool-body">
-              <div class="tag-row">
-                <span class="tag">Merge PDF</span>
-                <span class="tag">Compress</span>
-                <span class="tag">Convert</span>
-                <span class="tag">Organize Pages</span>
-              </div>
-              <ul class="detail-list">
-                <li><b>Best for</b><span>Merging files, reducing PDF size, converting PDF to Word / PPT / images, and deleting or reordering pages.</span></li>
-                <li><b>Strength</b><span>Centralized features, clear interface, and quick workflow for homework, contracts, scans, and document bundles.</span></li>
-                <li><b>Note</b><span>For private IDs, contracts, exam files, or sensitive documents, confirm whether online upload is acceptable first.</span></li>
-              </ul>
-            </div>
-            <div class="tool-footer">
-              <span class="tool-note">Recommended as the daily PDF toolbox.</span>
-              <a class="open-link" href="https://www.ilovepdf.com/" target="_blank" rel="noopener noreferrer">Open Site</a>
-            </div>
-          </article>
-
-          <article class="tool-card" data-lang="zh">
+          <article class="tool-card">
             <div class="tool-top">
               <div class="tool-icon" data-initial="IT"><img src="https://www.google.com/s2/favicons?domain=immersivetranslate.com&sz=64" alt="" onerror="this.style.display='none'"></div>
               <div class="tool-title">
-                <h3>PDF Translate：沉浸式翻译 BabelDOC</h3>
-                <p>免 VPN 的 PDF 翻译入口</p>
+                <h3>沉浸式翻译 BabelDOC</h3>
+                <p><span data-lang="zh">不需要 🪜 的 PDF 翻译入口</span><span data-lang="en">PDF translation entry without 🪜</span></p>
               </div>
             </div>
             <div class="tool-body">
               <div class="tag-row">
-                <span class="tag">免 VPN</span>
-                <span class="tag">保留排版</span>
-                <span class="tag warn">有频率限制</span>
+                <span class="tag good"><span data-lang="zh">不需要 🪜</span><span data-lang="en">No 🪜 Required</span></span>
+                <span class="tag"><span data-lang="zh">保留排版</span><span data-lang="en">Layout Friendly</span></span>
+                <span class="tag"><span data-lang="zh">免费额度</span><span data-lang="en">Free Quota</span></span>
               </div>
               <ul class="detail-list">
-                <li><b>适合场景</b><span>快速翻译论文、说明书、报告、英文资料，适合没有 VPN 或网络不稳定时使用。</span></li>
-                <li><b>优点</b><span>操作简单，对 PDF 翻译体验友好，适合先快速理解整篇文档。</span></li>
-                <li><b>限制</b><span>免费使用有频率限制；如果使用量很大，可以准备多个账号分开使用。</span></li>
+                <li><b><span data-lang="zh">适合场景</span><span data-lang="en">Best for</span></b><span><span data-lang="zh">快速翻译论文、说明书、报告和英文资料，适合先快速理解整篇文档。</span><span data-lang="en">Quickly translating papers, manuals, reports, and English documents for first-pass understanding.</span></span></li>
+                <li><b><span data-lang="zh">免费额度</span><span data-lang="en">Free quota</span></b><span><span data-lang="zh">免费使用，每月最高 5000 万 Token，大约可翻译 15-20 个 PDF，下月自动更新额度。</span><span data-lang="en">Free to use, with up to 50 million tokens per month, roughly 15-20 PDFs, and the quota refreshes automatically next month.</span></span></li>
+                <li><b><span data-lang="zh">提醒</span><span data-lang="en">Note</span></b><span><span data-lang="zh">使用量较大时，建议优先把最重要的论文或资料放在前面处理。</span><span data-lang="en">For heavier use, process the most important papers or materials first.</span></span></li>
               </ul>
             </div>
             <div class="tool-footer">
-              <span class="tool-note">适合优先尝试的免 VPN 翻译方案。</span>
-              <a class="open-link" href="https://app.immersivetranslate.com/babel-doc/" target="_blank" rel="noopener noreferrer">打开网站</a>
+              <span class="tool-note"><span data-lang="zh">适合优先尝试的翻译方案。</span><span data-lang="en">A good first-choice translation option.</span></span>
+              <a class="open-link" href="https://app.immersivetranslate.com/babel-doc/" target="_blank" rel="noopener noreferrer"><span data-lang="zh">打开网站</span><span data-lang="en">Open Site</span></a>
             </div>
           </article>
 
-          <article class="tool-card" data-lang="en">
-            <div class="tool-top">
-              <div class="tool-icon" data-initial="IT"><img src="https://www.google.com/s2/favicons?domain=immersivetranslate.com&sz=64" alt="" onerror="this.style.display='none'"></div>
-              <div class="tool-title">
-                <h3>PDF Translate: Immersive Translate BabelDOC</h3>
-                <p>PDF translation without VPN</p>
-              </div>
-            </div>
-            <div class="tool-body">
-              <div class="tag-row">
-                <span class="tag">No VPN</span>
-                <span class="tag">Layout Friendly</span>
-                <span class="tag warn">Frequency Limit</span>
-              </div>
-              <ul class="detail-list">
-                <li><b>Best for</b><span>Translating papers, manuals, reports, and English materials when VPN is unavailable or unstable.</span></li>
-                <li><b>Strength</b><span>Simple workflow and PDF-friendly translation experience for quickly understanding a full document.</span></li>
-                <li><b>Limit</b><span>The free tier has frequency limits; heavy users can prepare more accounts to spread usage.</span></li>
-              </ul>
-            </div>
-            <div class="tool-footer">
-              <span class="tool-note">A good first choice when VPN is not available.</span>
-              <a class="open-link" href="https://app.immersivetranslate.com/babel-doc/" target="_blank" rel="noopener noreferrer">Open Site</a>
-            </div>
-          </article>
-
-          <article class="tool-card" data-lang="zh">
+          <article class="tool-card">
             <div class="tool-top">
               <div class="tool-icon" data-initial="P2Z"><img src="https://www.google.com/s2/favicons?domain=pdf2zh.com&sz=64" alt="" onerror="this.style.display='none'"></div>
               <div class="tool-title">
-                <h3>PDF Translate：PDF2ZH</h3>
-                <p>需要 VPN，但免费且不限频率的翻译选择</p>
+                <h3>PDF2ZH</h3>
+                <p><span data-lang="zh">适合高频 PDF 翻译需求</span><span data-lang="en">For frequent PDF translation workloads</span></p>
               </div>
             </div>
             <div class="tool-body">
               <div class="tag-row">
-                <span class="tag">免费</span>
-                <span class="tag">不限频率</span>
-                <span class="tag warn">需要 VPN</span>
+                <span class="tag"><span data-lang="zh">免费</span><span data-lang="en">Free</span></span>
+                <span class="tag"><span data-lang="zh">不限频率</span><span data-lang="en">No Frequency Limit</span></span>
+                <span class="tag warn"><span data-lang="zh">需要 🪜</span><span data-lang="en">Needs 🪜</span></span>
               </div>
               <ul class="detail-list">
-                <li><b>适合场景</b><span>需要翻译大量 PDF、连续处理多篇论文或资料，且 VPN 可用时优先使用。</span></li>
-                <li><b>优点</b><span>没有明显频率限制，适合长时间批量处理，能减少账号切换成本。</span></li>
-                <li><b>提醒</b><span>如果打不开，先检查 VPN、浏览器代理和网络环境；重要文档仍建议保留原文备份。</span></li>
+                <li><b><span data-lang="zh">适合场景</span><span data-lang="en">Best for</span></b><span><span data-lang="zh">需要连续翻译多篇论文、资料或长文档时使用。</span><span data-lang="en">Translating many papers, materials, or long documents in a row.</span></span></li>
+                <li><b><span data-lang="zh">优点</span><span data-lang="en">Strength</span></b><span><span data-lang="zh">没有明显频率限制，适合长时间批量处理，能减少账号切换成本。</span><span data-lang="en">No obvious frequency limit, useful for longer translation sessions with less account switching.</span></span></li>
+                <li><b><span data-lang="zh">提醒</span><span data-lang="en">Note</span></b><span><span data-lang="zh">如页面无法打开，先检查本地网络服务状态；重要文档仍建议保留原文备份。</span><span data-lang="en">If the page cannot open, check local access settings first. Keep original files backed up.</span></span></li>
               </ul>
             </div>
             <div class="tool-footer">
-              <span class="tool-note">适合高频 PDF 翻译需求。</span>
-              <a class="open-link" href="https://pdf2zh.com/" target="_blank" rel="noopener noreferrer">打开网站</a>
-            </div>
-          </article>
-
-          <article class="tool-card" data-lang="en">
-            <div class="tool-top">
-              <div class="tool-icon" data-initial="P2Z"><img src="https://www.google.com/s2/favicons?domain=pdf2zh.com&sz=64" alt="" onerror="this.style.display='none'"></div>
-              <div class="tool-title">
-                <h3>PDF Translate: PDF2ZH</h3>
-                <p>VPN required, free, and no frequency limit</p>
-              </div>
-            </div>
-            <div class="tool-body">
-              <div class="tag-row">
-                <span class="tag">Free</span>
-                <span class="tag">No Frequency Limit</span>
-                <span class="tag warn">VPN Required</span>
-              </div>
-              <ul class="detail-list">
-                <li><b>Best for</b><span>Large-volume PDF translation, multiple papers, or repeated document processing when VPN is available.</span></li>
-                <li><b>Strength</b><span>No obvious frequency limit, suitable for longer translation sessions with less account switching.</span></li>
-                <li><b>Note</b><span>If it fails to open, check VPN, browser proxy, and network settings. Keep original files backed up.</span></li>
-              </ul>
-            </div>
-            <div class="tool-footer">
-              <span class="tool-note">Best for frequent PDF translation workloads.</span>
-              <a class="open-link" href="https://pdf2zh.com/" target="_blank" rel="noopener noreferrer">Open Site</a>
-            </div>
-          </article>
-
-          <article class="tool-card" data-lang="zh">
-            <div class="tool-top">
-              <div class="tool-icon" data-initial="WX" aria-hidden="true"><strong>WX</strong></div>
-              <div class="tool-title">
-                <h3>微信小程序：元素周期表PRO 化学百科与工具</h3>
-                <p>化学学习、查询和计算工具</p>
-              </div>
-            </div>
-            <div class="tool-body">
-              <div class="tag-row">
-                <span class="tag">微信小程序</span>
-                <span class="tag">元素查询</span>
-                <span class="tag">化学百科</span>
-                <span class="tag">学习辅助</span>
-              </div>
-              <ul class="detail-list">
-                <li><b>适合场景</b><span>查询元素信息、原子量、周期表位置、常见化学知识和学习资料。</span></li>
-                <li><b>优点</b><span>手机端打开方便，不需要额外安装大型软件，适合上课、刷题或临时查资料。</span></li>
-                <li><b>打开方式</b><span>在微信搜索小程序名称“元素周期表PRO 化学百科与工具”，收藏后下次更快打开。</span></li>
-              </ul>
-            </div>
-            <div class="tool-footer">
-              <span class="tool-note">适合化学学习和快速查询。</span>
-              <span class="open-link" aria-label="Open in WeChat">微信搜索</span>
-            </div>
-          </article>
-
-          <article class="tool-card" data-lang="en">
-            <div class="tool-top">
-              <div class="tool-icon" data-initial="WX" aria-hidden="true"><strong>WX</strong></div>
-              <div class="tool-title">
-                <h3>WeChat Mini Program: 元素周期表PRO 化学百科与工具</h3>
-                <p>Chemistry reference, lookup, and study utility</p>
-              </div>
-            </div>
-            <div class="tool-body">
-              <div class="tag-row">
-                <span class="tag">WeChat Mini Program</span>
-                <span class="tag">Element Lookup</span>
-                <span class="tag">Chemistry Reference</span>
-                <span class="tag">Study Tool</span>
-              </div>
-              <ul class="detail-list">
-                <li><b>Best for</b><span>Checking element data, atomic weights, periodic table positions, and common chemistry knowledge.</span></li>
-                <li><b>Strength</b><span>Convenient on mobile, no large installation needed, useful in class, exercises, or quick reference moments.</span></li>
-                <li><b>How to open</b><span>Search the mini program name “元素周期表PRO 化学百科与工具” in WeChat and save it for faster access.</span></li>
-              </ul>
-            </div>
-            <div class="tool-footer">
-              <span class="tool-note">Useful for chemistry study and quick lookup.</span>
-              <span class="open-link" aria-label="Search in WeChat">Search WeChat</span>
+              <span class="tool-note"><span data-lang="zh">适合翻译量较大的场景。</span><span data-lang="en">Best for larger translation volume.</span></span>
+              <a class="open-link" href="https://pdf2zh.com/" target="_blank" rel="noopener noreferrer"><span data-lang="zh">打开网站</span><span data-lang="en">Open Site</span></a>
             </div>
           </article>
         </div>
       </section>
 
-      <section class="section" id="tips" aria-labelledby="tips-title">
-        <div class="section-head" data-lang="zh">
+      <section class="section knowledge" id="knowledge" aria-labelledby="knowledge-title">
+        <div class="section-head">
           <div>
-            <h2 id="tips-title">推荐使用顺序</h2>
+            <div class="section-kicker"><span data-lang="zh">资料检索</span><span data-lang="en">References</span></div>
+            <h2 id="knowledge-title"><span data-lang="zh">文献知识库</span><span data-lang="en">Literature & Knowledge</span></h2>
           </div>
-          <p>根据网络环境和文件类型选择工具，会比盲目尝试更省时间。</p>
+          <p>
+            <span data-lang="zh">适合查资料、找书、做专业学习。请尊重版权和平台规则，仅用于合法、授权、公共版权或正规科研学习用途。</span>
+            <span data-lang="en">For references, book discovery, and focused study. Respect copyright and platform rules; use only for lawful, authorized, public-domain, or legitimate research and study purposes.</span>
+          </p>
         </div>
-        <div class="section-head" data-lang="en">
+
+        <div class="tool-grid">
+          <article class="tool-card">
+            <div class="tool-top">
+              <div class="tool-icon" data-initial="1L"><img src="https://www.google.com/s2/favicons?domain=zh.1lib.sk&sz=64" alt="" onerror="this.style.display='none'"></div>
+              <div class="tool-title">
+                <h3>1Lib 电子书资料平台</h3>
+                <p><span data-lang="zh">电子书检索与资料查找入口</span><span data-lang="en">Book and reference discovery entry</span></p>
+              </div>
+            </div>
+            <div class="tool-body">
+              <div class="tag-row">
+                <span class="tag warn"><span data-lang="zh">需要 🪜</span><span data-lang="en">Needs 🪜</span></span>
+                <span class="tag"><span data-lang="zh">需要 Google 账户</span><span data-lang="en">Google Account</span></span>
+                <span class="tag"><span data-lang="zh">资料检索</span><span data-lang="en">Reference Search</span></span>
+              </div>
+              <ul class="detail-list">
+                <li><b><span data-lang="zh">适合场景</span><span data-lang="en">Best for</span></b><span><span data-lang="zh">查找电子书、教材线索、参考资料和学习书目。</span><span data-lang="en">Finding books, textbook leads, references, and reading lists.</span></span></li>
+                <li><b><span data-lang="zh">使用提醒</span><span data-lang="en">Usage note</span></b><span><span data-lang="zh">仅用于合法授权、公共版权或正规科研学习用途；下载或使用资料前请确认版权状态。</span><span data-lang="en">Use only for lawful, authorized, public-domain, or legitimate research and study purposes. Confirm copyright status before downloading or using materials.</span></span></li>
+                <li><b><span data-lang="zh">账户说明</span><span data-lang="en">Account note</span></b><span><span data-lang="zh">需要 Google 账户的群友可以私聊群主协助准备。</span><span data-lang="en">Members who need a Google account can message the group owner for help.</span></span></li>
+              </ul>
+            </div>
+            <div class="tool-footer">
+              <span class="tool-note"><span data-lang="zh">资料用途请严格合规。</span><span data-lang="en">Use references responsibly and lawfully.</span></span>
+              <a class="open-link" href="https://zh.1lib.sk/?signAll=1&ts=1458" target="_blank" rel="noopener noreferrer"><span data-lang="zh">打开网站</span><span data-lang="en">Open Site</span></a>
+            </div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-top">
+              <div class="tool-icon" data-initial="WX" aria-hidden="true"><strong>WX</strong></div>
+              <div class="tool-title">
+                <h3>微信小程序：元素周期表PRO 化学百科与工具</h3>
+                <p><span data-lang="zh">化学学习、查询和计算工具</span><span data-lang="en">Chemistry reference, lookup, and study utility</span></p>
+              </div>
+            </div>
+            <div class="tool-body">
+              <div class="tag-row">
+                <span class="tag"><span data-lang="zh">微信小程序</span><span data-lang="en">WeChat Mini Program</span></span>
+                <span class="tag"><span data-lang="zh">元素查询</span><span data-lang="en">Element Lookup</span></span>
+                <span class="tag"><span data-lang="zh">化学百科</span><span data-lang="en">Chemistry Reference</span></span>
+              </div>
+              <ul class="detail-list">
+                <li><b><span data-lang="zh">适合场景</span><span data-lang="en">Best for</span></b><span><span data-lang="zh">查询元素信息、原子量、周期表位置、常见化学知识和学习资料。</span><span data-lang="en">Checking element data, atomic weights, periodic table positions, and common chemistry knowledge.</span></span></li>
+                <li><b><span data-lang="zh">优点</span><span data-lang="en">Strength</span></b><span><span data-lang="zh">手机端打开方便，不需要额外安装大型软件，适合上课、刷题或临时查资料。</span><span data-lang="en">Convenient on mobile, no large installation needed, useful in class, exercises, or quick reference moments.</span></span></li>
+                <li><b><span data-lang="zh">打开方式</span><span data-lang="en">How to open</span></b><span><span data-lang="zh">在微信搜索小程序名称“元素周期表PRO 化学百科与工具”，收藏后下次更快打开。</span><span data-lang="en">Search the mini program name in WeChat and save it for faster access next time.</span></span></li>
+              </ul>
+            </div>
+            <div class="tool-footer">
+              <span class="tool-note"><span data-lang="zh">适合化学学习和快速查询。</span><span data-lang="en">Useful for chemistry study and quick lookup.</span></span>
+              <span class="open-link" aria-label="微信搜索"><span data-lang="zh">微信搜索</span><span data-lang="en">Search WeChat</span></span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section study" id="study" aria-labelledby="study-title">
+        <div class="section-head">
           <div>
-            <h2>Recommended Workflow</h2>
+            <div class="section-kicker"><span data-lang="zh">学习成长</span><span data-lang="en">Learning</span></div>
+            <h2 id="study-title"><span data-lang="zh">编程与 AI 学习</span><span data-lang="en">Coding & AI Learning</span></h2>
           </div>
-          <p>Choose tools based on network access and file type. It saves time compared with random trial and error.</p>
+          <p>
+            <span data-lang="zh">适合从零开始学代码、补基础、查语法和做小项目。优先选择不需要额外网络条件、教程结构清晰的网站。</span>
+            <span data-lang="en">For learning code from scratch, filling gaps, checking syntax, and building small projects. Start with sites that are clear, structured, and easy to access.</span>
+          </p>
+        </div>
+
+        <div class="tool-grid">
+          <article class="tool-card">
+            <div class="tool-top">
+              <div class="tool-icon" data-initial="菜"><img src="https://www.google.com/s2/favicons?domain=runoob.com&sz=64" alt="" onerror="this.style.display='none'"></div>
+              <div class="tool-title">
+                <h3>菜鸟教程</h3>
+                <p><span data-lang="zh">代码、项目和 AI 相关学习教程</span><span data-lang="en">Coding, project, and AI-related tutorials</span></p>
+              </div>
+            </div>
+            <div class="tool-body">
+              <div class="tag-row">
+                <span class="tag good"><span data-lang="zh">不需要 🪜</span><span data-lang="en">No 🪜 Required</span></span>
+                <span class="tag"><span data-lang="zh">编程入门</span><span data-lang="en">Coding Basics</span></span>
+                <span class="tag"><span data-lang="zh">多项目教程</span><span data-lang="en">Project Tutorials</span></span>
+                <span class="tag"><span data-lang="zh">AI 学习</span><span data-lang="en">AI Learning</span></span>
+              </div>
+              <ul class="detail-list">
+                <li><b><span data-lang="zh">适合场景</span><span data-lang="en">Best for</span></b><span><span data-lang="zh">学习 HTML、CSS、JavaScript、Python、数据库、Linux、AI 相关基础和常见开发项目。</span><span data-lang="en">Learning HTML, CSS, JavaScript, Python, databases, Linux, AI basics, and common development projects.</span></span></li>
+                <li><b><span data-lang="zh">优点</span><span data-lang="en">Strength</span></b><span><span data-lang="zh">中文教程多，分类清楚，适合新手按目录逐步学习，也适合临时查语法。</span><span data-lang="en">Clear categories and many Chinese tutorials, suitable for both step-by-step beginners and quick syntax lookup.</span></span></li>
+                <li><b><span data-lang="zh">建议</span><span data-lang="en">Suggestion</span></b><span><span data-lang="zh">先选一个方向连续做完基础教程，再跟着项目练习，效果比东看西看更稳定。</span><span data-lang="en">Choose one direction, finish the basics, then practice with projects for steadier progress.</span></span></li>
+              </ul>
+            </div>
+            <div class="tool-footer">
+              <span class="tool-note"><span data-lang="zh">适合作为代码学习入口。</span><span data-lang="en">Good as a coding study starting point.</span></span>
+              <a class="open-link" href="https://www.runoob.com/" target="_blank" rel="noopener noreferrer"><span data-lang="zh">打开网站</span><span data-lang="en">Open Site</span></a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section network" id="network" aria-labelledby="network-title">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker"><span data-lang="zh">群内服务</span><span data-lang="en">Group Service</span></div>
+            <h2 id="network-title"><span data-lang="zh">长期网络服务</span><span data-lang="en">Long-Term Access Service</span></h2>
+          </div>
+          <p>
+            <span data-lang="zh">用于正规科研、学习资料访问和必要的账户准备。请严格遵守中国大陆相关法律法规和平台规则，拒绝任何违法违规用途。</span>
+            <span data-lang="en">For legitimate research, study access, and necessary account preparation. Follow applicable mainland China laws, regulations, and platform rules; unlawful use is rejected.</span>
+          </p>
+        </div>
+
+        <div class="tool-grid">
+          <article class="tool-card">
+            <div class="tool-top">
+              <div class="tool-icon" data-initial="🪜" aria-hidden="true">🪜</div>
+              <div class="tool-title">
+                <h3><span data-lang="zh">长期服务登录入口</span><span data-lang="en">Long-Term Service Login</span></h3>
+                <p><span data-lang="zh">群内长期网络服务账号登录</span><span data-lang="en">Login for existing group service accounts</span></p>
+              </div>
+            </div>
+            <div class="tool-body">
+              <div class="tag-row">
+                <span class="tag warn"><span data-lang="zh">需要 🪜</span><span data-lang="en">Needs 🪜</span></span>
+                <span class="tag"><span data-lang="zh">群内服务</span><span data-lang="en">Group Service</span></span>
+                <span class="tag"><span data-lang="zh">账号登录</span><span data-lang="en">Account Login</span></span>
+              </div>
+              <ul class="detail-list">
+                <li><b><span data-lang="zh">登录入口</span><span data-lang="en">Login</span></b><span><span data-lang="zh">已有账号的群友可通过此入口登录。</span><span data-lang="en">Members with an existing account can log in through this entry.</span></span></li>
+                <li><b><span data-lang="zh">适合场景</span><span data-lang="en">Best for</span></b><span><span data-lang="zh">正规科研、学习、资料检索和必要的在线工具访问。</span><span data-lang="en">Legitimate research, study, reference lookup, and necessary online tool access.</span></span></li>
+                <li><b><span data-lang="zh">底线原则</span><span data-lang="en">Principle</span></b><span><span data-lang="zh">群主爱党爱国，坚决抵制任何损害国家利益、传播不良信息或违法违规的使用方式。</span><span data-lang="en">The group owner supports lawful and responsible use, and rejects behavior that harms national interests, spreads harmful content, or violates rules.</span></span></li>
+              </ul>
+            </div>
+            <div class="tool-footer">
+              <span class="tool-note"><span data-lang="zh">请仅用于合规用途。</span><span data-lang="en">Use only for lawful purposes.</span></span>
+              <a class="open-link" href="https://app.bujidao.org/login" target="_blank" rel="noopener noreferrer"><span data-lang="zh">打开网站</span><span data-lang="en">Open Site</span></a>
+            </div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-top">
+              <div class="tool-icon" data-initial="新" aria-hidden="true"><strong>新</strong></div>
+              <div class="tool-title">
+                <h3><span data-lang="zh">🪜新用户申请入口</span><span data-lang="en">🪜 New User Registration</span></h3>
+                <p><span data-lang="zh">新用户开通服务入口</span><span data-lang="en">Service registration entry for new users</span></p>
+              </div>
+            </div>
+            <div class="tool-body">
+              <div class="tag-row">
+                <span class="tag warn"><span data-lang="zh">需要 🪜</span><span data-lang="en">Needs 🪜</span></span>
+                <span class="tag"><span data-lang="zh">申请入口</span><span data-lang="en">Registration</span></span>
+                <span class="tag"><span data-lang="zh">联系群主</span><span data-lang="en">Contact Owner</span></span>
+              </div>
+              <ul class="detail-list">
+                <li><b><span data-lang="zh">申请方式</span><span data-lang="en">How to apply</span></b><span><span data-lang="zh">新用户点击申请入口后，联系群主完成开通。</span><span data-lang="en">New users can open the registration link, then contact the group owner to complete setup.</span></span></li>
+                <li><b><span data-lang="zh">费用说明</span><span data-lang="en">Fee note</span></b><span><span data-lang="zh">需要额外付费10元开通服务。🪜为群主自用，长期稳定，具体请私聊群主。</span><span data-lang="en">An additional 10 RMB fee is required to activate the service. The 🪜 service is used by the group owner, has been stable long-term, and details are available by messaging the owner.</span></span></li>
+                <li><b><span data-lang="zh">合规提醒</span><span data-lang="en">Compliance</span></b><span><span data-lang="zh">仅支持正规科研和学习用途，拒绝任何违法使用。需要 Google 账户的群友也可私聊群主，费用视情况而定。</span><span data-lang="en">Only legitimate research and study use is supported; unlawful use is rejected. Members who need a Google account can also message the owner; the fee depends on the situation.</span></span></li>
+              </ul>
+            </div>
+            <div class="tool-footer">
+              <span class="tool-note"><span data-lang="zh">详情请私聊群主。</span><span data-lang="en">Message the group owner for details.</span></span>
+              <a class="open-link" href="https://app.bujidao.org/register?code=TzmBfl0a" target="_blank" rel="noopener noreferrer"><span data-lang="zh">打开网站</span><span data-lang="en">Open Site</span></a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section network" id="tips" aria-labelledby="tips-title">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker"><span data-lang="zh">合规优先</span><span data-lang="en">Compliance First</span></div>
+            <h2 id="tips-title"><span data-lang="zh">使用原则</span><span data-lang="en">Usage Principles</span></h2>
+          </div>
+          <p>
+            <span data-lang="zh">根据任务类型、资料性质和网络环境选择工具，会比盲目尝试更省时间，也更稳妥。</span>
+            <span data-lang="en">Choose tools based on task type, material sensitivity, and access environment. It is faster and safer than random trial and error.</span>
+          </p>
         </div>
 
         <div class="playbook">
-          <div class="playbook-item" data-lang="zh">
-            <strong>1. 先判断任务类型</strong>
-            <p>只是压缩、合并、拆分或格式转换，优先用 I Love PDF；需要读懂英文 PDF，再进入翻译工具。</p>
+          <div class="playbook-item">
+            <strong><span data-lang="zh">1. 先判断任务类型</span><span data-lang="en">1. Identify the task first</span></strong>
+            <p><span data-lang="zh">只是压缩、合并、拆分或格式转换，优先用 I Love PDF；需要读懂英文 PDF，再进入翻译工具。</span><span data-lang="en">For compression, merging, splitting, or conversion, start with I Love PDF. For understanding English PDFs, move to translation tools.</span></p>
           </div>
-          <div class="playbook-item" data-lang="zh">
-            <strong>2. 没有 VPN 先用 BabelDOC</strong>
-            <p>免 VPN 更省心，但免费频率有限。遇到频率限制时，可以换账号或等一段时间再试。</p>
+          <div class="playbook-item">
+            <strong><span data-lang="zh">2. 学习资料注意授权</span><span data-lang="en">2. Respect authorization</span></strong>
+            <p><span data-lang="zh">查找电子书或文献资料时，优先使用合法授权、公共版权和正规科研学习资料，尊重作者和平台规则。</span><span data-lang="en">When finding books or references, prioritize lawful, authorized, public-domain, and legitimate study materials. Respect authors and platform rules.</span></p>
           </div>
-          <div class="playbook-item" data-lang="zh">
-            <strong>3. 有 VPN 且量大用 PDF2ZH</strong>
-            <p>连续翻译多份 PDF 时更适合 PDF2ZH。若页面打不开，先检查代理是否真的生效。</p>
+          <div class="playbook-item">
+            <strong><span data-lang="zh">3. 坚持依法合规</span><span data-lang="en">3. Stay lawful and responsible</span></strong>
+            <p><span data-lang="zh">本站坚持爱党爱国、遵纪守法，只服务正规科研和学习需求，坚决抵制不良信息传播和违法违规用途。</span><span data-lang="en">This page supports lawful and responsible use for legitimate research and study only, and rejects harmful content distribution or unlawful use.</span></p>
           </div>
+        </div>
 
-          <div class="playbook-item" data-lang="en">
-            <strong>1. Identify the task first</strong>
-            <p>For compression, merge, split, or conversion, start with I Love PDF. For understanding English PDFs, move to translation tools.</p>
-          </div>
-          <div class="playbook-item" data-lang="en">
-            <strong>2. No VPN: try BabelDOC first</strong>
-            <p>It is easier when VPN is unavailable, but the free tier has frequency limits. Switch accounts or wait before retrying.</p>
-          </div>
-          <div class="playbook-item" data-lang="en">
-            <strong>3. With VPN and high volume: use PDF2ZH</strong>
-            <p>PDF2ZH is better for translating many PDFs in a row. If the page does not load, check whether the proxy is working.</p>
-          </div>
+        <div class="notice" style="margin-top: 16px;">
+          <strong><span data-lang="zh">温馨提醒：</span><span data-lang="en">Reminder: </span></strong>
+          <span data-lang="zh">群内工具和服务只作为学习、办公与科研辅助。重要文件先备份，个人账户自行妥善保管，任何网站都请以中国大陆相关法律法规、平台规则和群内说明为准。</span>
+          <span data-lang="en">Group tools and services are only for study, office work, and research support. Back up important files, protect personal accounts, and follow applicable mainland China laws, platform rules, and group instructions.</span>
         </div>
       </section>
     </main>
 
     <footer class="footer">
       <div class="footer-inner">
-        <div data-lang="zh"><strong>黑科技售后群💻 VIP 工具导航</strong><br>持续收录真正好用的网站和程序，让群友少走弯路。</div>
-        <div data-lang="en"><strong>VIP Tool Directory for 黑科技售后群💻</strong><br>A growing collection of practical websites and programs that save members time.</div>
-        <a href="#top" data-lang="zh">回到顶部</a>
-        <a href="#top" data-lang="en">Back to top</a>
+        <div>
+          <strong><span data-lang="zh">黑科技售后群💻 VIP 实用导航</span><span data-lang="en">VIP Practical Directory for 黑科技售后群💻</span></strong><br>
+          <span data-lang="zh">持续整理真正好用的网站和程序，让群友少走弯路。</span>
+          <span data-lang="en">A growing collection of practical websites and tools that save members time.</span>
+        </div>
+        <a href="#top"><span data-lang="zh">回到顶部</span><span data-lang="en">Back to Top</span></a>
       </div>
     </footer>
   </div>
