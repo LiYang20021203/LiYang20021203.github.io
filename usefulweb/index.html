@@ -50,15 +50,15 @@
     }
 
     [data-lang="en"] {
-      display: none;
+      display: none !important;
     }
 
     body.lang-en [data-lang="zh"] {
-      display: none;
+      display: none !important;
     }
 
     body.lang-en [data-lang="en"] {
-      display: revert;
+      display: revert !important;
     }
 
     .page {
@@ -577,6 +577,10 @@
       background: #fbfcfd;
     }
 
+    .mobile-toggle {
+      display: none;
+    }
+
     .tool-note {
       color: var(--muted);
       font-size: 12px;
@@ -762,36 +766,42 @@
       }
 
       .hero {
-        padding: 24px 0 18px;
-        gap: 16px;
+        padding: 16px 0 14px;
+        gap: 12px;
       }
 
       .eyebrow,
       .section-kicker {
-        font-size: 12px;
+        font-size: 11px;
       }
 
       h1 {
-        font-size: clamp(30px, 9.2vw, 38px);
-        line-height: 1.12;
+        font-size: clamp(26px, 8.3vw, 34px);
+        line-height: 1.1;
       }
 
       .hero-lede {
-        margin-top: 16px;
-        font-size: 16px;
-        line-height: 1.7;
+        margin-top: 10px;
+        font-size: 12px;
+        line-height: 1.48;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       .hero-actions {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-        margin-top: 20px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 14px;
       }
 
       .button {
         width: 100%;
-        min-height: 46px;
+        min-height: 38px;
+        padding: 0 10px;
+        font-size: 12px;
       }
 
       .hero-panel,
@@ -803,37 +813,52 @@
 
       .panel-head,
       .panel-body {
-        padding: 14px;
+        padding: 10px;
+      }
+
+      .panel-body {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
       }
 
       .directory-item {
-        grid-template-columns: 42px 1fr;
-        gap: 10px;
-        padding: 12px;
+        grid-template-columns: 30px 1fr;
+        gap: 8px;
+        padding: 8px;
+        border-left-width: 4px;
       }
 
       .directory-icon {
-        width: 42px;
-        height: 42px;
-        font-size: 17px;
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+      }
+
+      .directory-item > span:last-child > span {
+        display: none;
+      }
+
+      .directory-item strong {
+        font-size: 12px;
+        line-height: 1.25;
       }
 
       .section {
-        padding: 24px 0;
+        padding: 18px 0;
       }
 
       .section-head {
-        gap: 8px;
-        margin-bottom: 14px;
+        gap: 6px;
+        margin-bottom: 10px;
       }
 
       .section-head h2 {
-        font-size: 23px;
+        font-size: 20px;
       }
 
       .section-head p {
-        font-size: 14px;
-        line-height: 1.65;
+        font-size: 12px;
+        line-height: 1.5;
       }
 
       .tool-grid,
@@ -851,57 +876,92 @@
 
       .tool-top {
         align-items: flex-start;
-        gap: 12px;
-        padding: 14px;
+        gap: 10px;
+        padding: 10px;
       }
 
       .tool-icon {
-        width: 46px;
-        height: 46px;
-        font-size: 12px;
-      }
-
-      .tool-icon img {
-        width: 30px;
-        height: 30px;
-      }
-
-      .tool-title h3 {
-        font-size: 18px;
-        line-height: 1.32;
-      }
-
-      .tool-body {
-        padding: 14px;
-        gap: 12px;
-      }
-
-      .tag-row {
-        gap: 6px;
-      }
-
-      .tag {
-        min-height: 26px;
-        padding: 0 8px;
+        width: 38px;
+        height: 38px;
         font-size: 11px;
       }
 
+      .tool-icon img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .tool-title h3 {
+        font-size: 15px;
+        line-height: 1.25;
+      }
+
+      .tool-title p {
+        font-size: 11px;
+        line-height: 1.35;
+      }
+
+      .tool-body {
+        padding: 10px;
+        gap: 8px;
+      }
+
+      .tag-row {
+        gap: 5px;
+      }
+
+      .tag {
+        min-height: 22px;
+        padding: 0 7px;
+        font-size: 10px;
+      }
+
       .tool-footer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         align-items: stretch;
-        flex-direction: column;
-        padding: 14px;
+        padding: 10px;
+        gap: 8px;
+      }
+
+      .tool-note {
+        grid-column: 1 / -1;
+        font-size: 11px;
+      }
+
+      .mobile-toggle {
+        min-height: 36px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        color: var(--ink);
+        font: inherit;
+        font-size: 12px;
+        font-weight: 900;
+        cursor: pointer;
       }
 
       .open-link {
         width: 100%;
-        min-height: 42px;
+        min-height: 36px;
       }
 
       .detail-list li {
         grid-template-columns: 1fr;
         gap: 2px;
-        font-size: 13px;
-        line-height: 1.6;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .tool-card:not(.expanded) .detail-list {
+        display: none;
+      }
+
+      .tool-card:not(.expanded) .tool-note {
+        display: none;
       }
 
       .playbook-item,
@@ -1344,6 +1404,35 @@
   <script>
     const buttons = document.querySelectorAll("[data-set-lang]");
     const savedLanguage = localStorage.getItem("usefulweb-language");
+    const toolCards = document.querySelectorAll(".tool-card");
+
+    function toggleLabel(expanded) {
+      return expanded
+        ? '<span data-lang="zh">收起详情</span><span data-lang="en">Hide Details</span>'
+        : '<span data-lang="zh">展开详情</span><span data-lang="en">Show Details</span>';
+    }
+
+    toolCards.forEach((card, index) => {
+      const footer = card.querySelector(".tool-footer");
+      const action = footer?.querySelector(".open-link");
+      if (!footer || !action) return;
+
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "mobile-toggle";
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-controls", `tool-card-${index + 1}`);
+      toggle.innerHTML = toggleLabel(false);
+      card.querySelector(".tool-body")?.setAttribute("id", `tool-card-${index + 1}`);
+      footer.insertBefore(toggle, action);
+
+      toggle.addEventListener("click", () => {
+        const expanded = !card.classList.contains("expanded");
+        card.classList.toggle("expanded", expanded);
+        toggle.setAttribute("aria-expanded", String(expanded));
+        toggle.innerHTML = toggleLabel(expanded);
+      });
+    });
 
     function setLanguage(language) {
       const isEnglish = language === "en";
