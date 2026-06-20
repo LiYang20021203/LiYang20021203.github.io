@@ -26,10 +26,11 @@
 
     body {
       margin: 0;
-      min-height: 100vh;
+      height: 100vh;
       background: var(--bg);
       color: var(--ink);
       line-height: 1.5;
+      overflow: hidden;
     }
 
     button, input, select, textarea {
@@ -37,47 +38,49 @@
     }
 
     .app {
-      min-height: 100vh;
+      height: 100vh;
       display: grid;
-      grid-template-columns: minmax(320px, 430px) minmax(0, 1fr);
+      grid-template-columns: minmax(460px, 520px) minmax(0, 1fr);
+      overflow: hidden;
     }
 
     aside {
       background: var(--paper);
       border-right: 1px solid var(--line);
-      padding: 20px;
+      padding: 10px;
       overflow: auto;
+      height: 100vh;
     }
 
     main {
-      padding: 20px;
+      padding: 14px;
       min-width: 0;
-      display: grid;
-      gap: 14px;
-      align-content: start;
+      display: block;
+      height: 100vh;
+      overflow: auto;
     }
 
     h1 {
       margin: 0 0 4px;
-      font-size: 22px;
+      font-size: 18px;
       letter-spacing: 0;
     }
 
     h2 {
-      margin: 20px 0 10px;
-      font-size: 15px;
+      margin: 14px 0 8px;
+      font-size: 13px;
       letter-spacing: 0;
     }
 
     p {
       margin: 0;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 11px;
     }
 
     label {
       color: var(--muted);
-      font-size: 13px;
+      font-size: 11px;
     }
 
     input[type="text"],
@@ -85,16 +88,17 @@
     select,
     textarea {
       width: 100%;
-      min-height: 38px;
+      min-height: 32px;
       border: 1px solid var(--line);
       border-radius: 7px;
-      padding: 8px 10px;
+      padding: 6px 8px;
       background: #fff;
       color: var(--ink);
+      font-size: 11px;
     }
 
     textarea {
-      min-height: 54px;
+      min-height: 42px;
       resize: vertical;
     }
 
@@ -102,13 +106,14 @@
       width: 100%;
       border: 1px dashed var(--line-strong);
       border-radius: 8px;
-      padding: 13px;
+      padding: 9px;
       background: #fbfcfc;
+      font-size: 12px;
     }
 
     input[type="color"] {
       width: 38px;
-      height: 32px;
+      height: 28px;
       border: 1px solid var(--line);
       border-radius: 7px;
       padding: 3px;
@@ -118,30 +123,30 @@
 
     .field {
       display: grid;
-      gap: 7px;
-      margin: 13px 0;
+      gap: 4px;
+      margin: 6px 0;
     }
 
     .row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
     }
 
     .row3 {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
 
     .checks {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px 14px;
+      gap: 7px 10px;
       align-items: center;
-      margin: 10px 0;
+      margin: 8px 0;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 11px;
     }
 
     .checks label {
@@ -154,18 +159,19 @@
     .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
+      gap: 6px;
+      margin-top: 8px;
     }
 
     button {
-      min-height: 38px;
+      min-height: 32px;
       border: 1px solid var(--line-strong);
       border-radius: 7px;
-      padding: 8px 11px;
+      padding: 6px 9px;
       background: #fff;
       color: var(--ink);
       cursor: pointer;
+      font-size: 11px;
     }
 
     button.primary {
@@ -187,7 +193,7 @@
       min-height: 20px;
       margin-top: 8px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .status.error {
@@ -200,11 +206,15 @@
       gap: 8px;
     }
 
+    .file-list {
+      grid-template-columns: 1fr 1fr;
+    }
+
     .file-item,
     .trim-item {
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 9px;
+      padding: 7px;
       background: #fff;
     }
 
@@ -220,20 +230,20 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 600;
     }
 
     .file-meta {
       margin-top: 4px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .mini {
       min-height: 29px;
       padding: 4px 8px;
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .trim-title {
@@ -242,15 +252,58 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 600;
     }
 
     .color-row {
       display: grid;
       grid-template-columns: 38px 1fr;
-      gap: 8px;
+      gap: 7px;
       align-items: center;
+      font-size: 12px;
+    }
+
+    .control-bar {
+      position: sticky;
+      bottom: 0;
+      z-index: 5;
+      margin: 12px -14px -14px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.96);
+      border-top: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+    }
+
+    details.control-group {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 9px;
+      margin-top: 10px;
+      background: #fff;
+    }
+
+    details.control-group > summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 9px 0;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    details.control-group > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.control-group > summary::after {
+      content: "+";
+      float: right;
+      color: var(--muted);
+    }
+
+    details.control-group[open] > summary::after {
+      content: "-";
     }
 
     .plot-card {
@@ -262,6 +315,24 @@
       overflow: hidden;
     }
 
+    .plot-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .plot-panel {
+      min-width: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plot-panel h2 {
+      margin: 0;
+      font-size: 13px;
+    }
+
     .plot-title {
       margin: 0 0 8px;
       color: var(--muted);
@@ -271,13 +342,13 @@
     canvas {
       display: block;
       width: 100%;
-      min-height: 430px;
+      min-height: 240px;
       border-radius: 6px;
       background: #fff;
     }
 
     .empty {
-      min-height: 360px;
+      min-height: 220px;
       display: grid;
       place-items: center;
       text-align: center;
@@ -286,7 +357,8 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       box-shadow: var(--shadow);
-      padding: 30px;
+      padding: 22px;
+      font-size: 13px;
     }
 
     .analysis {
@@ -294,34 +366,71 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       overflow: auto;
+      max-height: none;
+      padding: 10px;
     }
 
-    table {
-      width: 100%;
-      min-width: 920px;
-      border-collapse: collapse;
+    .analysis h2 {
+      margin: 0 0 8px;
       font-size: 13px;
     }
 
-    th,
-    td {
-      padding: 9px 11px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
+    .result-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 8px;
     }
 
-    th {
-      color: var(--muted);
+    .result-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      background: #fff;
+      min-width: 0;
+    }
+
+    .result-file {
+      margin-bottom: 7px;
+      font-size: 11px;
+      font-weight: 650;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+      gap: 6px;
+    }
+
+    .metric {
+      border-radius: 6px;
       background: #fbfcfc;
-      font-weight: 600;
-      white-space: nowrap;
+      border: 1px solid #edf2f3;
+      padding: 5px 6px;
+      min-width: 0;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.2;
+    }
+
+    .metric-value {
+      margin-top: 2px;
+      color: var(--ink);
+      font-size: 12px;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: anywhere;
     }
 
     .note {
       margin-top: 8px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .pill {
@@ -331,15 +440,18 @@
       padding: 2px 8px;
       background: var(--soft);
       color: var(--primary-dark);
-      font-size: 12px;
+      font-size: 11px;
     }
 
     @media (max-width: 980px) {
+      body { height: auto; overflow: auto; }
+      .app { height: auto; grid-template-columns: 1fr; overflow: visible; }
       .app { grid-template-columns: 1fr; }
-      aside { border-right: 0; border-bottom: 1px solid var(--line); }
-      main { padding: 14px; }
+      aside { height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+      main { height: auto; padding: 14px; overflow: visible; }
       .row, .row3 { grid-template-columns: 1fr; }
-      canvas { min-height: 340px; }
+      .file-list { grid-template-columns: 1fr; }
+      canvas { min-height: 280px; }
     }
   </style>
 </head>
@@ -349,7 +461,8 @@
       <h1>Absorption Curve Plotter</h1>
       <p>网页版本对应原 Jupyter GUI：上传文件、选择曲线、设置裁剪范围、绘图、主峰分析和归一化峰图。</p>
 
-      <h2>Files</h2>
+      <details class="control-group" open>
+        <summary>Files</summary>
       <div class="field">
         <label for="files">Spectrum files</label>
         <input id="files" type="file" accept=".txt,.csv,.xlsx,.xls,.xlsm" multiple>
@@ -362,8 +475,10 @@
         <button id="clear">Clear output</button>
       </div>
       <div id="fileList" class="file-list"></div>
+      </details>
 
-      <h2>Common Plot Settings</h2>
+      <details class="control-group" open>
+        <summary>Plot + Export Settings</summary>
       <div class="field">
         <label for="colors">Colors</label>
         <input id="colors" type="text" value="#4B008F,#0896E8,#07851B,#E5A51A,#FF3333,#7C5C3E,#D81B60,#00897B">
@@ -448,15 +563,18 @@
         </div>
       </div>
       <div class="note">每条曲线的颜色可以在上传文件列表中单独调整；未手动调整时，按 Colors 列表顺序自动分配。</div>
+      </details>
 
-      <h2>Range Filter For Every Selected Curve</h2>
+      <details class="control-group" open>
+        <summary>Range Filter For Every Selected Curve</summary>
       <p>Keep min/max are optional. Exclude ranges use forms like <code>500-850; 2300-2600</code>.</p>
       <div class="actions">
         <button id="updateTrim" class="primary">Update range table</button>
       </div>
       <div id="trimList" class="trim-list"></div>
+      </details>
 
-      <div class="actions">
+      <div class="actions control-bar">
         <button id="previewRaw">Preview raw</button>
         <button id="plotTrimmed" class="primary">Plot trimmed curves</button>
         <button id="plotNormalized" class="primary">Run normalized peak plot</button>
@@ -466,23 +584,20 @@
     </aside>
 
     <main>
-      <div id="plotArea" class="empty">上传并选择光谱文件后，点击 Preview raw、Plot trimmed curves 或 Run normalized peak plot。</div>
-      <section class="analysis">
-        <table>
-          <thead id="tableHead">
-            <tr>
-              <th>file</th>
-              <th>peak wavelength (nm)</th>
-              <th>peak absorption</th>
-              <th>prominence</th>
-              <th>FWHM estimate (nm)</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody">
-            <tr><td colspan="5">暂无结果</td></tr>
-          </tbody>
-        </table>
-      </section>
+      <div class="plot-grid">
+        <section class="plot-panel">
+          <h2>Raw / Trimmed Plot</h2>
+          <div id="standardPlotArea" class="empty">上传并选择光谱文件后，点击 Preview raw 或 Plot trimmed curves。</div>
+        </section>
+        <section class="plot-panel">
+          <h2>Normalized Peak Plot</h2>
+          <div id="normalizedPlotArea" class="empty">点击 Run normalized peak plot 后，归一化图会显示在这里，不覆盖左侧图。</div>
+        </section>
+        <section class="analysis">
+          <h2>Analysis Results</h2>
+          <div id="resultCards" class="result-cards">暂无结果</div>
+        </section>
+      </div>
     </main>
   </div>
 
@@ -491,9 +606,11 @@
   <script>
     const state = {
       files: [],
-      plots: [],
+      standardPlots: [],
+      normalizedPlots: [],
       results: [],
-      lastMode: "raw"
+      lastMode: "raw",
+      activePlotKind: "standard"
     };
 
     const els = {
@@ -501,9 +618,9 @@
       status: document.getElementById("status"),
       fileList: document.getElementById("fileList"),
       trimList: document.getElementById("trimList"),
-      plotArea: document.getElementById("plotArea"),
-      tableHead: document.getElementById("tableHead"),
-      tableBody: document.getElementById("tableBody"),
+      standardPlotArea: document.getElementById("standardPlotArea"),
+      normalizedPlotArea: document.getElementById("normalizedPlotArea"),
+      resultCards: document.getElementById("resultCards"),
       colors: document.getElementById("colors"),
       linestyle: document.getElementById("linestyle"),
       plotMode: document.getElementById("plotMode"),
@@ -923,50 +1040,46 @@
 
     function renderResultsTable(results, normalized = false) {
       if (!results.length) {
-        els.tableHead.innerHTML = `<tr><th>file</th><th>peak wavelength (nm)</th><th>peak absorption</th><th>prominence</th><th>FWHM estimate (nm)</th></tr>`;
-        els.tableBody.innerHTML = `<tr><td colspan="5">暂无结果</td></tr>`;
+        els.resultCards.textContent = "暂无结果";
         return;
       }
 
-      if (!normalized) {
-        els.tableHead.innerHTML = `<tr><th>file</th><th>peak wavelength (nm)</th><th>peak absorption</th><th>prominence</th><th>FWHM estimate (nm)</th></tr>`;
-        els.tableBody.innerHTML = results.map(result => `
-          <tr>
-            <td>${escapeHtml(result.item.fileName)}</td>
-            <td>${formatNumber(result.peak.peakWavelength, 1)}</td>
-            <td>${formatNumber(result.peak.peakAbsorption, 5)}</td>
-            <td>${formatNumber(result.peak.prominence, 5)}</td>
-            <td>${Number.isFinite(result.peak.fwhm) ? formatNumber(result.peak.fwhm, 1) : "not reliably estimated"}</td>
-          </tr>
-        `).join("");
-        return;
-      }
+      els.resultCards.innerHTML = results.map(result => {
+        const peak = result.peak;
+        const metrics = [
+          ["peak wavelength", `${formatNumber(peak.peakWavelength, 1)} nm`],
+          ["peak absorption", formatNumber(peak.peakAbsorption, 5)],
+          ["prominence", formatNumber(peak.prominence, 5)],
+          ["FWHM estimate", Number.isFinite(peak.fwhm) ? `${formatNumber(peak.fwhm, 1)} nm` : "not reliable"]
+        ];
 
-      els.tableHead.innerHTML = `
-        <tr>
-          <th>file</th><th>peak wavelength (nm)</th><th>peak absorption</th><th>prominence</th><th>FWHM estimate (nm)</th>
-          <th>left minimum (nm)</th><th>left minimum absorption</th><th>normalized start (nm)</th>
-          <th>normalization minimum (nm)</th><th>normalization minimum absorption</th><th>trough for ratio (nm)</th>
-          <th>trough y (normalized)</th><th>peak/trough ratio</th>
-        </tr>`;
-      els.tableBody.innerHTML = results.map(result => {
-        const d = result.normalizedPeak;
+        if (normalized && result.normalizedPeak) {
+          const d = result.normalizedPeak;
+          metrics.push(
+            ["left minimum", `${formatNumber(d.leftMinWavelength, 1)} nm`],
+            ["left min abs.", formatNumber(d.leftMinAbsorption, 5)],
+            ["norm. start", `${formatNumber(d.normalizationStartWavelength, 1)} nm`],
+            ["norm. minimum", `${formatNumber(d.normalizationMinWavelength, 1)} nm`],
+            ["norm. min abs.", formatNumber(d.normalizationMinAbsorption, 5)],
+            ["trough for ratio", `${formatNumber(d.normalizedTroughWavelength, 1)} nm`],
+            ["trough y", formatNumber(d.normalizedTroughY, 6)],
+            ["peak/trough", formatNumber(d.peakToTroughRatio, 6)]
+          );
+        }
+
         return `
-          <tr>
-            <td>${escapeHtml(result.item.fileName)}</td>
-            <td>${formatNumber(result.peak.peakWavelength, 1)}</td>
-            <td>${formatNumber(result.peak.peakAbsorption, 5)}</td>
-            <td>${formatNumber(result.peak.prominence, 5)}</td>
-            <td>${Number.isFinite(result.peak.fwhm) ? formatNumber(result.peak.fwhm, 1) : "not reliably estimated"}</td>
-            <td>${formatNumber(d.leftMinWavelength, 1)}</td>
-            <td>${formatNumber(d.leftMinAbsorption, 5)}</td>
-            <td>${formatNumber(d.normalizationStartWavelength, 1)}</td>
-            <td>${formatNumber(d.normalizationMinWavelength, 1)}</td>
-            <td>${formatNumber(d.normalizationMinAbsorption, 5)}</td>
-            <td>${formatNumber(d.normalizedTroughWavelength, 1)}</td>
-            <td>${formatNumber(d.normalizedTroughY, 6)}</td>
-            <td>${formatNumber(d.peakToTroughRatio, 6)}</td>
-          </tr>`;
+          <article class="result-card">
+            <div class="result-file">${escapeHtml(result.item.fileName)}</div>
+            <div class="metric-grid">
+              ${metrics.map(([label, value]) => `
+                <div class="metric">
+                  <div class="metric-label">${escapeHtml(label)}</div>
+                  <div class="metric-value">${escapeHtml(value)}</div>
+                </div>
+              `).join("")}
+            </div>
+          </article>
+        `;
       }).join("");
     }
 
@@ -974,10 +1087,11 @@
       card.innerHTML = `<div class="plot-title">${escapeHtml(title)}</div><canvas></canvas>`;
       const canvas = card.querySelector("canvas");
       const [w, h] = aspectSize();
-      const cssHeight = Math.max(320, Math.min(620, (card.clientWidth || 900) * h / w));
+      const cssWidth = Math.max(560, card.clientWidth || 760);
+      const cssHeight = Math.max(260, Math.min(430, cssWidth * h / w));
       canvas.style.height = `${cssHeight}px`;
       const ratio = window.devicePixelRatio || 1;
-      canvas.width = Math.max(900, Math.floor((card.clientWidth - 28) * ratio));
+      canvas.width = Math.max(760, Math.floor((card.clientWidth - 20) * ratio));
       canvas.height = Math.floor(cssHeight * ratio);
       return { canvas, ratio };
     }
@@ -1140,17 +1254,30 @@
       });
     }
 
-    function renderPlots(plotSpecs) {
-      state.plots = plotSpecs;
-      els.plotArea.className = "";
-      els.plotArea.innerHTML = "";
+    function renderPlots(kind, plotSpecs) {
+      const area = kind === "normalized" ? els.normalizedPlotArea : els.standardPlotArea;
+      if (kind === "normalized") {
+        state.normalizedPlots = plotSpecs;
+      } else {
+        state.standardPlots = plotSpecs;
+      }
+      state.activePlotKind = kind;
+      area.className = "";
+      area.innerHTML = "";
       for (const spec of plotSpecs) {
         const card = document.createElement("div");
         card.className = "plot-card";
-        els.plotArea.appendChild(card);
+        area.appendChild(card);
         const { canvas } = prepareCanvas(card, spec.title);
         drawPlot(canvas, spec);
       }
+    }
+
+    function rerenderAllPlots() {
+      const active = state.activePlotKind;
+      if (state.standardPlots.length) renderPlots("standard", state.standardPlots);
+      if (state.normalizedPlots.length) renderPlots("normalized", state.normalizedPlots);
+      state.activePlotKind = active;
     }
 
     function selectedTrimmed() {
@@ -1167,7 +1294,7 @@
         const results = series.map(s => ({ item: s.item, peak: s.peak }));
         state.results = results;
         state.lastMode = "raw";
-        renderPlots([{ title: "Preview raw", series, yLabel: els.yLabel.value, overlayNormalized: false, normalized: false }]);
+        renderPlots("standard", [{ title: "Preview raw", series, yLabel: els.yLabel.value, overlayNormalized: false, normalized: false }]);
         renderResultsTable(results, false);
         setStatus(`Previewed ${items.length} file(s).`);
       } catch (error) {
@@ -1201,7 +1328,7 @@
         }
         state.results = results;
         state.lastMode = "trimmed";
-        renderPlots(plots);
+        renderPlots("standard", plots);
         renderResultsTable(results, false);
         setStatus(`Plotted ${spectra.length} trimmed curve(s).`);
       } catch (error) {
@@ -1248,7 +1375,7 @@
         });
         state.results = results;
         state.lastMode = "normalized";
-        renderPlots([{
+        renderPlots("normalized", [{
           title: "Peak-normalized curves",
           series,
           yLabel: "Normalized Absorption(a.u.)",
@@ -1264,7 +1391,8 @@
     }
 
     function downloadPng() {
-      const canvas = document.querySelector(".plot-card canvas");
+      const area = state.activePlotKind === "normalized" ? els.normalizedPlotArea : els.standardPlotArea;
+      const canvas = area.querySelector(".plot-card canvas");
       if (!canvas) {
         setStatus("No plot to save.", true);
         return;
@@ -1277,7 +1405,8 @@
     }
 
     function downloadPdf() {
-      const canvas = document.querySelector(".plot-card canvas");
+      const area = state.activePlotKind === "normalized" ? els.normalizedPlotArea : els.standardPlotArea;
+      const canvas = area.querySelector(".plot-card canvas");
       if (!canvas) {
         setStatus("No plot to save.", true);
         return;
@@ -1326,13 +1455,17 @@
 
     function clearAll() {
       state.files = [];
-      state.plots = [];
+      state.standardPlots = [];
+      state.normalizedPlots = [];
       state.results = [];
+      state.activePlotKind = "standard";
       els.files.value = "";
       els.fileList.innerHTML = "";
       els.trimList.innerHTML = "";
-      els.plotArea.className = "empty";
-      els.plotArea.textContent = "上传并选择光谱文件后，点击 Preview raw、Plot trimmed curves 或 Run normalized peak plot。";
+      els.standardPlotArea.className = "empty";
+      els.standardPlotArea.textContent = "上传并选择光谱文件后，点击 Preview raw 或 Plot trimmed curves。";
+      els.normalizedPlotArea.className = "empty";
+      els.normalizedPlotArea.textContent = "点击 Run normalized peak plot 后，归一化图会显示在这里，不覆盖左侧图。";
       renderResultsTable([], false);
       setStatus("已清空数据。");
     }
@@ -1367,30 +1500,30 @@
       }
       if (action === "curve-color") {
         state.files[index].color = input.value;
-        for (const plot of state.plots) {
+        updateSeriesColor(state.files[index].id, input.value);
+        rerenderAllPlots();
+      }
+    });
+
+    function updateSeriesColor(fileId, color) {
+      for (const plotGroup of [state.standardPlots, state.normalizedPlots]) {
+        for (const plot of plotGroup) {
           for (const series of plot.series) {
-            if (series.item && series.item.id === state.files[index].id) {
-              series.color = input.value;
+            if (series.item && series.item.id === fileId) {
+              series.color = color;
             }
           }
         }
-        if (state.plots.length) renderPlots(state.plots);
       }
-    });
+    }
 
     els.fileList.addEventListener("input", event => {
       const input = event.target.closest("[data-action='curve-color']");
       if (!input) return;
       const index = Number(input.dataset.index);
       state.files[index].color = input.value;
-      for (const plot of state.plots) {
-        for (const series of plot.series) {
-          if (series.item && series.item.id === state.files[index].id) {
-            series.color = input.value;
-          }
-        }
-      }
-      if (state.plots.length) renderPlots(state.plots);
+      updateSeriesColor(state.files[index].id, input.value);
+      rerenderAllPlots();
     });
 
     els.trimList.addEventListener("input", event => {
@@ -1408,15 +1541,15 @@
       els.backgroundColor, els.axisColor
     ].forEach(control => {
       control.addEventListener("change", () => {
-        if (state.plots.length) renderPlots(state.plots);
+        rerenderAllPlots();
       });
       control.addEventListener("input", () => {
-        if (state.plots.length && ["backgroundColor", "axisColor", "fontSize", "lineWidth"].includes(control.id)) renderPlots(state.plots);
+        if (["backgroundColor", "axisColor", "fontSize", "lineWidth"].includes(control.id)) rerenderAllPlots();
       });
     });
 
     window.addEventListener("resize", () => {
-      if (state.plots.length) renderPlots(state.plots);
+      rerenderAllPlots();
     });
   </script>
 </body>
