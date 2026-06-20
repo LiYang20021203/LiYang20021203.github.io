@@ -127,6 +127,12 @@
       margin: 6px 0;
     }
 
+    .hint {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
     .row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -459,7 +465,7 @@
   <div class="app">
     <aside>
       <h1>Absorption Curve Plotter</h1>
-      <p>网页版本对应原 Jupyter GUI：上传文件、选择曲线、设置裁剪范围、绘图、主峰分析和归一化峰图。</p>
+      <p>网页操作方式：上传文件、选择曲线、设置裁剪范围、绘图、主峰分析、归一化峰图。个人原创自制，禁止转载。</p>
 
       <details class="control-group" open>
         <summary>Files</summary>
@@ -538,8 +544,9 @@
           <input id="lineWidth" type="number" min="0.6" max="4" step="0.1" value="2.2">
         </div>
         <div class="field">
-          <label for="preMinPoints">Pre-min points</label>
-          <input id="preMinPoints" type="number" min="0" max="10000" step="1" value="0">
+          <label for="preMinPoints">Pre-min extra points</label>
+          <input id="preMinPoints" type="number" min="0" max="10000" step="1" value="30">
+          <div class="hint">归一化峰图从主峰左侧谷值的前侧开始，以显示出谷的形状；这里表示在谷值前额外保留的数据点数，0 = 从谷值开始，。</div>
         </div>
       </div>
       <div class="row">
