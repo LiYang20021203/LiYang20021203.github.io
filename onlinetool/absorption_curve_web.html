@@ -33,14 +33,12 @@
       overflow: hidden;
     }
 
-    button, input, select, textarea {
-      font: inherit;
-    }
+    button, input, select, textarea { font: inherit; }
 
     .app {
       height: 100vh;
       display: grid;
-      grid-template-columns: minmax(460px, 520px) minmax(0, 1fr);
+      grid-template-columns: minmax(480px, 540px) minmax(0, 1fr);
       overflow: hidden;
     }
 
@@ -60,8 +58,16 @@
       overflow: auto;
     }
 
+    .topline {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
     h1 {
-      margin: 0 0 4px;
+      margin: 0;
       font-size: 18px;
       letter-spacing: 0;
     }
@@ -81,6 +87,14 @@
     label {
       color: var(--muted);
       font-size: 11px;
+    }
+
+    code {
+      padding: 1px 4px;
+      border-radius: 4px;
+      background: #f1f5f5;
+      color: var(--primary-dark);
+      font-size: 10px;
     }
 
     input[type="text"],
@@ -133,12 +147,40 @@
       line-height: 1.35;
     }
 
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
+    .intro {
+      margin: 6px 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfc;
+      padding: 8px;
     }
 
+    .intro-title {
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .flow {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .flow li { margin: 2px 0; }
+
+    .copyright {
+      margin: 12px 0 60px;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .row,
     .row3 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -186,13 +228,20 @@
       color: #fff;
     }
 
-    button.primary:hover {
-      background: var(--primary-dark);
-    }
+    button.primary:hover { background: var(--primary-dark); }
 
     button:disabled {
       cursor: not-allowed;
       opacity: 0.55;
+    }
+
+    .lang-btn {
+      flex: 0 0 auto;
+      min-height: 28px;
+      padding: 4px 8px;
+      border-color: var(--primary);
+      color: var(--primary-dark);
+      font-weight: 650;
     }
 
     .status {
@@ -202,9 +251,7 @@
       font-size: 11px;
     }
 
-    .status.error {
-      color: var(--warn);
-    }
+    .status.error { color: var(--warn); }
 
     .file-list,
     .trim-list {
@@ -212,9 +259,7 @@
       gap: 8px;
     }
 
-    .file-list {
-      grid-template-columns: 1fr 1fr;
-    }
+    .file-list { grid-template-columns: 1fr 1fr; }
 
     .file-item,
     .trim-item {
@@ -246,12 +291,6 @@
       font-size: 11px;
     }
 
-    .mini {
-      min-height: 29px;
-      padding: 4px 8px;
-      font-size: 11px;
-    }
-
     .trim-title {
       margin-bottom: 8px;
       min-width: 0;
@@ -274,8 +313,8 @@
       position: sticky;
       bottom: 0;
       z-index: 5;
-      margin: 12px -14px -14px;
-      padding: 10px 14px;
+      margin: 12px -10px -10px;
+      padding: 10px;
       background: rgba(255, 255, 255, 0.96);
       border-top: 1px solid var(--line);
       backdrop-filter: blur(8px);
@@ -298,9 +337,7 @@
       font-weight: 650;
     }
 
-    details.control-group > summary::-webkit-details-marker {
-      display: none;
-    }
+    details.control-group > summary::-webkit-details-marker { display: none; }
 
     details.control-group > summary::after {
       content: "+";
@@ -308,9 +345,7 @@
       color: var(--muted);
     }
 
-    details.control-group[open] > summary::after {
-      content: "-";
-    }
+    details.control-group[open] > summary::after { content: "-"; }
 
     .plot-card {
       background: var(--paper);
@@ -452,7 +487,6 @@
     @media (max-width: 980px) {
       body { height: auto; overflow: auto; }
       .app { height: auto; grid-template-columns: 1fr; overflow: visible; }
-      .app { grid-template-columns: 1fr; }
       aside { height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
       main { height: auto; padding: 14px; overflow: visible; }
       .row, .row3 { grid-template-columns: 1fr; }
@@ -464,144 +498,163 @@
 <body>
   <div class="app">
     <aside>
-      <h1>Absorption Curve Plotter</h1>
-      <p>网页操作方式：上传文件、选择曲线、设置裁剪范围、绘图、主峰分析、归一化峰图。个人原创自制，禁止转载。</p>
+      <div class="topline">
+        <h1 data-i18n="appTitle">吸收曲线绘图工具</h1>
+        <button id="langToggle" class="lang-btn" type="button">English</button>
+      </div>
+      <p data-i18n="tagline">用于光谱文件读取、裁剪、主峰分析和归一化峰图绘制。</p>
+
+      <section class="intro" aria-label="usage guide">
+        <div class="intro-title" data-i18n="guideTitle">使用流程</div>
+        <ol class="flow">
+          <li data-i18n="guide1">上传 TXT、CSV、XLSX、XLS 或 XLSM 光谱文件。</li>
+          <li data-i18n="guide2">在文件列表中勾选需要绘制的曲线，并可单独调整颜色。</li>
+          <li data-i18n="guide3">如需裁剪数据，填写保留范围或排除范围后更新裁剪表。</li>
+          <li data-i18n="guide4">点击预览原始曲线、绘制裁剪曲线，或生成归一化峰图。</li>
+          <li data-i18n="guide5">检查主峰分析结果，并按需导出 PNG 或 PDF。</li>
+        </ol>
+      </section>
 
       <details class="control-group" open>
-        <summary>Files</summary>
-      <div class="field">
-        <label for="files">Spectrum files</label>
-        <input id="files" type="file" accept=".txt,.csv,.xlsx,.xls,.xlsm" multiple>
-        <div id="status" class="status">未上传数据。</div>
-      </div>
+        <summary data-i18n="filesGroup">文件</summary>
+        <div class="field">
+          <label for="files" data-i18n="spectrumFiles">光谱文件</label>
+          <input id="files" type="file" accept=".txt,.csv,.xlsx,.xls,.xlsm" multiple>
+          <div id="status" class="status">未上传数据。</div>
+        </div>
 
-      <div class="actions">
-        <button id="selectAll">Select All</button>
-        <button id="selectNone">Select None</button>
-        <button id="clear">Clear output</button>
-      </div>
-      <div id="fileList" class="file-list"></div>
+        <div class="actions">
+          <button id="selectAll" data-i18n="selectAll">全选</button>
+          <button id="selectNone" data-i18n="selectNone">取消全选</button>
+          <button id="clear" data-i18n="clearOutput">清空输出</button>
+        </div>
+        <div id="fileList" class="file-list"></div>
       </details>
 
       <details class="control-group" open>
-        <summary>Plot + Export Settings</summary>
-      <div class="field">
-        <label for="colors">Colors</label>
-        <input id="colors" type="text" value="#4B008F,#0896E8,#07851B,#E5A51A,#FF3333,#7C5C3E,#D81B60,#00897B">
-      </div>
-      <div class="row">
+        <summary data-i18n="plotSettings">绘图与导出设置</summary>
         <div class="field">
-          <label for="linestyle">Linestyle</label>
-          <input id="linestyle" type="text" value="-">
+          <label for="colors" data-i18n="colors">颜色</label>
+          <input id="colors" type="text" value="#4B008F,#0896E8,#07851B,#E5A51A,#FF3333,#7C5C3E,#D81B60,#00897B">
         </div>
-        <div class="field">
-          <label for="plotMode">Mode</label>
-          <select id="plotMode">
-            <option>Auto</option>
-            <option>Overlay</option>
-            <option>Separate</option>
-          </select>
+        <div class="row">
+          <div class="field">
+            <label for="linestyle" data-i18n="linestyle">线型</label>
+            <input id="linestyle" type="text" value="-">
+          </div>
+          <div class="field">
+            <label for="plotMode" data-i18n="mode">模式</label>
+            <select id="plotMode">
+              <option value="Auto" data-i18n="auto">自动</option>
+              <option value="Overlay" data-i18n="overlay">叠加</option>
+              <option value="Separate" data-i18n="separate">分开</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="field">
-          <label for="xLabel">X label</label>
-          <input id="xLabel" type="text" value="Wavelength(nm)">
+        <div class="row">
+          <div class="field">
+            <label for="xLabel" data-i18n="xLabel">X 轴标签</label>
+            <input id="xLabel" type="text" value="Wavelength(nm)">
+          </div>
+          <div class="field">
+            <label for="yLabel" data-i18n="yLabel">Y 轴标签</label>
+            <input id="yLabel" type="text" value="Absorption(a.u.)">
+          </div>
         </div>
-        <div class="field">
-          <label for="yLabel">Y label</label>
-          <input id="yLabel" type="text" value="Absorption(a.u.)">
+        <div class="checks">
+          <label><input id="normalizeMulti" type="checkbox" checked> <span data-i18n="normalizeOverlay">叠加图归一化</span></label>
+          <label><input id="showLegend" type="checkbox" checked> <span data-i18n="showLegend">显示图例</span></label>
+          <label><input id="legendStripExt" type="checkbox" checked> <span data-i18n="legendStripExt">图例只显示峰位</span></label>
+          <label><input id="showMarkers" type="checkbox" checked> <span data-i18n="showMarkers">显示主峰标记</span></label>
         </div>
-      </div>
-      <div class="checks">
-        <label><input id="normalizeMulti" type="checkbox" checked> Normalize overlay</label>
-        <label><input id="showLegend" type="checkbox" checked> Show legend</label>
-        <label><input id="legendStripExt" type="checkbox" checked> Legend strip ext</label>
-        <label><input id="showMarkers" type="checkbox" checked> Show peak marker</label>
-      </div>
-      <div class="row">
-        <div class="field">
-          <label for="aspect">Aspect</label>
-          <select id="aspect">
-            <option>4:3 (8x6)</option>
-            <option>1:1 (6x6)</option>
-            <option>Wide (9x5)</option>
-            <option>Tall (5x6)</option>
-          </select>
+        <div class="row">
+          <div class="field">
+            <label for="aspect" data-i18n="aspect">图片比例</label>
+            <select id="aspect">
+              <option value="4:3 (8x6)">4:3 (8x6)</option>
+              <option value="1:1 (6x6)">1:1 (6x6)</option>
+              <option value="Wide (9x5)" data-i18n="wide">宽图 (9x5)</option>
+              <option value="Tall (5x6)" data-i18n="tall">高图 (5x6)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="figureName" data-i18n="figureName">图片文件名</label>
+            <input id="figureName" type="text" value="absorption_curve">
+          </div>
         </div>
-        <div class="field">
-          <label for="figureName">Figure name</label>
-          <input id="figureName" type="text" value="absorption_curve">
+        <div class="row3">
+          <div class="field">
+            <label for="fontSize" data-i18n="fontSize">字号</label>
+            <input id="fontSize" type="number" min="9" max="26" step="1" value="16">
+          </div>
+          <div class="field">
+            <label for="lineWidth" data-i18n="lineWidth">线宽</label>
+            <input id="lineWidth" type="number" min="0.6" max="4" step="0.1" value="2.2">
+          </div>
+          <div class="field">
+            <label for="preMinPoints" data-i18n="preMinPoints">谷值前保留点数</label>
+            <input id="preMinPoints" type="number" min="0" max="10000" step="1" value="30">
+            <div class="hint" data-i18n="preMinHint">归一化峰图会从主峰左侧谷值附近开始显示。这里表示在谷值前额外保留的数据点数；0 表示从谷值处开始。</div>
+          </div>
         </div>
-      </div>
-      <div class="row3">
-        <div class="field">
-          <label for="fontSize">Font size</label>
-          <input id="fontSize" type="number" min="9" max="26" step="1" value="16">
+        <div class="row">
+          <div class="field"><label for="xMin" data-i18n="xMin">X 最小值</label><input id="xMin" type="text" placeholder="blank"></div>
+          <div class="field"><label for="xMax" data-i18n="xMax">X 最大值</label><input id="xMax" type="text" placeholder="blank"></div>
         </div>
-        <div class="field">
-          <label for="lineWidth">Line width</label>
-          <input id="lineWidth" type="number" min="0.6" max="4" step="0.1" value="2.2">
+        <div class="row">
+          <div class="field"><label for="yMin" data-i18n="yMin">Y 最小值</label><input id="yMin" type="text" placeholder="blank"></div>
+          <div class="field"><label for="yMax" data-i18n="yMax">Y 最大值</label><input id="yMax" type="text" placeholder="blank"></div>
         </div>
-        <div class="field">
-          <label for="preMinPoints">Pre-min extra points</label>
-          <input id="preMinPoints" type="number" min="0" max="10000" step="1" value="30">
-          <div class="hint">归一化峰图从主峰左侧谷值的前侧开始，以显示出谷的形状；这里表示在谷值前额外保留的数据点数，0 = 从谷值开始，。</div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="field"><label for="xMin">X min</label><input id="xMin" type="text" placeholder="blank"></div>
-        <div class="field"><label for="xMax">X max</label><input id="xMax" type="text" placeholder="blank"></div>
-      </div>
-      <div class="row">
-        <div class="field"><label for="yMin">Y min</label><input id="yMin" type="text" placeholder="blank"></div>
-        <div class="field"><label for="yMax">Y max</label><input id="yMax" type="text" placeholder="blank"></div>
-      </div>
 
-      <h2>Export Style</h2>
-      <div class="row">
-        <div class="field">
-          <label for="backgroundColor">Canvas background</label>
-          <div class="color-row"><input id="backgroundColor" type="color" value="#ffffff"><span>Background</span></div>
+        <h2 data-i18n="exportStyle">导出样式</h2>
+        <div class="row">
+          <div class="field">
+            <label for="backgroundColor" data-i18n="canvasBg">画布背景</label>
+            <div class="color-row"><input id="backgroundColor" type="color" value="#ffffff"><span data-i18n="background">背景</span></div>
+          </div>
+          <div class="field">
+            <label for="axisColor" data-i18n="axisColor">坐标轴颜色</label>
+            <div class="color-row"><input id="axisColor" type="color" value="#142027"><span data-i18n="axisAndText">坐标轴和文字</span></div>
+          </div>
         </div>
-        <div class="field">
-          <label for="axisColor">Axis color</label>
-          <div class="color-row"><input id="axisColor" type="color" value="#142027"><span>Axis and text</span></div>
-        </div>
-      </div>
-      <div class="note">每条曲线的颜色可以在上传文件列表中单独调整；未手动调整时，按 Colors 列表顺序自动分配。</div>
+        <div class="note" data-i18n="colorNote">每条曲线的颜色可以在上传文件列表中单独调整；未手动调整时，按 Colors 列表顺序自动分配。</div>
       </details>
 
       <details class="control-group" open>
-        <summary>Range Filter For Every Selected Curve</summary>
-      <p>Keep min/max are optional. Exclude ranges use forms like <code>500-850; 2300-2600</code>.</p>
-      <div class="actions">
-        <button id="updateTrim" class="primary">Update range table</button>
-      </div>
-      <div id="trimList" class="trim-list"></div>
+        <summary data-i18n="rangeFilter">每条选中曲线的范围筛选</summary>
+        <p data-i18n="rangeHelp">Keep min/max 可留空。Exclude ranges 可写成 <code>500-850; 2300-2600</code>。</p>
+        <div class="actions">
+          <button id="updateTrim" class="primary" data-i18n="updateTrim">更新裁剪表</button>
+        </div>
+        <div id="trimList" class="trim-list"></div>
       </details>
+
+      <div class="copyright">
+        <strong data-i18n="copyrightTitle">版权说明</strong>
+        <div data-i18n="copyrightText">本网页工具及界面文案为个人原创自制，仅供个人学习、科研数据处理与内部交流使用。未经作者许可，禁止转载、搬运、二次发布、商业化使用或去除署名后传播。使用者应自行核对数据处理结果。</div>
+      </div>
 
       <div class="actions control-bar">
-        <button id="previewRaw">Preview raw</button>
-        <button id="plotTrimmed" class="primary">Plot trimmed curves</button>
-        <button id="plotNormalized" class="primary">Run normalized peak plot</button>
-        <button id="downloadPng">Save PNG</button>
-        <button id="downloadPdf">Save PDF</button>
+        <button id="previewRaw" data-i18n="previewRaw">预览原始曲线</button>
+        <button id="plotTrimmed" class="primary" data-i18n="plotTrimmed">绘制裁剪曲线</button>
+        <button id="plotNormalized" class="primary" data-i18n="plotNormalized">生成归一化峰图</button>
+        <button id="downloadPng" data-i18n="savePng">保存 PNG</button>
+        <button id="downloadPdf" data-i18n="savePdf">保存 PDF</button>
       </div>
     </aside>
 
     <main>
       <div class="plot-grid">
         <section class="plot-panel">
-          <h2>Raw / Trimmed Plot</h2>
-          <div id="standardPlotArea" class="empty">上传并选择光谱文件后，点击 Preview raw 或 Plot trimmed curves。</div>
+          <h2 data-i18n="rawPlot">原始 / 裁剪曲线图</h2>
+          <div id="standardPlotArea" class="empty" data-i18n="standardEmpty">上传并选择光谱文件后，点击“预览原始曲线”或“绘制裁剪曲线”。</div>
         </section>
         <section class="plot-panel">
-          <h2>Normalized Peak Plot</h2>
-          <div id="normalizedPlotArea" class="empty">点击 Run normalized peak plot 后，归一化图会显示在这里，不覆盖左侧图。</div>
+          <h2 data-i18n="normalizedPlot">归一化峰图</h2>
+          <div id="normalizedPlotArea" class="empty" data-i18n="normalizedEmpty">点击“生成归一化峰图”后，归一化图会显示在这里，不覆盖上方曲线图。</div>
         </section>
         <section class="analysis">
-          <h2>Analysis Results</h2>
+          <h2 data-i18n="analysisResults">分析结果</h2>
           <div id="resultCards" class="result-cards">暂无结果</div>
         </section>
       </div>
@@ -611,6 +664,211 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script>
+    let uiLang = "zh";
+
+    const dict = {
+      zh: {
+        appTitle: "吸收曲线绘图工具",
+        tagline: "用于光谱文件读取、裁剪、主峰分析和归一化峰图绘制。",
+        langButton: "English",
+        guideTitle: "使用流程",
+        guide1: "上传 TXT、CSV、XLSX、XLS 或 XLSM 光谱文件。",
+        guide2: "在文件列表中勾选需要绘制的曲线，并可单独调整颜色。",
+        guide3: "如需裁剪数据，填写保留范围或排除范围后更新裁剪表。",
+        guide4: "点击预览原始曲线、绘制裁剪曲线，或生成归一化峰图。",
+        guide5: "检查主峰分析结果，并按需导出 PNG 或 PDF。",
+        filesGroup: "文件",
+        spectrumFiles: "光谱文件",
+        selectAll: "全选",
+        selectNone: "取消全选",
+        clearOutput: "清空输出",
+        plotSettings: "绘图与导出设置",
+        colors: "颜色",
+        linestyle: "线型",
+        mode: "模式",
+        auto: "自动",
+        overlay: "叠加",
+        separate: "分开",
+        xLabel: "X 轴标签",
+        yLabel: "Y 轴标签",
+        normalizeOverlay: "叠加图归一化",
+        showLegend: "显示图例",
+        legendStripExt: "图例只显示峰位",
+        showMarkers: "显示主峰标记",
+        aspect: "图片比例",
+        wide: "宽图 (9x5)",
+        tall: "高图 (5x6)",
+        figureName: "图片文件名",
+        fontSize: "字号",
+        lineWidth: "线宽",
+        preMinPoints: "谷值前保留点数",
+        preMinHint: "归一化峰图会从主峰左侧谷值附近开始显示。这里表示在谷值前额外保留的数据点数；0 表示从谷值处开始。",
+        xMin: "X 最小值",
+        xMax: "X 最大值",
+        yMin: "Y 最小值",
+        yMax: "Y 最大值",
+        exportStyle: "导出样式",
+        canvasBg: "画布背景",
+        background: "背景",
+        axisColor: "坐标轴颜色",
+        axisAndText: "坐标轴和文字",
+        colorNote: "每条曲线的颜色可以在上传文件列表中单独调整；未手动调整时，按 Colors 列表顺序自动分配。",
+        rangeFilter: "每条选中曲线的范围筛选",
+        rangeHelp: "Keep min/max 可留空。Exclude ranges 可写成 <code>500-850; 2300-2600</code>。",
+        updateTrim: "更新裁剪表",
+        copyrightTitle: "版权说明",
+        copyrightText: "本网页工具及界面文案为个人原创自制，仅供个人学习、科研数据处理与内部交流使用。未经作者许可，禁止转载、搬运、二次发布、商业化使用或去除署名后传播。使用者应自行核对数据处理结果。",
+        previewRaw: "预览原始曲线",
+        plotTrimmed: "绘制裁剪曲线",
+        plotNormalized: "生成归一化峰图",
+        savePng: "保存 PNG",
+        savePdf: "保存 PDF",
+        rawPlot: "原始 / 裁剪曲线图",
+        normalizedPlot: "归一化峰图",
+        standardEmpty: "上传并选择光谱文件后，点击“预览原始曲线”或“绘制裁剪曲线”。",
+        normalizedEmpty: "点击“生成归一化峰图”后，归一化图会显示在这里，不覆盖上方曲线图。",
+        analysisResults: "分析结果",
+        noData: "未上传数据。",
+        noResult: "暂无结果",
+        noFilesSelected: "未选择文件。",
+        noFilesSelectedShort: "未选择文件。",
+        readingFiles: "正在读取文件...",
+        clearDone: "已清空数据。",
+        loaded: count => `已读取 ${count} 个文件。`,
+        loadedSomeFailed: count => `已读取 ${count} 个文件，部分文件读取失败。`,
+        noValidFiles: detail => `没有读取到有效文件。${detail}`,
+        previewed: count => `已预览 ${count} 个文件。`,
+        plotted: count => `已绘制 ${count} 条裁剪曲线。`,
+        normalizedDone: peaks => `归一化绘图完成。主峰：${peaks}。`,
+        noPlotToSave: "没有可保存的图。",
+        pdfNotLoaded: "PDF 库未加载，请先保存 PNG。",
+        points: "点",
+        keepMin: "保留最小值",
+        keepMax: "保留最大值",
+        exclude: "排除范围",
+        placeholderBlank: "留空",
+        placeholderExclude: "例如 500-850;2300-2600",
+        trimNoFiles: "未选择文件。",
+        rawTitle: "原始曲线预览",
+        trimmedTitle: "裁剪曲线",
+        normalizedTitle: "峰位归一化曲线",
+        normalizedY: "Normalized Absorption(a.u.)",
+        metricPeakWavelength: "主峰波长",
+        metricPeakAbsorption: "主峰吸收",
+        metricProminence: "峰显著度",
+        metricFwhm: "FWHM 估计",
+        metricNotReliable: "不可靠",
+        metricLeftMinimum: "左侧谷值",
+        metricLeftMinAbs: "左侧谷值吸收",
+        metricNormStart: "归一化起点",
+        metricNormMinimum: "归一化最小值",
+        metricNormMinAbs: "归一化最小吸收",
+        metricTroughForRatio: "峰谷比谷值",
+        metricTroughY: "谷值 y",
+        metricPeakTrough: "峰谷比"
+      },
+      en: {
+        appTitle: "Absorption Curve Plotter",
+        tagline: "Read, trim, analyze, normalize, and export absorption spectra.",
+        langButton: "中文",
+        guideTitle: "Workflow",
+        guide1: "Upload TXT, CSV, XLSX, XLS, or XLSM spectrum files.",
+        guide2: "Select the curves you want to plot and adjust individual colors if needed.",
+        guide3: "Set keep ranges or excluded ranges when data trimming is needed.",
+        guide4: "Preview raw data, plot trimmed curves, or generate the normalized peak plot.",
+        guide5: "Review peak analysis results, then export PNG or PDF if needed.",
+        filesGroup: "Files",
+        spectrumFiles: "Spectrum files",
+        selectAll: "Select All",
+        selectNone: "Select None",
+        clearOutput: "Clear output",
+        plotSettings: "Plot + Export Settings",
+        colors: "Colors",
+        linestyle: "Linestyle",
+        mode: "Mode",
+        auto: "Auto",
+        overlay: "Overlay",
+        separate: "Separate",
+        xLabel: "X label",
+        yLabel: "Y label",
+        normalizeOverlay: "Normalize overlay",
+        showLegend: "Show legend",
+        legendStripExt: "Peak-only legend",
+        showMarkers: "Show peak marker",
+        aspect: "Aspect",
+        wide: "Wide (9x5)",
+        tall: "Tall (5x6)",
+        figureName: "Figure name",
+        fontSize: "Font size",
+        lineWidth: "Line width",
+        preMinPoints: "Pre-min extra points",
+        preMinHint: "The normalized peak plot starts near the trough on the left side of the main peak. This value keeps extra data points before that trough; 0 means starting at the trough.",
+        xMin: "X min",
+        xMax: "X max",
+        yMin: "Y min",
+        yMax: "Y max",
+        exportStyle: "Export Style",
+        canvasBg: "Canvas background",
+        background: "Background",
+        axisColor: "Axis color",
+        axisAndText: "Axis and text",
+        colorNote: "Curve colors can be adjusted in the uploaded file list. If not manually changed, colors follow the Colors list.",
+        rangeFilter: "Range Filter For Every Selected Curve",
+        rangeHelp: "Keep min/max are optional. Exclude ranges use forms like <code>500-850; 2300-2600</code>.",
+        updateTrim: "Update range table",
+        copyrightTitle: "Copyright",
+        copyrightText: "This web tool and interface text are original personal work. It is intended only for personal study, research data processing, and internal communication. Reposting, redistribution, secondary publication, commercial use, or removal of attribution without permission is prohibited. Users should verify all processed results independently.",
+        previewRaw: "Preview raw",
+        plotTrimmed: "Plot trimmed curves",
+        plotNormalized: "Run normalized peak plot",
+        savePng: "Save PNG",
+        savePdf: "Save PDF",
+        rawPlot: "Raw / Trimmed Plot",
+        normalizedPlot: "Normalized Peak Plot",
+        standardEmpty: "Upload and select spectrum files, then click Preview raw or Plot trimmed curves.",
+        normalizedEmpty: "Click Run normalized peak plot. The normalized plot will appear here without covering the plot above.",
+        analysisResults: "Analysis Results",
+        noData: "No data uploaded.",
+        noResult: "No results yet",
+        noFilesSelected: "No files selected.",
+        noFilesSelectedShort: "No files selected.",
+        readingFiles: "Reading files...",
+        clearDone: "Output cleared.",
+        loaded: count => `Loaded ${count} file(s).`,
+        loadedSomeFailed: count => `Loaded ${count} file(s). Some files failed.`,
+        noValidFiles: detail => `No valid files loaded. ${detail}`,
+        previewed: count => `Previewed ${count} file(s).`,
+        plotted: count => `Plotted ${count} trimmed curve(s).`,
+        normalizedDone: peaks => `Normalized plot complete. Main peaks: ${peaks}.`,
+        noPlotToSave: "No plot to save.",
+        pdfNotLoaded: "PDF library is not loaded. Use Save PNG instead.",
+        points: "pts",
+        keepMin: "keep min",
+        keepMax: "keep max",
+        exclude: "exclude",
+        placeholderBlank: "blank",
+        placeholderExclude: "e.g. 500-850;2300-2600",
+        trimNoFiles: "No files selected.",
+        rawTitle: "Preview raw",
+        trimmedTitle: "Trimmed curves",
+        normalizedTitle: "Peak-normalized curves",
+        normalizedY: "Normalized Absorption(a.u.)",
+        metricPeakWavelength: "peak wavelength",
+        metricPeakAbsorption: "peak absorption",
+        metricProminence: "prominence",
+        metricFwhm: "FWHM estimate",
+        metricNotReliable: "not reliable",
+        metricLeftMinimum: "left minimum",
+        metricLeftMinAbs: "left min abs.",
+        metricNormStart: "norm. start",
+        metricNormMinimum: "norm. minimum",
+        metricNormMinAbs: "norm. min abs.",
+        metricTroughForRatio: "trough for ratio",
+        metricTroughY: "trough y",
+        metricPeakTrough: "peak/trough"
+      }
+    };
+
     const state = {
       files: [],
       standardPlots: [],
@@ -649,6 +907,49 @@
       backgroundColor: document.getElementById("backgroundColor"),
       axisColor: document.getElementById("axisColor")
     };
+
+    function t(key, ...args) {
+      const value = dict[uiLang][key] ?? dict.zh[key] ?? key;
+      return typeof value === "function" ? value(...args) : value;
+    }
+
+    function applyLanguage(lang) {
+      const previousLang = uiLang;
+      const oldX = dict[previousLang].xAxisDefault || "Wavelength(nm)";
+      const oldY = dict[previousLang].yAxisDefault || "Absorption(a.u.)";
+      uiLang = lang;
+      document.documentElement.lang = lang === "zh" ? "zh-Hans" : "en";
+      document.title = t("appTitle");
+      document.querySelector('meta[name="description"]').setAttribute("content", t("tagline"));
+      document.getElementById("langToggle").textContent = t("langButton");
+
+      document.querySelectorAll("[data-i18n]").forEach(node => {
+        const key = node.getAttribute("data-i18n");
+        if (key === "rangeHelp") node.innerHTML = t(key);
+        else node.textContent = t(key);
+      });
+
+      document.querySelectorAll("input[placeholder='blank'], input[placeholder='留空']").forEach(input => {
+        input.placeholder = t("placeholderBlank");
+      });
+      document.querySelectorAll("textarea[data-trim='exclude']").forEach(input => {
+        input.placeholder = t("placeholderExclude");
+      });
+
+      if (els.status.textContent === dict.zh.noData || els.status.textContent === dict.en.noData) {
+        els.status.textContent = t("noData");
+      }
+      if (els.resultCards.textContent === dict.zh.noResult || els.resultCards.textContent === dict.en.noResult) {
+        els.resultCards.textContent = t("noResult");
+      }
+      if (!state.standardPlots.length) els.standardPlotArea.textContent = t("standardEmpty");
+      if (!state.normalizedPlots.length) els.normalizedPlotArea.textContent = t("normalizedEmpty");
+
+      renderFiles();
+      renderTrimTable();
+      renderResultsTable(state.results, state.lastMode === "normalized");
+      rerenderAllPlots();
+    }
 
     function setStatus(message, isError = false) {
       els.status.textContent = message;
@@ -954,7 +1255,7 @@
       const keepMin = optionalFloat(item.trim.keepMin);
       const keepMax = optionalFloat(item.trim.keepMax);
       const excludeRanges = parseRangeText(item.trim.exclude);
-      let data = item.data.filter(p => {
+      const data = item.data.filter(p => {
         if (keepMin !== null && p.x < keepMin) return false;
         if (keepMax !== null && p.x > keepMax) return false;
         for (const [lo, hi] of excludeRanges) {
@@ -1017,7 +1318,7 @@
             <input type="checkbox" data-action="select-file" data-index="${index}" ${item.selected ? "checked" : ""}>
             <input type="color" data-action="curve-color" data-index="${index}" value="${escapeHtml(item.color || defaultColor(index))}" title="Curve color">
             <div class="file-name" title="${escapeHtml(item.fileName)}">${escapeHtml(item.fileName)}</div>
-            <span class="pill">${item.data.length} pts</span>
+            <span class="pill">${item.data.length} ${t("points")}</span>
           </div>
           <div class="file-meta">${formatNumber(item.data[0].x, 1)}-${formatNumber(item.data[item.data.length - 1].x, 1)} nm</div>
         </div>
@@ -1027,7 +1328,7 @@
     function renderTrimTable() {
       const selected = selectedItems();
       if (!selected.length) {
-        els.trimList.innerHTML = `<div class="note">No files selected.</div>`;
+        els.trimList.innerHTML = `<div class="note">${t("trimNoFiles")}</div>`;
         return;
       }
       els.trimList.innerHTML = selected.map(item => {
@@ -1036,10 +1337,10 @@
           <div class="trim-item">
             <div class="trim-title" title="${escapeHtml(item.fileName)}">${escapeHtml(item.fileName)}</div>
             <div class="row">
-              <div class="field"><label>keep min</label><input data-trim="keepMin" data-index="${index}" type="text" value="${escapeHtml(item.trim.keepMin)}" placeholder="blank"></div>
-              <div class="field"><label>keep max</label><input data-trim="keepMax" data-index="${index}" type="text" value="${escapeHtml(item.trim.keepMax)}" placeholder="blank"></div>
+              <div class="field"><label>${t("keepMin")}</label><input data-trim="keepMin" data-index="${index}" type="text" value="${escapeHtml(item.trim.keepMin)}" placeholder="${t("placeholderBlank")}"></div>
+              <div class="field"><label>${t("keepMax")}</label><input data-trim="keepMax" data-index="${index}" type="text" value="${escapeHtml(item.trim.keepMax)}" placeholder="${t("placeholderBlank")}"></div>
             </div>
-            <div class="field"><label>exclude</label><textarea data-trim="exclude" data-index="${index}" placeholder="e.g. 500-850;2300-2600">${escapeHtml(item.trim.exclude)}</textarea></div>
+            <div class="field"><label>${t("exclude")}</label><textarea data-trim="exclude" data-index="${index}" placeholder="${t("placeholderExclude")}">${escapeHtml(item.trim.exclude)}</textarea></div>
           </div>
         `;
       }).join("");
@@ -1047,30 +1348,30 @@
 
     function renderResultsTable(results, normalized = false) {
       if (!results.length) {
-        els.resultCards.textContent = "暂无结果";
+        els.resultCards.textContent = t("noResult");
         return;
       }
 
       els.resultCards.innerHTML = results.map(result => {
         const peak = result.peak;
         const metrics = [
-          ["peak wavelength", `${formatNumber(peak.peakWavelength, 1)} nm`],
-          ["peak absorption", formatNumber(peak.peakAbsorption, 5)],
-          ["prominence", formatNumber(peak.prominence, 5)],
-          ["FWHM estimate", Number.isFinite(peak.fwhm) ? `${formatNumber(peak.fwhm, 1)} nm` : "not reliable"]
+          [t("metricPeakWavelength"), `${formatNumber(peak.peakWavelength, 1)} nm`],
+          [t("metricPeakAbsorption"), formatNumber(peak.peakAbsorption, 5)],
+          [t("metricProminence"), formatNumber(peak.prominence, 5)],
+          [t("metricFwhm"), Number.isFinite(peak.fwhm) ? `${formatNumber(peak.fwhm, 1)} nm` : t("metricNotReliable")]
         ];
 
         if (normalized && result.normalizedPeak) {
           const d = result.normalizedPeak;
           metrics.push(
-            ["left minimum", `${formatNumber(d.leftMinWavelength, 1)} nm`],
-            ["left min abs.", formatNumber(d.leftMinAbsorption, 5)],
-            ["norm. start", `${formatNumber(d.normalizationStartWavelength, 1)} nm`],
-            ["norm. minimum", `${formatNumber(d.normalizationMinWavelength, 1)} nm`],
-            ["norm. min abs.", formatNumber(d.normalizationMinAbsorption, 5)],
-            ["trough for ratio", `${formatNumber(d.normalizedTroughWavelength, 1)} nm`],
-            ["trough y", formatNumber(d.normalizedTroughY, 6)],
-            ["peak/trough", formatNumber(d.peakToTroughRatio, 6)]
+            [t("metricLeftMinimum"), `${formatNumber(d.leftMinWavelength, 1)} nm`],
+            [t("metricLeftMinAbs"), formatNumber(d.leftMinAbsorption, 5)],
+            [t("metricNormStart"), `${formatNumber(d.normalizationStartWavelength, 1)} nm`],
+            [t("metricNormMinimum"), `${formatNumber(d.normalizationMinWavelength, 1)} nm`],
+            [t("metricNormMinAbs"), formatNumber(d.normalizationMinAbsorption, 5)],
+            [t("metricTroughForRatio"), `${formatNumber(d.normalizedTroughWavelength, 1)} nm`],
+            [t("metricTroughY"), formatNumber(d.normalizedTroughY, 6)],
+            [t("metricPeakTrough"), formatNumber(d.peakToTroughRatio, 6)]
           );
         }
 
@@ -1263,11 +1564,8 @@
 
     function renderPlots(kind, plotSpecs) {
       const area = kind === "normalized" ? els.normalizedPlotArea : els.standardPlotArea;
-      if (kind === "normalized") {
-        state.normalizedPlots = plotSpecs;
-      } else {
-        state.standardPlots = plotSpecs;
-      }
+      if (kind === "normalized") state.normalizedPlots = plotSpecs;
+      else state.standardPlots = plotSpecs;
       state.activePlotKind = kind;
       area.className = "";
       area.innerHTML = "";
@@ -1289,21 +1587,21 @@
 
     function selectedTrimmed() {
       const selected = selectedItems();
-      if (!selected.length) throw new Error("No files selected.");
+      if (!selected.length) throw new Error(t("noFilesSelected"));
       return selected.map(applyTrim);
     }
 
     function previewRaw() {
       try {
         const items = selectedItems();
-        if (!items.length) throw new Error("No files selected.");
+        if (!items.length) throw new Error(t("noFilesSelected"));
         const series = buildSeries(items, false);
         const results = series.map(s => ({ item: s.item, peak: s.peak }));
         state.results = results;
         state.lastMode = "raw";
-        renderPlots("standard", [{ title: "Preview raw", series, yLabel: els.yLabel.value, overlayNormalized: false, normalized: false }]);
+        renderPlots("standard", [{ title: t("rawTitle"), series, yLabel: els.yLabel.value, overlayNormalized: false, normalized: false }]);
         renderResultsTable(results, false);
-        setStatus(`Previewed ${items.length} file(s).`);
+        setStatus(t("previewed", items.length));
       } catch (error) {
         setStatus(error.message, true);
       }
@@ -1320,7 +1618,7 @@
           const series = buildSeries(spectra, false);
           results = series.map(s => ({ item: s.item, peak: s.peak }));
           plots.push({
-            title: "Trimmed curves",
+            title: t("trimmedTitle"),
             series,
             yLabel: els.yLabel.value,
             overlayNormalized: spectra.length > 1 && els.normalizeMulti.checked,
@@ -1337,7 +1635,7 @@
         state.lastMode = "trimmed";
         renderPlots("standard", plots);
         renderResultsTable(results, false);
-        setStatus(`Plotted ${spectra.length} trimmed curve(s).`);
+        setStatus(t("plotted", spectra.length));
       } catch (error) {
         setStatus(error.message, true);
       }
@@ -1383,15 +1681,15 @@
         state.results = results;
         state.lastMode = "normalized";
         renderPlots("normalized", [{
-          title: "Peak-normalized curves",
+          title: t("normalizedTitle"),
           series,
-          yLabel: "Normalized Absorption(a.u.)",
+          yLabel: t("normalizedY"),
           overlayNormalized: false,
           normalized: true
         }]);
         renderResultsTable(results, true);
         const peaks = results.map(r => `${r.peak.peakWavelength.toFixed(0)} nm`).join(", ");
-        setStatus(`Normalized plot complete. Main peaks: ${peaks}.`);
+        setStatus(t("normalizedDone", peaks));
       } catch (error) {
         setStatus(error.message, true);
       }
@@ -1401,7 +1699,7 @@
       const area = state.activePlotKind === "normalized" ? els.normalizedPlotArea : els.standardPlotArea;
       const canvas = area.querySelector(".plot-card canvas");
       if (!canvas) {
-        setStatus("No plot to save.", true);
+        setStatus(t("noPlotToSave"), true);
         return;
       }
       const link = document.createElement("a");
@@ -1415,12 +1713,12 @@
       const area = state.activePlotKind === "normalized" ? els.normalizedPlotArea : els.standardPlotArea;
       const canvas = area.querySelector(".plot-card canvas");
       if (!canvas) {
-        setStatus("No plot to save.", true);
+        setStatus(t("noPlotToSave"), true);
         return;
       }
       const jsPDF = window.jspdf && window.jspdf.jsPDF;
       if (!jsPDF) {
-        setStatus("PDF library is not loaded. Use Save PNG instead.", true);
+        setStatus(t("pdfNotLoaded"), true);
         return;
       }
       const pdf = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
@@ -1438,7 +1736,7 @@
     async function handleFiles(event) {
       const files = Array.from(event.target.files || []);
       if (!files.length) return;
-      setStatus("正在读取文件...");
+      setStatus(t("readingFiles"));
       const loaded = [];
       const failures = [];
       for (const file of files) {
@@ -1454,9 +1752,9 @@
       renderFiles();
       renderTrimTable();
       if (loaded.length) {
-        setStatus(`Loaded ${loaded.length} file(s).${failures.length ? " Some files failed." : ""}`, false);
+        setStatus(failures.length ? t("loadedSomeFailed", loaded.length) : t("loaded", loaded.length), false);
       } else {
-        setStatus(`No valid files loaded. ${failures.slice(0, 2).join("；")}`, true);
+        setStatus(t("noValidFiles", failures.slice(0, 2).join("; ")), true);
       }
     }
 
@@ -1470,13 +1768,16 @@
       els.fileList.innerHTML = "";
       els.trimList.innerHTML = "";
       els.standardPlotArea.className = "empty";
-      els.standardPlotArea.textContent = "上传并选择光谱文件后，点击 Preview raw 或 Plot trimmed curves。";
+      els.standardPlotArea.textContent = t("standardEmpty");
       els.normalizedPlotArea.className = "empty";
-      els.normalizedPlotArea.textContent = "点击 Run normalized peak plot 后，归一化图会显示在这里，不覆盖左侧图。";
+      els.normalizedPlotArea.textContent = t("normalizedEmpty");
       renderResultsTable([], false);
-      setStatus("已清空数据。");
+      setStatus(t("clearDone"));
     }
 
+    document.getElementById("langToggle").addEventListener("click", () => {
+      applyLanguage(uiLang === "zh" ? "en" : "zh");
+    });
     els.files.addEventListener("change", handleFiles);
     document.getElementById("selectAll").addEventListener("click", () => {
       state.files.forEach(item => item.selected = true);
@@ -1516,9 +1817,7 @@
       for (const plotGroup of [state.standardPlots, state.normalizedPlots]) {
         for (const plot of plotGroup) {
           for (const series of plot.series) {
-            if (series.item && series.item.id === fileId) {
-              series.color = color;
-            }
+            if (series.item && series.item.id === fileId) series.color = color;
           }
         }
       }
@@ -1558,6 +1857,8 @@
     window.addEventListener("resize", () => {
       rerenderAllPlots();
     });
+
+    applyLanguage("zh");
   </script>
 </body>
 </html>
