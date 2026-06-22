@@ -1,0 +1,473 @@
+{
+  "series": [
+    {
+      "key": "Affair",
+      "slug": "affair",
+      "title": "Affair 爱情诡计",
+      "en": "Affair",
+      "zh": "爱情诡计",
+      "release": "2024-08-30",
+      "original": "รักเล่นกล",
+      "color": "#f28c28",
+      "poster": "https://www.khaosod.co.th/wpapp/uploads/2024/08/dd0-1.jpg",
+      "count": 4
+    },
+    {
+      "key": "Blank",
+      "slug": "blank",
+      "title": "Blank 爱填满空白",
+      "en": "Blank",
+      "zh": "爱填满空白",
+      "release": "2024-03-02",
+      "original": "เติมคำว่ารักลงในช่องว่าง",
+      "color": "#3c8fda",
+      "poster": "",
+      "count": 2
+    },
+    {
+      "key": "Harmony Secret",
+      "slug": "harmony-secret",
+      "title": "Harmony Secret 和谐密语",
+      "en": "Harmony Secret",
+      "zh": "和谐密语",
+      "release": "2025-07-26",
+      "original": "ดีลลับฉบับเล่นเล่ห์",
+      "color": "#18a999",
+      "poster": "https://image.tmdb.org/t/p/original/oi7QPnDzNlITQethm9VagdSYC9R.jpg",
+      "count": 4
+    },
+    {
+      "key": "Hello, Is This Luck",
+      "slug": "hello-is-this-luck",
+      "title": "Hello, Is This Luck 爱的魔力转圈圈之号码奇缘",
+      "en": "Hello, Is This Luck",
+      "zh": "爱的魔力转圈圈之号码奇缘",
+      "release": "2025-12-14",
+      "original": "Hello, Is This Luck?",
+      "color": "#8b6f47",
+      "poster": "",
+      "count": 1
+    },
+    {
+      "key": "Pluto",
+      "slug": "pluto",
+      "title": "Pluto 冥王星之恋",
+      "en": "Pluto",
+      "zh": "冥王星之恋",
+      "release": "2024-10-19",
+      "original": "นิทาน ดวงดาว ความรัก",
+      "color": "#6f63d9",
+      "poster": "assets/posters/pluto.webp",
+      "count": 2
+    },
+    {
+      "key": "The Secret of Us",
+      "slug": "the-secret-of-us",
+      "title": "The Secret of Us 我们的秘密",
+      "en": "The Secret of Us",
+      "zh": "我们的秘密",
+      "release": "2024-06-24",
+      "original": "ใจซ่อนรัก",
+      "color": "#d64f9c",
+      "poster": "assets/posters/the-secret-of-us.webp",
+      "count": 2
+    },
+    {
+      "key": "US",
+      "slug": "us",
+      "title": "US 我们的爱",
+      "en": "US",
+      "zh": "我们的爱",
+      "release": "2025-01-18",
+      "original": "รักของเรา",
+      "color": "#e85d75",
+      "poster": "assets/posters/us.webp",
+      "count": 6
+    },
+    {
+      "key": "Whale Store",
+      "slug": "whale-store",
+      "title": "Whale Store 鲸鱼杂货铺",
+      "en": "Whale Store",
+      "zh": "鲸鱼杂货铺",
+      "release": "2025-06-25",
+      "original": "คุณวาฬร้านชำ",
+      "color": "#2f9c95",
+      "poster": "assets/posters/whale-store.webp",
+      "count": 1
+    }
+  ],
+  "spots": [
+    {
+      "id": "affair-01",
+      "seriesKey": "Affair",
+      "seriesSlug": "affair",
+      "seriesTitle": "Affair 爱情诡计",
+      "color": "#f28c28",
+      "title": "Improvise Ink Tattoo Bangsaen",
+      "address": "Improvise Ink Tattoo Bangsaen",
+      "lat": 13.2848334,
+      "lng": 100.9179506,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Improvise+Ink+Tattoo+Bangsaen+Improvise+Ink+Tattoo+Bangsaen",
+      "images": [
+        "assets/scenes/affair/001-pasted-image-20260622095846.webp",
+        "assets/scenes/affair/002-pasted-image-20260622095958.webp"
+      ]
+    },
+    {
+      "id": "affair-02",
+      "seriesKey": "Affair",
+      "seriesSlug": "affair",
+      "seriesTitle": "Affair 爱情诡计",
+      "color": "#f28c28",
+      "title": "Symphony of The Sea ซิมโฟนี ออฟ เดอะซี",
+      "address": "Symphony of The Sea ซิมโฟนี ออฟ เดอะซี",
+      "lat": 13.2837971,
+      "lng": 100.9156841,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Symphony+of+The+Sea+%E0%B8%8B%E0%B8%B4%E0%B8%A1%E0%B9%82%E0%B8%9F%E0%B8%99%E0%B8%B5+%E0%B8%AD%E0%B8%AD%E0%B8%9F+%E0%B9%80%E0%B8%94%E0%B8%AD%E0%B8%B0%E0%B8%8B%E0%B8%B5+Symphony+of+The+Sea+%E0%B8%8B%E0%B8%B4%E0%B8%A1%E0%B9%82%E0%B8%9F%E0%B8%99%E0%B8%B5+%E0%B8%AD%E0%B8%AD%E0%B8%9F+%E0%B9%80%E0%B8%94%E0%B8%AD%E0%B8%B0%E0%B8%8B%E0%B8%B5",
+      "images": [
+        "assets/scenes/affair/003-pasted-image-20260622100042.webp",
+        "assets/scenes/affair/004-pasted-image-20260622100452.webp",
+        "assets/scenes/affair/005-pasted-image-20260622100137.webp",
+        "assets/scenes/affair/006-pasted-image-20260622100732.webp",
+        "assets/scenes/affair/007-pasted-image-20260622100200.webp",
+        "assets/scenes/affair/008-pasted-image-20260622100217.webp",
+        "assets/scenes/affair/009-pasted-image-20260622100247.webp"
+      ]
+    },
+    {
+      "id": "affair-03",
+      "seriesKey": "Affair",
+      "seriesSlug": "affair",
+      "seriesTitle": "Affair 爱情诡计",
+      "color": "#f28c28",
+      "title": "The Green Bridge, Lumphini-Benchakitti Park (Lumphini Side)",
+      "address": "The Green Bridge, Lumphini-Benchakitti Park (Lumphini Side)",
+      "lat": 13.731666,
+      "lng": 100.5424769,
+      "maps": "https://www.google.com/maps/search/?api=1&query=The+Green+Bridge%2C+Lumphini-Benchakitti+Park+%28Lumphini+Side%29+The+Green+Bridge%2C+Lumphini-Benchakitti+Park+%28Lumphini+Side%29",
+      "images": [
+        "assets/scenes/affair/010-pasted-image-20260622102249.webp",
+        "assets/scenes/affair/011-pasted-image-20260622103132.webp"
+      ]
+    },
+    {
+      "id": "affair-04",
+      "seriesKey": "Affair",
+      "seriesSlug": "affair",
+      "seriesTitle": "Affair 爱情诡计",
+      "color": "#f28c28",
+      "title": "Station Hotel, 518 Rong Mueang Rd, Rong Mueang, Pathum Wan, Bangkok 10330, Thailand",
+      "address": "Station Hotel, 518 Rong Mueang Rd, Rong Mueang, Pathum Wan, Bangkok 10330, Thailand",
+      "lat": 13.7380641,
+      "lng": 100.5171257,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Station+Hotel%2C+518+Rong+Mueang+Rd%2C+Rong+Mueang%2C+Pathum+Wan%2C+Bangkok+10330%2C+Thailand+Station+Hotel%2C+518+Rong+Mueang+Rd%2C+Rong+Mueang%2C+Pathum+Wan%2C+Bangkok+10330%2C+Thailand",
+      "images": [
+        "assets/scenes/affair/012-pasted-image-20260622105413.webp",
+        "assets/scenes/affair/013-pasted-image-20260622105432.webp",
+        "assets/scenes/affair/014-pasted-image-20260622105501.webp",
+        "assets/scenes/affair/015-pasted-image-20260622105521.webp"
+      ]
+    },
+    {
+      "id": "blank-01",
+      "seriesKey": "Blank",
+      "seriesSlug": "blank",
+      "seriesTitle": "Blank 爱填满空白",
+      "color": "#3c8fda",
+      "title": "Hua Takhe Old Market",
+      "address": "Soi Lat Krabang 17, Khwaeng Lat Krabang, Lat Krabang, Bangkok 10520, Thailand",
+      "lat": 13.7242112,
+      "lng": 100.7884039,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Hua+Takhe+Old+Market+Soi+Lat+Krabang+17%2C+Khwaeng+Lat+Krabang%2C+Lat+Krabang%2C+Bangkok+10520%2C+Thailand",
+      "images": [
+        "assets/scenes/blank/016-pasted-image-20260622141709.webp",
+        "assets/scenes/blank/017-pasted-image-20260622142447.webp",
+        "assets/scenes/blank/018-pasted-image-20260622141754.webp"
+      ]
+    },
+    {
+      "id": "blank-02",
+      "seriesKey": "Blank",
+      "seriesSlug": "blank",
+      "seriesTitle": "Blank 爱填满空白",
+      "color": "#3c8fda",
+      "title": "Barley Bar, 13/1 หมู่ 2 ถนนอ่อนนุช-ลาดกระบัง แขวงลาดกระบัง Lat Krabang, Bangkok 10520, Thailand",
+      "address": "Barley Bar, 13/1 หมู่ 2 ถนนอ่อนนุช-ลาดกระบัง แขวงลาดกระบัง Lat Krabang, Bangkok 10520, Thailand",
+      "lat": 13.7201938,
+      "lng": 100.7152664,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Barley+Bar%2C+13%2F1+%E0%B8%AB%E0%B8%A1%E0%B8%B9%E0%B9%88+2+%E0%B8%96%E0%B8%99%E0%B8%99%E0%B8%AD%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B8%99%E0%B8%B8%E0%B8%8A-%E0%B8%A5%E0%B8%B2%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B1%E0%B8%87+%E0%B9%81%E0%B8%82%E0%B8%A7%E0%B8%87%E0%B8%A5%E0%B8%B2%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B1%E0%B8%87+Lat+Krabang%2C+Bangkok+10520%2C+Thailand+Barley+Bar%2C+13%2F1+%E0%B8%AB%E0%B8%A1%E0%B8%B9%E0%B9%88+2+%E0%B8%96%E0%B8%99%E0%B8%99%E0%B8%AD%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B8%99%E0%B8%B8%E0%B8%8A-%E0%B8%A5%E0%B8%B2%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B1%E0%B8%87+%E0%B9%81%E0%B8%82%E0%B8%A7%E0%B8%87%E0%B8%A5%E0%B8%B2%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B1%E0%B8%87+Lat+Krabang%2C+Bangkok+10520%2C+Thailand",
+      "images": [
+        "assets/scenes/blank/019-pasted-image-20260622143024.webp",
+        "assets/scenes/blank/020-pasted-image-20260622143053.webp",
+        "assets/scenes/blank/021-pasted-image-20260622143110.webp"
+      ]
+    },
+    {
+      "id": "harmony-secret-01",
+      "seriesKey": "Harmony Secret",
+      "seriesSlug": "harmony-secret",
+      "seriesTitle": "Harmony Secret 和谐密语",
+      "color": "#18a999",
+      "title": "Hey Gelato",
+      "address": "21 Plaeng Nam Rd, Khwaeng Samphanthawong, Samphanthawong, Bangkok 10100",
+      "lat": 13.7412086,
+      "lng": 100.509992,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Hey+Gelato+21+Plaeng+Nam+Rd%2C+Khwaeng+Samphanthawong%2C+Samphanthawong%2C+Bangkok+10100",
+      "images": [
+        "assets/scenes/harmony-secret/022-pasted-image-20260622102657.webp",
+        "assets/scenes/harmony-secret/023-pasted-image-20260622102702.webp"
+      ]
+    },
+    {
+      "id": "harmony-secret-02",
+      "seriesKey": "Harmony Secret",
+      "seriesSlug": "harmony-secret",
+      "seriesTitle": "Harmony Secret 和谐密语",
+      "color": "#18a999",
+      "title": "The Printing House Poshtel Bangkok(floor 4)",
+      "address": "140 Dinso Rd, Sao Chingcha, Phra Nakhon, Bangkok 10200, Thailand",
+      "lat": 13.7548451,
+      "lng": 100.501216,
+      "maps": "https://www.google.com/maps/search/?api=1&query=The+Printing+House+Poshtel+Bangkok%28floor+4%29+140+Dinso+Rd%2C+Sao+Chingcha%2C+Phra+Nakhon%2C+Bangkok+10200%2C+Thailand",
+      "images": [
+        "assets/scenes/harmony-secret/024-pasted-image-20260622114823.webp"
+      ]
+    },
+    {
+      "id": "harmony-secret-03",
+      "seriesKey": "Harmony Secret",
+      "seriesSlug": "harmony-secret",
+      "seriesTitle": "Harmony Secret 和谐密语",
+      "color": "#18a999",
+      "title": "The Speakeasy",
+      "address": "55, 555 Lang Suan Rd, Lumphini, Pathum Wan, Bangkok 10330, Thailand",
+      "lat": 13.7403357,
+      "lng": 100.5433569,
+      "maps": "https://www.google.com/maps/search/?api=1&query=The+Speakeasy+55%2C+555+Lang+Suan+Rd%2C+Lumphini%2C+Pathum+Wan%2C+Bangkok+10330%2C+Thailand",
+      "images": [
+        "assets/scenes/harmony-secret/025-pasted-image-20260622122642.webp"
+      ]
+    },
+    {
+      "id": "harmony-secret-04",
+      "seriesKey": "Harmony Secret",
+      "seriesSlug": "harmony-secret",
+      "seriesTitle": "Harmony Secret 和谐密语",
+      "color": "#18a999",
+      "title": "Hotel Muse Bangkok, Autograph Collection",
+      "address": "55, 555 Lang Suan Rd, Khwaeng Lumphini, Pathum Wan, Bangkok 10330, Thailand",
+      "lat": 13.7403357,
+      "lng": 100.5433569,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Hotel+Muse+Bangkok%2C+Autograph+Collection+55%2C+555+Lang+Suan+Rd%2C+Khwaeng+Lumphini%2C+Pathum+Wan%2C+Bangkok+10330%2C+Thailand",
+      "images": [
+        "assets/scenes/harmony-secret/026-pasted-image-20260622123213.webp",
+        "assets/scenes/harmony-secret/027-pasted-image-20260622123538.webp",
+        "assets/scenes/harmony-secret/028-pasted-image-20260622123554.webp"
+      ]
+    },
+    {
+      "id": "hello-is-this-luck-01",
+      "seriesKey": "Hello, Is This Luck",
+      "seriesSlug": "hello-is-this-luck",
+      "seriesTitle": "Hello, Is This Luck 爱的魔力转圈圈之号码奇缘",
+      "color": "#8b6f47",
+      "title": "Abandoned Mansion",
+      "address": "41 Soi Sukhumvit 14, Klongtoey, Bangkok 10110, Thailand",
+      "lat": 13.7352744,
+      "lng": 100.5601459,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Abandoned+Mansion+41+Soi+Sukhumvit+14%2C+Klongtoey%2C+Bangkok+10110%2C+Thailand",
+      "images": [
+        "assets/scenes/hello-is-this-luck/029-pasted-image-20260622141322.webp",
+        "assets/scenes/hello-is-this-luck/030-pasted-image-20260622141349.webp"
+      ]
+    },
+    {
+      "id": "pluto-01",
+      "seriesKey": "Pluto",
+      "seriesSlug": "pluto",
+      "seriesTitle": "Pluto 冥王星之恋",
+      "color": "#6f63d9",
+      "title": "Arobic & Yoga Class Under Rama VIII Bridge, QF9W+Q7J, Bang Yi Khan, Bang Phlat, Bangkok 10700, Thailand",
+      "address": "Arobic & Yoga Class Under Rama VIII Bridge, QF9W+Q7J, Bang Yi Khan, Bang Phlat, Bangkok 10700, Thailand",
+      "lat": 13.7691809,
+      "lng": 100.4967465,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Arobic+%26+Yoga+Class+Under+Rama+VIII+Bridge%2C+QF9W%2BQ7J%2C+Bang+Yi+Khan%2C+Bang+Phlat%2C+Bangkok+10700%2C+Thailand+Arobic+%26+Yoga+Class+Under+Rama+VIII+Bridge%2C+QF9W%2BQ7J%2C+Bang+Yi+Khan%2C+Bang+Phlat%2C+Bangkok+10700%2C+Thailand",
+      "images": [
+        "assets/scenes/pluto/031-pasted-image-20260622110329.webp",
+        "assets/scenes/pluto/032-pasted-image-20260622110556.webp",
+        "assets/scenes/pluto/033-pasted-image-20260622110746.webp"
+      ]
+    },
+    {
+      "id": "pluto-02",
+      "seriesKey": "Pluto",
+      "seriesSlug": "pluto",
+      "seriesTitle": "Pluto 冥王星之恋",
+      "color": "#6f63d9",
+      "title": "Science Center for Education (Planetarium Bangkok), 928 Sukhumvit Rd, Phra Khanong, Khlong Toei, Bangkok 10110, Thailand",
+      "address": "Science Center for Education (Planetarium Bangkok), 928 Sukhumvit Rd, Phra Khanong, Khlong Toei, Bangkok 10110, Thailand",
+      "lat": 13.7201111,
+      "lng": 100.5830735,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Science+Center+for+Education+%28Planetarium+Bangkok%29%2C+928+Sukhumvit+Rd%2C+Phra+Khanong%2C+Khlong+Toei%2C+Bangkok+10110%2C+Thailand+Science+Center+for+Education+%28Planetarium+Bangkok%29%2C+928+Sukhumvit+Rd%2C+Phra+Khanong%2C+Khlong+Toei%2C+Bangkok+10110%2C+Thailand",
+      "images": [
+        "assets/scenes/pluto/034-pasted-image-20260622111035.webp",
+        "assets/scenes/pluto/035-pasted-image-20260622111054.webp",
+        "assets/scenes/pluto/036-pasted-image-20260622111022.webp",
+        "assets/scenes/pluto/037-pasted-image-20260622111239.webp",
+        "assets/scenes/pluto/038-pasted-image-20260622111140.webp"
+      ]
+    },
+    {
+      "id": "the-secret-of-us-01",
+      "seriesKey": "The Secret of Us",
+      "seriesSlug": "the-secret-of-us",
+      "seriesTitle": "The Secret of Us 我们的秘密",
+      "color": "#d64f9c",
+      "title": "Ternajachob cafe",
+      "address": "24 6 Chaloem Phrakiat Ratchakan Thi 9 Rd, ประเวศ Prawet, Bangkok 10250, Thailand",
+      "lat": 13.6848125,
+      "lng": 100.663319,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Ternajachob+cafe+24+6+Chaloem+Phrakiat+Ratchakan+Thi+9+Rd%2C+%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%A7%E0%B8%A8+Prawet%2C+Bangkok+10250%2C+Thailand",
+      "images": [
+        "assets/scenes/the-secret-of-us/039-pasted-image-20260622111530.webp",
+        "assets/scenes/the-secret-of-us/040-pasted-image-20260622143343.webp",
+        "assets/scenes/the-secret-of-us/041-pasted-image-20260622143354.webp",
+        "assets/scenes/the-secret-of-us/042-pasted-image-20260622112130.webp",
+        "assets/scenes/the-secret-of-us/043-pasted-image-20260622112849.webp"
+      ]
+    },
+    {
+      "id": "the-secret-of-us-02",
+      "seriesKey": "The Secret of Us",
+      "seriesSlug": "the-secret-of-us",
+      "seriesTitle": "The Secret of Us 我们的秘密",
+      "color": "#d64f9c",
+      "title": "R Bar at Renaissance Bangkok Ratchaprasong Hotel",
+      "address": "518, 1 Phloen Chit Rd, Lumphini, Pathum Wan, Bangkok 10330, Thailand",
+      "lat": 13.74275,
+      "lng": 100.5419338,
+      "maps": "https://www.google.com/maps/search/?api=1&query=R+Bar+at+Renaissance+Bangkok+Ratchaprasong+Hotel+518%2C+1+Phloen+Chit+Rd%2C+Lumphini%2C+Pathum+Wan%2C+Bangkok+10330%2C+Thailand",
+      "images": [
+        "assets/scenes/the-secret-of-us/044-pasted-image-20260622113137.webp",
+        "assets/scenes/the-secret-of-us/045-pasted-image-20260622113203.webp"
+      ]
+    },
+    {
+      "id": "us-01",
+      "seriesKey": "US",
+      "seriesSlug": "us",
+      "seriesTitle": "US 我们的爱",
+      "color": "#e85d75",
+      "title": "J.R. Apartment เจอาร์ อพาร์ทเมนท์",
+      "address": "670, ศาลเจ้าปุงเถ่ากง 792 Soi Charan Sanitwong 66/1, Bang Phlat, Bangkok 10700",
+      "lat": 13.7844518,
+      "lng": 100.4880844,
+      "maps": "https://www.google.com/maps/search/?api=1&query=J.R.+Apartment+%E0%B9%80%E0%B8%88%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B9%8C+%E0%B8%AD%E0%B8%9E%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%97%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C+670%2C+%E0%B8%A8%E0%B8%B2%E0%B8%A5%E0%B9%80%E0%B8%88%E0%B9%89%E0%B8%B2%E0%B8%9B%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%96%E0%B9%88%E0%B8%B2%E0%B8%81%E0%B8%87+792+Soi+Charan+Sanitwong+66%2F1%2C+Bang+Phlat%2C+Bangkok+10700",
+      "images": [
+        "assets/scenes/us/046-pam.webp",
+        "assets/scenes/us/047-pasted-image-20260622092631.webp"
+      ]
+    },
+    {
+      "id": "us-02",
+      "seriesKey": "US",
+      "seriesSlug": "us",
+      "seriesTitle": "US 我们的爱",
+      "color": "#e85d75",
+      "title": "R house",
+      "address": "26 ซ. 18 Bueng Kham Phroi, Lam Luk Ka District, Pathum Thani 12150",
+      "lat": 13.9188396,
+      "lng": 100.7228885,
+      "maps": "https://www.google.com/maps/search/?api=1&query=R+house+26+%E0%B8%8B.+18+Bueng+Kham+Phroi%2C+Lam+Luk+Ka+District%2C+Pathum+Thani+12150",
+      "images": [
+        "assets/scenes/us/048-pasted-image-20260622092759.webp",
+        "assets/scenes/us/049-pasted-image-20260622092834.webp",
+        "assets/scenes/us/050-pasted-image-20260622092851.webp"
+      ]
+    },
+    {
+      "id": "us-03",
+      "seriesKey": "US",
+      "seriesSlug": "us",
+      "seriesTitle": "US 我们的爱",
+      "color": "#e85d75",
+      "title": "สุรชัย อีเลคโทรนิคส์",
+      "address": "336 Soi Charan Sanitwong 66, Bang Phlat, Bangkok 10700, Thailand",
+      "lat": 13.7841059,
+      "lng": 100.4892866,
+      "maps": "https://www.google.com/maps/search/?api=1&query=%E0%B8%AA%E0%B8%B8%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2+%E0%B8%AD%E0%B8%B5%E0%B9%80%E0%B8%A5%E0%B8%84%E0%B9%82%E0%B8%97%E0%B8%A3%E0%B8%99%E0%B8%B4%E0%B8%84%E0%B8%AA%E0%B9%8C+336+Soi+Charan+Sanitwong+66%2C+Bang+Phlat%2C+Bangkok+10700%2C+Thailand",
+      "images": [
+        "assets/scenes/us/051-pasted-image-20260622092955.webp",
+        "assets/scenes/us/052-pasted-image-20260622093019.webp",
+        "assets/scenes/us/053-pasted-image-20260622094853.webp"
+      ]
+    },
+    {
+      "id": "us-04",
+      "seriesKey": "US",
+      "seriesSlug": "us",
+      "seriesTitle": "US 我们的爱",
+      "color": "#e85d75",
+      "title": "Opposite Nangloeng Market Bus stop",
+      "address": "Wat Sommanat, Pom Prap Sattru Phai, Bangkok 10100, Thailand",
+      "lat": 13.7597,
+      "lng": 100.51212,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Opposite+Nangloeng+Market+Bus+stop+Wat+Sommanat%2C+Pom+Prap+Sattru+Phai%2C+Bangkok+10100%2C+Thailand",
+      "images": [
+        "assets/scenes/us/054-pasted-image-20260622093046.webp",
+        "assets/scenes/us/055-pasted-image-20260622093144.webp"
+      ]
+    },
+    {
+      "id": "us-05",
+      "seriesKey": "US",
+      "seriesSlug": "us",
+      "seriesTitle": "US 我们的爱",
+      "color": "#e85d75",
+      "title": "Opposite Office of the National Economic and Social Development Council",
+      "address": "ตรงข้ามสภาพัฒน์\nBus stopWat Sommanat, Pom Prap Sattru Phai, Bangkok 10100, Thailand",
+      "lat": 13.7581082,
+      "lng": 100.5147647,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Opposite+Office+of+the+National+Economic+and+Social+Development+Council+%E0%B8%95%E0%B8%A3%E0%B8%87%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A1%E0%B8%AA%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%B1%E0%B8%92%E0%B8%99%E0%B9%8C%0ABus+stopWat+Sommanat%2C+Pom+Prap+Sattru+Phai%2C+Bangkok+10100%2C+Thailand",
+      "images": [
+        "assets/scenes/us/056-pasted-image-20260622093239.webp",
+        "assets/scenes/us/057-pasted-image-20260622093120.webp"
+      ]
+    },
+    {
+      "id": "us-06",
+      "seriesKey": "US",
+      "seriesSlug": "us",
+      "seriesTitle": "US 我们的爱",
+      "color": "#e85d75",
+      "title": "Aree Mansion อารีย์ แมนชั่น",
+      "address": "39 Sukhumvit 26, Khlong Tan, Khlong Toei, Bangkok 10110",
+      "lat": 13.7272898,
+      "lng": 100.57006,
+      "maps": "https://www.google.com/maps/search/?api=1&query=Aree+Mansion+%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B9%8C+%E0%B9%81%E0%B8%A1%E0%B8%99%E0%B8%8A%E0%B8%B1%E0%B9%88%E0%B8%99+39+Sukhumvit+26%2C+Khlong+Tan%2C+Khlong+Toei%2C+Bangkok+10110",
+      "images": [
+        "assets/scenes/us/058-pasted-image-20260622143507.webp",
+        "assets/scenes/us/059-pasted-image-20260622143522.webp",
+        "assets/scenes/us/060-pasted-image-20260622094657.webp",
+        "assets/scenes/us/061-pasted-image-20260622094720.webp"
+      ]
+    },
+    {
+      "id": "whale-store-01",
+      "seriesKey": "Whale Store",
+      "seriesSlug": "whale-store",
+      "seriesTitle": "Whale Store 鲸鱼杂货铺",
+      "color": "#2f9c95",
+      "title": "2425 Soi Borommabanphot",
+      "address": "2425 Soi Borommabanphot, Khwaeng Ban Bat, Khet Pom Prap Sattru Phai, Krung Thep Maha Nakhon 10100, Thailand",
+      "lat": 13.7543129,
+      "lng": 100.5083609,
+      "maps": "https://www.google.com/maps/search/?api=1&query=2425+Soi+Borommabanphot+2425+Soi+Borommabanphot%2C+Khwaeng+Ban+Bat%2C+Khet+Pom+Prap+Sattru+Phai%2C+Krung+Thep+Maha+Nakhon+10100%2C+Thailand",
+      "images": [
+        "assets/scenes/whale-store/062-pasted-image-20260622113824.webp",
+        "assets/scenes/whale-store/063-pasted-image-20260622113838.webp"
+      ]
+    }
+  ]
+}

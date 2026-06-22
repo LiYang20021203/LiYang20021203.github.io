@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>泰百圣地巡礼打卡地图</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://basemaps.cartocdn.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18201d;
+      --muted: #65706c;
+      --paper: #fffdfa;
+      --soft: #f2f5f1;
+      --line: #dce3de;
+      --shadow: 0 16px 38px rgba(28, 42, 35, .16);
+      --green: #23795a;
+      --focus: #146cc4;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      letter-spacing: 0;
+    }
+
+    body { overflow: hidden; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .app {
+      display: grid;
+      grid-template-columns: 430px minmax(0, 1fr);
+      height: 100vh;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--line);
+      background: #fffdfa;
+      z-index: 2;
+    }
+
+    .brand {
+      padding: 15px 18px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.15;
+      font-weight: 850;
+    }
+
+    .brand p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .controls {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      background: #f8faf6;
+    }
+
+    .search {
+      width: 100%;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      color: var(--ink);
+      padding: 0 12px;
+      outline: none;
+    }
+
+    .search:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(20, 108, 196, .16);
+    }
+
+    .series-strip {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .series-button {
+      position: relative;
+      width: 132px;
+      min-width: 132px;
+      height: 178px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      color: white;
+      background: #1f2a26;
+      padding: 0;
+      text-align: left;
+      box-shadow: 0 8px 18px rgba(28, 42, 35, .12);
+    }
+
+    .series-button[aria-pressed="true"] {
+      border-color: var(--series-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--series-color) 26%, transparent), 0 10px 22px rgba(28, 42, 35, .18);
+    }
+
+    .series-button img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: .82;
+    }
+
+    .series-button::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, .02), rgba(0, 0, 0, .72));
+      pointer-events: none;
+    }
+
+    .series-button span {
+      position: absolute;
+      left: 9px;
+      right: 9px;
+      bottom: 9px;
+      z-index: 1;
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.22;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, .65);
+    }
+
+    .filter-summary {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--series-color);
+      border-radius: 8px;
+      background: white;
+      padding: 8px;
+      box-shadow: 0 6px 14px rgba(28, 42, 35, .08);
+    }
+
+    .filter-summary img {
+      width: 54px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 6px;
+      background: var(--soft);
+    }
+
+    .filter-summary strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .filter-summary span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .summary-actions {
+      display: flex;
+      gap: 7px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn {
+      min-height: 30px;
+      border-radius: 8px;
+      border: 1px solid var(--series-color);
+      background: white;
+      color: var(--series-color);
+      padding: 0 9px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .mini-btn.primary {
+      background: var(--series-color);
+      color: white;
+    }
+
+    .list {
+      min-height: 0;
+      overflow: auto;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .spot {
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--spot-color);
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 8px 20px rgba(28, 42, 35, .08);
+      overflow: hidden;
+    }
+
+    .spot.active {
+      border-color: var(--spot-color);
+      box-shadow: var(--shadow);
+    }
+
+    .spot-main {
+      padding: 13px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .spot-head {
+      display: grid;
+      gap: 5px;
+    }
+
+    .spot .series-name {
+      color: var(--spot-color);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .spot h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .address {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .gallery {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scroll-snap-type: x proximity;
+    }
+
+    .scene-thumb {
+      flex: 0 0 184px;
+      height: 126px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--soft);
+      padding: 0;
+      overflow: hidden;
+      scroll-snap-align: start;
+    }
+
+    .scene-thumb:first-child {
+      flex-basis: 224px;
+      height: 146px;
+    }
+
+    .scene-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      border: 1px solid var(--spot-color);
+      background: var(--spot-color);
+      color: white;
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .btn.secondary {
+      background: white;
+      color: var(--spot-color);
+    }
+
+    .controls {
+      gap: 8px;
+      padding: 12px 14px;
+    }
+
+    .search {
+      height: 46px;
+      border: 2px solid #111a3a;
+      border-radius: 8px;
+      padding: 0 12px 0 40px;
+      font-size: 17px;
+      background-color: white;
+      background-image: radial-gradient(circle at 17px 20px, transparent 0 8px, #07143a 8px 10px, transparent 10px), linear-gradient(45deg, transparent 0 22px, #07143a 22px 25px, transparent 25px);
+      background-repeat: no-repeat;
+    }
+
+    .list {
+      gap: 8px;
+      padding: 10px 12px 14px;
+    }
+
+    .series-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .series-row {
+      width: 100%;
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: 50px minmax(0, 1fr) 18px;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: white;
+      padding: 6px 8px;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .series-row:hover,
+    .series-row:focus-visible {
+      border-color: var(--series-color);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--series-color) 18%, transparent);
+      outline: none;
+    }
+
+    .series-poster {
+      width: 46px;
+      height: 58px;
+      object-fit: cover;
+      border-radius: 5px;
+      background: var(--soft);
+      display: block;
+    }
+
+    .series-row h2 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.18;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .series-row .en {
+      display: block;
+      margin-top: 2px;
+      color: #243552;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .series-row .meta-line {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .series-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--series-color);
+    }
+
+    .section-hint {
+      padding: 4px 2px 2px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .spot {
+      box-shadow: 0 4px 12px rgba(28, 42, 35, .06);
+    }
+
+    .spot-main {
+      padding: 6px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 4px;
+      align-items: start;
+    }
+
+    .spot-head {
+      gap: 3px;
+    }
+
+    .spot h2 {
+      font-size: 13px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .address {
+      font-size: 9.5px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .gallery {
+      gap: 5px;
+      padding: 0 0 2px;
+      grid-row: 2;
+    }
+
+    .scene-thumb {
+      flex: 0 0 66px;
+      height: 44px;
+      border-radius: 6px;
+    }
+
+    .scene-thumb:first-child {
+      flex-basis: 66px;
+      height: 44px;
+    }
+
+    .spot-details {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 3px 6px;
+      align-items: center;
+      grid-row: 1;
+    }
+
+    .spot-details .address {
+      grid-column: 1 / -1;
+    }
+
+    .actions {
+      gap: 5px;
+    }
+
+    .btn {
+      min-height: 28px;
+      padding: 0 8px;
+      font-size: 11px;
+    }
+
+    .map-shell {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      height: 100vh;
+    }
+
+    #map {
+      position: absolute;
+      inset: 0;
+      background: #e8eee9;
+    }
+
+    .map-credit {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      z-index: 500;
+      max-width: 560px;
+      border: 1px solid rgba(219, 226, 220, .95);
+      border-radius: 8px;
+      background: rgba(255, 253, 250, .94);
+      box-shadow: 0 10px 24px rgba(28, 42, 35, .12);
+      padding: 10px 12px;
+      color: #3d4945;
+      font-size: 12px;
+      line-height: 1.45;
+      backdrop-filter: blur(8px);
+    }
+
+    .map-credit a {
+      color: var(--green);
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .marker {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px 999px 999px 4px;
+      transform: rotate(-45deg);
+      border: 3px solid white;
+      background: var(--marker-color);
+      box-shadow: 0 8px 20px rgba(28, 42, 35, .28);
+    }
+
+    .marker span {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 12px;
+      font-weight: 850;
+      transform: rotate(45deg);
+    }
+
+    .leaflet-popup-content-wrapper {
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .leaflet-popup-content { margin: 10px; }
+
+    .popup {
+      width: 248px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .popup button {
+      border: 0;
+      border-radius: 6px;
+      padding: 0;
+      overflow: hidden;
+      background: var(--soft);
+    }
+
+    .popup img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      display: block;
+    }
+
+    .popup strong {
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    .popup span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .popup a {
+      color: var(--green);
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .empty {
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      background: #fbfcfa;
+      color: var(--muted);
+      padding: 18px;
+      font-size: 14px;
+    }
+
+    .lightbox[hidden] { display: none; }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: grid;
+      place-items: center;
+      background: rgba(12, 17, 15, .78);
+      padding: 20px;
+    }
+
+    .lightbox-panel {
+      position: relative;
+      width: min(980px, 100%);
+      max-height: 92vh;
+      display: grid;
+      gap: 10px;
+    }
+
+    .lightbox-image {
+      width: 100%;
+      max-height: 78vh;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #0f1512;
+      box-shadow: 0 20px 54px rgba(0, 0, 0, .42);
+    }
+
+    .lightbox-caption {
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: white;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .lightbox-close,
+    .lightbox-nav {
+      position: absolute;
+      border: 1px solid rgba(255, 255, 255, .35);
+      background: rgba(255, 255, 255, .92);
+      color: #101613;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .26);
+    }
+
+    .lightbox-close {
+      top: -12px;
+      right: -12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .lightbox-nav {
+      top: 45%;
+      width: 42px;
+      height: 54px;
+      border-radius: 8px;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .lightbox-prev { left: -12px; }
+    .lightbox-next { right: -12px; }
+
+    @media (max-width: 860px) {
+      body { overflow: auto; }
+
+      .app {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .map-shell {
+        height: 38vh;
+        min-height: 300px;
+      }
+
+      .sidebar {
+        border-right: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .list { overflow: visible; }
+
+      .scene-thumb {
+        flex-basis: 66px;
+        height: 44px;
+      }
+
+      .scene-thumb:first-child {
+        flex-basis: 66px;
+        height: 44px;
+      }
+
+      .spot-main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .map-credit {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        max-width: none;
+      }
+
+      .lightbox {
+        padding: 12px;
+      }
+
+      .lightbox-nav {
+        top: auto;
+        bottom: 48px;
+      }
+
+      .lightbox-prev { left: 16px; }
+      .lightbox-next { right: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <aside class="sidebar" aria-label="剧集与地点">
+      <header class="brand">
+        <h1>泰百圣地巡礼打卡地图</h1>
+        <p>按剧名分类整理泰国 GL 取景地。不同剧集使用不同颜色标注地点。</p>
+      </header>
+      <section class="controls" aria-label="筛选">
+        <input class="search" id="search" type="search" placeholder="搜索剧名、地点、地址" autocomplete="off">
+        <div id="seriesArea"></div>
+      </section>
+      <section class="list" id="spotList" aria-label="地点列表"></section>
+    </aside>
+    <section class="map-shell" aria-label="地图">
+      <div id="map"></div>
+      <div class="map-credit">
+        本站资料与上传图片版权归本人所有，禁止商业用途。部分图源参考公共网站与社区内容，如小红书、维基百科、微博超话等；如有侵权，请联系删除或更正。欢迎投稿新剧地址或纠错：
+        <a href="mailto:liyyang92642434@gmail.com">liyyang92642434@gmail.com</a>
+      </div>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-label="剧照浏览">
+      <button class="lightbox-close" type="button" id="lightboxClose" aria-label="关闭">×</button>
+      <button class="lightbox-nav lightbox-prev" type="button" id="lightboxPrev" aria-label="上一张">‹</button>
+      <img class="lightbox-image" id="lightboxImage" alt="剧中场景">
+      <button class="lightbox-nav lightbox-next" type="button" id="lightboxNext" aria-label="下一张">›</button>
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const appData = {"series": [{"key": "Affair", "slug": "affair", "title": "Affair 爱情诡计", "en": "Affair", "zh": "爱情诡计", "release": "2024-08-30", "original": "รักเล่นกล", "color": "#f28c28", "poster": "https://www.khaosod.co.th/wpapp/uploads/2024/08/dd0-1.jpg", "count": 4}, {"key": "Blank", "slug": "blank", "title": "Blank 爱填满空白", "en": "Blank", "zh": "爱填满空白", "release": "2024-03-02", "original": "เติมคำว่ารักลงในช่องว่าง", "color": "#3c8fda", "poster": "", "count": 2}, {"key": "Harmony Secret", "slug": "harmony-secret", "title": "Harmony Secret 和谐密语", "en": "Harmony Secret", "zh": "和谐密语", "release": "2025-07-26", "original": "ดีลลับฉบับเล่นเล่ห์", "color": "#18a999", "poster": "https://image.tmdb.org/t/p/original/oi7QPnDzNlITQethm9VagdSYC9R.jpg", "count": 4}, {"key": "Hello, Is This Luck", "slug": "hello-is-this-luck", "title": "Hello, Is This Luck 爱的魔力转圈圈之号码奇缘", "en": "Hello, Is This Luck", "zh": "爱的魔力转圈圈之号码奇缘", "release": "2025-12-14", "original": "Hello, Is This Luck?", "color": "#8b6f47", "poster": "", "count": 1}, {"key": "Pluto", "slug": "pluto", "title": "Pluto 冥王星之恋", "en": "Pluto", "zh": "冥王星之恋", "release": "2024-10-19", "original": "นิทาน ดวงดาว ความรัก", "color": "#6f63d9", "poster": "assets/posters/pluto.webp", "count": 2}, {"key": "The Secret of Us", "slug": "the-secret-of-us", "title": "The Secret of Us 我们的秘密", "en": "The Secret of Us", "zh": "我们的秘密", "release": "2024-06-24", "original": "ใจซ่อนรัก", "color": "#d64f9c", "poster": "assets/posters/the-secret-of-us.webp", "count": 2}, {"key": "US", "slug": "us", "title": "US 我们的爱", "en": "US", "zh": "我们的爱", "release": "2025-01-18", "original": "รักของเรา", "color": "#e85d75", "poster": "assets/posters/us.webp", "count": 6}, {"key": "Whale Store", "slug": "whale-store", "title": "Whale Store 鲸鱼杂货铺", "en": "Whale Store", "zh": "鲸鱼杂货铺", "release": "2025-06-25", "original": "คุณวาฬร้านชำ", "color": "#2f9c95", "poster": "assets/posters/whale-store.webp", "count": 1}], "spots": [{"id": "affair-01", "seriesKey": "Affair", "seriesSlug": "affair", "seriesTitle": "Affair 爱情诡计", "color": "#f28c28", "title": "Improvise Ink Tattoo Bangsaen", "address": "Improvise Ink Tattoo Bangsaen", "lat": 13.2848334, "lng": 100.9179506, "maps": "https://www.google.com/maps/search/?api=1&query=Improvise+Ink+Tattoo+Bangsaen+Improvise+Ink+Tattoo+Bangsaen", "images": ["assets/scenes/affair/001-pasted-image-20260622095846.webp", "assets/scenes/affair/002-pasted-image-20260622095958.webp"]}, {"id": "affair-02", "seriesKey": "Affair", "seriesSlug": "affair", "seriesTitle": "Affair 爱情诡计", "color": "#f28c28", "title": "Symphony of The Sea ซิมโฟนี ออฟ เดอะซี", "address": "Symphony of The Sea ซิมโฟนี ออฟ เดอะซี", "lat": 13.2837971, "lng": 100.9156841, "maps": "https://www.google.com/maps/search/?api=1&query=Symphony+of+The+Sea+%E0%B8%8B%E0%B8%B4%E0%B8%A1%E0%B9%82%E0%B8%9F%E0%B8%99%E0%B8%B5+%E0%B8%AD%E0%B8%AD%E0%B8%9F+%E0%B9%80%E0%B8%94%E0%B8%AD%E0%B8%B0%E0%B8%8B%E0%B8%B5+Symphony+of+The+Sea+%E0%B8%8B%E0%B8%B4%E0%B8%A1%E0%B9%82%E0%B8%9F%E0%B8%99%E0%B8%B5+%E0%B8%AD%E0%B8%AD%E0%B8%9F+%E0%B9%80%E0%B8%94%E0%B8%AD%E0%B8%B0%E0%B8%8B%E0%B8%B5", "images": ["assets/scenes/affair/003-pasted-image-20260622100042.webp", "assets/scenes/affair/004-pasted-image-20260622100452.webp", "assets/scenes/affair/005-pasted-image-20260622100137.webp", "assets/scenes/affair/006-pasted-image-20260622100732.webp", "assets/scenes/affair/007-pasted-image-20260622100200.webp", "assets/scenes/affair/008-pasted-image-20260622100217.webp", "assets/scenes/affair/009-pasted-image-20260622100247.webp"]}, {"id": "affair-03", "seriesKey": "Affair", "seriesSlug": "affair", "seriesTitle": "Affair 爱情诡计", "color": "#f28c28", "title": "The Green Bridge, Lumphini-Benchakitti Park (Lumphini Side)", "address": "The Green Bridge, Lumphini-Benchakitti Park (Lumphini Side)", "lat": 13.731666, "lng": 100.5424769, "maps": "https://www.google.com/maps/search/?api=1&query=The+Green+Bridge%2C+Lumphini-Benchakitti+Park+%28Lumphini+Side%29+The+Green+Bridge%2C+Lumphini-Benchakitti+Park+%28Lumphini+Side%29", "images": ["assets/scenes/affair/010-pasted-image-20260622102249.webp", "assets/scenes/affair/011-pasted-image-20260622103132.webp"]}, {"id": "affair-04", "seriesKey": "Affair", "seriesSlug": "affair", "seriesTitle": "Affair 爱情诡计", "color": "#f28c28", "title": "Station Hotel, 518 Rong Mueang Rd, Rong Mueang, Pathum Wan, Bangkok 10330, Thailand", "address": "Station Hotel, 518 Rong Mueang Rd, Rong Mueang, Pathum Wan, Bangkok 10330, Thailand", "lat": 13.7380641, "lng": 100.5171257, "maps": "https://www.google.com/maps/search/?api=1&query=Station+Hotel%2C+518+Rong+Mueang+Rd%2C+Rong+Mueang%2C+Pathum+Wan%2C+Bangkok+10330%2C+Thailand+Station+Hotel%2C+518+Rong+Mueang+Rd%2C+Rong+Mueang%2C+Pathum+Wan%2C+Bangkok+10330%2C+Thailand", "images": ["assets/scenes/affair/012-pasted-image-20260622105413.webp", "assets/scenes/affair/013-pasted-image-20260622105432.webp", "assets/scenes/affair/014-pasted-image-20260622105501.webp", "assets/scenes/affair/015-pasted-image-20260622105521.webp"]}, {"id": "blank-01", "seriesKey": "Blank", "seriesSlug": "blank", "seriesTitle": "Blank 爱填满空白", "color": "#3c8fda", "title": "Hua Takhe Old Market", "address": "Soi Lat Krabang 17, Khwaeng Lat Krabang, Lat Krabang, Bangkok 10520, Thailand", "lat": 13.7242112, "lng": 100.7884039, "maps": "https://www.google.com/maps/search/?api=1&query=Hua+Takhe+Old+Market+Soi+Lat+Krabang+17%2C+Khwaeng+Lat+Krabang%2C+Lat+Krabang%2C+Bangkok+10520%2C+Thailand", "images": ["assets/scenes/blank/016-pasted-image-20260622141709.webp", "assets/scenes/blank/017-pasted-image-20260622142447.webp", "assets/scenes/blank/018-pasted-image-20260622141754.webp"]}, {"id": "blank-02", "seriesKey": "Blank", "seriesSlug": "blank", "seriesTitle": "Blank 爱填满空白", "color": "#3c8fda", "title": "Barley Bar, 13/1 หมู่ 2 ถนนอ่อนนุช-ลาดกระบัง แขวงลาดกระบัง Lat Krabang, Bangkok 10520, Thailand", "address": "Barley Bar, 13/1 หมู่ 2 ถนนอ่อนนุช-ลาดกระบัง แขวงลาดกระบัง Lat Krabang, Bangkok 10520, Thailand", "lat": 13.7201938, "lng": 100.7152664, "maps": "https://www.google.com/maps/search/?api=1&query=Barley+Bar%2C+13%2F1+%E0%B8%AB%E0%B8%A1%E0%B8%B9%E0%B9%88+2+%E0%B8%96%E0%B8%99%E0%B8%99%E0%B8%AD%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B8%99%E0%B8%B8%E0%B8%8A-%E0%B8%A5%E0%B8%B2%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B1%E0%B8%87+%E0%B9%81%E0%B8%82%E0%B8%A7%E0%B8%87%E0%B8%A5%E0%B8%B2%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B1%E0%B8%87+Lat+Krabang%2C+Bangkok+10520%2C+Thailand+Barley+Bar%2C+13%2F1+%E0%B8%AB%E0%B8%A1%E0%B8%B9%E0%B9%88+2+%E0%B8%96%E0%B8%99%E0%B8%99%E0%B8%AD%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B8%99%E0%B8%B8%E0%B8%8A-%E0%B8%A5%E0%B8%B2%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B1%E0%B8%87+%E0%B9%81%E0%B8%82%E0%B8%A7%E0%B8%87%E0%B8%A5%E0%B8%B2%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%B1%E0%B8%87+Lat+Krabang%2C+Bangkok+10520%2C+Thailand", "images": ["assets/scenes/blank/019-pasted-image-20260622143024.webp", "assets/scenes/blank/020-pasted-image-20260622143053.webp", "assets/scenes/blank/021-pasted-image-20260622143110.webp"]}, {"id": "harmony-secret-01", "seriesKey": "Harmony Secret", "seriesSlug": "harmony-secret", "seriesTitle": "Harmony Secret 和谐密语", "color": "#18a999", "title": "Hey Gelato", "address": "21 Plaeng Nam Rd, Khwaeng Samphanthawong, Samphanthawong, Bangkok 10100", "lat": 13.7412086, "lng": 100.509992, "maps": "https://www.google.com/maps/search/?api=1&query=Hey+Gelato+21+Plaeng+Nam+Rd%2C+Khwaeng+Samphanthawong%2C+Samphanthawong%2C+Bangkok+10100", "images": ["assets/scenes/harmony-secret/022-pasted-image-20260622102657.webp", "assets/scenes/harmony-secret/023-pasted-image-20260622102702.webp"]}, {"id": "harmony-secret-02", "seriesKey": "Harmony Secret", "seriesSlug": "harmony-secret", "seriesTitle": "Harmony Secret 和谐密语", "color": "#18a999", "title": "The Printing House Poshtel Bangkok(floor 4)", "address": "140 Dinso Rd, Sao Chingcha, Phra Nakhon, Bangkok 10200, Thailand", "lat": 13.7548451, "lng": 100.501216, "maps": "https://www.google.com/maps/search/?api=1&query=The+Printing+House+Poshtel+Bangkok%28floor+4%29+140+Dinso+Rd%2C+Sao+Chingcha%2C+Phra+Nakhon%2C+Bangkok+10200%2C+Thailand", "images": ["assets/scenes/harmony-secret/024-pasted-image-20260622114823.webp"]}, {"id": "harmony-secret-03", "seriesKey": "Harmony Secret", "seriesSlug": "harmony-secret", "seriesTitle": "Harmony Secret 和谐密语", "color": "#18a999", "title": "The Speakeasy", "address": "55, 555 Lang Suan Rd, Lumphini, Pathum Wan, Bangkok 10330, Thailand", "lat": 13.7403357, "lng": 100.5433569, "maps": "https://www.google.com/maps/search/?api=1&query=The+Speakeasy+55%2C+555+Lang+Suan+Rd%2C+Lumphini%2C+Pathum+Wan%2C+Bangkok+10330%2C+Thailand", "images": ["assets/scenes/harmony-secret/025-pasted-image-20260622122642.webp"]}, {"id": "harmony-secret-04", "seriesKey": "Harmony Secret", "seriesSlug": "harmony-secret", "seriesTitle": "Harmony Secret 和谐密语", "color": "#18a999", "title": "Hotel Muse Bangkok, Autograph Collection", "address": "55, 555 Lang Suan Rd, Khwaeng Lumphini, Pathum Wan, Bangkok 10330, Thailand", "lat": 13.7403357, "lng": 100.5433569, "maps": "https://www.google.com/maps/search/?api=1&query=Hotel+Muse+Bangkok%2C+Autograph+Collection+55%2C+555+Lang+Suan+Rd%2C+Khwaeng+Lumphini%2C+Pathum+Wan%2C+Bangkok+10330%2C+Thailand", "images": ["assets/scenes/harmony-secret/026-pasted-image-20260622123213.webp", "assets/scenes/harmony-secret/027-pasted-image-20260622123538.webp", "assets/scenes/harmony-secret/028-pasted-image-20260622123554.webp"]}, {"id": "hello-is-this-luck-01", "seriesKey": "Hello, Is This Luck", "seriesSlug": "hello-is-this-luck", "seriesTitle": "Hello, Is This Luck 爱的魔力转圈圈之号码奇缘", "color": "#8b6f47", "title": "Abandoned Mansion", "address": "41 Soi Sukhumvit 14, Klongtoey, Bangkok 10110, Thailand", "lat": 13.7352744, "lng": 100.5601459, "maps": "https://www.google.com/maps/search/?api=1&query=Abandoned+Mansion+41+Soi+Sukhumvit+14%2C+Klongtoey%2C+Bangkok+10110%2C+Thailand", "images": ["assets/scenes/hello-is-this-luck/029-pasted-image-20260622141322.webp", "assets/scenes/hello-is-this-luck/030-pasted-image-20260622141349.webp"]}, {"id": "pluto-01", "seriesKey": "Pluto", "seriesSlug": "pluto", "seriesTitle": "Pluto 冥王星之恋", "color": "#6f63d9", "title": "Arobic & Yoga Class Under Rama VIII Bridge, QF9W+Q7J, Bang Yi Khan, Bang Phlat, Bangkok 10700, Thailand", "address": "Arobic & Yoga Class Under Rama VIII Bridge, QF9W+Q7J, Bang Yi Khan, Bang Phlat, Bangkok 10700, Thailand", "lat": 13.7691809, "lng": 100.4967465, "maps": "https://www.google.com/maps/search/?api=1&query=Arobic+%26+Yoga+Class+Under+Rama+VIII+Bridge%2C+QF9W%2BQ7J%2C+Bang+Yi+Khan%2C+Bang+Phlat%2C+Bangkok+10700%2C+Thailand+Arobic+%26+Yoga+Class+Under+Rama+VIII+Bridge%2C+QF9W%2BQ7J%2C+Bang+Yi+Khan%2C+Bang+Phlat%2C+Bangkok+10700%2C+Thailand", "images": ["assets/scenes/pluto/031-pasted-image-20260622110329.webp", "assets/scenes/pluto/032-pasted-image-20260622110556.webp", "assets/scenes/pluto/033-pasted-image-20260622110746.webp"]}, {"id": "pluto-02", "seriesKey": "Pluto", "seriesSlug": "pluto", "seriesTitle": "Pluto 冥王星之恋", "color": "#6f63d9", "title": "Science Center for Education (Planetarium Bangkok), 928 Sukhumvit Rd, Phra Khanong, Khlong Toei, Bangkok 10110, Thailand", "address": "Science Center for Education (Planetarium Bangkok), 928 Sukhumvit Rd, Phra Khanong, Khlong Toei, Bangkok 10110, Thailand", "lat": 13.7201111, "lng": 100.5830735, "maps": "https://www.google.com/maps/search/?api=1&query=Science+Center+for+Education+%28Planetarium+Bangkok%29%2C+928+Sukhumvit+Rd%2C+Phra+Khanong%2C+Khlong+Toei%2C+Bangkok+10110%2C+Thailand+Science+Center+for+Education+%28Planetarium+Bangkok%29%2C+928+Sukhumvit+Rd%2C+Phra+Khanong%2C+Khlong+Toei%2C+Bangkok+10110%2C+Thailand", "images": ["assets/scenes/pluto/034-pasted-image-20260622111035.webp", "assets/scenes/pluto/035-pasted-image-20260622111054.webp", "assets/scenes/pluto/036-pasted-image-20260622111022.webp", "assets/scenes/pluto/037-pasted-image-20260622111239.webp", "assets/scenes/pluto/038-pasted-image-20260622111140.webp"]}, {"id": "the-secret-of-us-01", "seriesKey": "The Secret of Us", "seriesSlug": "the-secret-of-us", "seriesTitle": "The Secret of Us 我们的秘密", "color": "#d64f9c", "title": "Ternajachob cafe", "address": "24 6 Chaloem Phrakiat Ratchakan Thi 9 Rd, ประเวศ Prawet, Bangkok 10250, Thailand", "lat": 13.6848125, "lng": 100.663319, "maps": "https://www.google.com/maps/search/?api=1&query=Ternajachob+cafe+24+6+Chaloem+Phrakiat+Ratchakan+Thi+9+Rd%2C+%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%A7%E0%B8%A8+Prawet%2C+Bangkok+10250%2C+Thailand", "images": ["assets/scenes/the-secret-of-us/039-pasted-image-20260622111530.webp", "assets/scenes/the-secret-of-us/040-pasted-image-20260622143343.webp", "assets/scenes/the-secret-of-us/041-pasted-image-20260622143354.webp", "assets/scenes/the-secret-of-us/042-pasted-image-20260622112130.webp", "assets/scenes/the-secret-of-us/043-pasted-image-20260622112849.webp"]}, {"id": "the-secret-of-us-02", "seriesKey": "The Secret of Us", "seriesSlug": "the-secret-of-us", "seriesTitle": "The Secret of Us 我们的秘密", "color": "#d64f9c", "title": "R Bar at Renaissance Bangkok Ratchaprasong Hotel", "address": "518, 1 Phloen Chit Rd, Lumphini, Pathum Wan, Bangkok 10330, Thailand", "lat": 13.74275, "lng": 100.5419338, "maps": "https://www.google.com/maps/search/?api=1&query=R+Bar+at+Renaissance+Bangkok+Ratchaprasong+Hotel+518%2C+1+Phloen+Chit+Rd%2C+Lumphini%2C+Pathum+Wan%2C+Bangkok+10330%2C+Thailand", "images": ["assets/scenes/the-secret-of-us/044-pasted-image-20260622113137.webp", "assets/scenes/the-secret-of-us/045-pasted-image-20260622113203.webp"]}, {"id": "us-01", "seriesKey": "US", "seriesSlug": "us", "seriesTitle": "US 我们的爱", "color": "#e85d75", "title": "J.R. Apartment เจอาร์ อพาร์ทเมนท์", "address": "670, ศาลเจ้าปุงเถ่ากง 792 Soi Charan Sanitwong 66/1, Bang Phlat, Bangkok 10700", "lat": 13.7844518, "lng": 100.4880844, "maps": "https://www.google.com/maps/search/?api=1&query=J.R.+Apartment+%E0%B9%80%E0%B8%88%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B9%8C+%E0%B8%AD%E0%B8%9E%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%97%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%97%E0%B9%8C+670%2C+%E0%B8%A8%E0%B8%B2%E0%B8%A5%E0%B9%80%E0%B8%88%E0%B9%89%E0%B8%B2%E0%B8%9B%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%96%E0%B9%88%E0%B8%B2%E0%B8%81%E0%B8%87+792+Soi+Charan+Sanitwong+66%2F1%2C+Bang+Phlat%2C+Bangkok+10700", "images": ["assets/scenes/us/046-pam.webp", "assets/scenes/us/047-pasted-image-20260622092631.webp"]}, {"id": "us-02", "seriesKey": "US", "seriesSlug": "us", "seriesTitle": "US 我们的爱", "color": "#e85d75", "title": "R house", "address": "26 ซ. 18 Bueng Kham Phroi, Lam Luk Ka District, Pathum Thani 12150", "lat": 13.9188396, "lng": 100.7228885, "maps": "https://www.google.com/maps/search/?api=1&query=R+house+26+%E0%B8%8B.+18+Bueng+Kham+Phroi%2C+Lam+Luk+Ka+District%2C+Pathum+Thani+12150", "images": ["assets/scenes/us/048-pasted-image-20260622092759.webp", "assets/scenes/us/049-pasted-image-20260622092834.webp", "assets/scenes/us/050-pasted-image-20260622092851.webp"]}, {"id": "us-03", "seriesKey": "US", "seriesSlug": "us", "seriesTitle": "US 我们的爱", "color": "#e85d75", "title": "สุรชัย อีเลคโทรนิคส์", "address": "336 Soi Charan Sanitwong 66, Bang Phlat, Bangkok 10700, Thailand", "lat": 13.7841059, "lng": 100.4892866, "maps": "https://www.google.com/maps/search/?api=1&query=%E0%B8%AA%E0%B8%B8%E0%B8%A3%E0%B8%8A%E0%B8%B1%E0%B8%A2+%E0%B8%AD%E0%B8%B5%E0%B9%80%E0%B8%A5%E0%B8%84%E0%B9%82%E0%B8%97%E0%B8%A3%E0%B8%99%E0%B8%B4%E0%B8%84%E0%B8%AA%E0%B9%8C+336+Soi+Charan+Sanitwong+66%2C+Bang+Phlat%2C+Bangkok+10700%2C+Thailand", "images": ["assets/scenes/us/051-pasted-image-20260622092955.webp", "assets/scenes/us/052-pasted-image-20260622093019.webp", "assets/scenes/us/053-pasted-image-20260622094853.webp"]}, {"id": "us-04", "seriesKey": "US", "seriesSlug": "us", "seriesTitle": "US 我们的爱", "color": "#e85d75", "title": "Opposite Nangloeng Market Bus stop", "address": "Wat Sommanat, Pom Prap Sattru Phai, Bangkok 10100, Thailand", "lat": 13.7597, "lng": 100.51212, "maps": "https://www.google.com/maps/search/?api=1&query=Opposite+Nangloeng+Market+Bus+stop+Wat+Sommanat%2C+Pom+Prap+Sattru+Phai%2C+Bangkok+10100%2C+Thailand", "images": ["assets/scenes/us/054-pasted-image-20260622093046.webp", "assets/scenes/us/055-pasted-image-20260622093144.webp"]}, {"id": "us-05", "seriesKey": "US", "seriesSlug": "us", "seriesTitle": "US 我们的爱", "color": "#e85d75", "title": "Opposite Office of the National Economic and Social Development Council", "address": "ตรงข้ามสภาพัฒน์\nBus stopWat Sommanat, Pom Prap Sattru Phai, Bangkok 10100, Thailand", "lat": 13.7581082, "lng": 100.5147647, "maps": "https://www.google.com/maps/search/?api=1&query=Opposite+Office+of+the+National+Economic+and+Social+Development+Council+%E0%B8%95%E0%B8%A3%E0%B8%87%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A1%E0%B8%AA%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%B1%E0%B8%92%E0%B8%99%E0%B9%8C%0ABus+stopWat+Sommanat%2C+Pom+Prap+Sattru+Phai%2C+Bangkok+10100%2C+Thailand", "images": ["assets/scenes/us/056-pasted-image-20260622093239.webp", "assets/scenes/us/057-pasted-image-20260622093120.webp"]}, {"id": "us-06", "seriesKey": "US", "seriesSlug": "us", "seriesTitle": "US 我们的爱", "color": "#e85d75", "title": "Aree Mansion อารีย์ แมนชั่น", "address": "39 Sukhumvit 26, Khlong Tan, Khlong Toei, Bangkok 10110", "lat": 13.7272898, "lng": 100.57006, "maps": "https://www.google.com/maps/search/?api=1&query=Aree+Mansion+%E0%B8%AD%E0%B8%B2%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B9%8C+%E0%B9%81%E0%B8%A1%E0%B8%99%E0%B8%8A%E0%B8%B1%E0%B9%88%E0%B8%99+39+Sukhumvit+26%2C+Khlong+Tan%2C+Khlong+Toei%2C+Bangkok+10110", "images": ["assets/scenes/us/058-pasted-image-20260622143507.webp", "assets/scenes/us/059-pasted-image-20260622143522.webp", "assets/scenes/us/060-pasted-image-20260622094657.webp", "assets/scenes/us/061-pasted-image-20260622094720.webp"]}, {"id": "whale-store-01", "seriesKey": "Whale Store", "seriesSlug": "whale-store", "seriesTitle": "Whale Store 鲸鱼杂货铺", "color": "#2f9c95", "title": "2425 Soi Borommabanphot", "address": "2425 Soi Borommabanphot, Khwaeng Ban Bat, Khet Pom Prap Sattru Phai, Krung Thep Maha Nakhon 10100, Thailand", "lat": 13.7543129, "lng": 100.5083609, "maps": "https://www.google.com/maps/search/?api=1&query=2425+Soi+Borommabanphot+2425+Soi+Borommabanphot%2C+Khwaeng+Ban+Bat%2C+Khet+Pom+Prap+Sattru+Phai%2C+Krung+Thep+Maha+Nakhon+10100%2C+Thailand", "images": ["assets/scenes/whale-store/062-pasted-image-20260622113824.webp", "assets/scenes/whale-store/063-pasted-image-20260622113838.webp"]}]};
+    const allSeriesKey = "__all__";
+    let activeSeries = allSeriesKey;
+    let activeSpot = null;
+    let lightboxSpot = null;
+    let lightboxIndex = 0;
+    let touchStartX = 0;
+    const markers = new Map();
+
+    const seriesArea = document.querySelector("#seriesArea");
+    const spotList = document.querySelector("#spotList");
+    const search = document.querySelector("#search");
+    const lightbox = document.querySelector("#lightbox");
+    const lightboxImage = document.querySelector("#lightboxImage");
+    const lightboxCaption = document.querySelector("#lightboxCaption");
+
+    const map = L.map("map", { zoomControl: false }).setView([13.745, 100.54], 11);
+    L.control.zoom({ position: "bottomright" }).addTo(map);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      subdomains: "abcd",
+      maxZoom: 20,
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+    }).addTo(map);
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[char]));
+    }
+
+    function posterFallback(seriesKey) {
+      const spot = appData.spots.find((item) => item.seriesKey === seriesKey && item.images.length);
+      return spot?.images[0] ?? "";
+    }
+
+    function selectedSeries() {
+      return appData.series.find((series) => series.key === activeSeries);
+    }
+
+    function renderSeries() {
+      const selected = selectedSeries();
+      if (selected) {
+        seriesArea.innerHTML = `<div class="filter-summary" style="--series-color:${esc(selected.color)}">
+          <img src="${esc(selected.poster || posterFallback(selected.key))}" alt="${esc(selected.title)} 封面">
+          <div>
+            <strong>${esc(selected.zh)}</strong>
+            <span>${esc(selected.en)} · ${esc(selected.release)} · ${selected.count} 处</span>
+            <div class="summary-actions">
+              <button class="mini-btn primary" type="button" data-series="${allSeriesKey}">返回剧名列表</button>
+            </div>
+          </div>
+        </div>`;
+        return;
+      }
+      seriesArea.innerHTML = "";
+    }
+
+    function filteredSpots() {
+      const term = search.value.trim().toLowerCase();
+      return appData.spots.filter((spot) => {
+        if (activeSeries !== allSeriesKey && spot.seriesKey !== activeSeries) return false;
+        if (activeSeries === allSeriesKey) return true;
+        if (!term) return true;
+        const text = `${spot.seriesTitle} ${spot.title} ${spot.address}`.toLowerCase();
+        return text.includes(term);
+      });
+    }
+
+    function filteredSeries() {
+      const term = search.value.trim().toLowerCase();
+      if (!term) return appData.series;
+      return appData.series.filter((series) => {
+        const text = `${series.title} ${series.en} ${series.zh} ${series.original} ${series.release}`.toLowerCase();
+        return text.includes(term);
+      });
+    }
+
+    function seriesRows() {
+      const data = filteredSeries();
+      if (!data.length) return `<div class="empty">没有匹配的剧名</div>`;
+      return `<div class="section-hint">选择剧名后查看地点</div><div class="series-list">${data.map((series) => `<button class="series-row" type="button" data-series="${esc(series.key)}" style="--series-color:${esc(series.color)};">
+        <img class="series-poster" src="${esc(series.poster || posterFallback(series.key))}" alt="${esc(series.title)} 封面" onerror="this.src='${esc(posterFallback(series.key))}'">
+        <span>
+          <h2>${esc(series.zh)}</h2>
+          <span class="en">${esc(series.en)}</span>
+          <span class="meta-line"><span>${esc(series.release)}</span><span>·</span><span>${series.count} Spots</span></span>
+        </span>
+        <span class="series-dot" aria-hidden="true"></span>
+      </button>`).join("")}</div>`;
+    }
+
+    function gallery(spot) {
+      return spot.images.map((src, index) => `<button class="scene-thumb" type="button" data-gallery="${esc(spot.id)}" data-index="${index}" aria-label="查看第 ${index + 1} 张剧照">
+        <img src="${esc(src)}" alt="剧中场景">
+      </button>`).join("");
+    }
+
+    function renderList() {
+      if (activeSeries === allSeriesKey) {
+        spotList.innerHTML = seriesRows();
+        return;
+      }
+      const data = filteredSpots();
+      if (!data.length) {
+        spotList.innerHTML = `<div class="empty">没有匹配的地点</div>`;
+        return;
+      }
+      spotList.innerHTML = data.map((spot) => `<article class="spot ${spot.id === activeSpot ? "active" : ""}" data-spot="${esc(spot.id)}" style="--spot-color:${esc(spot.color)}">
+        <div class="spot-main">
+          <div class="gallery">${gallery(spot)}</div>
+          <div class="spot-details">
+            <div class="spot-head">
+              <h2>${esc(spot.title)}</h2>
+            </div>
+            <p class="address">${esc(spot.address).replace(/\n/g, "<br>")}</p>
+            <div class="actions">
+              <button class="btn secondary" type="button" data-focus="${esc(spot.id)}">定位</button>
+              <a class="btn" href="${esc(spot.maps)}" target="_blank" rel="noreferrer">Google</a>
+            </div>
+          </div>
+        </div>
+      </article>`).join("");
+    }
+
+    function popupHtml(spot) {
+      const image = spot.images[0] ?? "";
+      return `<div class="popup">
+        <button type="button" data-gallery="${esc(spot.id)}" data-index="0" aria-label="查看剧照">
+          <img src="${esc(image)}" alt="${esc(spot.title)}">
+        </button>
+        <strong>${esc(spot.title)}</strong>
+        <span>${esc(spot.seriesTitle)} · ${spot.images.length} 张图</span>
+        <a href="${esc(spot.maps)}" target="_blank" rel="noreferrer">Google Maps</a>
+      </div>`;
+    }
+
+    function renderMarkers() {
+      appData.spots.forEach((spot, index) => {
+        const icon = L.divIcon({
+          className: "",
+          html: `<div class="marker" style="--marker-color:${esc(spot.color)}"><span>${index + 1}</span></div>`,
+          iconSize: [30, 30],
+          iconAnchor: [15, 28],
+          popupAnchor: [0, -24]
+        });
+        const marker = L.marker([spot.lat, spot.lng], { icon }).addTo(map).bindPopup(popupHtml(spot));
+        marker.on("click", () => selectSpot(spot.id, false));
+        markers.set(spot.id, marker);
+      });
+      updateMarkerVisibility();
+      fitVisibleMarkers();
+    }
+
+    function updateMarkerVisibility() {
+      const visibleIds = new Set(filteredSpots().map((spot) => spot.id));
+      appData.spots.forEach((spot) => {
+        const marker = markers.get(spot.id);
+        if (!marker) return;
+        if (visibleIds.has(spot.id)) {
+          if (!map.hasLayer(marker)) marker.addTo(map);
+        } else if (map.hasLayer(marker)) {
+          marker.remove();
+        }
+      });
+    }
+
+    function fitVisibleMarkers() {
+      const data = filteredSpots();
+      if (!data.length) return;
+      updateMarkerVisibility();
+      const group = L.featureGroup(data.map((spot) => markers.get(spot.id)).filter(Boolean));
+      map.fitBounds(group.getBounds().pad(0.18));
+    }
+
+    function selectSpot(id, openPopup = true) {
+      const spot = appData.spots.find((item) => item.id === id);
+      if (!spot) return;
+      activeSpot = id;
+      renderList();
+      map.flyTo([spot.lat, spot.lng], Math.max(map.getZoom(), 15), { duration: 0.65 });
+      if (openPopup) markers.get(id)?.openPopup();
+      document.querySelector(`[data-spot="${CSS.escape(id)}"]`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+
+    function openLightbox(spotId, index) {
+      const spot = appData.spots.find((item) => item.id === spotId);
+      if (!spot || !spot.images.length) return;
+      lightboxSpot = spot;
+      lightboxIndex = Number(index) || 0;
+      updateLightbox();
+      lightbox.hidden = false;
+    }
+
+    function updateLightbox() {
+      if (!lightboxSpot) return;
+      const total = lightboxSpot.images.length;
+      lightboxIndex = (lightboxIndex + total) % total;
+      lightboxImage.src = lightboxSpot.images[lightboxIndex];
+      lightboxCaption.textContent = `${lightboxSpot.seriesTitle} · ${lightboxSpot.title} · ${lightboxIndex + 1} / ${total}`;
+    }
+
+    function closeLightbox() {
+      lightbox.hidden = true;
+      lightboxSpot = null;
+      lightboxImage.removeAttribute("src");
+    }
+
+    function shiftLightbox(delta) {
+      if (!lightboxSpot) return;
+      lightboxIndex += delta;
+      updateLightbox();
+    }
+
+    seriesArea.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-series]");
+      if (!button) return;
+      activeSeries = button.dataset.series;
+      activeSpot = null;
+      search.value = "";
+      renderSeries();
+      renderList();
+      fitVisibleMarkers();
+    });
+
+    spotList.addEventListener("click", (event) => {
+      const seriesButton = event.target.closest(".series-row[data-series]");
+      if (seriesButton) {
+        activeSeries = seriesButton.dataset.series;
+        activeSpot = null;
+        search.value = "";
+        renderSeries();
+        renderList();
+        fitVisibleMarkers();
+        return;
+      }
+      const galleryButton = event.target.closest("[data-gallery]");
+      if (galleryButton) {
+        openLightbox(galleryButton.dataset.gallery, galleryButton.dataset.index);
+        return;
+      }
+      const focus = event.target.closest("[data-focus]");
+      if (focus) {
+        selectSpot(focus.dataset.focus);
+        return;
+      }
+      const card = event.target.closest("[data-spot]");
+      if (card && !event.target.closest("a")) selectSpot(card.dataset.spot);
+    });
+
+    document.addEventListener("click", (event) => {
+      const galleryButton = event.target.closest(".leaflet-popup [data-gallery]");
+      if (galleryButton) openLightbox(galleryButton.dataset.gallery, galleryButton.dataset.index);
+    });
+
+    search.addEventListener("input", () => {
+      renderList();
+      fitVisibleMarkers();
+    });
+
+    document.querySelector("#lightboxClose").addEventListener("click", closeLightbox);
+    document.querySelector("#lightboxPrev").addEventListener("click", () => shiftLightbox(-1));
+    document.querySelector("#lightboxNext").addEventListener("click", () => shiftLightbox(1));
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+    lightbox.addEventListener("touchstart", (event) => {
+      touchStartX = event.changedTouches[0]?.clientX ?? 0;
+    }, { passive: true });
+    lightbox.addEventListener("touchend", (event) => {
+      const endX = event.changedTouches[0]?.clientX ?? touchStartX;
+      const delta = endX - touchStartX;
+      if (Math.abs(delta) > 42) shiftLightbox(delta > 0 ? -1 : 1);
+    }, { passive: true });
+    document.addEventListener("keydown", (event) => {
+      if (lightbox.hidden) return;
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowLeft") shiftLightbox(-1);
+      if (event.key === "ArrowRight") shiftLightbox(1);
+    });
+
+    renderSeries();
+    renderList();
+    renderMarkers();
+    if (activeSpot) markers.get(activeSpot)?.openPopup();
+  </script>
+</body>
+</html>
