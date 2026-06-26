@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>I–V 曲线绘图 / I–V Plotter</title>
+  <meta name="description" content="I–V curve plotter for CSV/TXT/XLSX files with file picker, log axis options, editable legends, and bilingual UI.">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    :root{
+      color-scheme: light;
+      --bg:#f5f7f7;
+      --paper:#ffffff;
+      --ink:#172026;
+      --muted:#64717a;
+      --line:#d9e1e3;
+      --line-strong:#c8d3d7;
+      --forest:#456b5c;
+      --fjord:#537c91;
+      --clay:#b9785f;
+      --soft:#eef3f2;
+      --warn:#9b5b28;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;line-height:1.36;font-size:12.5px}
+    a{color:var(--fjord);text-decoration:none}a:hover{text-decoration:underline}
+    .wrap{max-width:1280px;margin:0 auto;padding:10px 10px 20px}
+    header{background:linear-gradient(135deg,#ffffff,#eef4f2);border:1px solid var(--line);border-radius:16px;padding:12px 16px 10px;box-shadow:0 6px 18px rgba(37,56,63,.055)}
+    .topbar{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+    h1{font-size:clamp(20px,2.4vw,30px);line-height:1.12;margin:0 0 5px;letter-spacing:-.02em}
+    .subtitle{max-width:940px;color:var(--muted);font-size:12.5px;margin:0}
+    .lang{display:flex;gap:4px;background:#fff;border:1px solid var(--line);padding:4px;border-radius:999px;white-space:nowrap}
+    .lang button{border:0;background:transparent;border-radius:999px;padding:5px 9px;cursor:pointer;color:var(--muted);font-weight:700;font-size:12px}
+    .lang button.active{background:var(--forest);color:#fff}
+    .grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:10px;margin-top:10px}
+    .panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 6px 18px rgba(37,56,63,.045)}
+    .panel h2{font-size:14px;margin:0 0 7px}.panel h3{font-size:12px;margin:9px 0 5px;color:var(--forest)}
+    .stack{display:grid;gap:7px}.row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.two{display:grid;grid-template-columns:1fr 1fr;gap:7px}.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}.four{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+    label{display:grid;gap:3px;font-size:11px;color:var(--muted);font-weight:700}
+    input,select,button,textarea{font:inherit}
+    input[type="text"],input[type="number"],select{width:100%;border:1px solid var(--line-strong);border-radius:8px;padding:5px 7px;background:#fff;color:var(--ink);min-width:0;font-size:12px}
+    input[type="checkbox"]{transform:translateY(1px)}
+    .btn{border:1px solid var(--line-strong);border-radius:9px;background:#fff;color:var(--ink);padding:6px 9px;cursor:pointer;font-weight:800;font-size:12px}
+    .btn.primary{background:var(--forest);color:#fff;border-color:var(--forest)}.btn.clay{background:var(--clay);color:#fff;border-color:var(--clay)}.btn:hover{filter:brightness(.98)}
+    .hint{font-size:11px;color:var(--muted);margin:2px 0 0}.warn{font-size:11px;color:var(--warn);background:#fff8ef;border:1px solid #ecd6bd;border-radius:9px;padding:6px 8px}
+    .filebox{border:1px dashed var(--line-strong);background:var(--soft);border-radius:10px;padding:8px;text-align:center}.filebox strong{display:block;margin-bottom:3px;font-size:12px}
+    #fileInput{display:none}
+    .file-list{display:grid;gap:4px;max-height:190px;overflow:auto;margin-top:7px;padding-right:3px}
+    .file-row{display:grid;grid-template-columns:20px minmax(70px,.9fr) minmax(88px,1fr) 34px;gap:5px;padding:4px 5px;border:1px solid var(--line);border-radius:8px;background:#fff;align-items:center}
+    .file-name{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.file-row input[type="text"]{padding:4px 5px}.file-row input[type="checkbox"]{align-self:center}.file-row input[type="color"]{width:30px;height:26px;border:1px solid var(--line-strong);border-radius:7px;padding:1px;background:#fff;cursor:pointer}
+    .plot-wrap{min-height:0}.plot-header{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}.plot-header .row{justify-content:flex-end}.plot-header h2{margin:0}
+    .plot-frame{width:100%;max-width:760px;margin:0 auto}
+    #plot{width:100%;height:500px;min-height:0;border:1px solid var(--line);border-radius:12px;background:#fff}
+    #messages{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;color:#334;margin-top:8px;background:#f8faf9;border:1px solid var(--line);border-radius:9px;padding:7px;max-height:150px;overflow:auto}
+    details{border:1px solid var(--line);border-radius:10px;padding:6px 8px;background:#fbfcfc}summary{cursor:pointer;font-weight:800;color:var(--forest);font-size:12px}
+    footer{margin-top:12px;color:var(--muted);font-size:11px;text-align:center}.copyright{border-top:1px solid var(--line);padding-top:10px;margin-top:12px}
+    @media(max-width:980px){.grid{grid-template-columns:1fr}.two,.three,.four{grid-template-columns:1fr 1fr}.topbar{flex-direction:column}.plot-frame{max-width:100%}#plot{height:460px}}
+    @media(max-width:560px){.two,.three,.four{grid-template-columns:1fr}.wrap{padding:18px 12px}.panel{padding:13px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="topbar">
+      <div>
+        <h1 data-i18n="title">I–V 曲线绘图工具</h1>
+        <p class="subtitle" data-i18n="subtitle">支持 CSV/TXT/XLSX/XLSM 文件选择、X/Y 对数坐标、图例修改、区间筛选、按文件类型解析与 Y 缩放。</p>
+      </div>
+      <div class="lang" aria-label="language switch">
+        <button id="zhBtn" class="active" type="button">中文</button>
+        <button id="enBtn" type="button">English</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="grid">
+    <aside class="panel stack">
+      <section>
+        <h2 data-i18n="fileTitle">1. 选择文件</h2>
+        <div class="filebox" id="dropZone">
+          <strong data-i18n="fileBoxTitle">点击按钮选择 I–V 文件</strong>
+          <p class="hint" data-i18n="fileBoxHint">可多选 .csv / .txt / .xlsx / .xlsm。无需输入本地路径。</p>
+          <div class="row" style="justify-content:center;margin-top:10px">
+            <button class="btn primary" type="button" id="chooseBtn" data-i18n="chooseBtn">选择文件</button>
+            <button class="btn" type="button" id="clearBtn" data-i18n="clearBtn">清空</button>
+          </div>
+          <input id="fileInput" type="file" multiple accept=".csv,.txt,.xlsx,.xlsm">
+        </div>
+        <div id="fileList" class="file-list"></div>
+      </section>
+
+      <section>
+        <h2 data-i18n="displayTitle">2. 显示设置</h2>
+        <div class="two">
+          <label><span data-i18n="xLabel">X轴标题</span><input id="xLabel" type="text" value="V (V)"></label>
+          <label><span data-i18n="yLabel">Y轴标题</span><input id="yLabel" type="text" value="I (A)"></label>
+        </div>
+        <div class="two">
+          <label><span data-i18n="xScale">X轴模式</span><select id="xMode"><option value="linear">Linear V</option><option value="logabs">Log V (&gt;0)</option></select></label>
+          <label><span data-i18n="yScale">Y轴模式</span><select id="yMode"><option value="logabs">Log(|I|)</option><option value="linear">Linear I</option></select></label>
+        </div>
+        <div class="two">
+          <label><span data-i18n="fontSize">字体大小</span><input id="fontSize" type="number" value="11" min="8" max="24" step="1"></label>
+          <label><span data-i18n="aspect">图像尺寸</span><select id="aspect"><option value="compact" selected>紧凑 760×500</option><option value="standard">标准 840×560</option><option value="large">大图 960×640</option></select></label>
+        </div>
+        <div class="row">
+          <label style="display:flex;gap:6px;align-items:center"><input id="showLegend" type="checkbox" checked><span data-i18n="showLegend">显示图例</span></label>
+          <label style="display:flex;gap:6px;align-items:center"><input id="stripExt" type="checkbox" checked><span data-i18n="stripExt">默认图例去扩展名</span></label>
+        </div>
+        <p class="hint" data-i18n="colorNote">每个文件列表右侧都有颜色选择器，可直接点击选择曲线颜色。</p>
+        <label><span data-i18n="styles">线型，逗号分隔</span><input id="styles" type="text" placeholder="solid,dash,dot,dashdot"></label>
+        <p class="hint" data-i18n="logNote">X 轴取 log 时只绘制 V &gt; 0；Y 轴取 log 时只显示 5–8 个电流刻度，优先使用 1/2/5 这类整数尾数。</p>
+      </section>
+
+      <details>
+        <summary data-i18n="rangeTitle">区间筛选</summary>
+        <div class="stack" style="margin-top:10px">
+          <label style="display:flex;gap:6px;align-items:center"><input id="rangeEnable" type="checkbox"><span data-i18n="rangeEnable">启用区间筛选</span></label>
+          <div class="two">
+            <label><span data-i18n="rangeMode">筛选方式</span><select id="rangeMode"><option value="voltage">By voltage</option><option value="index">By index</option></select></label>
+            <label><span data-i18n="vrr">整流比电压 V_rr</span><input id="vrrInput" type="number" value="1" step="any"></label>
+          </div>
+          <div class="four">
+            <label>V_min<input id="vmin" type="text" placeholder="blank"></label>
+            <label>V_max<input id="vmax" type="text" placeholder="blank"></label>
+            <label>i_start<input id="istart" type="text" placeholder="0"></label>
+            <label>i_end<input id="iend" type="text" placeholder="end"></label>
+          </div>
+          <label style="display:flex;gap:6px;align-items:center"><input id="markRR" type="checkbox"><span data-i18n="markRR">标记整流比点</span></label>
+        </div>
+      </details>
+
+      <details>
+        <summary data-i18n="parseTitle">解析参数</summary>
+        <div class="stack" style="margin-top:10px">
+          <h3>CSV</h3>
+          <div class="three"><label>Start line<input id="csvStart" type="number" value="256"></label><label>V col<input id="csvV" type="number" value="2"></label><label>I col<input id="csvI" type="number" value="3"></label></div>
+          <h3>TXT</h3>
+          <div class="three"><label>Start line<input id="txtStart" type="number" value="1"></label><label>V col<input id="txtV" type="number" value="2"></label><label>I col<input id="txtI" type="number" value="3"></label></div>
+          <h3>XLSX / XLSM</h3>
+          <label>Sheet name<input id="xlsxSheet" type="text" placeholder="blank=auto List(...)"></label>
+          <div class="three"><label>Start line<input id="xlsxStart" type="number" value="0"></label><label>V col<input id="xlsxV" type="number" value="0"></label><label>I col<input id="xlsxI" type="number" value="0"></label></div>
+          <p class="hint" data-i18n="xlsxHint">Excel 列号设为 0 时自动识别 V/I 列，并优先读取 List(...) 工作表。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary data-i18n="scaleTitle">按文件类型设置 Y 缩放</summary>
+        <div class="stack" style="margin-top:10px">
+          <h3>CSV</h3><div class="four"><label>×<input id="csvMul" type="number" value="1" step="any"></label><label>÷<input id="csvDiv" type="number" value="1" step="any"></label><label>+<input id="csvAdd" type="number" value="0" step="any"></label><label>−<input id="csvSub" type="number" value="0" step="any"></label></div>
+          <h3>TXT</h3><div class="four"><label>×<input id="txtMul" type="number" value="1" step="any"></label><label>÷<input id="txtDiv" type="number" value="1" step="any"></label><label>+<input id="txtAdd" type="number" value="0" step="any"></label><label>−<input id="txtSub" type="number" value="0" step="any"></label></div>
+          <h3>XLSX / XLSM</h3><div class="four"><label>×<input id="xlsxMul" type="number" value="1" step="any"></label><label>÷<input id="xlsxDiv" type="number" value="1" step="any"></label><label>+<input id="xlsxAdd" type="number" value="0" step="any"></label><label>−<input id="xlsxSub" type="number" value="0" step="any"></label></div>
+        </div>
+      </details>
+
+      <section class="row">
+        <button class="btn primary" type="button" id="plotBtn" data-i18n="plotBtn">绘图</button>
+        <button class="btn clay" type="button" id="exportBtn" data-i18n="exportBtn">导出 PNG</button>
+      </section>
+      <div class="warn" data-i18n="cdnNote">说明：网页端 Excel 解析依赖 SheetJS，绘图依赖 Plotly。部署到 GitHub Pages 时可正常通过 CDN 加载。</div>
+    </aside>
+
+    <section class="panel plot-wrap">
+      <div class="plot-header">
+        <h2 data-i18n="plotTitle">曲线图</h2>
+        <div class="row"><span class="hint" id="fileCount">0 files</span></div>
+      </div>
+      <div class="plot-frame"><div id="plot"></div></div>
+      <div id="messages" data-i18n="messagePlaceholder">等待选择文件。</div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="copyright">
+      <div>© 2026 Li Yang. All rights reserved.</div>
+      <div><a href="https://liyang20021203.github.io/usefulweb/index.html" target="_blank" rel="noopener">黑科技VIP会客厅 / Technology VIP Lounge</a></div>
+    </div>
+  </footer>
+</div>
+
+<script>
+const I18N = {
+  zh: {
+    title:'I–V 曲线绘图工具', subtitle:'支持 CSV/TXT/XLSX/XLSM 文件选择、X/Y 对数坐标、图例修改、区间筛选、按文件类型解析与 Y 缩放。',
+    fileTitle:'1. 选择文件', fileBoxTitle:'点击按钮选择 I–V 文件', fileBoxHint:'可多选 .csv / .txt / .xlsx / .xlsm。无需输入本地路径。', chooseBtn:'选择文件', clearBtn:'清空',
+    displayTitle:'2. 显示设置', xLabel:'X轴标题', yLabel:'Y轴标题', xScale:'X轴模式', yScale:'Y轴模式', fontSize:'字体大小', aspect:'图像尺寸', showLegend:'显示图例', stripExt:'默认图例去扩展名', colorNote:'每个文件列表右侧都有颜色选择器，可直接点击选择曲线颜色。', styles:'线型，逗号分隔', logNote:'X 轴取 log 时只绘制 V > 0；Y 轴取 log 时只显示 5–8 个电流刻度，优先使用 1/2/5 这类整数尾数与 10ⁿ 格式。',
+    rangeTitle:'区间筛选', rangeEnable:'启用区间筛选', rangeMode:'筛选方式', vrr:'整流比电压 V_rr', markRR:'标记整流比点', parseTitle:'解析参数', xlsxHint:'Excel 列号设为 0 时自动识别 V/I 列，并优先读取 List(...) 工作表。', scaleTitle:'按文件类型设置 Y 缩放', plotBtn:'绘图', exportBtn:'导出 PNG', cdnNote:'说明：网页端 Excel 解析依赖 SheetJS，绘图依赖 Plotly。部署到 GitHub Pages 时可正常通过 CDN 加载。', plotTitle:'曲线图', messagePlaceholder:'等待选择文件。', legend:'图例', selected:'选择', noFiles:'请先选择至少一个文件。', noPlot:'没有可绘制数据。', parsed:'已解析', empty:'未解析到有效数据', xlog:'X轴为 log(V)，只绘制 V > 0；非正电压点已自动跳过，并使用固定刻度。'
+  },
+  en: {
+    title:'I–V Plotter', subtitle:'CSV/TXT/XLSX/XLSM file picker, X/Y log-axis options, editable legends, range filter, file-type-specific parsing and Y scaling.',
+    fileTitle:'1. Choose files', fileBoxTitle:'Click the button to choose I–V files', fileBoxHint:'Multiple .csv / .txt / .xlsx / .xlsm files are supported. No local path input is required.', chooseBtn:'Choose files', clearBtn:'Clear',
+    displayTitle:'2. Display settings', xLabel:'X label', yLabel:'Y label', xScale:'X mode', yScale:'Y mode', fontSize:'Font size', aspect:'Plot size', showLegend:'Show legend', stripExt:'Strip extension by default', colorNote:'Each file row has a visual color picker for its curve color.', styles:'Line styles, comma-separated', logNote:'When X log is enabled, only V > 0 is plotted; Y-log uses only 5–8 current ticks and prefers integer mantissas 1/2/5 with 10ⁿ notation.',
+    rangeTitle:'Range filter', rangeEnable:'Enable range filter', rangeMode:'Filter mode', vrr:'Rectification voltage V_rr', markRR:'Mark RR points', parseTitle:'Parsing parameters', xlsxHint:'When Excel column numbers are 0, V/I columns are auto-detected, and List(...) sheets are preferred.', scaleTitle:'Y scaling by file type', plotBtn:'Plot', exportBtn:'Export PNG', cdnNote:'Note: Excel parsing uses SheetJS and plotting uses Plotly. They load normally from CDN when deployed on GitHub Pages.', plotTitle:'Plot', messagePlaceholder:'Waiting for files.', legend:'Legend', selected:'Selected', noFiles:'Please choose at least one file first.', noPlot:'No plottable data.', parsed:'Parsed', empty:'No valid data parsed', xlog:'X axis is log(V); only V > 0 is plotted. Non-positive voltage points were skipped and fixed ticks were applied.'
+  }
+};
+let lang = 'zh';
+let fileRecords = [];
+const DEFAULT_COLORS = ['#1f77b4','#ff7f0e','#2ca02c','#d62728','#9467bd','#8c564b','#e377c2','#7f7f7f','#bcbd22','#17becf'];
+let lastPlot = false;
+
+const $ = id => document.getElementById(id);
+function t(key){ return I18N[lang][key] || key; }
+function setLang(next){
+  lang = next;
+  document.documentElement.lang = next === 'zh' ? 'zh-Hans' : 'en';
+  document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if(I18N[lang][key]) el.textContent = I18N[lang][key]; });
+  $('zhBtn').classList.toggle('active', lang === 'zh');
+  $('enBtn').classList.toggle('active', lang === 'en');
+  renderFileList();
+  updateFileCount();
+}
+$('zhBtn').addEventListener('click', () => setLang('zh'));
+$('enBtn').addEventListener('click', () => setLang('en'));
+
+function logMsg(lines){ $('messages').textContent = Array.isArray(lines) ? lines.join('\n') : String(lines); }
+function updateFileCount(){ $('fileCount').textContent = `${fileRecords.length} files`; }
+
+$('chooseBtn').addEventListener('click', () => $('fileInput').click());
+$('clearBtn').addEventListener('click', () => { fileRecords = []; $('fileInput').value = ''; renderFileList(); updateFileCount(); Plotly.purge('plot'); logMsg(t('messagePlaceholder')); });
+$('fileInput').addEventListener('change', async ev => {
+  const files = Array.from(ev.target.files || []);
+  const newRecords = [];
+  for(const f of files){
+    const buffer = await f.arrayBuffer();
+    newRecords.push({name:f.name, buffer, selected:true, legend:stripExt(f.name), color:DEFAULT_COLORS[(fileRecords.length + newRecords.length) % DEFAULT_COLORS.length]});
+  }
+  const byName = new Map(fileRecords.map(r => [r.name, r]));
+  for(const r of newRecords) byName.set(r.name, r);
+  fileRecords = Array.from(byName.values());
+  renderFileList();
+  updateFileCount();
+  logMsg(`${t('parsed')}: ${fileRecords.map(r=>r.name).join(', ')}`);
+});
+
+function renderFileList(){
+  const box = $('fileList'); box.innerHTML = '';
+  fileRecords.forEach((rec, idx) => {
+    const row = document.createElement('div'); row.className = 'file-row';
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = rec.selected; cb.title = t('selected'); cb.addEventListener('change', () => rec.selected = cb.checked);
+    const name = document.createElement('div'); name.className = 'file-name'; name.textContent = rec.name;
+    const legend = document.createElement('input'); legend.type = 'text'; legend.value = rec.legend || stripExt(rec.name); legend.placeholder = t('legend'); legend.addEventListener('input', () => rec.legend = legend.value);
+    const color = document.createElement('input'); color.type = 'color'; color.value = rec.color || DEFAULT_COLORS[idx % DEFAULT_COLORS.length]; color.title = 'Color / 颜色'; color.addEventListener('input', () => rec.color = color.value);
+    row.appendChild(cb); row.appendChild(name); row.appendChild(legend); row.appendChild(color); box.appendChild(row);
+  });
+}
+
+function stripExt(name){ return name.replace(/\.[^.]+$/, ''); }
+function extOf(name){ const m = name.toLowerCase().match(/\.([a-z0-9]+)$/); return m ? m[1] : ''; }
+function numVal(id){ const v = parseFloat($(id).value); return Number.isFinite(v) ? v : 0; }
+function intVal(id){ const v = parseInt($(id).value, 10); return Number.isFinite(v) ? v : 0; }
+function optionalNum(id){ const s = $(id).value.trim(); if(!s) return null; const v = parseFloat(s); return Number.isFinite(v) ? v : null; }
+
+function decodeText(buffer){
+  try { return new TextDecoder('utf-8').decode(buffer); } catch(e) {}
+  try { return new TextDecoder('gb18030').decode(buffer); } catch(e) {}
+  return new TextDecoder('latin1').decode(buffer);
+}
+function toFloatMaybe(x){
+  if(x === null || x === undefined) return null;
+  if(typeof x === 'number' && Number.isFinite(x)) return x;
+  const s = String(x).trim();
+  const m = s.match(/^([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)/);
+  if(!m) return null;
+  const v = parseFloat(m[1]);
+  return Number.isFinite(v) ? v : null;
+}
+function detectDelimiter(sample){
+  const candidates = [',',';','\t']; let best = ',', bestScore = -1;
+  for(const d of candidates){
+    const lines = sample.split(/\r?\n/).slice(0,20).filter(Boolean);
+    const counts = lines.map(l => splitCSVLine(l,d).length);
+    const score = counts.reduce((a,b)=>a+b,0) - new Set(counts).size;
+    if(score > bestScore){ bestScore = score; best = d; }
+  }
+  return best;
+}
+function splitCSVLine(line, delim){
+  const out = []; let cur = '', inQ = false;
+  for(let i=0;i<line.length;i++){
+    const ch = line[i];
+    if(ch === '"'){
+      if(inQ && line[i+1] === '"'){ cur += '"'; i++; }
+      else inQ = !inQ;
+    } else if(ch === delim && !inQ){ out.push(cur); cur = ''; }
+    else cur += ch;
+  }
+  out.push(cur); return out;
+}
+function sortByV(V,I){
+  const arr = V.map((v,i)=>[v,I[i]]).sort((a,b)=>a[0]-b[0]);
+  return {V:arr.map(x=>x[0]), I:arr.map(x=>x[1])};
+}
+function parseCSVText(name, text, startLine, vCol, iCol){
+  const lines = text.split(/\r?\n/);
+  const start = Math.max(1, startLine) - 1;
+  const sample = lines.slice(start, start+50).join('\n');
+  const delim = detectDelimiter(sample);
+  const vIdx = vCol - 1, iIdx = iCol - 1;
+  const V = [], I = [];
+  for(const line of lines.slice(start)){
+    if(!line.trim()) continue;
+    const row = splitCSVLine(line, delim);
+    if(row.length <= Math.max(vIdx,iIdx)) continue;
+    const v = toFloatMaybe(row[vIdx]), cur = toFloatMaybe(row[iIdx]);
+    if(v === null || cur === null) continue;
+    V.push(v); I.push(cur);
+  }
+  return sortByV(V,I);
+}
+function parseTXTText(text, startLine, vCol, iCol){
+  const lines = text.split(/\r?\n/);
+  const start = Math.max(1, startLine) - 1;
+  const vIdx = vCol - 1, iIdx = iCol - 1;
+  const need = Math.max(vIdx, iIdx) + 1;
+  const V=[], I=[];
+  for(const line of lines.slice(start)){
+    const vals = line.trim().replace(/,/g,' ').split(/\s+/).map(toFloatMaybe).filter(v => v !== null);
+    if(vals.length >= need){ V.push(vals[vIdx]); I.push(vals[iIdx]); }
+  }
+  return sortByV(V,I);
+}
+function normHeader(value){ return String(value ?? '').trim().toLowerCase().replace(/[^a-z0-9]+/g,''); }
+function isVHeader(n){ return !!n && (['v','vd','vg','vs','vb','vds','vgs','voltage','voltagev','biasv','sweepv'].includes(n) || (n.startsWith('v') && !['var','value'].includes(n))); }
+function isIHeader(n){ return !!n && (['i','id','ig','is','ib','ids','igs','current','currenta'].includes(n) || (n.startsWith('i') && !['index','item'].includes(n))); }
+function suffix(n,p){ return n.startsWith(p) ? n.slice(p.length) : ''; }
+function pickColumnsFromHeader(row, vCol, iCol){
+  const headers = row.map(normHeader);
+  let vIdx = vCol > 0 ? vCol - 1 : null;
+  let iIdx = iCol > 0 ? iCol - 1 : null;
+  const vs = headers.map((n,i)=>isVHeader(n)?i:null).filter(i=>i!==null);
+  const is = headers.map((n,i)=>isIHeader(n)?i:null).filter(i=>i!==null);
+  if(vIdx === null){ if(!vs.length) return null; vIdx = vs[0]; }
+  if(iIdx === null){
+    if(!is.length) return null;
+    const s = suffix(headers[vIdx], 'v');
+    const paired = is.filter(i => suffix(headers[i], 'i') === s && i !== vIdx);
+    const after = is.filter(i => i > vIdx && i !== vIdx);
+    iIdx = (paired[0] ?? after[0] ?? is[0]);
+  }
+  if(vIdx === iIdx || vIdx < 0 || iIdx < 0) return null;
+  return [vIdx, iIdx];
+}
+function collectNumeric(rows, vIdx, iIdx, minPoints=3){
+  const V=[], I=[]; let seen=false, bad=0; const need = Math.max(vIdx,iIdx)+1;
+  for(const row of rows){
+    if(!row || row.length < need){ if(seen) bad++; continue; }
+    const v = toFloatMaybe(row[vIdx]), cur = toFloatMaybe(row[iIdx]);
+    if(v === null || cur === null){ if(seen){ bad++; if(bad >= 10) break; } continue; }
+    V.push(v); I.push(cur); seen = true; bad = 0;
+  }
+  if(V.length < minPoints) return null;
+  return sortByV(V,I);
+}
+function bestNumericPair(rows, startRow, vCol, iCol, minPoints=3){
+  rows = rows.slice(Math.max(0, startRow));
+  const maxCols = rows.reduce((m,r)=>Math.max(m, r ? r.length : 0), 0);
+  const manualV = vCol > 0 ? vCol - 1 : null;
+  const manualI = iCol > 0 ? iCol - 1 : null;
+  let pairs = [];
+  if(manualV !== null && manualI !== null) pairs = [[manualV, manualI]];
+  else {
+    const vCols = manualV !== null ? [manualV] : Array.from({length:maxCols},(_,i)=>i);
+    const iCols = manualI !== null ? [manualI] : Array.from({length:maxCols},(_,i)=>i);
+    for(const v of vCols) for(const i of iCols) if(v !== i) pairs.push([v,i]);
+  }
+  let best = null;
+  for(const [v,i] of pairs){
+    const found = collectNumeric(rows, v, i, minPoints);
+    if(found && (!best || found.V.length > best.V.length)) best = found;
+  }
+  return best;
+}
+function parseXLSX(name, buffer, sheetName, startLine, vCol, iCol){
+  if(typeof XLSX === 'undefined') throw new Error('SheetJS/XLSX is not loaded.');
+  const wb = XLSX.read(buffer, {type:'array'});
+  let sheets = [];
+  if(sheetName && wb.SheetNames.includes(sheetName)) sheets = [sheetName];
+  else {
+    const list = wb.SheetNames.filter(s => s.toLowerCase().startsWith('list'));
+    const data = wb.SheetNames.filter(s => /data|table/i.test(s) && !list.includes(s));
+    sheets = [...list, ...data, ...wb.SheetNames.filter(s => !list.includes(s) && !data.includes(s))];
+  }
+  const startIdx = startLine > 0 ? startLine - 1 : null;
+  for(const s of sheets){
+    const rows = XLSX.utils.sheet_to_json(wb.Sheets[s], {header:1, raw:false, defval:''});
+    if(startIdx !== null && vCol > 0 && iCol > 0){
+      const found = bestNumericPair(rows, startIdx, vCol, iCol); if(found) { found.meta = `sheet=${s}`; return found; }
+    }
+    const scanFrom = startIdx !== null ? startIdx : 0;
+    for(let r=scanFrom; r<rows.length; r++){
+      const picked = pickColumnsFromHeader(rows[r], vCol, iCol);
+      if(!picked) continue;
+      const found = collectNumeric(rows.slice(r+1), picked[0], picked[1]);
+      if(found){ found.meta = `sheet=${s}, V col=${picked[0]+1}, I col=${picked[1]+1}`; return found; }
+    }
+    const found = bestNumericPair(rows, scanFrom, vCol, iCol); if(found){ found.meta = `sheet=${s}, auto numeric columns`; return found; }
+  }
+  return {V:[], I:[]};
+}
+function parseRecord(rec){
+  const ext = extOf(rec.name);
+  if(ext === 'csv') return {...parseCSVText(rec.name, decodeText(rec.buffer), intVal('csvStart'), intVal('csvV'), intVal('csvI')), type:'CSV'};
+  if(ext === 'xlsx' || ext === 'xlsm') return {...parseXLSX(rec.name, rec.buffer, $('xlsxSheet').value.trim(), intVal('xlsxStart'), intVal('xlsxV'), intVal('xlsxI')), type:'XLSX'};
+  return {...parseTXTText(decodeText(rec.buffer), intVal('txtStart'), intVal('txtV'), intVal('txtI')), type:'TXT'};
+}
+function applyRange(V,I){
+  if(!$('rangeEnable').checked) return {V,I};
+  if($('rangeMode').value === 'voltage'){
+    const lo = optionalNum('vmin'), hi = optionalNum('vmax');
+    const V2=[], I2=[];
+    for(let i=0;i<V.length;i++) if((lo===null || V[i]>=lo) && (hi===null || V[i]<=hi)){ V2.push(V[i]); I2.push(I[i]); }
+    return {V:V2,I:I2};
+  }
+  const s = optionalNum('istart') ?? 0;
+  const e = optionalNum('iend') ?? (V.length-1);
+  return {V:V.slice(Math.max(0,s), Math.min(V.length-1,e)+1), I:I.slice(Math.max(0,s), Math.min(V.length-1,e)+1)};
+}
+function scaleForType(type){
+  const p = type.toLowerCase();
+  return {mul:numVal(`${p}Mul`), div:numVal(`${p}Div`) || 1, add:numVal(`${p}Add`), sub:numVal(`${p}Sub`)};
+}
+function scaleY(I,type){
+  const s = scaleForType(type);
+  return I.map(v => (v * s.mul) / s.div + s.add - s.sub);
+}
+function lineDash(style){
+  const s = style.trim().toLowerCase();
+  if(['--','dash','dashed'].includes(s)) return 'dash';
+  if([':','dot','dotted'].includes(s)) return 'dot';
+  if(['-.','dashdot'].includes(s)) return 'dashdot';
+  return 'solid';
+}
+function nearestIndex(arr,target){ let best=-1, bd=Infinity; arr.forEach((v,i)=>{const d=Math.abs(v-target); if(d<bd){bd=d; best=i;}}); return best; }
+function rrSummary(V,I,Vrr){
+  if(!V.length) return null;
+  const ip = nearestIndex(V, Math.abs(Vrr)), ineg = nearestIndex(V, -Math.abs(Vrr));
+  if(ip < 0 || ineg < 0) return null;
+  const denom = Math.abs(I[ineg]);
+  const ratio = denom === 0 ? Infinity : Math.abs(I[ip]) / denom;
+  return {ratio, Ipos:I[ip], Ineg:I[ineg], Vpos:V[ip], Vneg:V[ineg], ip, ineg};
+}
+
+function superscriptInt(n){
+  const map = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+  return String(n).split('').map(ch => map[ch] || ch).join('');
+}
+function formatLogTickY(v){
+  if(!Number.isFinite(v) || v <= 0) return '';
+  const exp = Math.floor(Math.log10(v));
+  const mant = v / Math.pow(10, exp);
+  const baseMant = [1,2,5].reduce((a,b)=>Math.abs(b-mant)<Math.abs(a-mant)?b:a, 1);
+  const power = `10${superscriptInt(exp)}`;
+  return baseMant === 1 ? power : `${baseMant}×${power}`;
+}
+function logTicksCompact(minVal, maxVal, minTicks=5, maxTicks=8){
+  // Compact log-axis ticks for current: normally decades only; add 5/2 ticks only when needed.
+  if(!Number.isFinite(minVal) || !Number.isFinite(maxVal) || minVal <= 0 || maxVal <= 0) return {vals:[], text:[]};
+  if(minVal > maxVal){ const tmp = minVal; minVal = maxVal; maxVal = tmp; }
+  const lo = Math.floor(Math.log10(minVal)) - 1;
+  const hi = Math.ceil(Math.log10(maxVal)) + 1;
+  const makeVals = (mants) => {
+    const vals = [];
+    for(let e=lo; e<=hi; e++){
+      for(const m of mants){
+        const v = m * Math.pow(10, e);
+        if(v >= minVal/1.000001 && v <= maxVal*1.000001) vals.push(v);
+      }
+    }
+    return vals.sort((a,b)=>a-b);
+  };
+  const decadeVals = makeVals([1]);
+  if(decadeVals.length >= minTicks && decadeVals.length <= maxTicks) {
+    return {vals:decadeVals, text:decadeVals.map(formatLogTickY)};
+  }
+  if(decadeVals.length > maxTicks){
+    const step = Math.ceil(decadeVals.length / maxTicks);
+    let vals = decadeVals.filter((_, i) => i % step === 0);
+    const last = decadeVals[decadeVals.length - 1];
+    if(vals[vals.length - 1] !== last && vals.length < maxTicks) vals.push(last);
+    return {vals, text:vals.map(formatLogTickY)};
+  }
+  const candidates = [[1,5], [1,2,5]].map(mants => makeVals(mants));
+  for(const vals of candidates){
+    if(vals.length >= minTicks && vals.length <= maxTicks) return {vals, text:vals.map(formatLogTickY)};
+  }
+  const all = [decadeVals, ...candidates].filter(vals => vals.length);
+  let best = all[0];
+  for(const vals of all){
+    const bestPenalty = (best.length > maxTicks ? 100 : 0) + Math.abs(best.length - 6.5);
+    const valPenalty = (vals.length > maxTicks ? 100 : 0) + Math.abs(vals.length - 6.5);
+    if(valPenalty < bestPenalty) best = vals;
+  }
+  if(best.length > maxTicks){
+    const step = Math.ceil(best.length / maxTicks);
+    best = best.filter((_, i) => i % step === 0).slice(0, maxTicks);
+  }
+  return {vals:best, text:best.map(formatLogTickY)};
+}
+
+function plot(){
+  const selected = fileRecords.filter(r => r.selected);
+  if(!selected.length){ logMsg(t('noFiles')); return; }
+  const traces = [], messages = [];
+  let yMin = Infinity, yMax = -Infinity;
+  let xMin = Infinity, xMax = -Infinity;
+  const styles = $('styles').value.split(',').map(x=>x.trim()).filter(Boolean);
+  const xMode = $('xMode').value, yMode = $('yMode').value;
+  selected.forEach((rec, idx) => {
+    let parsed;
+    try { parsed = parseRecord(rec); } catch(e){ messages.push(`[WARN] ${rec.name}: ${e.message}`); return; }
+    let V = parsed.V || [], Iraw = parsed.I || [];
+    if(!V.length){ messages.push(`[WARN] ${rec.name}: ${t('empty')}`); return; }
+    ({V,I:Iraw} = applyRange(V,Iraw));
+    if(!V.length){ messages.push(`[INFO] ${rec.name}: empty after range filter`); return; }
+    let Y = scaleY(Iraw, parsed.type);
+    if(yMode === 'logabs') Y = Y.map(v => Math.abs(v) === 0 ? null : Math.abs(v));
+    let X = xMode === 'logabs' ? V.map(v => v > 0 ? v : null) : V.slice();
+    const x2=[], y2=[];
+    for(let i=0;i<X.length;i++) if(X[i] !== null && Y[i] !== null && Number.isFinite(X[i]) && Number.isFinite(Y[i])){ x2.push(X[i]); y2.push(Y[i]); }
+    if(!x2.length){ messages.push(`[INFO] ${rec.name}: ${t('noPlot')}`); return; }
+    for(const xx of x2){ if(Number.isFinite(xx)){ xMin = Math.min(xMin, xx); xMax = Math.max(xMax, xx); } }
+    if(yMode === 'logabs') { for(const yy of y2){ if(yy > 0 && Number.isFinite(yy)){ yMin = Math.min(yMin, yy); yMax = Math.max(yMax, yy); } } }
+    const trace = {x:x2, y:y2, type:'scatter', mode:'lines', name:rec.legend || ($('stripExt').checked ? stripExt(rec.name) : rec.name), line:{}};
+    trace.line.color = rec.color || DEFAULT_COLORS[idx % DEFAULT_COLORS.length];
+    if(styles.length) trace.line.dash = lineDash(styles[idx % styles.length]);
+    traces.push(trace);
+    const rr = rrSummary(V, Iraw, numVal('vrrInput'));
+    if(rr && Number.isFinite(rr.ratio)) messages.push(`${trace.name}: R(|±${Math.abs(numVal('vrrInput'))} V|)=${rr.ratio.toPrecision(4)}; I+=${rr.Ipos.toPrecision(4)} @ ${rr.Vpos.toPrecision(4)} V, I-=${rr.Ineg.toPrecision(4)} @ ${rr.Vneg.toPrecision(4)} V`);
+    if(rr && $('markRR').checked){
+      const scale = scaleForType(parsed.type);
+      const py = [rr.Ipos, rr.Ineg].map(v => (v*scale.mul)/scale.div + scale.add - scale.sub).map(v => yMode === 'logabs' ? Math.abs(v) : v);
+      const px = xMode === 'logabs' ? [rr.Vpos > 0 ? rr.Vpos : null, rr.Vneg > 0 ? rr.Vneg : null] : [rr.Vpos, rr.Vneg];
+      const markerX = [], markerY = [];
+      for(let mi=0; mi<px.length; mi++) if(px[mi] !== null && Number.isFinite(px[mi]) && Number.isFinite(py[mi])){ markerX.push(px[mi]); markerY.push(py[mi]); }
+      if(markerX.length) traces.push({x:markerX, y:markerY, type:'scatter', mode:'markers', showlegend:false, marker:{symbol:'square', size:8, color:trace.line.color || undefined}, hoverinfo:'skip'});
+    }
+    messages.push(`[OK] ${rec.name}: ${t('parsed')} ${V.length} points${parsed.meta ? ', ' + parsed.meta : ''}`);
+  });
+  if(!traces.length){ logMsg(messages.concat([t('noPlot')])); return; }
+  const sizeMap = {compact:{w:760,h:500}, standard:{w:840,h:560}, large:{w:960,h:640}};
+  const size = sizeMap[$('aspect').value] || sizeMap.compact;
+  const plotEl = $('plot');
+  const frame = plotEl.closest('.plot-frame');
+  if(frame) frame.style.maxWidth = size.w + 'px';
+  plotEl.style.height = size.h + 'px';
+  const fontSize = numVal('fontSize') || 11;
+  const layout = {
+    margin:{l:76,r:18,t:18,b:58},
+    font:{size:fontSize},
+    xaxis:{title:{text:$('xLabel').value}, type:xMode === 'logabs' ? 'log' : 'linear', showgrid:true, gridcolor:'#e7ecec', zeroline:false, ticks:'outside', mirror:true, linecolor:'#222'},
+    yaxis:{title:{text:$('yLabel').value}, type:yMode === 'logabs' ? 'log' : 'linear', showgrid:true, gridcolor:'#e7ecec', zeroline:false, ticks:'outside', mirror:true, linecolor:'#222'},
+    legend:{orientation:'v', x:0.98, y:0.98, xanchor:'right', yanchor:'top', bgcolor:'rgba(255,255,255,0.80)', bordercolor:'#d9e1e3', borderwidth:1},
+    showlegend:$('showLegend').checked,
+    paper_bgcolor:'#ffffff', plot_bgcolor:'#ffffff'
+  };
+  if(Number.isFinite(xMin) && Number.isFinite(xMax) && xMax > xMin){
+    if(xMode === 'linear'){
+      const pad = Math.max((xMax - xMin) * 0.035, 1e-12);
+      layout.xaxis.range = [xMin - pad, xMax + pad];
+    } else {
+      layout.xaxis.range = [Math.log10(xMin) - 0.035, Math.log10(xMax) + 0.035];
+    }
+  }
+  if(yMode !== 'logabs'){
+    const ys = traces.flatMap(tr => tr.y || []).filter(v => Number.isFinite(v));
+    if(ys.length){
+      const mn = Math.min(...ys), mx = Math.max(...ys);
+      if(mx > mn){ const pad = (mx - mn) * 0.06; layout.yaxis.range = [mn - pad, mx + pad]; }
+    }
+  }
+  if(xMode === 'logabs'){
+    layout.xaxis.tickmode = 'array';
+    layout.xaxis.tickvals = [0.002,0.01,0.04,0.1,0.5,1,2,3,5,7,10];
+    layout.xaxis.ticktext = ['2m','10m','40m','100m','500m','1','2','3','5','7','10'];
+  }
+  if(yMode === 'logabs'){
+    if(Number.isFinite(yMin) && Number.isFinite(yMax) && yMin > 0 && yMax > 0){
+      const lo = Math.log10(yMin) - 0.15;
+      const hi = Math.log10(yMax) + 0.15;
+      layout.yaxis.range = [lo, hi];
+      const yTicks = logTicksCompact(Math.pow(10, lo), Math.pow(10, hi));
+      if(yTicks.vals.length){
+        layout.yaxis.tickmode = 'array';
+        layout.yaxis.tickvals = yTicks.vals;
+        layout.yaxis.ticktext = yTicks.text;
+      }
+    }
+  }
+  Plotly.newPlot('plot', traces, layout, {responsive:true, displaylogo:false});
+  lastPlot = true;
+  if(xMode === 'logabs') messages.push(t('xlog'));
+  logMsg(messages);
+}
+$('plotBtn').addEventListener('click', plot);
+$('exportBtn').addEventListener('click', () => { if(!lastPlot) plot(); const sizeMap = {compact:{w:760,h:500}, standard:{w:840,h:560}, large:{w:960,h:640}}; const size = sizeMap[$('aspect').value] || sizeMap.compact; Plotly.downloadImage('plot', {format:'png', filename:'iv_plot', height:size.h, width:size.w, scale:2}); });
+window.addEventListener('resize', () => { if(lastPlot) Plotly.Plots.resize('plot'); });
+setLang('zh');
+updateFileCount();
+</script>
+</body>
+</html>
