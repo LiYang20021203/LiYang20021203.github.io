@@ -329,6 +329,23 @@
       font-size: 11px;
     }
 
+    .file-legend-field {
+      margin-top: 6px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .file-legend-field label {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .file-legend-field input {
+      min-height: 28px;
+      padding: 5px 7px;
+      font-size: 11px;
+    }
+
     .trim-title {
       margin-bottom: 8px;
       min-width: 0;
@@ -717,7 +734,7 @@
         langButton: "English",
         guideTitle: "使用流程",
         guide1: "上传 TXT、CSV、XLSX、XLS 或 XLSM 光谱文件。",
-        guide2: "在文件列表中勾选需要绘制的曲线，并可单独调整颜色。",
+        guide2: "在文件列表中勾选需要绘制的曲线，并可单独调整颜色和图例名称。",
         guide3: "如需裁剪数据，填写保留范围或排除范围后更新裁剪表。",
         guide4: "点击预览原始曲线、绘制裁剪曲线，或生成归一化峰图。",
         guide5: "检查主峰分析结果，并按需导出 PNG 或 PDF。",
@@ -756,7 +773,10 @@
         background: "背景",
         axisColor: "坐标轴颜色",
         axisAndText: "坐标轴和文字",
-        colorNote: "每条曲线的颜色可以在上传文件列表中单独调整；未手动调整时，按 Colors 列表顺序自动分配。",
+        colorNote: "每条曲线的颜色和图例名称可以在上传文件列表中单独调整；图例名称留空时，按“峰位/峰位+文件名”的自动规则显示。",
+        legendLabel: "图例名称",
+        legendPlaceholder: "留空则自动使用峰位/文件名",
+        legendHelp: "填写后会直接覆盖图例显示；留空时使用下方“图例只显示峰位”的自动规则。",
         rangeFilter: "每条选中曲线的范围筛选",
         rangeHelp: "Keep min/max 可留空。Exclude ranges 可写成 <code>500-850; 2300-2600</code>。",
         updateTrim: "更新裁剪表",
@@ -820,7 +840,7 @@
         langButton: "中文",
         guideTitle: "Workflow",
         guide1: "Upload TXT, CSV, XLSX, XLS, or XLSM spectrum files.",
-        guide2: "Select the curves you want to plot and adjust individual colors if needed.",
+        guide2: "Select the curves you want to plot, then adjust individual colors and legend names if needed.",
         guide3: "Set keep ranges or excluded ranges when data trimming is needed.",
         guide4: "Preview raw data, plot trimmed curves, or generate the normalized peak plot.",
         guide5: "Review peak analysis results, then export PNG or PDF if needed.",
@@ -859,7 +879,10 @@
         background: "Background",
         axisColor: "Axis color",
         axisAndText: "Axis and text",
-        colorNote: "Curve colors can be adjusted in the uploaded file list. If not manually changed, colors follow the Colors list.",
+        colorNote: "Curve colors and legend names can be adjusted in the uploaded file list. If the legend name is blank, the automatic peak/file-name rule is used.",
+        legendLabel: "Legend name",
+        legendPlaceholder: "blank = auto peak/file name",
+        legendHelp: "A custom name directly overrides the legend. Leave it blank to use the Peak-only legend rule below.",
         rangeFilter: "Range Filter For Every Selected Curve",
         rangeHelp: "Keep min/max are optional. Exclude ranges use forms like <code>500-850; 2300-2600</code>.",
         updateTrim: "Update range table",
@@ -1147,6 +1170,7 @@
         fileName: file.name,
         data,
         selected: true,
+        legendName: "",
         trim: { keepMin: "", keepMax: "", exclude: "" }
       };
     }
@@ -1353,6 +1377,13 @@
       return colors[index % colors.length] || "#000000";
     }
 
+    function legendLabel(item, peak) {
+      const custom = String(item.legendName || "").trim();
+      if (custom) return custom;
+      const baseName = item.fileName.replace(/\.[^.]+$/, "");
+      return els.legendStripExt.checked ? `${peak.peakWavelength.toFixed(0)}nm` : `${peak.peakWavelength.toFixed(0)}nm ${baseName}`;
+    }
+
     function aspectSize() {
       return {
         "4:3 (8x6)": [8, 6],
@@ -1393,6 +1424,11 @@
             <span class="pill">${item.data.length} ${t("points")}</span>
           </div>
           <div class="file-meta">${formatNumber(item.data[0].x, 1)}-${formatNumber(item.data[item.data.length - 1].x, 1)} nm</div>
+          <div class="file-legend-field">
+            <label for="legend-${index}">${t("legendLabel")}</label>
+            <input id="legend-${index}" data-action="legend-label" data-index="${index}" type="text" value="${escapeHtml(item.legendName || "")}" placeholder="${escapeHtml(t("legendPlaceholder"))}">
+            <div class="hint">${t("legendHelp")}</div>
+          </div>
         </div>
       `).join("");
     }
@@ -1649,7 +1685,7 @@
         ctx.font = `${Math.max(9, fs) * ratio}px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif`;
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        const labels = plot.series.map(series => series.label.slice(0, 24));
+        const labels = plot.series.map(series => String(series.label || "").slice(0, 32));
         const maxLabelW = labels.reduce((max, label) => Math.max(max, ctx.measureText(label).width), 0);
         const legendW = 24 * ratio + 8 * ratio + maxLabelW;
         let lx = margin.left + plotW - legendW - 12 * ratio;
@@ -1679,8 +1715,7 @@
         const y = overlayNormalized ? normalizeY(yRaw) : yRaw;
         const points = x.map((xv, i) => ({ x: xv, y: y[i] }));
         const markerY = overlayNormalized ? y[peak.index] : peak.peakAbsorption;
-        const baseName = item.fileName.replace(/\.[^.]+$/, "");
-        const label = els.legendStripExt.checked ? `${peak.peakWavelength.toFixed(0)}nm` : `${peak.peakWavelength.toFixed(0)}nm ${baseName}`;
+        const label = legendLabel(item, peak);
         return {
           item,
           peak,
@@ -1690,6 +1725,19 @@
           label
         };
       });
+    }
+
+    function refreshSeriesLabels() {
+      for (const plotGroup of [state.standardPlots, state.normalizedPlots]) {
+        for (const plot of plotGroup) {
+          for (const series of plot.series) {
+            if (!series.item || !series.peak) continue;
+            const sourceItem = state.files.find(item => item.id === series.item.id) || series.item;
+            series.label = legendLabel(sourceItem, series.peak);
+            series.item.legendName = sourceItem.legendName || "";
+          }
+        }
+      }
     }
 
     function renderPlots(kind, plotSpecs) {
@@ -1709,6 +1757,7 @@
     }
 
     function rerenderAllPlots() {
+      refreshSeriesLabels();
       const active = state.activePlotKind;
       if (state.standardPlots.length) renderPlots("standard", state.standardPlots);
       if (state.normalizedPlots.length) renderPlots("normalized", state.normalizedPlots);
@@ -1798,8 +1847,7 @@
         }
         const series = normalizedItems.map((item, idx) => {
           const result = results[idx];
-          const baseName = item.fileName.replace(/\.[^.]+$/, "");
-          const label = els.legendStripExt.checked ? `${result.peak.peakWavelength.toFixed(0)}nm` : `${result.peak.peakWavelength.toFixed(0)}nm ${baseName}`;
+          const label = legendLabel(item, result.peak);
           const markerIdx = result.normalizedPeak.index;
           return {
             item,
@@ -1943,6 +1991,10 @@
         updateSeriesColor(state.files[index].id, input.value);
         rerenderAllPlots();
       }
+      if (action === "legend-label") {
+        state.files[index].legendName = input.value;
+        rerenderAllPlots();
+      }
     });
 
     function updateSeriesColor(fileId, color) {
@@ -1956,12 +2008,20 @@
     }
 
     els.fileList.addEventListener("input", event => {
-      const input = event.target.closest("[data-action='curve-color']");
+      const input = event.target.closest("[data-action]");
       if (!input) return;
       const index = Number(input.dataset.index);
-      state.files[index].color = input.value;
-      updateSeriesColor(state.files[index].id, input.value);
-      rerenderAllPlots();
+      const action = input.dataset.action;
+      if (!state.files[index]) return;
+      if (action === "curve-color") {
+        state.files[index].color = input.value;
+        updateSeriesColor(state.files[index].id, input.value);
+        rerenderAllPlots();
+      }
+      if (action === "legend-label") {
+        state.files[index].legendName = input.value;
+        rerenderAllPlots();
+      }
     });
 
     els.trimList.addEventListener("input", event => {
