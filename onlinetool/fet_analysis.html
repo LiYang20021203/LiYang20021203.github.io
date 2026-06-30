@@ -1,0 +1,1270 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PbS CQD FET Analysis Guide | PbS量子点FET分析总结</title>
+  <meta name="description" content="PbS colloidal quantum dot FET testing and analysis guide with device schematic, mobility derivation, workflows, and typical transfer curve examples.">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f8fb;
+      --paper: #ffffff;
+      --ink: #16212f;
+      --muted: #5c6b7a;
+      --soft: #eef3f7;
+      --line: #d9e2ea;
+      --line-strong: #b9c8d6;
+      --blue: #2f6f9f;
+      --blue-dark: #1d5379;
+      --green: #477b64;
+      --amber: #b06e24;
+      --red: #b14b4b;
+      --violet: #665f99;
+      --shadow: 0 16px 45px rgba(31, 48, 70, 0.10);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.65;
+    }
+
+    a {
+      color: var(--blue-dark);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      background:
+        linear-gradient(135deg, rgba(47, 111, 159, 0.94), rgba(71, 123, 100, 0.94)),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.22), transparent 30%);
+      color: #fff;
+      padding: 28px 0 34px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.13);
+      font-size: 15px;
+    }
+
+    .lang-toggle {
+      display: inline-flex;
+      padding: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.34);
+    }
+
+    .lang-toggle button {
+      border: 0;
+      border-radius: 999px;
+      padding: 8px 14px;
+      background: transparent;
+      color: rgba(255,255,255,0.82);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .lang-toggle button.active {
+      background: #fff;
+      color: var(--blue-dark);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 26px;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 4vw, 50px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 780px;
+      color: rgba(255,255,255,0.88);
+      font-size: 17px;
+    }
+
+    .hero-panel {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+
+    .hero-panel-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.88);
+      margin-bottom: 12px;
+    }
+
+    .mini-flow {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .mini-flow div {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      min-height: auto;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.16);
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,0.20);
+    }
+
+    .mini-flow b {
+      flex: 0 0 auto;
+      font-size: 13px;
+      margin: 0 8px 0 0;
+    }
+
+    .mini-flow span {
+      display: inline-block;
+      min-width: 0;
+      font-size: 12px;
+      color: rgba(255,255,255,0.76);
+      line-height: 1.45;
+      white-space: nowrap;
+    }
+
+    .mini-flow .inline-math {
+      display: inline;
+      white-space: nowrap;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(246, 248, 251, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 0;
+    }
+
+    .nav-inner a {
+      flex: 0 0 auto;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: 999px;
+    }
+
+    .nav-inner a:hover {
+      background: var(--soft);
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    main {
+      padding: 30px 0 42px;
+    }
+
+    section {
+      margin: 0 0 28px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 0 0 14px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .section-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 520px;
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .pad {
+      padding: 20px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      align-items: start;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      align-items: start;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: var(--soft);
+      color: var(--blue-dark);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .device-card {
+      overflow: hidden;
+    }
+
+    .device-svg,
+    .curve-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .caption {
+      padding: 10px 16px 16px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+    }
+
+    .math-expr {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-width: max-content;
+      font-family: "Cambria Math", "Times New Roman", "Noto Serif", serif;
+      font-size: 23px;
+      font-style: normal;
+      line-height: 1.2;
+      white-space: nowrap;
+      word-break: keep-all;
+      overflow-wrap: normal;
+    }
+
+    .math-expr .sub {
+      position: relative;
+      top: 0.42em;
+      font-size: 0.58em;
+      font-style: normal;
+      margin-left: 1px;
+    }
+
+    .math-expr .sup {
+      position: relative;
+      top: -0.58em;
+      font-size: 0.58em;
+      font-style: normal;
+      margin-left: 1px;
+    }
+
+    .math-expr .paren {
+      margin: 0 -2px;
+    }
+
+    .math-expr .text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      font-size: 0.72em;
+      font-style: normal;
+      color: var(--muted);
+      margin-right: 4px;
+    }
+
+    .inline-math {
+      display: inline-block;
+      font-family: "Cambria Math", "Times New Roman", "Noto Serif", serif;
+      font-style: normal;
+      white-space: nowrap;
+      word-break: keep-all;
+      overflow-wrap: normal;
+    }
+
+    .inline-math sub,
+    .inline-math sup {
+      font-size: 0.62em;
+      line-height: 0;
+      position: relative;
+    }
+
+    .inline-math sub {
+      top: 0.35em;
+    }
+
+    .inline-math sup {
+      top: -0.5em;
+    }
+
+    .derivation {
+      display: grid;
+      gap: 12px;
+    }
+
+    .derivation-step {
+      display: grid;
+      grid-template-columns: 104px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .derivation-step .step-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--blue-dark);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .derivation-step p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .math-row {
+      overflow-x: auto;
+      padding: 2px 0;
+    }
+
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      margin: 0 4px;
+      line-height: 1.08;
+    }
+
+    .frac .top {
+      border-bottom: 1.5px solid currentColor;
+      padding: 0 5px 3px;
+    }
+
+    .frac .bottom {
+      padding: 3px 5px 0;
+    }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .step h3,
+    .result h3,
+    .metric h3,
+    .warn h3 {
+      margin: 0 0 4px;
+      font-size: 17px;
+    }
+
+    .step p,
+    .result p,
+    .metric p,
+    .warn p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #edf4f8;
+      color: #203247;
+      font-weight: 800;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .result {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: #fff;
+    }
+
+    .result .badge {
+      display: inline-flex;
+      padding: 3px 8px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .p .badge { background: var(--red); }
+    .n .badge { background: var(--blue); }
+    .amb .badge { background: var(--violet); }
+    .bad .badge { background: var(--amber); }
+
+    .metric {
+      min-height: 124px;
+      padding: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .metric strong {
+      display: block;
+      margin: 8px 0 3px;
+      font-size: 22px;
+      color: var(--blue-dark);
+    }
+
+    .warn {
+      border-left: 4px solid var(--amber);
+      background: #fff8ef;
+      padding: 14px;
+      border-radius: var(--radius);
+    }
+
+    .good {
+      border-left-color: var(--green);
+      background: #f1f8f4;
+    }
+
+    .code-sentence {
+      display: block;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #f8fafc;
+      color: #203247;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      white-space: normal;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      background: #fff;
+      padding: 22px 0 28px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    [data-lang="en"] {
+      display: none;
+    }
+
+    body.en [data-lang="zh"] {
+      display: none;
+    }
+
+    body.en [data-lang="en"] {
+      display: revert;
+    }
+
+    body.en tr[data-lang="en"] {
+      display: table-row;
+    }
+
+    body.en td[data-lang="en"],
+    body.en th[data-lang="en"] {
+      display: table-cell;
+    }
+
+    .print-button {
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: var(--blue-dark);
+      border-radius: 999px;
+      padding: 8px 13px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .print-button:hover {
+      background: var(--soft);
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-note {
+        margin-top: 8px;
+      }
+
+      .mini-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .mini-flow div {
+        display: block;
+      }
+
+      .mini-flow b {
+        display: block;
+        margin: 0 0 4px;
+      }
+
+      .mini-flow span {
+        white-space: normal;
+      }
+
+      .derivation-step {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      nav,
+      .lang-toggle,
+      .print-button {
+        display: none;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      header {
+        color: var(--ink);
+        background: #fff;
+        border-bottom: 2px solid var(--line);
+      }
+
+      .subtitle,
+      .mini-flow span,
+      .hero-panel-title {
+        color: var(--muted);
+      }
+
+      .hero-panel,
+      .mini-flow div,
+      .card,
+      .step,
+      .result,
+      .metric {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-mark">FET</div>
+          <span data-lang="zh">PbS 量子点器件分析页</span>
+          <span data-lang="en">PbS CQD Device Analysis</span>
+        </div>
+        <div class="lang-toggle" aria-label="Language switch">
+          <button class="active" type="button" data-set-lang="zh">中文</button>
+          <button type="button" data-set-lang="en">English</button>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div>
+          <h1 data-lang="zh">PbS 量子点 FET 测试与分析总结</h1>
+          <h1 data-lang="en">PbS CQD FET Testing and Analysis Guide</h1>
+          <p class="subtitle" data-lang="zh">从器件结构、栅漏电检查、输出曲线、转移曲线、迁移率推导到典型结果判断，建立一套适合 PbS 胶体量子点薄膜 FET 的规范分析流程。</p>
+          <p class="subtitle" data-lang="en">A clean workflow for PbS colloidal quantum dot thin-film FETs: device geometry, gate leakage, output curves, transfer curves, mobility extraction, and typical result interpretation.</p>
+          <div class="tags">
+            <span class="tag"><span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span></span>
+            <span class="tag"><span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span></span>
+            <span class="tag"><span class="inline-math">C<sub>ox</sub></span></span>
+            <span class="tag">Mobility</span>
+            <span class="tag">Ambipolar</span>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="hero-panel-title" data-lang="zh">最小闭环：先验证，再计算，再解释</div>
+          <div class="hero-panel-title" data-lang="en">Minimum loop: verify, calculate, interpret</div>
+          <div class="mini-flow">
+            <div>
+              <b data-lang="zh">1. 栅控有效</b>
+              <b data-lang="en">1. Gate control</b>
+              <span data-lang="zh"><span class="inline-math">I<sub>G</sub></span> 远小于 <span class="inline-math">I<sub>D</sub></span>，<span class="inline-math">I<sub>D</sub></span> 随 <span class="inline-math">V<sub>G</sub></span> 系统变化。</span>
+              <span data-lang="en"><span class="inline-math">I<sub>G</sub></span> is much smaller than <span class="inline-math">I<sub>D</sub></span>; <span class="inline-math">I<sub>D</sub></span> changes systematically with <span class="inline-math">V<sub>G</sub></span>.</span>
+            </div>
+            <div>
+              <b data-lang="zh">2. 曲线可信</b>
+              <b data-lang="en">2. Curves reliable</b>
+              <span data-lang="zh"><span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> 看接触，<span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> 算跨导。</span>
+              <span data-lang="en"><span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> checks contact; <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> gives transconductance.</span>
+            </div>
+            <div>
+              <b data-lang="zh">3. 结论克制</b>
+              <b data-lang="en">3. Careful claims</b>
+              <span data-lang="zh">量子点 FET 多为有效迁移率。</span>
+              <span data-lang="en">CQD FET mobility is usually an effective value.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrap nav-inner">
+      <a href="#device" data-lang="zh">器件结构</a>
+      <a href="#device" data-lang="en">Device</a>
+      <a href="#workflow" data-lang="zh">总流程</a>
+      <a href="#workflow" data-lang="en">Workflow</a>
+      <a href="#mobility" data-lang="zh">迁移率推导</a>
+      <a href="#mobility" data-lang="en">Mobility</a>
+      <a href="#examples" data-lang="zh">结果示意</a>
+      <a href="#examples" data-lang="en">Examples</a>
+      <a href="#reporting" data-lang="zh">报告规范</a>
+      <a href="#reporting" data-lang="en">Reporting</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="wrap">
+      <section id="device">
+        <div class="section-head">
+          <h2 data-lang="zh">1. 典型背栅 PbS CQD FET 结构</h2>
+          <h2 data-lang="en">1. Typical Back-Gated PbS CQD FET</h2>
+          <p class="section-note" data-lang="zh">迁移率、阈值电压、开关比都依赖几何参数。没有 W、L 和氧化层厚度，迁移率不应给出具体数值。</p>
+          <p class="section-note" data-lang="en">Mobility, threshold voltage, and on/off ratio all depend on geometry. Without W, L, and oxide thickness, a numeric mobility is not defensible.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card device-card">
+            <svg class="device-svg" viewBox="0 0 760 460" role="img" aria-label="Back-gated PbS CQD FET schematic with coordinates">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#203247"></path>
+                </marker>
+                <linearGradient id="film" x1="0" x2="1">
+                  <stop offset="0" stop-color="#4b86a9"></stop>
+                  <stop offset="1" stop-color="#5da47b"></stop>
+                </linearGradient>
+              </defs>
+              <rect x="66" y="324" width="628" height="72" fill="#717981"></rect>
+              <text x="380" y="368" text-anchor="middle" font-size="24" fill="#fff" font-weight="700">n++ Si back gate</text>
+              <rect x="66" y="252" width="628" height="72" fill="#d8e7ef" stroke="#a9bfcd"></rect>
+              <text x="380" y="296" text-anchor="middle" font-size="24" fill="#203247" font-weight="700">300 nm SiO₂</text>
+              <rect x="128" y="184" width="504" height="68" fill="url(#film)" opacity="0.96" stroke="#397593"></rect>
+              <text x="380" y="224" text-anchor="middle" font-size="22" fill="#fff" font-weight="700">PbS CQD channel</text>
+              <rect x="128" y="122" width="164" height="62" fill="#f3ca4f" stroke="#c59d28"></rect>
+              <rect x="468" y="122" width="164" height="62" fill="#f3ca4f" stroke="#c59d28"></rect>
+              <text x="210" y="160" text-anchor="middle" font-size="24" fill="#1a2330" font-weight="700">Source</text>
+              <text x="550" y="160" text-anchor="middle" font-size="24" fill="#1a2330" font-weight="700">Drain</text>
+              <line x1="292" y1="204" x2="468" y2="204" stroke="#203247" stroke-width="2.5" marker-start="url(#arrow)" marker-end="url(#arrow)"></line>
+              <text x="380" y="195" text-anchor="middle" font-size="18" fill="#203247">L</text>
+              <line x1="642" y1="184" x2="642" y2="252" stroke="#203247" stroke-width="2.5" marker-start="url(#arrow)" marker-end="url(#arrow)"></line>
+              <text x="660" y="224" font-size="18" fill="#203247">t<tspan baseline-shift="sub" font-size="11">PbS</tspan></text>
+              <path d="M 550 118 C 620 76, 656 92, 684 58" fill="none" stroke="#203247" stroke-width="2.2" marker-end="url(#arrow)"></path>
+              <text x="596" y="64" font-size="18" fill="#203247">I<tspan baseline-shift="sub" font-size="11">D</tspan></text>
+              <line x1="380" y1="435" x2="380" y2="397" stroke="#203247" stroke-width="2.2" marker-end="url(#arrow)"></line>
+              <text x="398" y="438" font-size="18" fill="#203247">V<tspan baseline-shift="sub" font-size="11">G</tspan></text>
+              <line x1="550" y1="94" x2="550" y2="122" stroke="#203247" stroke-width="2.2" marker-end="url(#arrow)"></line>
+              <text x="568" y="100" font-size="18" fill="#203247">V<tspan baseline-shift="sub" font-size="11">D</tspan></text>
+              <line x1="210" y1="94" x2="210" y2="122" stroke="#203247" stroke-width="2.2" marker-end="url(#arrow)"></line>
+              <text x="148" y="100" font-size="18" fill="#203247">V<tspan baseline-shift="sub" font-size="11">S</tspan> = 0</text>
+              <line x1="100" y1="416" x2="210" y2="416" stroke="#203247" stroke-width="2.2" marker-end="url(#arrow)"></line>
+              <line x1="100" y1="416" x2="100" y2="306" stroke="#203247" stroke-width="2.2" marker-end="url(#arrow)"></line>
+              <text x="218" y="421" font-size="18" fill="#203247">x</text>
+              <text x="92" y="300" font-size="18" fill="#203247">y</text>
+              <text x="105" y="438" font-size="14" fill="#5c6b7a">x = 0 near source</text>
+              <text x="452" y="438" font-size="14" fill="#5c6b7a">x = L near drain</text>
+              <line x1="292" y1="240" x2="292" y2="270" stroke="#665f99" stroke-dasharray="5 5"></line>
+              <line x1="468" y1="240" x2="468" y2="270" stroke="#665f99" stroke-dasharray="5 5"></line>
+              <text x="92" y="82" font-size="18" fill="#477b64" font-weight="700">Top-contact / bottom-gate geometry</text>
+            </svg>
+            <div class="caption" data-lang="zh">顶接触/底栅结构中，n++ Si 作为栅极，SiO₂ 作为栅介质，PbS CQD 薄膜位于中间作为沟道，Source/Drain 金属电极在 PbS 薄膜上方接触沟道。x 方向从源极指向漏极，y 方向为垂直薄膜方向。</div>
+            <div class="caption" data-lang="en">In the top-contact/bottom-gate geometry, n++ Si is the gate, SiO₂ is the gate dielectric, the PbS CQD film is the channel in the middle, and the Source/Drain metals contact the PbS film from the top. The x-axis points from source to drain, and the y-axis is vertical to the film.</div>
+          </div>
+
+          <div class="card pad">
+            <h3 data-lang="zh">测试前必须记录的参数</h3>
+            <h3 data-lang="en">Parameters to record before testing</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr data-lang="zh"><th>项目</th><th>推荐写法</th><th>用途</th></tr>
+                  <tr data-lang="en"><th>Item</th><th>Recommended record</th><th>Purpose</th></tr>
+                </thead>
+                <tbody>
+                  <tr data-lang="zh"><td>沟道长度 L</td><td>如 20 μm，换算为 cm</td><td>迁移率计算</td></tr>
+                  <tr data-lang="en"><td>Channel length L</td><td>e.g. 20 μm, converted to cm</td><td>Mobility extraction</td></tr>
+                  <tr data-lang="zh"><td>沟道宽度 W</td><td>如 1000 μm，换算为 cm</td><td>迁移率计算</td></tr>
+                  <tr data-lang="en"><td>Channel width W</td><td>e.g. 1000 μm, converted to cm</td><td>Mobility extraction</td></tr>
+                  <tr data-lang="zh"><td>栅介质</td><td>SiO₂，厚度 300 nm，<span class="inline-math">ε<sub>r</sub>≈3.9</span></td><td>计算 <span class="inline-math">C<sub>ox</sub></span></td></tr>
+                  <tr data-lang="en"><td>Gate dielectric</td><td>SiO₂, 300 nm, <span class="inline-math">ε<sub>r</sub>≈3.9</span></td><td>Calculate <span class="inline-math">C<sub>ox</sub></span></td></tr>
+                  <tr data-lang="zh"><td>测试条件</td><td>暗箱/空气/真空、室温、扫速、延迟时间</td><td>判断迟滞和陷阱效应</td></tr>
+                  <tr data-lang="en"><td>Test condition</td><td>Dark box/air/vacuum, room temperature, sweep rate, delay</td><td>Assess hysteresis and trapping</td></tr>
+                  <tr data-lang="zh"><td>源漏偏压</td><td>固定 <span class="inline-math">V<sub>D</sub></span>，如 0.1 V、0.28 V 或 1 V</td><td>转移曲线与迁移率</td></tr>
+                  <tr data-lang="en"><td>Drain bias</td><td>Fixed <span class="inline-math">V<sub>D</sub></span>, e.g. 0.1 V, 0.28 V, or 1 V</td><td>Transfer curves and mobility</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workflow">
+        <div class="section-head">
+          <h2 data-lang="zh">2. FET 测试与分析总流程</h2>
+          <h2 data-lang="en">2. Full FET Testing and Analysis Workflow</h2>
+          <p class="section-note" data-lang="zh">正确顺序是先确认栅控和漏电，再看接触，再从转移曲线提取参数。</p>
+          <p class="section-note" data-lang="en">The correct order is to verify gate control and leakage first, then inspect contacts, and finally extract metrics from transfer curves.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div>
+              <h3 data-lang="zh">器件与几何参数确认</h3>
+              <h3 data-lang="en">Confirm device geometry</h3>
+              <p data-lang="zh">记录结构、W、L、tox、电极材料、薄膜处理和测试环境。没有这些，迁移率无法复现。</p>
+              <p data-lang="en">Record structure, W, L, tox, contact metal, film treatment, and testing environment. Without them, mobility cannot be reproduced.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3 data-lang="zh">测 <span class="inline-math">I<sub>G</sub>-V<sub>G</sub></span>，排除栅漏电假象</h3>
+              <h3 data-lang="en">Measure <span class="inline-math">I<sub>G</sub>-V<sub>G</sub></span> to exclude leakage artifacts</h3>
+              <p data-lang="zh"><span class="inline-math">I<sub>G</sub></span> 应远小于 <span class="inline-math">I<sub>D</sub></span>，通常至少低 2-3 个数量级。若 <span class="inline-math">I<sub>G</sub></span> 接近 <span class="inline-math">I<sub>D</sub></span>，FET 结论不可靠。</p>
+              <p data-lang="en"><span class="inline-math">I<sub>G</sub></span> should be far smaller than <span class="inline-math">I<sub>D</sub></span>, typically by at least 2-3 orders of magnitude. If <span class="inline-math">I<sub>G</sub></span> is comparable to <span class="inline-math">I<sub>D</sub></span>, FET claims are unreliable.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3 data-lang="zh">测 <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> 输出曲线</h3>
+              <h3 data-lang="en">Measure <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> output curves</h3>
+              <p data-lang="zh">固定不同 <span class="inline-math">V<sub>G</sub></span> 扫 <span class="inline-math">V<sub>D</sub></span>，用来判断栅控、欧姆/肖特基接触、接触受限和电流饱和情况。</p>
+              <p data-lang="en">Sweep <span class="inline-math">V<sub>D</sub></span> at several fixed <span class="inline-math">V<sub>G</sub></span> values to assess gate modulation, ohmic/Schottky contact behavior, contact limitation, and current saturation.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3 data-lang="zh">测 <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> 转移曲线</h3>
+              <h3 data-lang="en">Measure <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> transfer curves</h3>
+              <p data-lang="zh">固定 <span class="inline-math">V<sub>D</sub></span> 扫 <span class="inline-math">V<sub>G</sub></span>。线性坐标用于斜率和迁移率，对数坐标用于开关比和关态电流。</p>
+              <p data-lang="en">Sweep <span class="inline-math">V<sub>G</sub></span> at fixed <span class="inline-math">V<sub>D</sub></span>. Linear scale is used for slope and mobility; log scale is used for on/off ratio and off-state current.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3 data-lang="zh">正扫/反扫比较</h3>
+              <h3 data-lang="en">Compare forward and reverse sweeps</h3>
+              <p data-lang="zh">迟滞大通常说明陷阱态、水氧吸附、离子迁移或量子点表面态影响明显。</p>
+              <p data-lang="en">Large hysteresis often indicates traps, water/oxygen adsorption, ion migration, or strong CQD surface-state effects.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <h3 data-lang="zh">提取参数并给出克制结论</h3>
+              <h3 data-lang="en">Extract metrics and make careful claims</h3>
+              <p data-lang="zh">报告有效场效应迁移率、开关比、电流最小点、迟滞、接触性质和导电类型，不把接触/陷阱效应误写成本征迁移率。</p>
+              <p data-lang="en">Report effective field-effect mobility, on/off ratio, current minimum, hysteresis, contact behavior, and conduction type. Do not present contact/trap-limited values as intrinsic mobility.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="mobility">
+        <div class="section-head">
+          <h2 data-lang="zh">3. 线性区迁移率公式推导</h2>
+          <h2 data-lang="en">3. Linear-Regime Mobility Derivation</h2>
+          <p class="section-note" data-lang="zh">公式里的斜率必须来自固定 <span class="inline-math">V<sub>D</sub></span> 下的 <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> 转移曲线，也就是跨导 <span class="inline-math">g<sub>m</sub></span>。</p>
+          <p class="section-note" data-lang="en">The slope must come from the <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> transfer curve at fixed <span class="inline-math">V<sub>D</sub></span>. It is the transconductance <span class="inline-math">g<sub>m</sub></span>.</p>
+        </div>
+
+        <div class="derivation">
+          <div class="derivation-step">
+            <span class="step-label" data-lang="zh">Step 1 电容</span>
+            <span class="step-label" data-lang="en">Step 1 Capacitance</span>
+            <div>
+              <div class="math-row">
+                <span class="math-expr" aria-label="C ox equals epsilon zero epsilon r over t ox">
+                  <span>C<span class="sub">ox</span></span>
+                  <span>=</span>
+                  <span class="frac"><span class="top">ε<span class="sub">0</span>ε<span class="sub">r</span></span><span class="bottom">t<span class="sub">ox</span></span></span>
+                </span>
+              </div>
+              <p data-lang="zh">背栅 Si/SiO₂/PbS 结构可近似看作平行板电容。300 nm SiO₂ 常用值为 <strong><span class="inline-math">C<sub>ox</sub> ≈ 1.15 × 10<sup>−8</sup> F/cm<sup>2</sup></span></strong>。</p>
+              <p data-lang="en">The back-gated Si/SiO₂/PbS stack can be approximated as a parallel-plate capacitor. For 300 nm SiO₂, <strong><span class="inline-math">C<sub>ox</sub> ≈ 1.15 × 10<sup>−8</sup> F/cm<sup>2</sup></span></strong>.</p>
+            </div>
+          </div>
+
+          <div class="derivation-step">
+            <span class="step-label" data-lang="zh">Step 2 电荷</span>
+            <span class="step-label" data-lang="en">Step 2 Charge</span>
+            <div>
+              <div class="math-row">
+                <span class="math-expr" aria-label="Q of x equals C ox times V G minus V T minus V of x">
+                  <span>Q<span class="paren">(</span>x<span class="paren">)</span></span>
+                  <span>=</span>
+                  <span>C<span class="sub">ox</span></span>
+                  <span>[</span>
+                  <span>V<span class="sub">G</span></span>
+                  <span>−</span>
+                  <span>V<span class="sub">T</span></span>
+                  <span>−</span>
+                  <span>V<span class="paren">(</span>x<span class="paren">)</span></span>
+                  <span>]</span>
+                </span>
+              </div>
+              <p data-lang="zh"><span class="inline-math">x</span> 从源极指向漏极。源端附近 <span class="inline-math">V(x)=0</span>，漏端附近 <span class="inline-math">V(x)=V<sub>D</sub></span>，因此沿沟道的有效栅压会逐渐变化。</p>
+              <p data-lang="en">The <span class="inline-math">x</span>-coordinate points from source to drain. Near the source <span class="inline-math">V(x)=0</span>; near the drain <span class="inline-math">V(x)=V<sub>D</sub></span>, so the effective gate bias changes along the channel.</p>
+            </div>
+          </div>
+
+          <div class="derivation-step">
+            <span class="step-label" data-lang="zh">Step 3 漂移</span>
+            <span class="step-label" data-lang="en">Step 3 Drift</span>
+            <div>
+              <div class="math-row">
+                <span class="math-expr" aria-label="I D equals W mu Q of x E x equals W mu C ox bracket V G minus V T minus V of x bracket dV over dx">
+                  <span>I<span class="sub">D</span></span>
+                  <span>=</span>
+                  <span>WμQ<span class="paren">(</span>x<span class="paren">)</span>E<span class="sub">x</span></span>
+                  <span>=</span>
+                  <span>WμC<span class="sub">ox</span></span>
+                  <span>[V<span class="sub">G</span>−V<span class="sub">T</span>−V<span class="paren">(</span>x<span class="paren">)</span>]</span>
+                  <span class="frac"><span class="top">dV</span><span class="bottom">dx</span></span>
+                </span>
+              </div>
+              <p data-lang="zh">沟道电流来自源漏电场驱动下的漂移输运。<span class="inline-math">W</span> 是沟道宽度，<span class="inline-math">μ</span> 是场效应迁移率。</p>
+              <p data-lang="en">The channel current is drift current driven by the source-drain electric field. <span class="inline-math">W</span> is the channel width and <span class="inline-math">μ</span> is the field-effect mobility.</p>
+            </div>
+          </div>
+
+          <div class="derivation-step">
+            <span class="step-label" data-lang="zh">Step 4 积分</span>
+            <span class="step-label" data-lang="en">Step 4 Integration</span>
+            <div>
+              <div class="math-row">
+                <span class="math-expr" aria-label="I D equals mu C ox W over L times bracket V G minus V T times V D minus V D squared over two">
+                  <span>I<span class="sub">D</span></span>
+                  <span>=</span>
+                  <span>μC<span class="sub">ox</span></span>
+                  <span class="frac"><span class="top">W</span><span class="bottom">L</span></span>
+                  <span>[(V<span class="sub">G</span>−V<span class="sub">T</span>)V<span class="sub">D</span>−</span>
+                  <span class="frac"><span class="top">V<span class="sub">D</span><span class="sup">2</span></span><span class="bottom">2</span></span>
+                  <span>]</span>
+                </span>
+              </div>
+              <p data-lang="zh">对 <span class="inline-math">x: 0→L</span>、<span class="inline-math">V: 0→V<sub>D</sub></span> 积分，得到 FET 线性区/渐近沟道近似下的电流表达式。</p>
+              <p data-lang="en">Integrating over <span class="inline-math">x: 0→L</span> and <span class="inline-math">V: 0→V<sub>D</sub></span> gives the current equation under the gradual-channel approximation.</p>
+            </div>
+          </div>
+
+          <div class="derivation-step">
+            <span class="step-label" data-lang="zh">Step 5 近似</span>
+            <span class="step-label" data-lang="en">Step 5 Approximation</span>
+            <div>
+              <div class="math-row">
+                <span class="math-expr" aria-label="When V D is much smaller than V G minus V T, I D approximately equals mu C ox W over L times V G minus V T times V D">
+                  <span class="text">When</span>
+                  <span>V<span class="sub">D</span></span>
+                  <span>≪</span>
+                  <span>V<span class="sub">G</span>−V<span class="sub">T</span>,</span>
+                  <span>I<span class="sub">D</span></span>
+                  <span>≈</span>
+                  <span>μC<span class="sub">ox</span></span>
+                  <span class="frac"><span class="top">W</span><span class="bottom">L</span></span>
+                  <span>(V<span class="sub">G</span>−V<span class="sub">T</span>)V<span class="sub">D</span></span>
+                </span>
+              </div>
+              <p data-lang="zh">若 <span class="inline-math">V<sub>D</sub></span> 较小，可忽略 <span class="inline-math">V<sub>D</sub><sup>2</sup>/2</span> 项。此时固定 <span class="inline-math">V<sub>D</sub></span>，<span class="inline-math">I<sub>D</sub></span> 与 <span class="inline-math">V<sub>G</sub></span> 近似线性。</p>
+              <p data-lang="en">For small <span class="inline-math">V<sub>D</sub></span>, the <span class="inline-math">V<sub>D</sub><sup>2</sup>/2</span> term can be neglected. At fixed <span class="inline-math">V<sub>D</sub></span>, <span class="inline-math">I<sub>D</sub></span> is approximately linear with <span class="inline-math">V<sub>G</sub></span>.</p>
+            </div>
+          </div>
+
+          <div class="derivation-step">
+            <span class="step-label" data-lang="zh">Step 6 求导</span>
+            <span class="step-label" data-lang="en">Step 6 Derivative</span>
+            <div>
+              <div class="math-row">
+                <span class="math-expr" aria-label="g m equals d I D over d V G equals mu C ox W over L V D, mu linear equals L over W C ox V D times d I D over d V G">
+                  <span>g<span class="sub">m</span></span>
+                  <span>=</span>
+                  <span class="frac"><span class="top">dI<span class="sub">D</span></span><span class="bottom">dV<span class="sub">G</span></span></span>
+                  <span>=</span>
+                  <span>μC<span class="sub">ox</span></span>
+                  <span class="frac"><span class="top">W</span><span class="bottom">L</span></span>
+                  <span>V<span class="sub">D</span>,</span>
+                  <span>μ<span class="sub">lin</span></span>
+                  <span>=</span>
+                  <span class="frac"><span class="top">L</span><span class="bottom">WC<span class="sub">ox</span>V<span class="sub">D</span></span></span>
+                  <span class="frac"><span class="top">dI<span class="sub">D</span></span><span class="bottom">dV<span class="sub">G</span></span></span>
+                </span>
+              </div>
+              <p data-lang="zh">最终斜率来自固定 <span class="inline-math">V<sub>D</sub></span> 下的 <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> 转移曲线，不能使用 <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> 输出曲线斜率。</p>
+              <p data-lang="en">The final slope must be taken from the <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> transfer curve at fixed <span class="inline-math">V<sub>D</sub></span>, not from the <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> output curve.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:16px;">
+          <div class="warn good">
+            <h3 data-lang="zh">推荐写法</h3>
+            <h3 data-lang="en">Recommended wording</h3>
+            <code class="code-sentence" data-lang="zh">在固定 <span class="inline-math">V<sub>D</sub> = 0.28 V</span> 下，取 <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> 转移曲线线性调控区域进行拟合，得到 <span class="inline-math">g<sub>m</sub> = dI<sub>D</sub>/dV<sub>G</sub></span>。根据 <span class="inline-math">μ<sub>lin</sub> = Lg<sub>m</sub>/(WC<sub>ox</sub>V<sub>D</sub>)</span> 计算有效场效应迁移率。</code>
+            <code class="code-sentence" data-lang="en">At fixed <span class="inline-math">V<sub>D</sub> = 0.28 V</span>, the linear modulation region of the <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> transfer curve was fitted to obtain <span class="inline-math">g<sub>m</sub> = dI<sub>D</sub>/dV<sub>G</sub></span>. The effective field-effect mobility was calculated using <span class="inline-math">μ<sub>lin</sub> = Lg<sub>m</sub>/(WC<sub>ox</sub>V<sub>D</sub>)</span>.</code>
+          </div>
+          <div class="warn">
+            <h3 data-lang="zh">常见错误</h3>
+            <h3 data-lang="en">Common mistakes</h3>
+            <p data-lang="zh">把 <span class="inline-math">dI<sub>D</sub>/dV<sub>G</sub></span> 写成 <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> 的斜率；不写 <span class="inline-math">W/L</span>；不换算单位；把量子点薄膜中的有效迁移率说成材料本征迁移率；迟滞很大时仍只给单一迁移率。</p>
+            <p data-lang="en">Using the <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> slope instead of <span class="inline-math">dI<sub>D</sub>/dV<sub>G</sub></span>; missing <span class="inline-math">W/L</span>; inconsistent units; calling effective mobility intrinsic mobility; reporting a single mobility despite strong hysteresis.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="examples">
+        <div class="section-head">
+          <h2 data-lang="zh">4. 典型转移曲线结果示意</h2>
+          <h2 data-lang="en">4. Typical Transfer-Curve Examples</h2>
+          <p class="section-note" data-lang="zh">判断导电类型时看哪一侧栅压使 <span class="inline-math">|I<sub>D</sub>|</span> 增大，而不是只看电流正负。</p>
+          <p class="section-note" data-lang="en">Conduction type is judged by which gate-bias side increases <span class="inline-math">|I<sub>D</sub>|</span>, not by the sign of current alone.</p>
+        </div>
+
+        <div class="grid-4">
+          <div class="result p">
+            <span class="badge">p-type</span>
+            <svg class="curve-svg" viewBox="0 0 260 160" role="img" aria-label="p type transfer curve">
+              <line x1="34" y1="130" x2="232" y2="130" stroke="#90a0ae"></line>
+              <line x1="34" y1="130" x2="34" y2="22" stroke="#90a0ae"></line>
+              <text x="112" y="153" font-size="13" fill="#5c6b7a">V<tspan baseline-shift="sub" font-size="8">G</tspan></text>
+              <text x="4" y="30" font-size="13" fill="#5c6b7a">|I<tspan baseline-shift="sub" font-size="8">D</tspan>|</text>
+              <path d="M 46 36 C 80 48, 126 85, 220 122" fill="none" stroke="#b14b4b" stroke-width="4"></path>
+            </svg>
+            <h3 data-lang="zh">负栅压电流大</h3>
+            <h3 data-lang="en">Higher current at negative <span class="inline-math">V<sub>G</sub></span></h3>
+            <p data-lang="zh">说明空穴更容易积累和传输，表现为空穴主导。</p>
+            <p data-lang="en">Hole accumulation and transport dominate.</p>
+          </div>
+
+          <div class="result n">
+            <span class="badge">n-type</span>
+            <svg class="curve-svg" viewBox="0 0 260 160" role="img" aria-label="n type transfer curve">
+              <line x1="34" y1="130" x2="232" y2="130" stroke="#90a0ae"></line>
+              <line x1="34" y1="130" x2="34" y2="22" stroke="#90a0ae"></line>
+              <text x="112" y="153" font-size="13" fill="#5c6b7a">V<tspan baseline-shift="sub" font-size="8">G</tspan></text>
+              <text x="4" y="30" font-size="13" fill="#5c6b7a">|I<tspan baseline-shift="sub" font-size="8">D</tspan>|</text>
+              <path d="M 46 122 C 112 110, 170 78, 220 36" fill="none" stroke="#2f6f9f" stroke-width="4"></path>
+            </svg>
+            <h3 data-lang="zh">正栅压电流大</h3>
+            <h3 data-lang="en">Higher current at positive <span class="inline-math">V<sub>G</sub></span></h3>
+            <p data-lang="zh">说明电子更容易积累和传输，表现为电子主导。</p>
+            <p data-lang="en">Electron accumulation and transport dominate.</p>
+          </div>
+
+          <div class="result amb">
+            <span class="badge">ambipolar</span>
+            <svg class="curve-svg" viewBox="0 0 260 160" role="img" aria-label="ambipolar transfer curve">
+              <line x1="34" y1="130" x2="232" y2="130" stroke="#90a0ae"></line>
+              <line x1="34" y1="130" x2="34" y2="22" stroke="#90a0ae"></line>
+              <text x="112" y="153" font-size="13" fill="#5c6b7a">V<tspan baseline-shift="sub" font-size="8">G</tspan></text>
+              <text x="4" y="30" font-size="13" fill="#5c6b7a">|I<tspan baseline-shift="sub" font-size="8">D</tspan>|</text>
+              <path d="M 46 44 C 84 80, 112 124, 138 124 C 166 124, 188 79, 220 42" fill="none" stroke="#665f99" stroke-width="4"></path>
+              <line x1="138" y1="126" x2="138" y2="40" stroke="#665f99" stroke-dasharray="5 5"></line>
+              <text x="146" y="56" font-size="12" fill="#665f99">V<tspan baseline-shift="sub" font-size="8">min</tspan></text>
+            </svg>
+            <h3 data-lang="zh">两侧都能导电</h3>
+            <h3 data-lang="en">Both branches conduct</h3>
+            <p data-lang="zh">负栅压为空穴分支，正栅压为电子分支，中间是电流最小点。</p>
+            <p data-lang="en">Negative <span class="inline-math">V<sub>G</sub></span> is the hole branch; positive <span class="inline-math">V<sub>G</sub></span> is the electron branch; the middle point is the current minimum.</p>
+          </div>
+
+          <div class="result bad">
+            <span class="badge">weak gate control</span>
+            <svg class="curve-svg" viewBox="0 0 260 160" role="img" aria-label="weak gate control curve">
+              <line x1="34" y1="130" x2="232" y2="130" stroke="#90a0ae"></line>
+              <line x1="34" y1="130" x2="34" y2="22" stroke="#90a0ae"></line>
+              <text x="112" y="153" font-size="13" fill="#5c6b7a">V<tspan baseline-shift="sub" font-size="8">G</tspan></text>
+              <text x="4" y="30" font-size="13" fill="#5c6b7a">|I<tspan baseline-shift="sub" font-size="8">D</tspan>|</text>
+              <path d="M 46 92 C 90 94, 140 91, 220 93" fill="none" stroke="#b06e24" stroke-width="4"></path>
+            </svg>
+            <h3 data-lang="zh">几乎不受栅压调控</h3>
+            <h3 data-lang="en">Almost no gate modulation</h3>
+            <p data-lang="zh">可能薄膜太绝缘、太导电、接触限制、栅漏电或配体交换失败。</p>
+            <p data-lang="en">Possible causes include overly insulating/conductive film, contact limitation, gate leakage, or failed ligand exchange.</p>
+          </div>
+        </div>
+
+        <div class="card pad" style="margin-top:16px;">
+          <h3 data-lang="zh">电流最小点偏移怎么解释？</h3>
+          <h3 data-lang="en">How to interpret a shifted current minimum?</h3>
+          <div class="grid-2">
+            <div>
+              <p data-lang="zh">如果双极性转移曲线的电流最小点位于正栅压，例如 <span class="inline-math">V<sub>min</sub> = +21.3 V</span>，说明需要施加正栅压才能抵消零栅压附近已有的空穴，因此可描述为“零栅压附近具有 p 型掺杂倾向”。</p>
+              <p data-lang="en">If the current minimum of an ambipolar transfer curve appears at positive gate bias, e.g. <span class="inline-math">V<sub>min</sub> = +21.3 V</span>, positive gate bias is needed to compensate holes already present near zero gate bias. This indicates p-type doping tendency near <span class="inline-math">V<sub>G</sub> = 0</span>.</p>
+            </div>
+            <div>
+              <p data-lang="zh">不建议把 PbS CQD FET 的电流最小点直接叫“迪拉克点”。更规范的说法是“电流最小点”“电中性点”或“minimum-conductance point”。</p>
+              <p data-lang="en">For PbS CQD FETs, avoid calling this point a "Dirac point" unless a Dirac-band system is involved. Use "current minimum", "charge-neutrality point", or "minimum-conductance point".</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="reporting">
+        <div class="section-head">
+          <h2 data-lang="zh">5. 报告中应该给出的分析参数</h2>
+          <h2 data-lang="en">5. Metrics to Report</h2>
+          <p class="section-note" data-lang="zh">一份规范 FET 总结不只是给迁移率，还要说明迁移率是否可信。</p>
+          <p class="section-note" data-lang="en">A proper FET summary should not only report mobility, but also explain why the mobility is reliable.</p>
+        </div>
+
+        <div class="grid-4">
+          <div class="metric">
+            <h3 data-lang="zh">有效迁移率</h3>
+            <h3 data-lang="en">Effective mobility</h3>
+            <strong>cm² V⁻¹ s⁻¹</strong>
+            <p data-lang="zh">给 <span class="inline-math">W</span>、<span class="inline-math">L</span>、<span class="inline-math">V<sub>D</sub></span>、<span class="inline-math">C<sub>ox</sub></span>、拟合范围和 <span class="inline-math">g<sub>m</sub></span>。</p>
+            <p data-lang="en">Give <span class="inline-math">W</span>, <span class="inline-math">L</span>, <span class="inline-math">V<sub>D</sub></span>, <span class="inline-math">C<sub>ox</sub></span>, fitting range, and <span class="inline-math">g<sub>m</sub></span>.</p>
+          </div>
+          <div class="metric">
+            <h3 data-lang="zh">开关比</h3>
+            <h3 data-lang="en">On/off ratio</h3>
+            <strong><span class="inline-math">I<sub>on</sub>/I<sub>off</sub></span></strong>
+            <p data-lang="zh">从 <span class="inline-math">log(I<sub>D</sub>)-V<sub>G</sub></span> 读取，说明扫压范围。</p>
+            <p data-lang="en">Extract from <span class="inline-math">log(I<sub>D</sub>)-V<sub>G</sub></span> and state sweep range.</p>
+          </div>
+          <div class="metric">
+            <h3 data-lang="zh">栅漏电</h3>
+            <h3 data-lang="en">Gate leakage</h3>
+            <strong><span class="inline-math">I<sub>G</sub> ≪ I<sub>D</sub></span></strong>
+            <p data-lang="zh">至少应说明 <span class="inline-math">I<sub>G</sub></span> 是否远小于 <span class="inline-math">I<sub>D</sub></span>。</p>
+            <p data-lang="en">State whether <span class="inline-math">I<sub>G</sub></span> is far below <span class="inline-math">I<sub>D</sub></span>.</p>
+          </div>
+          <div class="metric">
+            <h3 data-lang="zh">迟滞</h3>
+            <h3 data-lang="en">Hysteresis</h3>
+            <strong>ΔV</strong>
+            <p data-lang="zh">比较正扫和反扫，避免只选好看的曲线。</p>
+            <p data-lang="en">Compare forward and reverse sweeps instead of cherry-picking.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:16px;">
+          <div class="card pad">
+            <h3 data-lang="zh">适合放进总结/论文的标准句</h3>
+            <h3 data-lang="en">Standard wording for reports</h3>
+            <code class="code-sentence" data-lang="zh">PbS CQD FET 的输出曲线在不同栅压下呈现明显调制，说明沟道电导可被背栅有效控制。转移曲线显示器件在负/正栅压区域电流增强，分别对应空穴/电子积累。在线性区固定 <span class="inline-math">V<sub>D</sub></span> 下，由 <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> 曲线的跨导 <span class="inline-math">g<sub>m</sub></span> 提取有效场效应迁移率。</code>
+            <code class="code-sentence" data-lang="en">The output curves of the PbS CQD FET show clear modulation under different gate biases, indicating effective back-gate control of channel conductance. The transfer curve shows enhanced current under negative/positive gate bias, corresponding to hole/electron accumulation. In the linear regime, the effective field-effect mobility is extracted from the transconductance <span class="inline-math">g<sub>m</sub></span> of the <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> curve at fixed <span class="inline-math">V<sub>D</sub></span>.</code>
+          </div>
+          <div class="card pad">
+            <h3 data-lang="zh">不推荐写法</h3>
+            <h3 data-lang="en">Wording to avoid</h3>
+            <p data-lang="zh">“<span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> 曲线斜率用于计算迁移率”“电流最小点是迪拉克点”“<span class="inline-math">V<sub>min</sub></span> 在 +21.3 V 说明器件就是 P 型”“测得迁移率就是 PbS 量子点材料本征迁移率”。这些说法都容易被认为概念不严谨。</p>
+            <p data-lang="en">Avoid statements such as "the <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> slope was used to calculate mobility", "the current minimum is a Dirac point", "<span class="inline-math">V<sub>min</sub></span> at +21.3 V proves the device is simply p-type", or "the extracted mobility is the intrinsic PbS QD mobility". These are conceptually weak or misleading.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div>
+        <strong data-lang="zh">版权与侵权说明：</strong>
+        <strong data-lang="en">Copyright and infringement notice: </strong>
+        <span data-lang="zh">本页面用于科研学习与内部交流，示意图和文字为原创整理。如涉及任何不当引用或侵权内容，请联系后及时修改或删除。</span>
+        <span data-lang="en">This page is prepared for research learning and internal communication. Diagrams and text are original summaries. If any improper use or infringement is identified, please contact us for prompt correction or removal.</span>
+        <br>
+        <span data-lang="zh">黑科技群网址：</span>
+        <span data-lang="en">Technology VIP Lounge: </span>
+        <a href="https://liyang20021203.github.io/usefulweb/index.html" target="_blank" rel="noopener">黑科技VIP会客厅 / Technology VIP Lounge</a>
+      </div>
+      <button class="print-button" type="button" onclick="window.print()" data-lang="zh">打印 / 保存 PDF</button>
+      <button class="print-button" type="button" onclick="window.print()" data-lang="en">Print / Save PDF</button>
+    </div>
+  </footer>
+
+  <script>
+    const buttons = document.querySelectorAll("[data-set-lang]");
+    const localized = document.querySelectorAll("[data-lang]");
+    const setLang = (lang) => {
+      document.body.classList.toggle("en", lang === "en");
+      document.documentElement.lang = lang === "en" ? "en" : "zh-Hans";
+      localized.forEach((node) => {
+        node.hidden = node.dataset.lang !== lang;
+      });
+      buttons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.setLang === lang);
+      });
+      localStorage.setItem("pbs-fet-lang", lang);
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => setLang(button.dataset.setLang));
+    });
+
+    setLang(localStorage.getItem("pbs-fet-lang") || "zh");
+  </script>
+</body>
+</html>
