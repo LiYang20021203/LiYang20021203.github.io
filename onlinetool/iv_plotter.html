@@ -448,14 +448,17 @@
             </select>
           </div>
         </div>
+        <div class="checks">
+          <label><input id="invertVoltage" type="checkbox"><span class="zh">反接校正：横坐标取 -V</span><span class="en">Reverse wiring: plot -V</span></label>
+        </div>
         <div class="row4">
           <div class="field"><label>X min</label><input id="axisXMin" type="number" step="any" placeholder="auto"></div>
           <div class="field"><label>X max</label><input id="axisXMax" type="number" step="any" placeholder="auto"></div>
           <div class="field"><label>Y min</label><input id="axisYMin" type="number" step="any" placeholder="auto"></div>
           <div class="field"><label>Y max</label><input id="axisYMax" type="number" step="any" placeholder="auto"></div>
         </div>
-        <div class="hint zh">这里只改变坐标轴显示范围，不会删除数据，也不会改变整流比计算。X 取 log 时只绘制 V &gt; 0。</div>
-        <div class="hint en">This only changes the visible axis window. It does not remove data or change rectification analysis. X-log plots V &gt; 0 only.</div>
+        <div class="hint zh">坐标轴范围只改变显示视窗；反接校正会把原始 V 整体变成 -V 后再参与筛选、绘图和整流比计算。X 取 log 时只绘制 V &gt; 0。</div>
+        <div class="hint en">Axis range only changes the viewport. Reverse wiring transforms raw V to -V before filtering, plotting, and rectification analysis. X-log plots V &gt; 0 only.</div>
       </details>
 
       <details class="group" open>
@@ -989,6 +992,11 @@
       return { V: V.slice(start, end + 1), I: I.slice(start, end + 1) };
     }
 
+    function applyVoltageOrientation(V, I) {
+      if (!$("invertVoltage").checked) return { V, I };
+      return sortPairs(V.map(v => -v), I);
+    }
+
     function scaleCfg(type) {
       return {
         mul: num(`${type}Mul`, 1),
@@ -1451,7 +1459,8 @@
         try {
           const parsed = await parseOneFile(item.file);
           const rawPoints = parsed.V.length;
-          const ranged = applyAnalysisRange(parsed.V, parsed.I);
+          const oriented = applyVoltageOrientation(parsed.V, parsed.I);
+          const ranged = applyAnalysisRange(oriented.V, oriented.I);
           if (!ranged.V.length) {
             errors.push(`${item.file.name}: ${t("解析范围内没有有效数据", "no valid data inside analysis range")}`);
             continue;
@@ -1559,6 +1568,9 @@
         $(id).addEventListener("input", () => {
           if (state.lastPlot?.curves) drawPlot(state.lastPlot.curves);
         });
+      });
+      $("invertVoltage").addEventListener("change", () => {
+        if (state.files.some(item => item.selected)) plotSelected();
       });
       ["axisXMin", "axisXMax", "axisYMin", "axisYMax"].forEach(id => {
         $(id).addEventListener("input", () => {
