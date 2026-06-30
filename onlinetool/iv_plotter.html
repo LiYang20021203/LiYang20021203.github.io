@@ -111,6 +111,11 @@
       font-size: 11px;
     }
 
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+
     button {
       min-height: 29px;
       border: 1px solid var(--strong);
@@ -192,6 +197,33 @@
       margin-top: 4px;
       color: var(--muted);
       font-size: 10px;
+    }
+
+    .slider-panel {
+      display: grid;
+      gap: 6px;
+      margin-top: 7px;
+      border: 1px solid #edf2f3;
+      border-radius: 7px;
+      padding: 7px;
+      background: #fbfcfc;
+    }
+
+    .slider-row {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr) minmax(0, 1fr);
+      gap: 6px;
+      align-items: center;
+    }
+
+    .slider-row label {
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .slider-row input:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
     }
 
     details.group {
@@ -302,7 +334,7 @@
     }
 
     .canvas-wrap {
-      width: min(100%, 900px);
+      width: min(100%, 1320px);
       margin: 0 auto;
     }
 
@@ -457,6 +489,20 @@
           <div class="field"><label>Y min</label><input id="axisYMin" type="number" step="any" placeholder="auto"></div>
           <div class="field"><label>Y max</label><input id="axisYMax" type="number" step="any" placeholder="auto"></div>
         </div>
+        <div class="slider-panel" aria-label="Axis range sliders">
+          <div class="slider-row">
+            <label>X</label>
+            <input id="axisXMinSlider" type="range" min="0" max="1" step="0.001" value="0" disabled>
+            <input id="axisXMaxSlider" type="range" min="0" max="1" step="0.001" value="1" disabled>
+          </div>
+          <div class="slider-row">
+            <label>Y</label>
+            <input id="axisYMinSlider" type="range" min="0" max="1" step="0.001" value="0" disabled>
+            <input id="axisYMaxSlider" type="range" min="0" max="1" step="0.001" value="1" disabled>
+          </div>
+          <div class="hint zh">左侧滑块控制最小值，右侧滑块控制最大值；拖动时图会实时更新。</div>
+          <div class="hint en">Left sliders control minima and right sliders control maxima; the plot updates while dragging.</div>
+        </div>
         <div class="hint zh">坐标轴范围只改变显示视窗；反接校正会把原始 V 整体变成 -V 后再参与筛选、绘图和整流比计算。X 取 log 时只绘制 V &gt; 0。</div>
         <div class="hint en">Axis range only changes the viewport. Reverse wiring transforms raw V to -V before filtering, plotting, and rectification analysis. X-log plots V &gt; 0 only.</div>
       </details>
@@ -486,6 +532,20 @@
           <div class="field"><label>i start</label><input id="analysisIStart" type="number" step="1" placeholder="0"></div>
           <div class="field"><label>i end</label><input id="analysisIEnd" type="number" step="1" placeholder="end"></div>
         </div>
+        <div class="slider-panel" aria-label="Analysis range sliders">
+          <div class="slider-row">
+            <label>V</label>
+            <input id="analysisVMinSlider" type="range" min="0" max="1" step="0.001" value="0" disabled>
+            <input id="analysisVMaxSlider" type="range" min="0" max="1" step="0.001" value="1" disabled>
+          </div>
+          <div class="slider-row">
+            <label>Index</label>
+            <input id="analysisIStartSlider" type="range" min="0" max="1" step="1" value="0" disabled>
+            <input id="analysisIEndSlider" type="range" min="0" max="1" step="1" value="1" disabled>
+          </div>
+          <div class="hint zh">拖动解析范围滑块会自动启用解析范围，并实时刷新曲线。</div>
+          <div class="hint en">Dragging analysis sliders enables the analysis range and refreshes the curves live.</div>
+        </div>
         <div class="hint zh">这里会真正筛选参与绘图、结果表和整流比计算的数据点。</div>
         <div class="hint en">This filters the actual points used for plotting, result cards, and rectification ratio.</div>
       </details>
@@ -502,7 +562,7 @@
             <label class="en">Plot size</label>
             <select id="plotSize">
               <option value="compact">紧凑 / Compact</option>
-              <option value="standard">标准 / Standard</option>
+              <option value="standard" selected>标准 / Standard</option>
               <option value="large">大图 / Large</option>
             </select>
           </div>
@@ -649,7 +709,9 @@
       lang: "zh",
       files: [],
       lastPlot: null,
-      colors: ["#28695d", "#537c91", "#b9785f", "#695b8f", "#4f7f52", "#a65f5f", "#697886", "#8a6f3f"]
+      sliderSync: false,
+      analysisDebounce: null,
+      colors: ["#1f77b4", "#d62728", "#2ca02c", "#9467bd", "#ff7f0e", "#17becf", "#e377c2", "#111111", "#bcbd22", "#8c564b", "#005f73", "#c1121f"]
     };
 
     const $ = id => document.getElementById(id);
@@ -1123,6 +1185,107 @@
       return `${size}px -apple-system, BlinkMacSystemFont, Segoe UI, Microsoft YaHei, sans-serif`;
     }
 
+    function setInputValue(id, value, digits = 6) {
+      if (!Number.isFinite(value)) return;
+      const abs = Math.abs(value);
+      $(id).value = abs !== 0 && (abs < 1e-3 || abs >= 1e5)
+        ? value.toExponential(4)
+        : Number(value.toPrecision(digits)).toString();
+    }
+
+    function sliderSpaceValue(value, isLog) {
+      return isLog ? Math.log10(Math.max(value, 1e-24)) : value;
+    }
+
+    function valueFromSliderSpace(value, isLog) {
+      return isLog ? Math.pow(10, value) : value;
+    }
+
+    function sliderStep(min, max, isLog, fallback = 0.001) {
+      if (!Number.isFinite(min) || !Number.isFinite(max) || min === max) return fallback;
+      if (isLog) return 0.001;
+      const span = Math.abs(max - min);
+      return span > 0 ? span / 1200 : fallback;
+    }
+
+    function configureRangeSlider(id, min, max, value, isLog = false, integer = false) {
+      const slider = $(id);
+      if (!slider) return;
+      if (!Number.isFinite(min) || !Number.isFinite(max) || min === max) {
+        slider.disabled = true;
+        return;
+      }
+      let lo = min;
+      let hi = max;
+      let val = value;
+      if (isLog) {
+        lo = Math.max(lo, 1e-24);
+        hi = Math.max(hi, lo * 10);
+        val = Math.max(val, lo);
+      }
+      const sMin = sliderSpaceValue(lo, isLog);
+      const sMax = sliderSpaceValue(hi, isLog);
+      const sVal = Math.min(sMax, Math.max(sMin, sliderSpaceValue(val, isLog)));
+      slider.disabled = false;
+      slider.min = String(sMin);
+      slider.max = String(sMax);
+      slider.step = integer ? "1" : String(sliderStep(sMin, sMax, false));
+      slider.value = String(integer ? Math.round(sVal) : sVal);
+    }
+
+    function updateAxisSliders(bounds) {
+      state.sliderSync = true;
+      configureRangeSlider("axisXMinSlider", bounds.autoXMin, bounds.autoXMax, bounds.xMin, bounds.xLog);
+      configureRangeSlider("axisXMaxSlider", bounds.autoXMin, bounds.autoXMax, bounds.xMax, bounds.xLog);
+      configureRangeSlider("axisYMinSlider", bounds.autoYMin, bounds.autoYMax, bounds.yMin, bounds.yLog);
+      configureRangeSlider("axisYMaxSlider", bounds.autoYMin, bounds.autoYMax, bounds.yMax, bounds.yLog);
+      state.sliderSync = false;
+    }
+
+    function updateAnalysisSliders(bounds) {
+      state.sliderSync = true;
+      configureRangeSlider("analysisVMinSlider", bounds.vMin, bounds.vMax, optNum("analysisVMin") ?? bounds.vMin);
+      configureRangeSlider("analysisVMaxSlider", bounds.vMin, bounds.vMax, optNum("analysisVMax") ?? bounds.vMax);
+      configureRangeSlider("analysisIStartSlider", 0, bounds.indexMax, optNum("analysisIStart") ?? 0, false, true);
+      configureRangeSlider("analysisIEndSlider", 0, bounds.indexMax, optNum("analysisIEnd") ?? bounds.indexMax, false, true);
+      state.sliderSync = false;
+    }
+
+    function scheduleAnalysisRefresh() {
+      clearTimeout(state.analysisDebounce);
+      state.analysisDebounce = setTimeout(() => {
+        if (state.files.some(item => item.selected)) plotSelected();
+      }, 120);
+    }
+
+    function handleAxisSlider(sliderId, inputId, isLog) {
+      if (state.sliderSync) return;
+      const raw = Number($(sliderId).value);
+      const value = valueFromSliderSpace(raw, isLog);
+      setInputValue(inputId, value);
+      if (state.lastPlot?.curves) drawPlot(state.lastPlot.curves);
+    }
+
+    function handleAnalysisSlider(sliderId, inputId, integer = false, mode = null) {
+      if (state.sliderSync) return;
+      const value = Number($(sliderId).value);
+      if (!Number.isFinite(value)) return;
+      $(inputId).value = integer ? String(Math.round(value)) : Number(value.toPrecision(6)).toString();
+      $("analysisEnable").checked = true;
+      if (mode) $("analysisMode").value = mode;
+      scheduleAnalysisRefresh();
+    }
+
+    function disableRangeSliders() {
+      [
+        "axisXMinSlider", "axisXMaxSlider", "axisYMinSlider", "axisYMaxSlider",
+        "analysisVMinSlider", "analysisVMaxSlider", "analysisIStartSlider", "analysisIEndSlider"
+      ].forEach(id => {
+        const slider = $(id);
+        if (slider) slider.disabled = true;
+      });
+    }
+
     function readAxisRange(autoXMin, autoXMax, autoYMin, autoYMax) {
       let xMin = optNum("axisXMin") ?? autoXMin;
       let xMax = optNum("axisXMax") ?? autoXMax;
@@ -1150,7 +1313,7 @@
     function drawPlot(curves) {
       const canvas = $("plotCanvas");
       const wrapWidth = canvas.parentElement.clientWidth;
-      const maxW = $("plotSize").value === "large" ? 980 : $("plotSize").value === "standard" ? 860 : 760;
+      const maxW = $("plotSize").value === "large" ? 1320 : $("plotSize").value === "standard" ? 1120 : 960;
       const cssWidth = Math.max(320, Math.min(maxW, wrapWidth));
       const cssHeight = plotHeight(cssWidth);
       const tickSize = num("tickLabelSize", 10.5);
@@ -1207,6 +1370,18 @@
       }
 
       const { xMin, xMax, yMin, yMax } = readAxisRange(autoXMin, autoXMax, autoYMin, autoYMax);
+      updateAxisSliders({
+        autoXMin,
+        autoXMax,
+        autoYMin,
+        autoYMax,
+        xMin,
+        xMax,
+        yMin,
+        yMax,
+        xLog: xMode === "logpos",
+        yLog: yMode === "logabs"
+      });
       const yTicks = yMode === "logabs" ? niceLogTicks(yMin, yMax, 5, 8) : niceLinearTicks(yMin, yMax, 6);
       const yTickLabels = yTicks.map(tick => yMode === "logabs" ? sci(tick) : format(tick, 3));
       ctx.font = fontStack(tickSize);
@@ -1453,6 +1628,8 @@
       setStatus(t("正在解析数据并绘图...", "Parsing data and plotting..."));
       const curves = [];
       const errors = [];
+      const orientedVoltages = [];
+      let maxIndex = 0;
       const strip = $("stripExt").checked;
       for (let idx = 0; idx < selected.length; idx++) {
         const item = selected[idx];
@@ -1460,6 +1637,8 @@
           const parsed = await parseOneFile(item.file);
           const rawPoints = parsed.V.length;
           const oriented = applyVoltageOrientation(parsed.V, parsed.I);
+          for (const v of oriented.V) if (Number.isFinite(v)) orientedVoltages.push(v);
+          maxIndex = Math.max(maxIndex, Math.max(0, oriented.V.length - 1));
           const ranged = applyAnalysisRange(oriented.V, oriented.I);
           if (!ranged.V.length) {
             errors.push(`${item.file.name}: ${t("解析范围内没有有效数据", "no valid data inside analysis range")}`);
@@ -1486,6 +1665,13 @@
           errors.push(`${item.file.name}: ${error.message}`);
         }
       }
+      if (orientedVoltages.length) {
+        updateAnalysisSliders({
+          vMin: Math.min(...orientedVoltages),
+          vMax: Math.max(...orientedVoltages),
+          indexMax: maxIndex
+        });
+      }
       drawPlot(curves);
       renderResults(curves);
       if (errors.length) {
@@ -1510,6 +1696,7 @@
       renderFileList();
       renderResults([]);
       drawPlot([]);
+      disableRangeSliders();
       setStatus(t("已清空。", "Cleared."));
     }
 
@@ -1577,11 +1764,34 @@
           if (state.lastPlot?.curves) drawPlot(state.lastPlot.curves);
         });
       });
+      $("axisXMinSlider").addEventListener("input", () => handleAxisSlider("axisXMinSlider", "axisXMin", $("xMode").value === "logpos"));
+      $("axisXMaxSlider").addEventListener("input", () => handleAxisSlider("axisXMaxSlider", "axisXMax", $("xMode").value === "logpos"));
+      $("axisYMinSlider").addEventListener("input", () => handleAxisSlider("axisYMinSlider", "axisYMin", $("yMode").value === "logabs"));
+      $("axisYMaxSlider").addEventListener("input", () => handleAxisSlider("axisYMaxSlider", "axisYMax", $("yMode").value === "logabs"));
+
+      $("analysisVMinSlider").addEventListener("input", () => handleAnalysisSlider("analysisVMinSlider", "analysisVMin", false, "voltage"));
+      $("analysisVMaxSlider").addEventListener("input", () => handleAnalysisSlider("analysisVMaxSlider", "analysisVMax", false, "voltage"));
+      $("analysisIStartSlider").addEventListener("input", () => handleAnalysisSlider("analysisIStartSlider", "analysisIStart", true, "index"));
+      $("analysisIEndSlider").addEventListener("input", () => handleAnalysisSlider("analysisIEndSlider", "analysisIEnd", true, "index"));
+      ["analysisEnable", "analysisMode"].forEach(id => {
+        $(id).addEventListener("change", () => {
+          if (state.files.some(item => item.selected)) plotSelected();
+        });
+      });
+      ["analysisVMin", "analysisVMax", "analysisIStart", "analysisIEnd", "vrr"].forEach(id => {
+        $(id).addEventListener("input", () => {
+          if (id !== "vrr") $("analysisEnable").checked = true;
+          if (id === "analysisVMin" || id === "analysisVMax") $("analysisMode").value = "voltage";
+          if (id === "analysisIStart" || id === "analysisIEnd") $("analysisMode").value = "index";
+          scheduleAnalysisRefresh();
+        });
+      });
     }
 
     bindEvents();
     updateExprPreview();
     drawPlot([]);
+    disableRangeSliders();
   </script>
 </body>
 </html>
