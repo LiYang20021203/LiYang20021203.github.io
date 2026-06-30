@@ -761,10 +761,10 @@
               <span data-lang="en"><span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> checks contact; <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> gives transconductance.</span>
             </div>
             <div>
-              <b data-lang="zh">3. 结论克制</b>
-              <b data-lang="en">3. Careful claims</b>
-              <span data-lang="zh">量子点 FET 多为有效迁移率。</span>
-              <span data-lang="en">CQD FET mobility is usually an effective value.</span>
+              <b data-lang="zh">3. 参数归因</b>
+              <b data-lang="en">3. Physical origin</b>
+              <span data-lang="zh">把迁移率、接触、陷阱和迟滞分开讨论。</span>
+              <span data-lang="en">Separate mobility, contact, traps, and hysteresis.</span>
             </div>
           </div>
         </div>
@@ -784,6 +784,8 @@
       <a href="#examples" data-lang="en">Examples</a>
       <a href="#reporting" data-lang="zh">报告规范</a>
       <a href="#reporting" data-lang="en">Reporting</a>
+      <a href="#references" data-lang="zh">参考资料</a>
+      <a href="#references" data-lang="en">References</a>
     </div>
   </nav>
 
@@ -872,10 +874,50 @@
         </div>
       </section>
 
+      <section id="logic">
+        <div class="section-head">
+          <h2 data-lang="zh">2. FET 分析的核心推理链</h2>
+          <h2 data-lang="en">2. Core Reasoning Chain for FET Analysis</h2>
+          <p class="section-note" data-lang="zh">FET 分析不是先算迁移率，而是逐步回答：电流从哪里来、是否受栅压控制、受什么因素限制。</p>
+          <p class="section-note" data-lang="en">FET analysis should not start from mobility. It should first identify where the current comes from, whether it is gate-controlled, and what limits it.</p>
+        </div>
+
+        <div class="grid-4">
+          <div class="metric">
+            <h3 data-lang="zh">1. 栅极是否真正控制沟道？</h3>
+            <h3 data-lang="en">1. Is the channel gate-controlled?</h3>
+            <strong><span class="inline-math">I<sub>G</sub> ≪ I<sub>D</sub></span></strong>
+            <p data-lang="zh">先排除栅漏电和绝缘层击穿，再判断 <span class="inline-math">I<sub>D</sub></span> 是否随 <span class="inline-math">V<sub>G</sub></span> 系统变化。</p>
+            <p data-lang="en">Exclude gate leakage and dielectric breakdown first, then check whether <span class="inline-math">I<sub>D</sub></span> changes systematically with <span class="inline-math">V<sub>G</sub></span>.</p>
+          </div>
+          <div class="metric">
+            <h3 data-lang="zh">2. 电流由接触还是沟道限制？</h3>
+            <h3 data-lang="en">2. Contact-limited or channel-limited?</h3>
+            <strong><span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span></strong>
+            <p data-lang="zh">低压线性更接近欧姆接触；强非线性、整流或注入门槛常提示接触势垒。</p>
+            <p data-lang="en">A linear low-bias region suggests ohmic-like contact; strong nonlinearity, rectification, or injection threshold suggests contact barriers.</p>
+          </div>
+          <div class="metric">
+            <h3 data-lang="zh">3. 主要载流子是什么？</h3>
+            <h3 data-lang="en">3. What carriers dominate?</h3>
+            <strong><span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span></strong>
+            <p data-lang="zh">负栅压增强为空穴分支，正栅压增强为电子分支；两侧都增强则是双极性传输。</p>
+            <p data-lang="en">Enhancement at negative gate bias indicates a hole branch; enhancement at positive gate bias indicates an electron branch; both branches indicate ambipolar transport.</p>
+          </div>
+          <div class="metric">
+            <h3 data-lang="zh">4. 迁移率是否可被可信提取？</h3>
+            <h3 data-lang="en">4. Is mobility extraction reliable?</h3>
+            <strong><span class="inline-math">g<sub>m</sub></span></strong>
+            <p data-lang="zh">只有在栅控明确、接触影响可接受、迟滞不过大时，线性区迁移率才有较强解释力。</p>
+            <p data-lang="en">Linear-regime mobility is most meaningful when gate modulation is clear, contact effects are acceptable, and hysteresis is not dominant.</p>
+          </div>
+        </div>
+      </section>
+
       <section id="workflow">
         <div class="section-head">
-          <h2 data-lang="zh">2. FET 测试与分析总流程</h2>
-          <h2 data-lang="en">2. Full FET Testing and Analysis Workflow</h2>
+          <h2 data-lang="zh">3. FET 测试与分析总流程</h2>
+          <h2 data-lang="en">3. Full FET Testing and Analysis Workflow</h2>
           <p class="section-note" data-lang="zh">正确顺序是先确认栅控和漏电，再看接触，再从转移曲线提取参数。</p>
           <p class="section-note" data-lang="en">The correct order is to verify gate control and leakage first, then inspect contacts, and finally extract metrics from transfer curves.</p>
         </div>
@@ -923,8 +965,8 @@
           </div>
           <div class="step">
             <div>
-              <h3 data-lang="zh">提取参数并给出克制结论</h3>
-              <h3 data-lang="en">Extract metrics and make careful claims</h3>
+              <h3 data-lang="zh">提取参数并建立物理归因</h3>
+              <h3 data-lang="en">Extract metrics and assign physical origin</h3>
               <p data-lang="zh">报告有效场效应迁移率、开关比、电流最小点、迟滞、接触性质和导电类型，不把接触/陷阱效应误写成本征迁移率。</p>
               <p data-lang="en">Report effective field-effect mobility, on/off ratio, current minimum, hysteresis, contact behavior, and conduction type. Do not present contact/trap-limited values as intrinsic mobility.</p>
             </div>
@@ -934,8 +976,8 @@
 
       <section id="mobility">
         <div class="section-head">
-          <h2 data-lang="zh">3. 线性区迁移率公式推导</h2>
-          <h2 data-lang="en">3. Linear-Regime Mobility Derivation</h2>
+          <h2 data-lang="zh">4. 线性区迁移率公式推导</h2>
+          <h2 data-lang="en">4. Linear-Regime Mobility Derivation</h2>
           <p class="section-note" data-lang="zh">公式里的斜率必须来自固定 <span class="inline-math">V<sub>D</sub></span> 下的 <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> 转移曲线，也就是跨导 <span class="inline-math">g<sub>m</sub></span>。</p>
           <p class="section-note" data-lang="en">The slope must come from the <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> transfer curve at fixed <span class="inline-math">V<sub>D</sub></span>. It is the transconductance <span class="inline-math">g<sub>m</sub></span>.</p>
         </div>
@@ -1069,24 +1111,24 @@
 
         <div class="grid-2" style="margin-top:16px;">
           <div class="warn good">
-            <h3 data-lang="zh">推荐写法</h3>
-            <h3 data-lang="en">Recommended wording</h3>
+            <h3 data-lang="zh">报告表达模板</h3>
+            <h3 data-lang="en">Reporting template</h3>
             <code class="code-sentence" data-lang="zh">在固定 <span class="inline-math">V<sub>D</sub> = 0.28 V</span> 下，取 <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> 转移曲线线性调控区域进行拟合，得到 <span class="inline-math">g<sub>m</sub> = dI<sub>D</sub>/dV<sub>G</sub></span>。根据 <span class="inline-math">μ<sub>lin</sub> = Lg<sub>m</sub>/(WC<sub>ox</sub>V<sub>D</sub>)</span> 计算有效场效应迁移率。</code>
             <code class="code-sentence" data-lang="en">At fixed <span class="inline-math">V<sub>D</sub> = 0.28 V</span>, the linear modulation region of the <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> transfer curve was fitted to obtain <span class="inline-math">g<sub>m</sub> = dI<sub>D</sub>/dV<sub>G</sub></span>. The effective field-effect mobility was calculated using <span class="inline-math">μ<sub>lin</sub> = Lg<sub>m</sub>/(WC<sub>ox</sub>V<sub>D</sub>)</span>.</code>
           </div>
           <div class="warn">
-            <h3 data-lang="zh">常见错误</h3>
-            <h3 data-lang="en">Common mistakes</h3>
-            <p data-lang="zh">把 <span class="inline-math">dI<sub>D</sub>/dV<sub>G</sub></span> 写成 <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> 的斜率；不写 <span class="inline-math">W/L</span>；不换算单位；把量子点薄膜中的有效迁移率说成材料本征迁移率；迟滞很大时仍只给单一迁移率。</p>
-            <p data-lang="en">Using the <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> slope instead of <span class="inline-math">dI<sub>D</sub>/dV<sub>G</sub></span>; missing <span class="inline-math">W/L</span>; inconsistent units; calling effective mobility intrinsic mobility; reporting a single mobility despite strong hysteresis.</p>
+            <h3 data-lang="zh">适用边界</h3>
+            <h3 data-lang="en">Applicability boundary</h3>
+            <p data-lang="zh">线性区公式默认沟道电流主要由栅压调控。如果接触势垒、陷阱充放电、离子迁移或迟滞占主导，应把结果表述为有效场效应迁移率，并同时报告测试条件与拟合区间。</p>
+            <p data-lang="en">The linear-regime formula assumes gate-controlled channel current. If contact barriers, trap charging, ion migration, or hysteresis dominate, report the result as effective field-effect mobility together with test conditions and fitting range.</p>
           </div>
         </div>
       </section>
 
       <section id="examples">
         <div class="section-head">
-          <h2 data-lang="zh">4. 典型转移曲线结果示意</h2>
-          <h2 data-lang="en">4. Typical Transfer-Curve Examples</h2>
+          <h2 data-lang="zh">5. 典型转移曲线结果示意</h2>
+          <h2 data-lang="en">5. Typical Transfer-Curve Examples</h2>
           <p class="section-note" data-lang="zh">判断导电类型时看哪一侧栅压使 <span class="inline-math">|I<sub>D</sub>|</span> 增大，而不是只看电流正负。</p>
           <p class="section-note" data-lang="en">Conduction type is judged by which gate-bias side increases <span class="inline-math">|I<sub>D</sub>|</span>, not by the sign of current alone.</p>
         </div>
@@ -1164,8 +1206,8 @@
               <p data-lang="en">If the current minimum of an ambipolar transfer curve appears at positive gate bias, e.g. <span class="inline-math">V<sub>min</sub> = +21.3 V</span>, positive gate bias is needed to compensate holes already present near zero gate bias. This indicates p-type doping tendency near <span class="inline-math">V<sub>G</sub> = 0</span>.</p>
             </div>
             <div>
-              <p data-lang="zh">不建议把 PbS CQD FET 的电流最小点直接叫“迪拉克点”。更规范的说法是“电流最小点”“电中性点”或“minimum-conductance point”。</p>
-              <p data-lang="en">For PbS CQD FETs, avoid calling this point a "Dirac point" unless a Dirac-band system is involved. Use "current minimum", "charge-neutrality point", or "minimum-conductance point".</p>
+              <p data-lang="zh">对 PbS CQD FET，通常使用“电流最小点”“电中性点”或“minimum-conductance point”来描述这个位置；这些表述更直接对应转移曲线中的可观测特征。</p>
+              <p data-lang="en">For PbS CQD FETs, this position is usually described as the "current minimum", "charge-neutrality point", or "minimum-conductance point", because these terms directly correspond to the observable feature in the transfer curve.</p>
             </div>
           </div>
         </div>
@@ -1173,8 +1215,8 @@
 
       <section id="reporting">
         <div class="section-head">
-          <h2 data-lang="zh">5. 报告中应该给出的分析参数</h2>
-          <h2 data-lang="en">5. Metrics to Report</h2>
+          <h2 data-lang="zh">6. 报告中应该给出的分析参数</h2>
+          <h2 data-lang="en">6. Metrics to Report</h2>
           <p class="section-note" data-lang="zh">一份规范 FET 总结不只是给迁移率，还要说明迁移率是否可信。</p>
           <p class="section-note" data-lang="en">A proper FET summary should not only report mobility, but also explain why the mobility is reliable.</p>
         </div>
@@ -1218,11 +1260,71 @@
             <code class="code-sentence" data-lang="en">The output curves of the PbS CQD FET show clear modulation under different gate biases, indicating effective back-gate control of channel conductance. The transfer curve shows enhanced current under negative/positive gate bias, corresponding to hole/electron accumulation. In the linear regime, the effective field-effect mobility is extracted from the transconductance <span class="inline-math">g<sub>m</sub></span> of the <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> curve at fixed <span class="inline-math">V<sub>D</sub></span>.</code>
           </div>
           <div class="card pad">
-            <h3 data-lang="zh">不推荐写法</h3>
-            <h3 data-lang="en">Wording to avoid</h3>
-            <p data-lang="zh">“<span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> 曲线斜率用于计算迁移率”“电流最小点是迪拉克点”“<span class="inline-math">V<sub>min</sub></span> 在 +21.3 V 说明器件就是 P 型”“测得迁移率就是 PbS 量子点材料本征迁移率”。这些说法都容易被认为概念不严谨。</p>
-            <p data-lang="en">Avoid statements such as "the <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> slope was used to calculate mobility", "the current minimum is a Dirac point", "<span class="inline-math">V<sub>min</sub></span> at +21.3 V proves the device is simply p-type", or "the extracted mobility is the intrinsic PbS QD mobility". These are conceptually weak or misleading.</p>
+            <h3 data-lang="zh">结果阐释边界</h3>
+            <h3 data-lang="en">Interpretation boundary</h3>
+            <p data-lang="zh">量子点薄膜 FET 的迁移率通常包含配体、量子点间耦合、陷阱态、接触注入和介质界面共同影响。因此报告时应说明这是器件条件下的有效迁移率，而不是单个 PbS 量子点或理想体材料的本征迁移率。</p>
+            <p data-lang="en">Mobility in CQD thin-film FETs is influenced by ligands, inter-dot coupling, traps, contact injection, and dielectric interfaces. It should therefore be reported as device-level effective mobility rather than the intrinsic mobility of a single PbS quantum dot or an ideal bulk material.</p>
           </div>
+        </div>
+      </section>
+
+      <section id="references">
+        <div class="section-head">
+          <h2 data-lang="zh">7. 参考资料与延伸阅读</h2>
+          <h2 data-lang="en">7. References and Further Reading</h2>
+          <p class="section-note" data-lang="zh">这些资料用于支撑网页中的 FET 分析框架：迁移率提取、薄膜晶体管模型、接触效应、量子点/纳米晶阵列输运与 PbS 器件示例。</p>
+          <p class="section-note" data-lang="en">These references support the analysis framework: mobility extraction, TFT modeling, contact effects, quantum-dot/nanocrystal-array transport, and PbS device examples.</p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr data-lang="zh"><th>主题</th><th>参考资料</th><th>为什么有用</th></tr>
+              <tr data-lang="en"><th>Topic</th><th>Reference</th><th>Why it helps</th></tr>
+            </thead>
+            <tbody>
+              <tr data-lang="zh">
+                <td>薄膜晶体管模型与参数提取</td>
+                <td><a href="https://arxiv.org/abs/1812.08800" target="_blank" rel="noopener">Krammer et al., Critical Evaluation of Organic Thin-Film Transistor Models</a></td>
+                <td>强调迁移率和接触电阻等参数依赖模型与提取方法，适合用于说明“迁移率不是单独一个数字就足够”。</td>
+              </tr>
+              <tr data-lang="en">
+                <td>TFT models and parameter extraction</td>
+                <td><a href="https://arxiv.org/abs/1812.08800" target="_blank" rel="noopener">Krammer et al., Critical Evaluation of Organic Thin-Film Transistor Models</a></td>
+                <td>Shows why mobility and contact resistance depend on the selected transistor model and extraction method.</td>
+              </tr>
+              <tr data-lang="zh">
+                <td>双极性与有机/薄膜 FET 物理</td>
+                <td><a href="https://doi.org/10.1021/cr0501543" target="_blank" rel="noopener">Zaumseil & Sirringhaus, Electron and Ambipolar Transport in Organic Field-Effect Transistors</a></td>
+                <td>适合作为理解 p 型、n 型和双极性转移曲线的背景资料。</td>
+              </tr>
+              <tr data-lang="en">
+                <td>Ambipolar and thin-film FET physics</td>
+                <td><a href="https://doi.org/10.1021/cr0501543" target="_blank" rel="noopener">Zaumseil & Sirringhaus, Electron and Ambipolar Transport in Organic Field-Effect Transistors</a></td>
+                <td>Useful background for interpreting p-type, n-type, and ambipolar transfer curves.</td>
+              </tr>
+              <tr data-lang="zh">
+                <td>纳米晶阵列 FET 理论</td>
+                <td><a href="https://arxiv.org/abs/1403.4154" target="_blank" rel="noopener">Reich, Chen & Shklovskii, Theory of a Field Effect Transistor Based on Semiconductor Nanocrystal Array</a></td>
+                <td>说明量子点阵列中的栅控载流子分布、屏蔽与普通连续半导体沟道并不完全相同。</td>
+              </tr>
+              <tr data-lang="en">
+                <td>Nanocrystal-array FET theory</td>
+                <td><a href="https://arxiv.org/abs/1403.4154" target="_blank" rel="noopener">Reich, Chen & Shklovskii, Theory of a Field Effect Transistor Based on Semiconductor Nanocrystal Array</a></td>
+                <td>Explains why carrier distribution and screening in nanocrystal arrays differ from ideal continuous semiconductor channels.</td>
+              </tr>
+              <tr data-lang="zh">
+                <td>PbS 胶体纳米结构 FET 示例</td>
+                <td><a href="https://arxiv.org/abs/1307.7500" target="_blank" rel="noopener">Dogan et al., Field-Effect Transistors Made of Individual Colloidal PbS Nanosheets</a></td>
+                <td>提供 PbS 胶体纳米结构 FET 的实际器件例子，并指出陷阱态在输运中可能很重要。</td>
+              </tr>
+              <tr data-lang="en">
+                <td>PbS colloidal nanostructure FET example</td>
+                <td><a href="https://arxiv.org/abs/1307.7500" target="_blank" rel="noopener">Dogan et al., Field-Effect Transistors Made of Individual Colloidal PbS Nanosheets</a></td>
+                <td>Gives a PbS colloidal nanostructure FET example and notes the importance of trap states in transport.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
     </div>
