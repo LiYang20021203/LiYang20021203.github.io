@@ -762,6 +762,7 @@
       lastPlot: null,
       sliderSync: false,
       analysisDebounce: null,
+      legendDebounce: null,
       colors: ["#1f77b4", "#d62728", "#2ca02c", "#9467bd", "#ff7f0e", "#17becf", "#e377c2", "#111111", "#bcbd22", "#8c564b", "#005f73", "#c1121f"]
     };
 
@@ -835,6 +836,10 @@
         idx++;
       }
       return candidate;
+    }
+
+    function normalizeLegend(value) {
+      return String(value || "").replace(/\s+/g, " ").trim().slice(0, 80);
     }
 
     function extension(name) {
@@ -1623,7 +1628,7 @@
             <div class="file-name" title="${escapeHtml(item.file.name)}">${escapeHtml(item.file.name)}</div>
             <div class="file-meta">${parserType(item.file.name).toUpperCase()} · ${format(item.file.size / 1024, 4)} KB</div>
           </div>
-          <input class="legend-input" type="text" data-legend="${idx}" value="${escapeHtml(item.legend)}" title="legend">
+          <input class="legend-input" type="text" data-legend="${idx}" value="${escapeHtml(item.legend)}" title="legend" maxlength="80" autocomplete="off" spellcheck="false">
           <input type="color" data-color="${idx}" value="${item.color}">
           <button class="remove-file" type="button" data-remove="${idx}" title="remove">×</button>
         </div>
@@ -1632,7 +1637,34 @@
         el.addEventListener("change", () => state.files[Number(el.dataset.check)].selected = el.checked);
       });
       list.querySelectorAll("[data-legend]").forEach(el => {
-        el.addEventListener("input", () => state.files[Number(el.dataset.legend)].legend = el.value);
+        el.addEventListener("input", () => {
+          const idx = Number(el.dataset.legend);
+          state.files[idx].legend = el.value.slice(0, 80);
+        });
+        const commit = () => {
+          const idx = Number(el.dataset.legend);
+          const next = normalizeLegend(el.value) || basename(state.files[idx].file.name, $("stripExt").checked);
+          state.files[idx].legend = next;
+          el.value = next;
+          if (state.lastPlot?.curves) {
+            for (const curve of state.lastPlot.curves) {
+              if (curve.fileIndex === idx) curve.label = next;
+            }
+            clearTimeout(state.legendDebounce);
+            state.legendDebounce = setTimeout(() => {
+              drawPlot(state.lastPlot.curves);
+              renderResults(state.lastPlot.curves);
+            }, 80);
+          }
+        };
+        el.addEventListener("change", commit);
+        el.addEventListener("blur", commit);
+        el.addEventListener("keydown", event => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            el.blur();
+          }
+        });
       });
       list.querySelectorAll("[data-color]").forEach(el => {
         el.addEventListener("input", () => state.files[Number(el.dataset.color)].color = el.value);
@@ -1710,6 +1742,7 @@
       const strip = $("stripExt").checked;
       for (let idx = 0; idx < selected.length; idx++) {
         const item = selected[idx];
+        const fileIndex = state.files.indexOf(item);
         try {
           const parsed = await parseOneFile(item.file);
           const rawPoints = parsed.V.length;
@@ -1728,6 +1761,7 @@
           curves.push({
             name: item.file.name,
             label: item.legend.trim() || basename(item.file.name, strip),
+            fileIndex,
             type,
             rawPoints,
             V: ranged.V,
