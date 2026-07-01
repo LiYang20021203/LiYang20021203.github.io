@@ -135,6 +135,11 @@
       cursor: pointer;
     }
 
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+
     .field {
       display: grid;
       gap: 4px;
@@ -329,21 +334,14 @@
       font-size: 11px;
     }
 
-    .file-legend-field {
+    .file-extra {
       margin-top: 6px;
       display: grid;
       gap: 4px;
     }
 
-    .file-legend-field label {
-      color: var(--muted);
-      font-size: 10px;
-    }
-
-    .file-legend-field input {
+    .file-extra input {
       min-height: 28px;
-      padding: 5px 7px;
-      font-size: 11px;
     }
 
     .trim-title {
@@ -362,6 +360,47 @@
       gap: 7px;
       align-items: center;
       font-size: 12px;
+    }
+
+    .slider-panel {
+      margin: 8px 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      background: #fbfcfc;
+    }
+
+    .slider-panel h2 {
+      margin: 0 0 6px;
+    }
+
+    .slider-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .slider-field {
+      display: grid;
+      gap: 2px;
+    }
+
+    .slider-field label {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--ink);
+    }
+
+    .slider-value {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .range-pair {
+      margin: 6px 0;
+      display: grid;
+      gap: 4px;
     }
 
     .control-bar {
@@ -433,6 +472,28 @@
       margin: 0 0 8px;
       color: var(--muted);
       font-size: 13px;
+    }
+
+    .plot-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 0 0 8px;
+    }
+
+    .plot-title-row .plot-title {
+      margin: 0;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .plot-close {
+      flex: 0 0 auto;
+      min-height: 26px;
+      padding: 2px 8px;
+      border-color: var(--line);
+      color: var(--muted);
     }
 
     canvas {
@@ -546,6 +607,7 @@
       main { height: auto; padding: 14px; overflow: visible; }
       .row, .row3 { grid-template-columns: 1fr; }
       .file-list { grid-template-columns: 1fr; }
+      .slider-grid { grid-template-columns: 1fr; }
       canvas { min-height: 280px; }
     }
   </style>
@@ -639,6 +701,26 @@
         </div>
         <div class="row3">
           <div class="field">
+            <label for="figureWidth" data-i18n="figureWidth">图片宽度 px</label>
+            <input id="figureWidth" type="number" min="360" max="2200" step="10" placeholder="auto">
+          </div>
+          <div class="field">
+            <label for="figureHeight" data-i18n="figureHeight">图片高度 px</label>
+            <input id="figureHeight" type="number" min="220" max="1600" step="10" placeholder="auto">
+          </div>
+          <div class="field">
+            <label for="legendPosition" data-i18n="legendPosition">图例位置</label>
+            <select id="legendPosition">
+              <option value="top-right" data-i18n="legendTopRight">右上</option>
+              <option value="top-left" data-i18n="legendTopLeft">左上</option>
+              <option value="bottom-right" data-i18n="legendBottomRight">右下</option>
+              <option value="bottom-left" data-i18n="legendBottomLeft">左下</option>
+              <option value="outside-right" data-i18n="legendOutsideRight">图外右侧</option>
+            </select>
+          </div>
+        </div>
+        <div class="row3">
+          <div class="field">
             <label for="fontSize" data-i18n="fontSize">字号</label>
             <input id="fontSize" type="number" min="9" max="26" step="1" value="16">
           </div>
@@ -659,6 +741,31 @@
         <div class="row">
           <div class="field"><label for="yMin" data-i18n="yMin">Y 最小值</label><input id="yMin" type="text" placeholder="blank"></div>
           <div class="field"><label for="yMax" data-i18n="yMax">Y 最大值</label><input id="yMax" type="text" placeholder="blank"></div>
+        </div>
+        <div class="slider-panel">
+          <h2 data-i18n="axisSliders">坐标范围滑块</h2>
+          <div class="slider-grid">
+            <div class="slider-field">
+              <label for="xMinSlider"><span data-i18n="xMin">X 最小值</span><span id="xMinSliderValue" class="slider-value">auto</span></label>
+              <input id="xMinSlider" type="range" disabled>
+            </div>
+            <div class="slider-field">
+              <label for="xMaxSlider"><span data-i18n="xMax">X 最大值</span><span id="xMaxSliderValue" class="slider-value">auto</span></label>
+              <input id="xMaxSlider" type="range" disabled>
+            </div>
+            <div class="slider-field">
+              <label for="yMinSlider"><span data-i18n="yMin">Y 最小值</span><span id="yMinSliderValue" class="slider-value">auto</span></label>
+              <input id="yMinSlider" type="range" disabled>
+            </div>
+            <div class="slider-field">
+              <label for="yMaxSlider"><span data-i18n="yMax">Y 最大值</span><span id="yMaxSliderValue" class="slider-value">auto</span></label>
+              <input id="yMaxSlider" type="range" disabled>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="resetAxis" type="button" data-i18n="resetAxis">重置坐标范围</button>
+          </div>
+          <div class="hint" data-i18n="axisSliderHint">上传并选择数据后，可拖动滑块实时调整坐标范围；留空表示自动范围。</div>
         </div>
 
         <h2 data-i18n="exportStyle">导出样式</h2>
@@ -734,7 +841,7 @@
         langButton: "English",
         guideTitle: "使用流程",
         guide1: "上传 TXT、CSV、XLSX、XLS 或 XLSM 光谱文件。",
-        guide2: "在文件列表中勾选需要绘制的曲线，并可单独调整颜色和图例名称。",
+        guide2: "在文件列表中勾选需要绘制的曲线，并可单独调整颜色。",
         guide3: "如需裁剪数据，填写保留范围或排除范围后更新裁剪表。",
         guide4: "点击预览原始曲线、绘制裁剪曲线，或生成归一化峰图。",
         guide5: "检查主峰分析结果，并按需导出 PNG 或 PDF。",
@@ -760,6 +867,14 @@
         wide: "宽图 (9x5)",
         tall: "高图 (5x6)",
         figureName: "图片文件名",
+        figureWidth: "图片宽度 px",
+        figureHeight: "图片高度 px",
+        legendPosition: "图例位置",
+        legendTopRight: "右上",
+        legendTopLeft: "左上",
+        legendBottomRight: "右下",
+        legendBottomLeft: "左下",
+        legendOutsideRight: "图外右侧",
         fontSize: "字号",
         lineWidth: "线宽",
         preMinPoints: "谷值前保留点数",
@@ -768,15 +883,15 @@
         xMax: "X 最大值",
         yMin: "Y 最小值",
         yMax: "Y 最大值",
+        axisSliders: "坐标范围滑块",
+        resetAxis: "重置坐标范围",
+        axisSliderHint: "上传并选择数据后，可拖动滑块实时调整坐标范围；留空表示自动范围。",
         exportStyle: "导出样式",
         canvasBg: "画布背景",
         background: "背景",
         axisColor: "坐标轴颜色",
         axisAndText: "坐标轴和文字",
-        colorNote: "每条曲线的颜色和图例名称可以在上传文件列表中单独调整；图例名称留空时，按“峰位/峰位+文件名”的自动规则显示。",
-        legendLabel: "图例名称",
-        legendPlaceholder: "留空则自动使用峰位/文件名",
-        legendHelp: "填写后会直接覆盖图例显示；留空时使用下方“图例只显示峰位”的自动规则。",
+        colorNote: "每条曲线的颜色可以在上传文件列表中单独调整；未手动调整时，按 Colors 列表顺序自动分配。",
         rangeFilter: "每条选中曲线的范围筛选",
         rangeHelp: "Keep min/max 可留空。Exclude ranges 可写成 <code>500-850; 2300-2600</code>。",
         updateTrim: "更新裁剪表",
@@ -811,6 +926,9 @@
         points: "点",
         keepMin: "保留最小值",
         keepMax: "保留最大值",
+        trimSliderHint: "数据选择范围滑块",
+        legendName: "图例名称",
+        legendNamePlaceholder: "留空则自动使用峰位/文件名",
         exclude: "排除范围",
         placeholderBlank: "留空",
         placeholderExclude: "例如 500-850;2300-2600",
@@ -832,7 +950,8 @@
         metricTroughForRatio: "峰谷比谷值",
         metricTroughY: "谷值",
         metricPeakTrough: "峰谷比",
-        metricNormXRange: "归一化横坐标范围"
+        metricNormXRange: "归一化横坐标范围",
+        closePlot: "关闭"
       },
       en: {
         appTitle: "Absorption Curve Plotter",
@@ -840,7 +959,7 @@
         langButton: "中文",
         guideTitle: "Workflow",
         guide1: "Upload TXT, CSV, XLSX, XLS, or XLSM spectrum files.",
-        guide2: "Select the curves you want to plot, then adjust individual colors and legend names if needed.",
+        guide2: "Select the curves you want to plot and adjust individual colors if needed.",
         guide3: "Set keep ranges or excluded ranges when data trimming is needed.",
         guide4: "Preview raw data, plot trimmed curves, or generate the normalized peak plot.",
         guide5: "Review peak analysis results, then export PNG or PDF if needed.",
@@ -866,6 +985,14 @@
         wide: "Wide (9x5)",
         tall: "Tall (5x6)",
         figureName: "Figure name",
+        figureWidth: "Figure width px",
+        figureHeight: "Figure height px",
+        legendPosition: "Legend position",
+        legendTopRight: "Top right",
+        legendTopLeft: "Top left",
+        legendBottomRight: "Bottom right",
+        legendBottomLeft: "Bottom left",
+        legendOutsideRight: "Outside right",
         fontSize: "Font size",
         lineWidth: "Line width",
         preMinPoints: "Pre-min extra points",
@@ -874,15 +1001,15 @@
         xMax: "X max",
         yMin: "Y min",
         yMax: "Y max",
+        axisSliders: "Axis Range Sliders",
+        resetAxis: "Reset axis range",
+        axisSliderHint: "After uploading and selecting data, drag sliders to adjust axis ranges live. Blank fields keep automatic limits.",
         exportStyle: "Export Style",
         canvasBg: "Canvas background",
         background: "Background",
         axisColor: "Axis color",
         axisAndText: "Axis and text",
-        colorNote: "Curve colors and legend names can be adjusted in the uploaded file list. If the legend name is blank, the automatic peak/file-name rule is used.",
-        legendLabel: "Legend name",
-        legendPlaceholder: "blank = auto peak/file name",
-        legendHelp: "A custom name directly overrides the legend. Leave it blank to use the Peak-only legend rule below.",
+        colorNote: "Curve colors can be adjusted in the uploaded file list. If not manually changed, colors follow the Colors list.",
         rangeFilter: "Range Filter For Every Selected Curve",
         rangeHelp: "Keep min/max are optional. Exclude ranges use forms like <code>500-850; 2300-2600</code>.",
         updateTrim: "Update range table",
@@ -917,6 +1044,9 @@
         points: "pts",
         keepMin: "keep min",
         keepMax: "keep max",
+        trimSliderHint: "Data selection range sliders",
+        legendName: "Legend name",
+        legendNamePlaceholder: "Blank = auto peak/file label",
         exclude: "exclude",
         placeholderBlank: "blank",
         placeholderExclude: "e.g. 500-850;2300-2600",
@@ -938,7 +1068,8 @@
         metricTroughForRatio: "trough for ratio",
         metricTroughY: "trough value",
         metricPeakTrough: "peak/trough",
-        metricNormXRange: "normalized x range"
+        metricNormXRange: "normalized x range",
+        closePlot: "Close"
       }
     };
 
@@ -970,6 +1101,9 @@
       showMarkers: document.getElementById("showMarkers"),
       aspect: document.getElementById("aspect"),
       figureName: document.getElementById("figureName"),
+      figureWidth: document.getElementById("figureWidth"),
+      figureHeight: document.getElementById("figureHeight"),
+      legendPosition: document.getElementById("legendPosition"),
       fontSize: document.getElementById("fontSize"),
       lineWidth: document.getElementById("lineWidth"),
       preMinPoints: document.getElementById("preMinPoints"),
@@ -977,6 +1111,14 @@
       xMax: document.getElementById("xMax"),
       yMin: document.getElementById("yMin"),
       yMax: document.getElementById("yMax"),
+      xMinSlider: document.getElementById("xMinSlider"),
+      xMaxSlider: document.getElementById("xMaxSlider"),
+      yMinSlider: document.getElementById("yMinSlider"),
+      yMaxSlider: document.getElementById("yMaxSlider"),
+      xMinSliderValue: document.getElementById("xMinSliderValue"),
+      xMaxSliderValue: document.getElementById("xMaxSliderValue"),
+      yMinSliderValue: document.getElementById("yMinSliderValue"),
+      yMaxSliderValue: document.getElementById("yMaxSliderValue"),
       backgroundColor: document.getElementById("backgroundColor"),
       axisColor: document.getElementById("axisColor")
     };
@@ -1175,11 +1317,38 @@
       };
     }
 
+    function makeOddWindow(value, min = 3, max = Infinity) {
+      let win = Math.max(min, Math.floor(value));
+      if (Number.isFinite(max)) win = Math.min(win, max);
+      if (win % 2 === 0) win += 1;
+      return win;
+    }
+
+    function median(values) {
+      const sorted = values.slice().sort((a, b) => a - b);
+      const mid = Math.floor(sorted.length / 2);
+      return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+    }
+
+    function medianFilter(yValues, window = 5) {
+      const y = yValues.map(Number);
+      if (y.length < 3) return y.slice();
+      const win = makeOddWindow(window, 3, Math.max(3, y.length));
+      const pad = Math.floor(win / 2);
+      return y.map((_, i) => {
+        const section = [];
+        for (let j = -pad; j <= pad; j += 1) {
+          const idx = Math.min(y.length - 1, Math.max(0, i + j));
+          section.push(y[idx]);
+        }
+        return median(section);
+      });
+    }
+
     function movingAverage(yValues, window = 11) {
       const y = yValues.map(Number);
       if (y.length < 3) return y.slice();
-      let win = Math.max(3, Math.floor(window));
-      if (win % 2 === 0) win += 1;
+      const win = makeOddWindow(window, 3, Math.max(3, y.length));
       if (y.length < win) return y.slice();
       const pad = Math.floor(win / 2);
       const result = [];
@@ -1194,24 +1363,42 @@
       return result;
     }
 
-    function findMainPeak(data, smoothWindow = 11) {
+    function robustTrend(yValues, smoothWindow = 0) {
+      const n = yValues.length;
+      const spikeWindow = n > 120 ? 5 : 3;
+      const smoothWin = smoothWindow || makeOddWindow(Math.max(9, n * 0.018), 7, 61);
+      return movingAverage(medianFilter(yValues, spikeWindow), smoothWin);
+    }
+
+    function findMainPeak(data, smoothWindow = 0) {
       const x = data.map(p => p.x);
       const y = data.map(p => p.y);
-      const ys = movingAverage(y, smoothWindow);
+      const ys = robustTrend(y, smoothWindow);
       const n = x.length;
+      if (!n) throw new Error("No data points.");
       const margin = Math.max(3, Math.floor(0.03 * n));
       const yRange = Math.max(...ys) - Math.min(...ys);
       const candidates = [];
 
       for (let i = margin; i < n - margin; i += 1) {
         if (ys[i] >= ys[i - 1] && ys[i] > ys[i + 1]) {
-          const halfWindow = Math.max(10, Math.floor(0.08 * n));
+          const halfWindow = Math.max(12, Math.floor(0.10 * n));
           const left = ys.slice(Math.max(0, i - halfWindow), i + 1);
           const right = ys.slice(i, Math.min(n, i + halfWindow + 1));
           const baseline = Math.max(Math.min(...left), Math.min(...right));
           const prominence = ys[i] - baseline;
-          if (yRange === 0 || prominence >= 0.03 * yRange) {
-            candidates.push({ prominence, idx: i, baseline });
+          if (yRange === 0 || prominence >= 0.04 * yRange) {
+            const halfLevel = baseline + 0.5 * Math.max(prominence, 0);
+            let leftIdx = i;
+            while (leftIdx > 0 && ys[leftIdx] >= halfLevel) leftIdx -= 1;
+            let rightIdx = i;
+            while (rightIdx < n - 1 && ys[rightIdx] >= halfLevel) rightIdx += 1;
+            const widthPts = Math.max(1, rightIdx - leftIdx);
+            const minWidthPts = Math.max(5, Math.floor(0.012 * n));
+            if (widthPts >= minWidthPts) {
+              const score = prominence * Math.sqrt(widthPts);
+              candidates.push({ prominence, idx: i, baseline, score, leftIdx, rightIdx });
+            }
           }
         }
       }
@@ -1219,11 +1406,13 @@
       let idx;
       let baseline;
       let prominence;
+      let candidateBounds = null;
       if (candidates.length) {
-        const best = candidates.reduce((a, b) => b.prominence > a.prominence ? b : a);
+        const best = candidates.reduce((a, b) => b.score > a.score ? b : a);
         idx = best.idx;
         baseline = best.baseline;
         prominence = best.prominence;
+        candidateBounds = { leftIdx: best.leftIdx, rightIdx: best.rightIdx };
       } else {
         const search = n > 2 * margin ? ys.slice(margin, n - margin) : ys;
         const localMax = search.indexOf(Math.max(...search));
@@ -1233,9 +1422,9 @@
       }
 
       const halfLevel = baseline + 0.5 * Math.max(ys[idx] - baseline, 0);
-      let leftIdx = idx;
+      let leftIdx = candidateBounds?.leftIdx ?? idx;
       while (leftIdx > 0 && ys[leftIdx] >= halfLevel) leftIdx -= 1;
-      let rightIdx = idx;
+      let rightIdx = candidateBounds?.rightIdx ?? idx;
       while (rightIdx < n - 1 && ys[rightIdx] >= halfLevel) rightIdx += 1;
       const fwhm = rightIdx > leftIdx ? x[rightIdx] - x[leftIdx] : NaN;
 
@@ -1253,7 +1442,7 @@
     function leftMinimumDetails(data, peak, smoothWindow = 11) {
       const x = data.map(p => p.x);
       const y = data.map(p => p.y);
-      const ys = movingAverage(y, smoothWindow);
+      const ys = robustTrend(y, smoothWindow);
       const peakIdx = peak.index;
       let minIdx;
 
@@ -1261,12 +1450,27 @@
         const section = ys.slice(0, peakIdx + 1);
         minIdx = section.indexOf(Math.min(...section));
       } else {
+        const n = ys.length;
+        const yRange = Math.max(...ys) - Math.min(...ys);
+        const minGap = Math.max(3, Math.floor(0.012 * n));
+        const searchEnd = Math.max(1, peakIdx - minGap);
         const localMinima = [];
-        for (let i = 1; i < peakIdx; i += 1) {
-          if (ys[i] <= ys[i - 1] && ys[i] < ys[i + 1]) localMinima.push(i);
+        for (let i = 1; i < searchEnd; i += 1) {
+          if (ys[i] <= ys[i - 1] && ys[i] < ys[i + 1]) {
+            const riseToPeak = ys[peakIdx] - ys[i];
+            if (yRange === 0 || riseToPeak >= 0.04 * yRange) {
+              const closeness = peakIdx > 0 ? i / peakIdx : 0;
+              const score = riseToPeak + 0.08 * yRange * closeness;
+              localMinima.push({ idx: i, score });
+            }
+          }
         }
-        if (localMinima.length) minIdx = localMinima[localMinima.length - 1];
-        else minIdx = ys.slice(0, peakIdx).indexOf(Math.min(...ys.slice(0, peakIdx)));
+        if (localMinima.length) {
+          minIdx = localMinima.reduce((a, b) => b.score > a.score ? b : a).idx;
+        } else {
+          const section = ys.slice(0, searchEnd + 1);
+          minIdx = section.indexOf(Math.min(...section));
+        }
       }
 
       const peakY = y[peakIdx];
@@ -1291,19 +1495,20 @@
     function normalizeFromLeftMinimum(data, peak, pointsBeforeMinimum = 0, smoothWindow = 11) {
       const x = data.map(p => p.x);
       const y = data.map(p => p.y);
+      const ys = robustTrend(y, smoothWindow);
       const peakIdx = peak.index;
       const minIdx = peak.leftMinIndex ?? leftMinimumDetails(data, peak, smoothWindow).leftMinIndex;
 
       const pre = Math.max(0, Math.floor(pointsBeforeMinimum));
       const startIdx = Math.max(0, minIdx - pre);
-      const searchY = y.slice(startIdx);
+      const searchY = ys.slice(startIdx);
       const plotMinRelIdx = searchY.indexOf(Math.min(...searchY));
       const plotMinIdx = startIdx + plotMinRelIdx;
       const selectedX = x.slice(startIdx);
       const selectedY = y.slice(startIdx);
       const troughY = y[plotMinIdx];
       const peakY = y[peakIdx];
-      const plotMinY = Math.min(...selectedY);
+      const plotMinY = troughY;
       const denom = peakY - plotMinY;
       const normalizedY = Math.abs(denom) < 1e-12 ? normalizeY(selectedY) : selectedY.map(v => (v - plotMinY) / denom);
       const normalizedData = selectedX.map((xValue, i) => ({ x: xValue, y: normalizedY[i] }));
@@ -1377,13 +1582,6 @@
       return colors[index % colors.length] || "#000000";
     }
 
-    function legendLabel(item, peak) {
-      const custom = String(item.legendName || "").trim();
-      if (custom) return custom;
-      const baseName = item.fileName.replace(/\.[^.]+$/, "");
-      return els.legendStripExt.checked ? `${peak.peakWavelength.toFixed(0)}nm` : `${peak.peakWavelength.toFixed(0)}nm ${baseName}`;
-    }
-
     function aspectSize() {
       return {
         "4:3 (8x6)": [8, 6],
@@ -1410,6 +1608,112 @@
       return value.toFixed(digits);
     }
 
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function displayNumber(value, digits = 2) {
+      if (!Number.isFinite(value)) return "auto";
+      const abs = Math.abs(value);
+      if (abs >= 1000) return value.toFixed(1);
+      if (abs >= 10) return value.toFixed(2);
+      return value.toFixed(digits);
+    }
+
+    function dataBounds(items = selectedItems()) {
+      const points = [];
+      for (const item of items) {
+        for (const point of item.data) points.push(point);
+      }
+      if (!points.length) return null;
+      const xs = points.map(p => p.x);
+      const ys = points.map(p => p.y);
+      return {
+        xMin: Math.min(...xs),
+        xMax: Math.max(...xs),
+        yMin: Math.min(...ys),
+        yMax: Math.max(...ys)
+      };
+    }
+
+    function currentPlotBounds() {
+      const plotGroup = state.activePlotKind === "normalized" ? state.normalizedPlots : state.standardPlots;
+      const points = [];
+      for (const plot of plotGroup) {
+        for (const series of plot.series || []) {
+          for (const point of series.points || []) points.push(point);
+        }
+      }
+      if (!points.length) return null;
+      const xs = points.map(p => p.x);
+      const ys = points.map(p => p.y);
+      return {
+        xMin: Math.min(...xs),
+        xMax: Math.max(...xs),
+        yMin: Math.min(...ys),
+        yMax: Math.max(...ys)
+      };
+    }
+
+    function sliderStep(min, max) {
+      const span = Math.abs(max - min);
+      if (!Number.isFinite(span) || span <= 0) return 1;
+      return Math.max(span / 1000, 0.0001);
+    }
+
+    function configureRangeSlider(slider, label, min, max, value) {
+      if (!slider || !label) return;
+      if (!Number.isFinite(min) || !Number.isFinite(max) || min === max) {
+        slider.disabled = true;
+        label.textContent = "auto";
+        return;
+      }
+      slider.disabled = false;
+      slider.min = String(min);
+      slider.max = String(max);
+      slider.step = String(sliderStep(min, max));
+      slider.value = String(clamp(value, min, max));
+      label.textContent = displayNumber(Number(slider.value));
+    }
+
+    function updateAxisSliders() {
+      const bounds = currentPlotBounds() || dataBounds();
+      const pairs = [
+        ["xMin", els.xMinSlider, els.xMinSliderValue],
+        ["xMax", els.xMaxSlider, els.xMaxSliderValue],
+        ["yMin", els.yMinSlider, els.yMinSliderValue],
+        ["yMax", els.yMaxSlider, els.yMaxSliderValue]
+      ];
+      if (!bounds) {
+        pairs.forEach(([, slider, label]) => {
+          slider.disabled = true;
+          label.textContent = "auto";
+        });
+        return;
+      }
+      const limits = axisLimits();
+      configureRangeSlider(els.xMinSlider, els.xMinSliderValue, bounds.xMin, bounds.xMax, limits.xMin ?? bounds.xMin);
+      configureRangeSlider(els.xMaxSlider, els.xMaxSliderValue, bounds.xMin, bounds.xMax, limits.xMax ?? bounds.xMax);
+      configureRangeSlider(els.yMinSlider, els.yMinSliderValue, bounds.yMin, bounds.yMax, limits.yMin ?? bounds.yMin);
+      configureRangeSlider(els.yMaxSlider, els.yMaxSliderValue, bounds.yMin, bounds.yMax, limits.yMax ?? bounds.yMax);
+    }
+
+    function refreshCurrentAnalysis() {
+      if (!state.files.length) return;
+      if (state.lastMode === "normalized") plotPeakNormalized();
+      else if (state.lastMode === "trimmed") plotTrimmed();
+      else previewRaw();
+    }
+
+    function autoLegendLabel(item, peak) {
+      const baseName = item.fileName.replace(/\.[^.]+$/, "");
+      return els.legendStripExt.checked ? `${peak.peakWavelength.toFixed(0)}nm` : `${peak.peakWavelength.toFixed(0)}nm ${baseName}`;
+    }
+
+    function legendLabel(item, peak) {
+      return String(item.legendName || "").trim() || autoLegendLabel(item, peak);
+    }
+
     function renderFiles() {
       if (!state.files.length) {
         els.fileList.innerHTML = "";
@@ -1424,10 +1728,9 @@
             <span class="pill">${item.data.length} ${t("points")}</span>
           </div>
           <div class="file-meta">${formatNumber(item.data[0].x, 1)}-${formatNumber(item.data[item.data.length - 1].x, 1)} nm</div>
-          <div class="file-legend-field">
-            <label for="legend-${index}">${t("legendLabel")}</label>
-            <input id="legend-${index}" data-action="legend-label" data-index="${index}" type="text" value="${escapeHtml(item.legendName || "")}" placeholder="${escapeHtml(t("legendPlaceholder"))}">
-            <div class="hint">${t("legendHelp")}</div>
+          <div class="file-extra">
+            <label>${t("legendName")}</label>
+            <input data-action="legend-name" data-index="${index}" type="text" value="${escapeHtml(item.legendName || "")}" placeholder="${t("legendNamePlaceholder")}">
           </div>
         </div>
       `).join("");
@@ -1441,9 +1744,26 @@
       }
       els.trimList.innerHTML = selected.map(item => {
         const index = state.files.indexOf(item);
+        const xValues = item.data.map(p => p.x);
+        const minX = Math.min(...xValues);
+        const maxX = Math.max(...xValues);
+        const step = sliderStep(minX, maxX);
+        const keepMin = optionalFloat(item.trim.keepMin) ?? minX;
+        const keepMax = optionalFloat(item.trim.keepMax) ?? maxX;
         return `
           <div class="trim-item">
             <div class="trim-title" title="${escapeHtml(item.fileName)}">${escapeHtml(item.fileName)}</div>
+            <div class="range-pair">
+              <div class="hint">${t("trimSliderHint")}</div>
+              <div class="slider-field">
+                <label><span>${t("keepMin")}</span><span class="slider-value">${displayNumber(keepMin)}</span></label>
+                <input data-trim-slider="keepMin" data-index="${index}" type="range" min="${minX}" max="${maxX}" step="${step}" value="${clamp(keepMin, minX, maxX)}">
+              </div>
+              <div class="slider-field">
+                <label><span>${t("keepMax")}</span><span class="slider-value">${displayNumber(keepMax)}</span></label>
+                <input data-trim-slider="keepMax" data-index="${index}" type="range" min="${minX}" max="${maxX}" step="${step}" value="${clamp(keepMax, minX, maxX)}">
+              </div>
+            </div>
             <div class="row">
               <div class="field"><label>${t("keepMin")}</label><input data-trim="keepMin" data-index="${index}" type="text" value="${escapeHtml(item.trim.keepMin)}" placeholder="${t("placeholderBlank")}"></div>
               <div class="field"><label>${t("keepMax")}</label><input data-trim="keepMax" data-index="${index}" type="text" value="${escapeHtml(item.trim.keepMax)}" placeholder="${t("placeholderBlank")}"></div>
@@ -1490,14 +1810,19 @@
     }
 
     function prepareCanvas(card, title) {
-      card.innerHTML = `<div class="plot-title">${escapeHtml(title)}</div><canvas></canvas>`;
+      card.innerHTML = `<div class="plot-title-row"><div class="plot-title">${escapeHtml(title)}</div><button class="plot-close" type="button" data-action="close-plot">${t("closePlot")}</button></div><canvas></canvas>`;
       const canvas = card.querySelector("canvas");
       const [w, h] = aspectSize();
-      const cssWidth = Math.max(560, card.clientWidth || 760);
-      const cssHeight = Math.max(260, Math.min(430, cssWidth * h / w));
+      const requestedWidth = Number(els.figureWidth.value);
+      const requestedHeight = Number(els.figureHeight.value);
+      const autoWidth = Math.max(560, card.clientWidth || 760);
+      const cssWidth = Number.isFinite(requestedWidth) && requestedWidth > 0 ? requestedWidth : autoWidth;
+      const cssHeight = Number.isFinite(requestedHeight) && requestedHeight > 0
+        ? requestedHeight
+        : Math.max(260, Math.min(430, cssWidth * h / w));
       canvas.style.height = `${cssHeight}px`;
       const ratio = window.devicePixelRatio || 1;
-      canvas.width = Math.max(760, Math.floor((card.clientWidth - 20) * ratio));
+      canvas.width = Math.max(360, Math.floor(cssWidth * ratio));
       canvas.height = Math.floor(cssHeight * ratio);
       return { canvas, ratio };
     }
@@ -1570,7 +1895,7 @@
       const bg = els.backgroundColor.value || "#ffffff";
       const margin = {
         left: (74 + fs * 1.2) * ratio,
-        right: 30 * ratio,
+        right: (els.legendPosition.value === "outside-right" && els.showLegend.checked ? 170 : 30) * ratio,
         top: 34 * ratio,
         bottom: (62 + fs * 0.8) * ratio
       };
@@ -1601,6 +1926,8 @@
         minX = rounded.min;
         maxX = rounded.max;
       }
+      if (minX > maxX) [minX, maxX] = [maxX, minX];
+      if (minY > maxY) [minY, maxY] = [maxY, minY];
       if (minX === maxX) maxX += 1;
       if (minY === maxY) maxY += 1;
       if (limits.yMin === null && limits.yMax === null && !plot.normalized && !plot.overlayNormalized) {
@@ -1685,12 +2012,30 @@
         ctx.font = `${Math.max(9, fs) * ratio}px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif`;
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        const labels = plot.series.map(series => String(series.label || "").slice(0, 32));
+        const labels = plot.series.map(series => series.label.slice(0, 24));
         const maxLabelW = labels.reduce((max, label) => Math.max(max, ctx.measureText(label).width), 0);
         const legendW = 24 * ratio + 8 * ratio + maxLabelW;
-        let lx = margin.left + plotW - legendW - 12 * ratio;
-        lx = Math.max(margin.left + 12 * ratio, lx);
+        const lineGap = (Math.max(9, fs) + 8) * ratio;
+        const legendH = Math.max(1, labels.length) * lineGap;
+        const pad = 12 * ratio;
+        const position = els.legendPosition.value || "top-right";
+        let lx = margin.left + plotW - legendW - pad;
         let ly = margin.top + 18 * ratio;
+        if (position === "top-left") {
+          lx = margin.left + pad;
+          ly = margin.top + 18 * ratio;
+        } else if (position === "bottom-right") {
+          lx = margin.left + plotW - legendW - pad;
+          ly = margin.top + plotH - legendH + lineGap * 0.45;
+        } else if (position === "bottom-left") {
+          lx = margin.left + pad;
+          ly = margin.top + plotH - legendH + lineGap * 0.45;
+        } else if (position === "outside-right") {
+          lx = margin.left + plotW + pad;
+          ly = margin.top + 18 * ratio;
+        }
+        lx = Math.max(6 * ratio, Math.min(width - legendW - 6 * ratio, lx));
+        ly = Math.max(margin.top + 12 * ratio, Math.min(margin.top + plotH - 6 * ratio, ly));
         plot.series.forEach((series, i) => {
           const color = series.color || colors[i % colors.length];
           ctx.strokeStyle = color;
@@ -1701,7 +2046,7 @@
           ctx.stroke();
           ctx.fillStyle = axisColor;
           ctx.fillText(labels[i], lx + 32 * ratio, ly);
-          ly += (Math.max(9, fs) + 8) * ratio;
+          ly += lineGap;
         });
       }
     }
@@ -1715,29 +2060,15 @@
         const y = overlayNormalized ? normalizeY(yRaw) : yRaw;
         const points = x.map((xv, i) => ({ x: xv, y: y[i] }));
         const markerY = overlayNormalized ? y[peak.index] : peak.peakAbsorption;
-        const label = legendLabel(item, peak);
         return {
           item,
           peak,
           color: item.color || defaultColor(idx),
           points,
           marker: { x: peak.peakWavelength, y: markerY },
-          label
+          label: legendLabel(item, peak)
         };
       });
-    }
-
-    function refreshSeriesLabels() {
-      for (const plotGroup of [state.standardPlots, state.normalizedPlots]) {
-        for (const plot of plotGroup) {
-          for (const series of plot.series) {
-            if (!series.item || !series.peak) continue;
-            const sourceItem = state.files.find(item => item.id === series.item.id) || series.item;
-            series.label = legendLabel(sourceItem, series.peak);
-            series.item.legendName = sourceItem.legendName || "";
-          }
-        }
-      }
     }
 
     function renderPlots(kind, plotSpecs) {
@@ -1747,21 +2078,24 @@
       state.activePlotKind = kind;
       area.className = "";
       area.innerHTML = "";
-      for (const spec of plotSpecs) {
+      plotSpecs.forEach((spec, index) => {
         const card = document.createElement("div");
         card.className = "plot-card";
+        card.dataset.plotKind = kind;
+        card.dataset.plotIndex = String(index);
         area.appendChild(card);
         const { canvas } = prepareCanvas(card, spec.title);
         drawPlot(canvas, spec);
-      }
+      });
+      updateAxisSliders();
     }
 
     function rerenderAllPlots() {
-      refreshSeriesLabels();
       const active = state.activePlotKind;
       if (state.standardPlots.length) renderPlots("standard", state.standardPlots);
       if (state.normalizedPlots.length) renderPlots("normalized", state.normalizedPlots);
       state.activePlotKind = active;
+      updateAxisSliders();
     }
 
     function selectedTrimmed() {
@@ -1847,7 +2181,6 @@
         }
         const series = normalizedItems.map((item, idx) => {
           const result = results[idx];
-          const label = legendLabel(item, result.peak);
           const markerIdx = result.normalizedPeak.index;
           return {
             item,
@@ -1855,7 +2188,7 @@
             color: item.color || defaultColor(idx),
             points: item.data,
             marker: { x: item.data[markerIdx].x, y: item.data[markerIdx].y },
-            label
+            label: legendLabel(item, result.peak)
           };
         });
         state.results = results;
@@ -1931,6 +2264,7 @@
       state.files.push(...loaded);
       renderFiles();
       renderTrimTable();
+      updateAxisSliders();
       if (loaded.length) {
         setStatus(failures.length ? t("loadedSomeFailed", loaded.length) : t("loaded", loaded.length), false);
       } else {
@@ -1952,7 +2286,85 @@
       els.normalizedPlotArea.className = "empty";
       els.normalizedPlotArea.textContent = t("normalizedEmpty");
       renderResultsTable([], false);
+      updateAxisSliders();
       setStatus(t("clearDone"));
+    }
+
+    function handleAxisSlider(input) {
+      const idMap = {
+        xMinSlider: "xMin",
+        xMaxSlider: "xMax",
+        yMinSlider: "yMin",
+        yMaxSlider: "yMax"
+      };
+      const key = idMap[input.id];
+      if (!key) return;
+      const minKey = key.startsWith("x") ? "xMin" : "yMin";
+      const maxKey = key.startsWith("x") ? "xMax" : "yMax";
+      const minEl = els[minKey];
+      const maxEl = els[maxKey];
+      const minLimit = Number(input.min);
+      const maxLimit = Number(input.max);
+      const step = Number(input.step) || sliderStep(minLimit, maxLimit);
+      let value = Number(input.value);
+
+      if (key.endsWith("Min")) {
+        const currentMax = optionalFloat(maxEl.value) ?? maxLimit;
+        value = Math.min(value, currentMax - step);
+      } else {
+        const currentMin = optionalFloat(minEl.value) ?? minLimit;
+        value = Math.max(value, currentMin + step);
+      }
+      value = clamp(value, minLimit, maxLimit);
+      els[key].value = displayNumber(value, 4);
+      input.value = String(value);
+      updateAxisSliders();
+      rerenderAllPlots();
+    }
+
+    function resetAxisRange() {
+      els.xMin.value = "";
+      els.xMax.value = "";
+      els.yMin.value = "";
+      els.yMax.value = "";
+      updateAxisSliders();
+      rerenderAllPlots();
+    }
+
+    function handleTrimSlider(input) {
+      const index = Number(input.dataset.index);
+      const key = input.dataset.trimSlider;
+      const item = state.files[index];
+      if (!item || !key) return;
+      const minLimit = Number(input.min);
+      const maxLimit = Number(input.max);
+      const step = Number(input.step) || sliderStep(minLimit, maxLimit);
+      let value = Number(input.value);
+      const otherKey = key === "keepMin" ? "keepMax" : "keepMin";
+      const otherValue = optionalFloat(item.trim[otherKey]) ?? (otherKey === "keepMin" ? minLimit : maxLimit);
+      if (key === "keepMin") value = Math.min(value, otherValue - step);
+      else value = Math.max(value, otherValue + step);
+      value = clamp(value, minLimit, maxLimit);
+      item.trim[key] = displayNumber(value, 4);
+      input.value = String(value);
+      const textInput = els.trimList.querySelector(`[data-trim="${key}"][data-index="${index}"]`);
+      if (textInput) textInput.value = item.trim[key];
+      const valueLabel = input.closest(".slider-field")?.querySelector(".slider-value");
+      if (valueLabel) valueLabel.textContent = displayNumber(value);
+      refreshCurrentAnalysis();
+    }
+
+    function closePlotCard(kind, index) {
+      const group = kind === "normalized" ? state.normalizedPlots : state.standardPlots;
+      group.splice(index, 1);
+      const area = kind === "normalized" ? els.normalizedPlotArea : els.standardPlotArea;
+      if (!group.length) {
+        area.className = "empty";
+        area.textContent = kind === "normalized" ? t("normalizedEmpty") : t("standardEmpty");
+        updateAxisSliders();
+        return;
+      }
+      renderPlots(kind, group);
     }
 
     document.getElementById("langToggle").addEventListener("click", () => {
@@ -1963,14 +2375,20 @@
       state.files.forEach(item => item.selected = true);
       renderFiles();
       renderTrimTable();
+      updateAxisSliders();
     });
     document.getElementById("selectNone").addEventListener("click", () => {
       state.files.forEach(item => item.selected = false);
       renderFiles();
       renderTrimTable();
+      updateAxisSliders();
     });
     document.getElementById("clear").addEventListener("click", clearAll);
-    document.getElementById("updateTrim").addEventListener("click", renderTrimTable);
+    document.getElementById("updateTrim").addEventListener("click", () => {
+      renderTrimTable();
+      refreshCurrentAnalysis();
+    });
+    document.getElementById("resetAxis").addEventListener("click", resetAxisRange);
     document.getElementById("previewRaw").addEventListener("click", previewRaw);
     document.getElementById("plotTrimmed").addEventListener("click", plotTrimmed);
     document.getElementById("plotNormalized").addEventListener("click", plotPeakNormalized);
@@ -1985,14 +2403,11 @@
       if (action === "select-file") {
         state.files[index].selected = input.checked;
         renderTrimTable();
+        updateAxisSliders();
       }
       if (action === "curve-color") {
         state.files[index].color = input.value;
         updateSeriesColor(state.files[index].id, input.value);
-        rerenderAllPlots();
-      }
-      if (action === "legend-label") {
-        state.files[index].legendName = input.value;
         rerenderAllPlots();
       }
     });
@@ -2012,19 +2427,23 @@
       if (!input) return;
       const index = Number(input.dataset.index);
       const action = input.dataset.action;
-      if (!state.files[index]) return;
       if (action === "curve-color") {
         state.files[index].color = input.value;
         updateSeriesColor(state.files[index].id, input.value);
         rerenderAllPlots();
       }
-      if (action === "legend-label") {
+      if (action === "legend-name") {
         state.files[index].legendName = input.value;
-        rerenderAllPlots();
+        refreshCurrentAnalysis();
       }
     });
 
     els.trimList.addEventListener("input", event => {
+      const slider = event.target.closest("[data-trim-slider]");
+      if (slider) {
+        handleTrimSlider(slider);
+        return;
+      }
       const input = event.target.closest("[data-trim]");
       if (!input) return;
       const index = Number(input.dataset.index);
@@ -2032,17 +2451,47 @@
       if (state.files[index]) state.files[index].trim[key] = input.value;
     });
 
+    els.trimList.addEventListener("change", event => {
+      const input = event.target.closest("[data-trim]");
+      if (!input) return;
+      renderTrimTable();
+      refreshCurrentAnalysis();
+    });
+
+    for (const slider of [els.xMinSlider, els.xMaxSlider, els.yMinSlider, els.yMaxSlider]) {
+      slider.addEventListener("input", () => handleAxisSlider(slider));
+    }
+
+    for (const area of [els.standardPlotArea, els.normalizedPlotArea]) {
+      area.addEventListener("click", event => {
+        const button = event.target.closest("[data-action='close-plot']");
+        if (!button) return;
+        const card = button.closest(".plot-card");
+        if (!card) return;
+        closePlotCard(card.dataset.plotKind, Number(card.dataset.plotIndex));
+      });
+    }
+
+    for (const input of [els.xMin, els.xMax, els.yMin, els.yMax]) {
+      input.addEventListener("change", updateAxisSliders);
+    }
+
     [
       els.colors, els.linestyle, els.plotMode, els.xLabel, els.yLabel, els.normalizeMulti,
-      els.showLegend, els.legendStripExt, els.showMarkers, els.aspect, els.fontSize,
+      els.showLegend, els.legendStripExt, els.showMarkers, els.aspect, els.figureWidth,
+      els.figureHeight, els.legendPosition, els.fontSize,
       els.lineWidth, els.preMinPoints, els.xMin, els.xMax, els.yMin, els.yMax,
       els.backgroundColor, els.axisColor
     ].forEach(control => {
       control.addEventListener("change", () => {
-        rerenderAllPlots();
+        if (["plotMode", "normalizeMulti", "legendStripExt", "preMinPoints", "yLabel"].includes(control.id)) {
+          refreshCurrentAnalysis();
+        } else {
+          rerenderAllPlots();
+        }
       });
       control.addEventListener("input", () => {
-        if (["backgroundColor", "axisColor", "fontSize", "lineWidth"].includes(control.id)) rerenderAllPlots();
+        if (["backgroundColor", "axisColor", "fontSize", "lineWidth", "figureWidth", "figureHeight"].includes(control.id)) rerenderAllPlots();
       });
     });
 
