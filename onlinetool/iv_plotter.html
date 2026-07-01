@@ -1354,6 +1354,65 @@
       });
     }
 
+    function createBounds() {
+      return { count: 0, min: Infinity, max: -Infinity };
+    }
+
+    function addToBounds(bounds, value) {
+      if (!Number.isFinite(value)) return;
+      if (value < bounds.min) bounds.min = value;
+      if (value > bounds.max) bounds.max = value;
+      bounds.count++;
+    }
+
+    function arrayBounds(values) {
+      const bounds = createBounds();
+      for (const value of values) addToBounds(bounds, value);
+      return bounds;
+    }
+
+    function usablePointBounds(curves, xMode, yMode) {
+      const xBounds = createBounds();
+      const yBounds = createBounds();
+      for (const curve of curves) {
+        for (let i = 0; i < curve.V.length; i++) {
+          const x = curve.V[i];
+          const y = curve.Y[i];
+          if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
+          if (xMode === "logpos" && x <= 0) continue;
+          if (yMode === "logabs" && y <= 0) continue;
+          addToBounds(xBounds, x);
+          addToBounds(yBounds, y);
+        }
+      }
+      return { xBounds, yBounds };
+    }
+
+    function drawStride(length) {
+      const maxPoints = 7000;
+      return Math.max(1, Math.ceil(length / maxPoints));
+    }
+
+    function decimateSeries(V, I, Y, maxPoints = 12000) {
+      const n = V.length;
+      if (n <= maxPoints) return { V, I, Y, sampled: false };
+      const step = Math.ceil(n / maxPoints);
+      const outV = [];
+      const outI = [];
+      const outY = [];
+      for (let i = 0; i < n; i += step) {
+        outV.push(V[i]);
+        outI.push(I[i]);
+        outY.push(Y[i]);
+      }
+      if (outV[outV.length - 1] !== V[n - 1]) {
+        outV.push(V[n - 1]);
+        outI.push(I[n - 1]);
+        outY.push(Y[n - 1]);
+      }
+      return { V: outV, I: outI, Y: outY, sampled: true };
+    }
+
     function readAxisRange(autoXMin, autoXMax, autoYMin, autoYMax) {
       let xMin = optNum("axisXMin") ?? autoXMin;
       let xMax = optNum("axisXMax") ?? autoXMax;
@@ -1399,30 +1458,18 @@
 
       const xMode = $("xMode").value;
       const yMode = $("yMode").value;
-      const allX = [];
-      const allY = [];
-      for (const curve of curves) {
-        for (let i = 0; i < curve.V.length; i++) {
-          const x = curve.V[i];
-          const y = curve.Y[i];
-          if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
-          if (xMode === "logpos" && x <= 0) continue;
-          if (yMode === "logabs" && y <= 0) continue;
-          allX.push(x);
-          allY.push(y);
-        }
-      }
-      if (!allX.length || !allY.length) {
+      const { xBounds, yBounds } = usablePointBounds(curves, xMode, yMode);
+      if (!xBounds.count || !yBounds.count) {
         drawEmpty(ctx, cssWidth, cssHeight);
         renderResults(curves);
         state.lastPlot = { curves };
         return;
       }
 
-      let autoXMin = Math.min(...allX);
-      let autoXMax = Math.max(...allX);
-      let autoYMin = Math.min(...allY);
-      let autoYMax = Math.max(...allY);
+      let autoXMin = xBounds.min;
+      let autoXMax = xBounds.max;
+      let autoYMin = yBounds.min;
+      let autoYMax = yBounds.max;
       if (xMode === "linear") {
         const pad = (autoXMax - autoXMin) * 0.04 || 1;
         autoXMin -= pad;
@@ -1521,7 +1568,8 @@
         ctx.setLineDash(dashFor(curve.style));
         ctx.beginPath();
         let started = false;
-        for (let i = 0; i < curve.V.length; i++) {
+        const stride = drawStride(curve.V.length);
+        for (let i = 0; i < curve.V.length; i += stride) {
           const x = curve.V[i];
           const y = curve.Y[i];
           if (!Number.isFinite(x) || !Number.isFinite(y) || x < xMin || x > xMax || y < yMin || y > yMax) {
@@ -1548,11 +1596,11 @@
         ctx.stroke();
         ctx.setLineDash([]);
 
-        if ($("showMarkers").checked && curve.rr) {
+        if ($("showMarkers").checked && curve.rrPoints?.length) {
           ctx.fillStyle = curve.color;
-          for (const idx of [curve.rr.ip, curve.rr.ineg]) {
-            const x = curve.V[idx];
-            const y = curve.Y[idx];
+          for (const point of curve.rrPoints) {
+            const x = point.x;
+            const y = point.y;
             if (!Number.isFinite(x) || !Number.isFinite(y) || x < xMin || x > xMax || y < yMin || y > yMax) continue;
             if (xMode === "logpos" && x <= 0) continue;
             if (yMode === "logabs" && y <= 0) continue;
@@ -1704,17 +1752,20 @@
         return;
       }
       box.innerHTML = curves.map(curve => {
-        const vMin = Math.min(...curve.V);
-        const vMax = Math.max(...curve.V);
-        const iMin = Math.min(...curve.I);
-        const iMax = Math.max(...curve.I);
+        const vStats = curve.fullStats?.v ?? arrayBounds(curve.V);
+        const iStats = curve.fullStats?.i ?? arrayBounds(curve.I);
+        const vMin = vStats.count ? vStats.min : NaN;
+        const vMax = vStats.count ? vStats.max : NaN;
+        const iMin = iStats.count ? iStats.min : NaN;
+        const iMax = iStats.count ? iStats.max : NaN;
         const rr = curve.rr;
         return `
           <article class="result-card">
             <div class="result-file">${escapeHtml(curve.label)}</div>
             <div class="metric-grid">
               ${metric("类型", "Type", curve.type.toUpperCase())}
-              ${metric("参与点数", "Used points", curve.V.length)}
+              ${metric("参与点数", "Used points", curve.usedPoints ?? curve.V.length)}
+              ${metric("绘图点数", "Plotted points", curve.V.length)}
               ${metric("原始点数", "Raw points", curve.rawPoints)}
               ${metric("V 范围", "V range", `${format(vMin)} ~ ${format(vMax)}`)}
               ${metric("原始 I 范围", "Raw I range", `${format(iMin)} ~ ${format(iMax)}`)}
@@ -1737,7 +1788,7 @@
       setStatus(t("正在解析数据并绘图...", "Parsing data and plotting..."));
       const curves = [];
       const errors = [];
-      const orientedVoltages = [];
+      const orientedVoltageBounds = createBounds();
       let maxIndex = 0;
       const strip = $("stripExt").checked;
       for (let idx = 0; idx < selected.length; idx++) {
@@ -1747,7 +1798,7 @@
           const parsed = await parseOneFile(item.file);
           const rawPoints = parsed.V.length;
           const oriented = applyVoltageOrientation(parsed.V, parsed.I);
-          for (const v of oriented.V) if (Number.isFinite(v)) orientedVoltages.push(v);
+          for (const v of oriented.V) addToBounds(orientedVoltageBounds, v);
           maxIndex = Math.max(maxIndex, Math.max(0, oriented.V.length - 1));
           const ranged = applyAnalysisRange(oriented.V, oriented.I);
           if (!ranged.V.length) {
@@ -1756,18 +1807,31 @@
           }
           const type = parsed.type;
           const yMode = $("yMode").value;
-          const Y = scaleY(ranged.I, scaleCfg(type), yMode);
+          const cfg = scaleCfg(type);
+          const Y = scaleY(ranged.I, cfg, yMode);
           const rr = rectificationRatio(ranged.V, ranged.I, num("vrr", 1));
+          const fullStats = {
+            v: arrayBounds(ranged.V),
+            i: arrayBounds(ranged.I)
+          };
+          const display = decimateSeries(ranged.V, ranged.I, Y);
+          const rrPoints = rr ? [
+            { x: rr.Vpos, y: scaledCurrent(rr.Ipos, cfg, yMode) },
+            { x: rr.Vneg, y: scaledCurrent(rr.Ineg, cfg, yMode) }
+          ] : [];
           curves.push({
             name: item.file.name,
             label: item.legend.trim() || basename(item.file.name, strip),
             fileIndex,
             type,
             rawPoints,
-            V: ranged.V,
-            I: ranged.I,
-            Y,
+            usedPoints: ranged.V.length,
+            V: display.V,
+            I: display.I,
+            Y: display.Y,
+            fullStats,
             rr,
+            rrPoints,
             color: item.color,
             style: "-",
             expr: scaleExpr(type)
@@ -1776,10 +1840,10 @@
           errors.push(`${item.file.name}: ${error.message}`);
         }
       }
-      if (orientedVoltages.length) {
+      if (orientedVoltageBounds.count) {
         updateAnalysisSliders({
-          vMin: Math.min(...orientedVoltages),
-          vMax: Math.max(...orientedVoltages),
+          vMin: orientedVoltageBounds.min,
+          vMax: orientedVoltageBounds.max,
           indexMax: maxIndex
         });
       }

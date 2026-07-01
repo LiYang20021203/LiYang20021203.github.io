@@ -273,6 +273,11 @@
 
     button.primary:hover { background: var(--primary-dark); }
 
+    button.danger {
+      border-color: #d8b3a5;
+      color: var(--warn);
+    }
+
     button:disabled {
       cursor: not-allowed;
       opacity: 0.55;
@@ -314,7 +319,7 @@
 
     .file-head {
       display: grid;
-      grid-template-columns: auto auto 1fr auto;
+      grid-template-columns: auto auto 1fr auto auto;
       gap: 8px;
       align-items: center;
     }
@@ -334,24 +339,55 @@
       font-size: 11px;
     }
 
-    .file-extra {
-      margin-top: 6px;
-      display: grid;
-      gap: 4px;
-    }
-
-    .file-extra input {
-      min-height: 28px;
-    }
-
     .trim-title {
-      margin-bottom: 8px;
       min-width: 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       font-size: 11px;
       font-weight: 600;
+    }
+
+    .trim-title-row {
+      margin-bottom: 8px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .curve-identity {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .curve-line {
+      width: 46px;
+      height: 0;
+      border-top: 4px solid currentColor;
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+
+    .curve-label {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .curve-meta {
+      margin-left: auto;
+      flex: 0 0 auto;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 400;
     }
 
     .color-row {
@@ -643,6 +679,8 @@
         <div class="actions">
           <button id="selectAll" data-i18n="selectAll">全选</button>
           <button id="selectNone" data-i18n="selectNone">取消全选</button>
+          <button id="deleteSelected" class="danger" data-i18n="deleteSelected">删除勾选数据组</button>
+          <button id="deleteUnselected" class="danger" data-i18n="deleteUnselected">删除未勾选数据组</button>
           <button id="clear" data-i18n="clearOutput">清空输出</button>
         </div>
         <div id="fileList" class="file-list"></div>
@@ -850,6 +888,12 @@
         selectAll: "全选",
         selectNone: "取消全选",
         clearOutput: "清空输出",
+        deleteGroup: "删除",
+        deletedGroup: name => `已删除数据组：${name}`,
+        deleteSelected: "删除勾选数据组",
+        deleteUnselected: "删除未勾选数据组",
+        deletedGroups: count => `已删除 ${count} 个数据组。`,
+        noGroupsToDelete: "没有可删除的数据组。",
         plotSettings: "绘图与导出设置",
         colors: "颜色",
         linestyle: "线型",
@@ -968,6 +1012,12 @@
         selectAll: "Select All",
         selectNone: "Select None",
         clearOutput: "Clear output",
+        deleteGroup: "Delete",
+        deletedGroup: name => `Deleted data group: ${name}`,
+        deleteSelected: "Delete selected groups",
+        deleteUnselected: "Delete unselected groups",
+        deletedGroups: count => `Deleted ${count} data group(s).`,
+        noGroupsToDelete: "No data groups to delete.",
         plotSettings: "Plot + Export Settings",
         colors: "Colors",
         linestyle: "Linestyle",
@@ -1254,34 +1304,112 @@
       return best;
     }
 
-    function readTextSpectrum(text, fileName) {
-      const rows = [];
-      for (const line of text.split(/\r?\n/)) {
-        const nums = numbersFromLine(line);
-        if (nums.length >= 2) rows.push(nums.slice(0, 2));
+    function splitTableLine(line) {
+      const text = String(line || "").trim();
+      if (!text) return [];
+      const delimiter = text.includes("\t") ? "\t" : text.includes(",") ? "," : text.includes(";") ? ";" : null;
+      if (!delimiter) return text.split(/\s+/).map(cell => cell.trim()).filter(Boolean);
+      const cells = [];
+      let current = "";
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i += 1) {
+        const ch = text[i];
+        if (ch === "\"") {
+          inQuotes = !inQuotes;
+          continue;
+        }
+        if (ch === delimiter && !inQuotes) {
+          cells.push(current.trim());
+          current = "";
+        } else {
+          current += ch;
+        }
       }
-      if (rows.length < 20) throw new Error(`Could not find two numeric columns in ${fileName}`);
-      return cleanXY(rows.map(row => row[0]), rows.map(row => row[1]));
+      cells.push(current.trim());
+      return cells;
     }
 
-    function readExcelSpectrum(buffer, fileName) {
+    function columnGroupName(yCol, headerRow) {
+      const prefix = `第${yCol}列`;
+      const header = headerRow && headerRow[yCol] !== undefined ? String(headerRow[yCol]).trim() : "";
+      if (!header) return prefix;
+      return `${prefix}-${header}`;
+    }
+
+    function extractSpectraFromRows(rows, sourceName, sheetName = "") {
+      const table = rows
+        .filter(row => Array.isArray(row) && row.length)
+        .map(row => row.map(cell => cell === null || cell === undefined ? "" : String(cell).trim()));
+      if (!table.length) return [];
+
+      let dataStart = -1;
+      for (let i = 0; i < table.length; i += 1) {
+        const row = table[i];
+        const x = numericCell(row[0]);
+        const yCount = row.slice(1).filter(cell => Number.isFinite(numericCell(cell))).length;
+        if (Number.isFinite(x) && yCount > 0) {
+          dataStart = i;
+          break;
+        }
+      }
+      if (dataStart < 0) return [];
+
+      const headerRow = dataStart > 0 ? table[dataStart - 1] : null;
+      const colCount = table.reduce((max, row) => Math.max(max, row.length), 0);
+      const groups = [];
+      for (let yCol = 1; yCol < colCount; yCol += 1) {
+        const xs = [];
+        const ys = [];
+        for (let r = dataStart; r < table.length; r += 1) {
+          const row = table[r];
+          const x = numericCell(row[0]);
+          const y = numericCell(row[yCol]);
+          if (Number.isFinite(x) && Number.isFinite(y)) {
+            xs.push(x);
+            ys.push(y);
+          }
+        }
+        const data = cleanXY(xs, ys);
+        if (data.length < 20) continue;
+        const xValues = data.map(p => p.x);
+        const xSpan = Math.max(...xValues) - Math.min(...xValues);
+        if (xSpan < 10) continue;
+        const wavelengthFraction = xValues.filter(x => x >= 100 && x <= 5000).length / xValues.length;
+        if (wavelengthFraction < 0.5) continue;
+        const groupName = columnGroupName(yCol, headerRow);
+        groups.push({
+          groupName: sheetName ? `${sheetName}-${groupName}` : groupName,
+          data
+        });
+      }
+
+      if (!groups.length) {
+        const fallback = bestNumericPair(table);
+        if (fallback) groups.push({ groupName: "第1列", data: fallback });
+      }
+      return groups;
+    }
+
+    function readTextSpectra(text, fileName) {
+      const rows = text.split(/\r?\n/).map(splitTableLine).filter(row => row.length);
+      const groups = extractSpectraFromRows(rows, fileName);
+      if (!groups.length) throw new Error(`Could not find wavelength/absorption columns in ${fileName}`);
+      return groups;
+    }
+
+    function readExcelSpectra(buffer, fileName) {
       if (!window.XLSX) {
         throw new Error("XLSX library is not loaded. Please check network access to jsdelivr CDN.");
       }
       const workbook = XLSX.read(buffer, { type: "array" });
-      let best = null;
-      let bestLen = 0;
+      const allGroups = [];
       for (const sheetName of workbook.SheetNames) {
         const sheet = workbook.Sheets[sheetName];
         const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true, blankrows: false });
-        const candidate = bestNumericPair(rows);
-        if (candidate && candidate.length > bestLen) {
-          best = candidate;
-          bestLen = candidate.length;
-        }
+        allGroups.push(...extractSpectraFromRows(rows, fileName, workbook.SheetNames.length > 1 ? sheetName : ""));
       }
-      if (!best) throw new Error(`Could not find wavelength/absorption columns in ${fileName}`);
-      return best;
+      if (!allGroups.length) throw new Error(`Could not find wavelength/absorption columns in ${fileName}`);
+      return allGroups;
     }
 
     function readFileAs(file, kind) {
@@ -1296,25 +1424,26 @@
 
     async function parseFile(file) {
       const suffix = file.name.split(".").pop().toLowerCase();
-      let data;
+      let groups;
       if (["xlsx", "xls", "xlsm"].includes(suffix)) {
         const buffer = await readFileAs(file, "array");
-        data = readExcelSpectrum(buffer, file.name);
+        groups = readExcelSpectra(buffer, file.name);
       } else if (["txt", "csv"].includes(suffix)) {
         const text = await readFileAs(file, "text");
-        data = readTextSpectrum(text, file.name);
+        groups = readTextSpectra(text, file.name);
       } else {
         throw new Error(`Unsupported file type: .${suffix}`);
       }
-      return {
-        id: `${file.name}-${file.size}-${file.lastModified}-${Math.random().toString(36).slice(2)}`,
-        name: file.name.replace(/\.[^.]+$/, ""),
-        fileName: file.name,
-        data,
+      const baseName = file.name.replace(/\.[^.]+$/, "");
+      return groups.map((group, groupIndex) => ({
+        id: `${file.name}-${file.size}-${file.lastModified}-${groupIndex}-${Math.random().toString(36).slice(2)}`,
+        name: group.groupName,
+        fileName: `${baseName} - ${group.groupName}`,
+        data: group.data,
         selected: true,
         legendName: "",
         trim: { keepMin: "", keepMax: "", exclude: "" }
-      };
+      }));
     }
 
     function makeOddWindow(value, min = 3, max = Infinity) {
@@ -1705,6 +1834,25 @@
       else previewRaw();
     }
 
+    let refreshTimer = null;
+    let rerenderFrame = null;
+
+    function scheduleRefreshCurrentAnalysis(delay = 160) {
+      window.clearTimeout(refreshTimer);
+      refreshTimer = window.setTimeout(() => {
+        refreshTimer = null;
+        refreshCurrentAnalysis();
+      }, delay);
+    }
+
+    function scheduleRerenderAllPlots() {
+      if (rerenderFrame) window.cancelAnimationFrame(rerenderFrame);
+      rerenderFrame = window.requestAnimationFrame(() => {
+        rerenderFrame = null;
+        rerenderAllPlots();
+      });
+    }
+
     function autoLegendLabel(item, peak) {
       const baseName = item.fileName.replace(/\.[^.]+$/, "");
       return els.legendStripExt.checked ? `${peak.peakWavelength.toFixed(0)}nm` : `${peak.peakWavelength.toFixed(0)}nm ${baseName}`;
@@ -1726,12 +1874,9 @@
             <input type="color" data-action="curve-color" data-index="${index}" value="${escapeHtml(item.color || defaultColor(index))}" title="Curve color">
             <div class="file-name" title="${escapeHtml(item.fileName)}">${escapeHtml(item.fileName)}</div>
             <span class="pill">${item.data.length} ${t("points")}</span>
+            <button class="danger" type="button" data-action="delete-group" data-index="${index}">${t("deleteGroup")}</button>
           </div>
           <div class="file-meta">${formatNumber(item.data[0].x, 1)}-${formatNumber(item.data[item.data.length - 1].x, 1)} nm</div>
-          <div class="file-extra">
-            <label>${t("legendName")}</label>
-            <input data-action="legend-name" data-index="${index}" type="text" value="${escapeHtml(item.legendName || "")}" placeholder="${t("legendNamePlaceholder")}">
-          </div>
         </div>
       `).join("");
     }
@@ -1750,9 +1895,29 @@
         const step = sliderStep(minX, maxX);
         const keepMin = optionalFloat(item.trim.keepMin) ?? minX;
         const keepMax = optionalFloat(item.trim.keepMax) ?? maxX;
+        const color = item.color || defaultColor(index);
+        const displayLabel = String(item.legendName || "").trim() || item.fileName;
         return `
           <div class="trim-item">
-            <div class="trim-title" title="${escapeHtml(item.fileName)}">${escapeHtml(item.fileName)}</div>
+            <div class="trim-title-row">
+              <div class="trim-title" title="${escapeHtml(item.fileName)}">${escapeHtml(item.fileName)}</div>
+              <button class="danger" type="button" data-action="delete-group" data-index="${index}">${t("deleteGroup")}</button>
+            </div>
+            <div class="curve-identity" data-curve-identity="${index}" style="color:${escapeHtml(color)}">
+              <span class="curve-line"></span>
+              <span class="curve-label" title="${escapeHtml(displayLabel)}">${escapeHtml(displayLabel)}</span>
+              <span class="curve-meta">${formatNumber(minX, 1)}-${formatNumber(maxX, 1)} nm</span>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label>${t("legendName")}</label>
+                <input data-action="legend-name" data-index="${index}" type="text" value="${escapeHtml(item.legendName || "")}" placeholder="${t("legendNamePlaceholder")}">
+              </div>
+              <div class="field">
+                <label>${t("colors")}</label>
+                <div class="color-row"><input type="color" data-action="curve-color" data-index="${index}" value="${escapeHtml(color)}" title="Curve color"><span data-color-text="${index}">${escapeHtml(color)}</span></div>
+              </div>
+            </div>
             <div class="range-pair">
               <div class="hint">${t("trimSliderHint")}</div>
               <div class="slider-field">
@@ -2254,9 +2419,11 @@
       const failures = [];
       for (const file of files) {
         try {
-          const parsed = await parseFile(file);
-          parsed.color = defaultColor(state.files.length + loaded.length);
-          loaded.push(parsed);
+          const parsedGroups = await parseFile(file);
+          parsedGroups.forEach(group => {
+            group.color = defaultColor(state.files.length + loaded.length);
+            loaded.push(group);
+          });
         } catch (error) {
           failures.push(`${file.name}: ${error.message}`);
         }
@@ -2319,7 +2486,7 @@
       els[key].value = displayNumber(value, 4);
       input.value = String(value);
       updateAxisSliders();
-      rerenderAllPlots();
+      scheduleRerenderAllPlots();
     }
 
     function resetAxisRange() {
@@ -2328,7 +2495,7 @@
       els.yMin.value = "";
       els.yMax.value = "";
       updateAxisSliders();
-      rerenderAllPlots();
+      scheduleRerenderAllPlots();
     }
 
     function handleTrimSlider(input) {
@@ -2351,7 +2518,7 @@
       if (textInput) textInput.value = item.trim[key];
       const valueLabel = input.closest(".slider-field")?.querySelector(".slider-value");
       if (valueLabel) valueLabel.textContent = displayNumber(value);
-      refreshCurrentAnalysis();
+      scheduleRefreshCurrentAnalysis();
     }
 
     function closePlotCard(kind, index) {
@@ -2367,6 +2534,50 @@
       renderPlots(kind, group);
     }
 
+    function resetPlotOutputs() {
+      state.standardPlots = [];
+      state.normalizedPlots = [];
+      state.results = [];
+      state.activePlotKind = "standard";
+      els.standardPlotArea.className = "empty";
+      els.standardPlotArea.textContent = t("standardEmpty");
+      els.normalizedPlotArea.className = "empty";
+      els.normalizedPlotArea.textContent = t("normalizedEmpty");
+      renderResultsTable([], false);
+      updateAxisSliders();
+    }
+
+    function deleteDataGroup(index) {
+      if (!state.files[index]) return;
+      const [removed] = state.files.splice(index, 1);
+      renderFiles();
+      renderTrimTable();
+      if (!state.files.length || !selectedItems().length) {
+        resetPlotOutputs();
+      } else {
+        scheduleRefreshCurrentAnalysis(40);
+      }
+      setStatus(t("deletedGroup", removed.fileName));
+    }
+
+    function deleteGroupsBySelection(deleteSelected) {
+      const before = state.files.length;
+      state.files = state.files.filter(item => item.selected !== deleteSelected);
+      const deleted = before - state.files.length;
+      if (!deleted) {
+        setStatus(t("noGroupsToDelete"), true);
+        return;
+      }
+      renderFiles();
+      renderTrimTable();
+      if (!state.files.length || !selectedItems().length) {
+        resetPlotOutputs();
+      } else {
+        scheduleRefreshCurrentAnalysis(40);
+      }
+      setStatus(t("deletedGroups", deleted));
+    }
+
     document.getElementById("langToggle").addEventListener("click", () => {
       applyLanguage(uiLang === "zh" ? "en" : "zh");
     });
@@ -2376,14 +2587,18 @@
       renderFiles();
       renderTrimTable();
       updateAxisSliders();
+      scheduleRefreshCurrentAnalysis(60);
     });
     document.getElementById("selectNone").addEventListener("click", () => {
       state.files.forEach(item => item.selected = false);
       renderFiles();
       renderTrimTable();
       updateAxisSliders();
+      resetPlotOutputs();
     });
     document.getElementById("clear").addEventListener("click", clearAll);
+    document.getElementById("deleteSelected").addEventListener("click", () => deleteGroupsBySelection(true));
+    document.getElementById("deleteUnselected").addEventListener("click", () => deleteGroupsBySelection(false));
     document.getElementById("updateTrim").addEventListener("click", () => {
       renderTrimTable();
       refreshCurrentAnalysis();
@@ -2395,6 +2610,59 @@
     document.getElementById("downloadPng").addEventListener("click", downloadPng);
     document.getElementById("downloadPdf").addEventListener("click", downloadPdf);
 
+    function syncGroupControls(index) {
+      const item = state.files[index];
+      if (!item) return;
+      document.querySelectorAll(`[data-action="curve-color"][data-index="${index}"]`).forEach(input => {
+        input.value = item.color || defaultColor(index);
+      });
+      document.querySelectorAll(`[data-action="legend-name"][data-index="${index}"]`).forEach(input => {
+        input.value = item.legendName || "";
+      });
+      const color = item.color || defaultColor(index);
+      const displayLabel = String(item.legendName || "").trim() || item.fileName;
+      document.querySelectorAll(`[data-curve-identity="${index}"]`).forEach(node => {
+        node.style.color = color;
+        const label = node.querySelector(".curve-label");
+        if (label) {
+          label.textContent = displayLabel;
+          label.title = displayLabel;
+        }
+      });
+      document.querySelectorAll(`[data-color-text="${index}"]`).forEach(node => {
+        node.textContent = color;
+      });
+    }
+
+    function handleGroupActionInput(input) {
+      const index = Number(input.dataset.index);
+      if (!state.files[index]) return;
+      const action = input.dataset.action;
+      if (action === "curve-color") {
+        state.files[index].color = input.value;
+        updateSeriesColor(state.files[index].id, input.value);
+        syncGroupControls(index);
+        scheduleRerenderAllPlots();
+      }
+      if (action === "legend-name") {
+        state.files[index].legendName = input.value;
+        syncGroupControls(index);
+        scheduleRefreshCurrentAnalysis(220);
+      }
+    }
+
+    function handleGroupActionClick(event) {
+      const button = event.target.closest("[data-action='delete-group']");
+      if (!button) return false;
+      deleteDataGroup(Number(button.dataset.index));
+      return true;
+    }
+
+    els.fileList.addEventListener("click", handleGroupActionClick);
+    els.trimList.addEventListener("click", event => {
+      if (handleGroupActionClick(event)) return;
+    });
+
     els.fileList.addEventListener("change", event => {
       const input = event.target.closest("[data-action]");
       if (!input) return;
@@ -2404,11 +2672,11 @@
         state.files[index].selected = input.checked;
         renderTrimTable();
         updateAxisSliders();
+        if (selectedItems().length) scheduleRefreshCurrentAnalysis(60);
+        else resetPlotOutputs();
       }
       if (action === "curve-color") {
-        state.files[index].color = input.value;
-        updateSeriesColor(state.files[index].id, input.value);
-        rerenderAllPlots();
+        handleGroupActionInput(input);
       }
     });
 
@@ -2425,20 +2693,15 @@
     els.fileList.addEventListener("input", event => {
       const input = event.target.closest("[data-action]");
       if (!input) return;
-      const index = Number(input.dataset.index);
-      const action = input.dataset.action;
-      if (action === "curve-color") {
-        state.files[index].color = input.value;
-        updateSeriesColor(state.files[index].id, input.value);
-        rerenderAllPlots();
-      }
-      if (action === "legend-name") {
-        state.files[index].legendName = input.value;
-        refreshCurrentAnalysis();
-      }
+      handleGroupActionInput(input);
     });
 
     els.trimList.addEventListener("input", event => {
+      const actionInput = event.target.closest("[data-action]");
+      if (actionInput) {
+        handleGroupActionInput(actionInput);
+        return;
+      }
       const slider = event.target.closest("[data-trim-slider]");
       if (slider) {
         handleTrimSlider(slider);
@@ -2455,7 +2718,7 @@
       const input = event.target.closest("[data-trim]");
       if (!input) return;
       renderTrimTable();
-      refreshCurrentAnalysis();
+      scheduleRefreshCurrentAnalysis();
     });
 
     for (const slider of [els.xMinSlider, els.xMaxSlider, els.yMinSlider, els.yMaxSlider]) {
@@ -2485,18 +2748,18 @@
     ].forEach(control => {
       control.addEventListener("change", () => {
         if (["plotMode", "normalizeMulti", "legendStripExt", "preMinPoints", "yLabel"].includes(control.id)) {
-          refreshCurrentAnalysis();
+          scheduleRefreshCurrentAnalysis(60);
         } else {
-          rerenderAllPlots();
+          scheduleRerenderAllPlots();
         }
       });
       control.addEventListener("input", () => {
-        if (["backgroundColor", "axisColor", "fontSize", "lineWidth", "figureWidth", "figureHeight"].includes(control.id)) rerenderAllPlots();
+        if (["backgroundColor", "axisColor", "fontSize", "lineWidth", "figureWidth", "figureHeight"].includes(control.id)) scheduleRerenderAllPlots();
       });
     });
 
     window.addEventListener("resize", () => {
-      rerenderAllPlots();
+      scheduleRerenderAllPlots();
     });
 
     applyLanguage("zh");
