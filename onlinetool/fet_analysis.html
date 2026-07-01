@@ -570,6 +570,121 @@
       background: #f1f8f4;
     }
 
+    .param-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .param-item {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .param-name {
+      font-weight: 800;
+      color: var(--blue-dark);
+    }
+
+    .param-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .param-use {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .formula-chain {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .formula-chain-row {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .formula-chain-row:last-child {
+      border-bottom: 0;
+    }
+
+    .fit-focus {
+      margin-top: 14px;
+      padding: 16px;
+      border: 2px solid rgba(47, 111, 159, 0.32);
+      border-radius: var(--radius);
+      background: #f3f8fc;
+    }
+
+    .fit-focus h3,
+    .fit-example h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .fit-formula {
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      padding: 8px 0;
+    }
+
+    .fit-example {
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .example-box {
+      padding: 12px;
+      border-radius: var(--radius);
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      overflow-x: auto;
+    }
+
+    .example-box p {
+      margin: 0 0 6px;
+    }
+
+    .example-box p:last-child {
+      margin-bottom: 0;
+    }
+
     .code-sentence {
       display: block;
       padding: 12px;
@@ -672,6 +787,16 @@
 
       .derivation-step {
         grid-template-columns: 1fr;
+      }
+
+      .param-item,
+      .formula-chain-row,
+      .example-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .math-expr {
+        font-size: 20px;
       }
 
       .footer-grid {
@@ -850,25 +975,57 @@
           <div class="card pad">
             <h3 data-lang="zh">测试前必须记录的参数</h3>
             <h3 data-lang="en">Parameters to record before testing</h3>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr data-lang="zh"><th>项目</th><th>推荐写法</th><th>用途</th></tr>
-                  <tr data-lang="en"><th>Item</th><th>Recommended record</th><th>Purpose</th></tr>
-                </thead>
-                <tbody>
-                  <tr data-lang="zh"><td>沟道长度 L</td><td>如 20 μm，换算为 cm</td><td>迁移率计算</td></tr>
-                  <tr data-lang="en"><td>Channel length L</td><td>e.g. 20 μm, converted to cm</td><td>Mobility extraction</td></tr>
-                  <tr data-lang="zh"><td>沟道宽度 W</td><td>如 1000 μm，换算为 cm</td><td>迁移率计算</td></tr>
-                  <tr data-lang="en"><td>Channel width W</td><td>e.g. 1000 μm, converted to cm</td><td>Mobility extraction</td></tr>
-                  <tr data-lang="zh"><td>栅介质</td><td>SiO₂，厚度 300 nm，<span class="inline-math">ε<sub>r</sub>≈3.9</span></td><td>计算 <span class="inline-math">C<sub>ox</sub></span></td></tr>
-                  <tr data-lang="en"><td>Gate dielectric</td><td>SiO₂, 300 nm, <span class="inline-math">ε<sub>r</sub>≈3.9</span></td><td>Calculate <span class="inline-math">C<sub>ox</sub></span></td></tr>
-                  <tr data-lang="zh"><td>测试条件</td><td>暗箱/空气/真空、室温、扫速、延迟时间</td><td>判断迟滞和陷阱效应</td></tr>
-                  <tr data-lang="en"><td>Test condition</td><td>Dark box/air/vacuum, room temperature, sweep rate, delay</td><td>Assess hysteresis and trapping</td></tr>
-                  <tr data-lang="zh"><td>源漏偏压</td><td>固定 <span class="inline-math">V<sub>D</sub></span>，如 0.1 V、0.28 V 或 1 V</td><td>转移曲线与迁移率</td></tr>
-                  <tr data-lang="en"><td>Drain bias</td><td>Fixed <span class="inline-math">V<sub>D</sub></span>, e.g. 0.1 V, 0.28 V, or 1 V</td><td>Transfer curves and mobility</td></tr>
-                </tbody>
-              </table>
+            <div class="param-list">
+              <div class="param-item">
+                <div class="param-name" data-lang="zh">沟道长度 <span class="inline-math">L</span></div>
+                <div class="param-name" data-lang="en">Channel length <span class="inline-math">L</span></div>
+                <div>
+                  <p data-lang="zh">如 20 μm，计算时换算为 cm。</p>
+                  <p data-lang="en">e.g. 20 μm, converted to cm for calculation.</p>
+                  <span class="param-use" data-lang="zh">用途：迁移率计算</span>
+                  <span class="param-use" data-lang="en">Purpose: mobility extraction</span>
+                </div>
+              </div>
+              <div class="param-item">
+                <div class="param-name" data-lang="zh">沟道宽度 <span class="inline-math">W</span></div>
+                <div class="param-name" data-lang="en">Channel width <span class="inline-math">W</span></div>
+                <div>
+                  <p data-lang="zh">如 1000 μm，计算时换算为 cm。</p>
+                  <p data-lang="en">e.g. 1000 μm, converted to cm for calculation.</p>
+                  <span class="param-use" data-lang="zh">用途：迁移率计算</span>
+                  <span class="param-use" data-lang="en">Purpose: mobility extraction</span>
+                </div>
+              </div>
+              <div class="param-item">
+                <div class="param-name" data-lang="zh">栅介质</div>
+                <div class="param-name" data-lang="en">Gate dielectric</div>
+                <div>
+                  <p data-lang="zh">例如 SiO₂，厚度 300 nm，<span class="inline-math">ε<sub>r</sub>≈3.9</span>。</p>
+                  <p data-lang="en">For example SiO₂, 300 nm, <span class="inline-math">ε<sub>r</sub>≈3.9</span>.</p>
+                  <span class="param-use" data-lang="zh">用途：计算 <span class="inline-math">C<sub>ox</sub></span></span>
+                  <span class="param-use" data-lang="en">Purpose: calculate <span class="inline-math">C<sub>ox</sub></span></span>
+                </div>
+              </div>
+              <div class="param-item">
+                <div class="param-name" data-lang="zh">测试条件</div>
+                <div class="param-name" data-lang="en">Test condition</div>
+                <div>
+                  <p data-lang="zh">暗箱/空气/真空、室温、扫速、延迟时间。</p>
+                  <p data-lang="en">Dark box/air/vacuum, room temperature, sweep rate, delay time.</p>
+                  <span class="param-use" data-lang="zh">用途：判断迟滞和陷阱效应</span>
+                  <span class="param-use" data-lang="en">Purpose: assess hysteresis and traps</span>
+                </div>
+              </div>
+              <div class="param-item">
+                <div class="param-name" data-lang="zh">源漏偏压 <span class="inline-math">V<sub>D</sub></span></div>
+                <div class="param-name" data-lang="en">Drain bias <span class="inline-math">V<sub>D</sub></span></div>
+                <div>
+                  <p data-lang="zh">测转移曲线时固定的源漏电压，如 0.1 V、0.28 V 或 1 V。</p>
+                  <p data-lang="en">The fixed drain-source voltage during transfer-curve measurement, e.g. 0.1 V, 0.28 V, or 1 V.</p>
+                  <span class="param-use" data-lang="zh">用途：转移曲线与迁移率</span>
+                  <span class="param-use" data-lang="en">Purpose: transfer curve and mobility</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -982,129 +1139,99 @@
           <p class="section-note" data-lang="en">The slope must come from the <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> transfer curve at fixed <span class="inline-math">V<sub>D</sub></span>. It is the transconductance <span class="inline-math">g<sub>m</sub></span>.</p>
         </div>
 
-        <div class="derivation">
-          <div class="derivation-step">
-            <span class="step-label" data-lang="zh">Step 1 电容</span>
-            <span class="step-label" data-lang="en">Step 1 Capacitance</span>
-            <div>
-              <div class="math-row">
-                <span class="math-expr" aria-label="C ox equals epsilon zero epsilon r over t ox">
-                  <span>C<span class="sub">ox</span></span>
-                  <span>=</span>
-                  <span class="frac"><span class="top">ε<span class="sub">0</span>ε<span class="sub">r</span></span><span class="bottom">t<span class="sub">ox</span></span></span>
-                </span>
-              </div>
-              <p data-lang="zh">背栅 Si/SiO₂/PbS 结构可近似看作平行板电容。300 nm SiO₂ 常用值为 <strong><span class="inline-math">C<sub>ox</sub> ≈ 1.15 × 10<sup>−8</sup> F/cm<sup>2</sup></span></strong>。</p>
-              <p data-lang="en">The back-gated Si/SiO₂/PbS stack can be approximated as a parallel-plate capacitor. For 300 nm SiO₂, <strong><span class="inline-math">C<sub>ox</sub> ≈ 1.15 × 10<sup>−8</sup> F/cm<sup>2</sup></span></strong>.</p>
+        <div class="formula-chain">
+          <div class="formula-chain-row">
+            <span class="step-label" data-lang="zh">电容</span>
+            <span class="step-label" data-lang="en">Capacitance</span>
+            <div class="math-row">
+              <span class="math-expr" aria-label="C ox equals epsilon zero epsilon r over t ox">
+                <span>C<span class="sub">ox</span></span><span>=</span>
+                <span class="frac"><span class="top">ε<span class="sub">0</span>ε<span class="sub">r</span></span><span class="bottom">t<span class="sub">ox</span></span></span>
+              </span>
             </div>
           </div>
-
-          <div class="derivation-step">
-            <span class="step-label" data-lang="zh">Step 2 电荷</span>
-            <span class="step-label" data-lang="en">Step 2 Charge</span>
-            <div>
-              <div class="math-row">
-                <span class="math-expr" aria-label="Q of x equals C ox times V G minus V T minus V of x">
-                  <span>Q<span class="paren">(</span>x<span class="paren">)</span></span>
-                  <span>=</span>
-                  <span>C<span class="sub">ox</span></span>
-                  <span>[</span>
-                  <span>V<span class="sub">G</span></span>
-                  <span>−</span>
-                  <span>V<span class="sub">T</span></span>
-                  <span>−</span>
-                  <span>V<span class="paren">(</span>x<span class="paren">)</span></span>
-                  <span>]</span>
-                </span>
-              </div>
-              <p data-lang="zh"><span class="inline-math">x</span> 从源极指向漏极。源端附近 <span class="inline-math">V(x)=0</span>，漏端附近 <span class="inline-math">V(x)=V<sub>D</sub></span>，因此沿沟道的有效栅压会逐渐变化。</p>
-              <p data-lang="en">The <span class="inline-math">x</span>-coordinate points from source to drain. Near the source <span class="inline-math">V(x)=0</span>; near the drain <span class="inline-math">V(x)=V<sub>D</sub></span>, so the effective gate bias changes along the channel.</p>
+          <div class="formula-chain-row">
+            <span class="step-label" data-lang="zh">感应电荷</span>
+            <span class="step-label" data-lang="en">Induced charge</span>
+            <div class="math-row">
+              <span class="math-expr" aria-label="Q of x equals C ox times V G minus V T minus V of x">
+                <span>Q(x)</span><span>=</span><span>C<span class="sub">ox</span></span><span>[V<span class="sub">G</span>−V<span class="sub">T</span>−V(x)]</span>
+              </span>
             </div>
           </div>
-
-          <div class="derivation-step">
-            <span class="step-label" data-lang="zh">Step 3 漂移</span>
-            <span class="step-label" data-lang="en">Step 3 Drift</span>
-            <div>
-              <div class="math-row">
-                <span class="math-expr" aria-label="I D equals W mu Q of x E x equals W mu C ox bracket V G minus V T minus V of x bracket dV over dx">
-                  <span>I<span class="sub">D</span></span>
-                  <span>=</span>
-                  <span>WμQ<span class="paren">(</span>x<span class="paren">)</span>E<span class="sub">x</span></span>
-                  <span>=</span>
-                  <span>WμC<span class="sub">ox</span></span>
-                  <span>[V<span class="sub">G</span>−V<span class="sub">T</span>−V<span class="paren">(</span>x<span class="paren">)</span>]</span>
-                  <span class="frac"><span class="top">dV</span><span class="bottom">dx</span></span>
-                </span>
-              </div>
-              <p data-lang="zh">沟道电流来自源漏电场驱动下的漂移输运。<span class="inline-math">W</span> 是沟道宽度，<span class="inline-math">μ</span> 是场效应迁移率。</p>
-              <p data-lang="en">The channel current is drift current driven by the source-drain electric field. <span class="inline-math">W</span> is the channel width and <span class="inline-math">μ</span> is the field-effect mobility.</p>
+          <div class="formula-chain-row">
+            <span class="step-label" data-lang="zh">漂移电流</span>
+            <span class="step-label" data-lang="en">Drift current</span>
+            <div class="math-row">
+              <span class="math-expr" aria-label="I D equals W mu C ox bracket V G minus V T minus V of x bracket dV over dx">
+                <span>I<span class="sub">D</span></span><span>=</span><span>WμC<span class="sub">ox</span></span><span>[V<span class="sub">G</span>−V<span class="sub">T</span>−V(x)]</span>
+                <span class="frac"><span class="top">dV</span><span class="bottom">dx</span></span>
+              </span>
             </div>
           </div>
-
-          <div class="derivation-step">
-            <span class="step-label" data-lang="zh">Step 4 积分</span>
-            <span class="step-label" data-lang="en">Step 4 Integration</span>
-            <div>
-              <div class="math-row">
-                <span class="math-expr" aria-label="I D equals mu C ox W over L times bracket V G minus V T times V D minus V D squared over two">
-                  <span>I<span class="sub">D</span></span>
-                  <span>=</span>
-                  <span>μC<span class="sub">ox</span></span>
-                  <span class="frac"><span class="top">W</span><span class="bottom">L</span></span>
-                  <span>[(V<span class="sub">G</span>−V<span class="sub">T</span>)V<span class="sub">D</span>−</span>
-                  <span class="frac"><span class="top">V<span class="sub">D</span><span class="sup">2</span></span><span class="bottom">2</span></span>
-                  <span>]</span>
-                </span>
-              </div>
-              <p data-lang="zh">对 <span class="inline-math">x: 0→L</span>、<span class="inline-math">V: 0→V<sub>D</sub></span> 积分，得到 FET 线性区/渐近沟道近似下的电流表达式。</p>
-              <p data-lang="en">Integrating over <span class="inline-math">x: 0→L</span> and <span class="inline-math">V: 0→V<sub>D</sub></span> gives the current equation under the gradual-channel approximation.</p>
+          <div class="formula-chain-row">
+            <span class="step-label" data-lang="zh">积分结果</span>
+            <span class="step-label" data-lang="en">Integrated form</span>
+            <div class="math-row">
+              <span class="math-expr" aria-label="I D equals mu C ox W over L times bracket V G minus V T times V D minus V D squared over two">
+                <span>I<span class="sub">D</span></span><span>=</span><span>μC<span class="sub">ox</span></span>
+                <span class="frac"><span class="top">W</span><span class="bottom">L</span></span>
+                <span>[(V<span class="sub">G</span>−V<span class="sub">T</span>)V<span class="sub">D</span>−</span>
+                <span class="frac"><span class="top">V<span class="sub">D</span><span class="sup">2</span></span><span class="bottom">2</span></span><span>]</span>
+              </span>
             </div>
           </div>
-
-          <div class="derivation-step">
-            <span class="step-label" data-lang="zh">Step 5 近似</span>
-            <span class="step-label" data-lang="en">Step 5 Approximation</span>
-            <div>
-              <div class="math-row">
-                <span class="math-expr" aria-label="When V D is much smaller than V G minus V T, I D approximately equals mu C ox W over L times V G minus V T times V D">
-                  <span class="text">When</span>
-                  <span>V<span class="sub">D</span></span>
-                  <span>≪</span>
-                  <span>V<span class="sub">G</span>−V<span class="sub">T</span>,</span>
-                  <span>I<span class="sub">D</span></span>
-                  <span>≈</span>
-                  <span>μC<span class="sub">ox</span></span>
-                  <span class="frac"><span class="top">W</span><span class="bottom">L</span></span>
-                  <span>(V<span class="sub">G</span>−V<span class="sub">T</span>)V<span class="sub">D</span></span>
-                </span>
-              </div>
-              <p data-lang="zh">若 <span class="inline-math">V<sub>D</sub></span> 较小，可忽略 <span class="inline-math">V<sub>D</sub><sup>2</sup>/2</span> 项。此时固定 <span class="inline-math">V<sub>D</sub></span>，<span class="inline-math">I<sub>D</sub></span> 与 <span class="inline-math">V<sub>G</sub></span> 近似线性。</p>
-              <p data-lang="en">For small <span class="inline-math">V<sub>D</sub></span>, the <span class="inline-math">V<sub>D</sub><sup>2</sup>/2</span> term can be neglected. At fixed <span class="inline-math">V<sub>D</sub></span>, <span class="inline-math">I<sub>D</sub></span> is approximately linear with <span class="inline-math">V<sub>G</sub></span>.</p>
+          <div class="formula-chain-row">
+            <span class="step-label" data-lang="zh">线性区</span>
+            <span class="step-label" data-lang="en">Linear regime</span>
+            <div class="math-row">
+              <span class="math-expr" aria-label="I D approximately equals mu C ox W over L times V G minus V T times V D">
+                <span>I<span class="sub">D</span></span><span>≈</span><span>μC<span class="sub">ox</span></span>
+                <span class="frac"><span class="top">W</span><span class="bottom">L</span></span>
+                <span>(V<span class="sub">G</span>−V<span class="sub">T</span>)V<span class="sub">D</span></span>
+              </span>
             </div>
           </div>
+          <p class="muted" data-lang="zh">推导逻辑：栅介质先决定单位面积电容 <span class="inline-math">C<sub>ox</sub></span>，栅压在沟道中诱导电荷，源漏电场驱动漂移电流；沿沟道积分并在线性区忽略 <span class="inline-math">V<sub>D</sub><sup>2</sup>/2</span> 项，即得到可用于拟合的线性关系。</p>
+          <p class="muted" data-lang="en">Logic: the gate dielectric sets <span class="inline-math">C<sub>ox</sub></span>, gate bias induces channel charge, and the drain-source field drives drift current. After channel integration and neglecting the <span class="inline-math">V<sub>D</sub><sup>2</sup>/2</span> term in the linear regime, the fitting relation is obtained.</p>
+        </div>
 
-          <div class="derivation-step">
-            <span class="step-label" data-lang="zh">Step 6 求导</span>
-            <span class="step-label" data-lang="en">Step 6 Derivative</span>
-            <div>
-              <div class="math-row">
-                <span class="math-expr" aria-label="g m equals d I D over d V G equals mu C ox W over L V D, mu linear equals L over W C ox V D times d I D over d V G">
-                  <span>g<span class="sub">m</span></span>
-                  <span>=</span>
-                  <span class="frac"><span class="top">dI<span class="sub">D</span></span><span class="bottom">dV<span class="sub">G</span></span></span>
-                  <span>=</span>
-                  <span>μC<span class="sub">ox</span></span>
-                  <span class="frac"><span class="top">W</span><span class="bottom">L</span></span>
-                  <span>V<span class="sub">D</span>,</span>
-                  <span>μ<span class="sub">lin</span></span>
-                  <span>=</span>
-                  <span class="frac"><span class="top">L</span><span class="bottom">WC<span class="sub">ox</span>V<span class="sub">D</span></span></span>
-                  <span class="frac"><span class="top">dI<span class="sub">D</span></span><span class="bottom">dV<span class="sub">G</span></span></span>
-                </span>
-              </div>
-              <p data-lang="zh">最终斜率来自固定 <span class="inline-math">V<sub>D</sub></span> 下的 <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> 转移曲线，不能使用 <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> 输出曲线斜率。</p>
-              <p data-lang="en">The final slope must be taken from the <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> transfer curve at fixed <span class="inline-math">V<sub>D</sub></span>, not from the <span class="inline-math">I<sub>D</sub>-V<sub>D</sub></span> output curve.</p>
+        <div class="fit-focus">
+          <h3 data-lang="zh">重点：实际拟合时使用这两个公式</h3>
+          <h3 data-lang="en">Key point: use these two equations for fitting</h3>
+          <div class="fit-formula">
+            <span class="math-expr" aria-label="g m equals d I D over d V G, mu linear equals L over W C ox V D times g m">
+              <span>g<span class="sub">m</span></span><span>=</span>
+              <span class="frac"><span class="top">dI<span class="sub">D</span></span><span class="bottom">dV<span class="sub">G</span></span></span>
+              <span>,</span>
+              <span>μ<span class="sub">lin</span></span><span>=</span>
+              <span class="frac"><span class="top">L</span><span class="bottom">WC<span class="sub">ox</span>V<span class="sub">D</span></span></span>
+              <span>g<span class="sub">m</span></span>
+            </span>
+          </div>
+          <p data-lang="zh">做法是：固定 <span class="inline-math">V<sub>D</sub></span> 测 <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> 转移曲线，在线性调控区拟合直线，斜率就是 <span class="inline-math">g<sub>m</sub></span>。</p>
+          <p data-lang="en">Procedure: measure the <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> transfer curve at fixed <span class="inline-math">V<sub>D</sub></span>, fit a straight line in the linear modulation region, and use the slope as <span class="inline-math">g<sub>m</sub></span>.</p>
+        </div>
+
+        <div class="fit-example">
+          <h3 data-lang="zh">拟合示例</h3>
+          <h3 data-lang="en">Fitting example</h3>
+          <div class="example-grid">
+            <div class="example-box">
+              <p data-lang="zh"><strong>假设测试条件</strong></p>
+              <p data-lang="en"><strong>Assumed test conditions</strong></p>
+              <p><span class="inline-math">L = 20 μm = 2.0×10<sup>−3</sup> cm</span></p>
+              <p><span class="inline-math">W = 1000 μm = 1.0×10<sup>−1</sup> cm</span></p>
+              <p><span class="inline-math">C<sub>ox</sub> = 1.15×10<sup>−8</sup> F/cm<sup>2</sup></span></p>
+              <p><span class="inline-math">V<sub>D</sub> = 0.10 V</span></p>
+            </div>
+            <div class="example-box">
+              <p data-lang="zh"><strong>线性拟合结果</strong></p>
+              <p data-lang="en"><strong>Linear fitting result</strong></p>
+              <p data-lang="zh">从 <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span> 线性区拟合得到：</p>
+              <p data-lang="en">From the linear region of <span class="inline-math">I<sub>D</sub>-V<sub>G</sub></span>:</p>
+              <p><span class="inline-math">g<sub>m</sub> = dI<sub>D</sub>/dV<sub>G</sub> = 2.0×10<sup>−9</sup> A/V</span></p>
+              <p><span class="inline-math">μ<sub>lin</sub> = Lg<sub>m</sub>/(WC<sub>ox</sub>V<sub>D</sub>) ≈ 3.5×10<sup>−2</sup> cm<sup>2</sup>V<sup>−1</sup>s<sup>−1</sup></span></p>
             </div>
           </div>
         </div>
