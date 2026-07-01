@@ -263,7 +263,7 @@
 
     .file-item {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr) 92px 36px;
+      grid-template-columns: auto minmax(0, 1fr) 92px 36px 30px;
       gap: 5px;
       align-items: center;
       border: 1px solid var(--line);
@@ -284,6 +284,14 @@
     .file-meta {
       color: var(--muted);
       font-size: 9.5px;
+    }
+
+    .remove-file {
+      min-height: 26px;
+      padding: 2px 6px;
+      color: var(--warn);
+      border-color: #e7c8bd;
+      font-weight: 700;
     }
 
     .actions {
@@ -424,13 +432,56 @@
       body { height: auto; overflow: auto; }
       .app { grid-template-columns: 1fr; height: auto; }
       aside, main { height: auto; overflow: visible; }
+      aside {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
       .control-bar { position: static; }
     }
 
-    @media (max-width: 520px) {
-      .row2, .row3, .row4 { grid-template-columns: 1fr 1fr; }
-      .file-item { grid-template-columns: auto minmax(0, 1fr) 34px; }
-      .file-item .legend-input { grid-column: 2 / 4; }
+    @media (max-width: 640px) {
+      body { font-size: 11px; }
+      aside, main { padding: 8px; }
+      h1 { font-size: 15px; }
+      .topline { align-items: flex-start; }
+      .row2, .row3, .row4 { grid-template-columns: 1fr; }
+      details.group { padding: 0 7px 7px; }
+      .checks label { white-space: normal; }
+      .file-list { max-height: 220px; }
+      .file-item {
+        grid-template-columns: auto minmax(0, 1fr) 34px;
+        align-items: start;
+      }
+      .file-item .legend-input {
+        grid-column: 2 / 4;
+        width: 100%;
+      }
+      .file-item input[type="color"] {
+        grid-column: 2 / 3;
+        width: 52px;
+      }
+      .file-item .remove-file {
+        grid-column: 3 / 4;
+        grid-row: 3;
+      }
+      .slider-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .actions button { width: 100%; }
+      .plot-card, .analysis, .footer { border-radius: 7px; }
+      .plot-head { display: block; }
+      .result-grid, .metric-grid { grid-template-columns: 1fr; }
+      canvas { max-width: 100%; }
+    }
+
+    @media (max-width: 420px) {
+      .actions { grid-template-columns: 1fr; }
+      .file-item { grid-template-columns: auto minmax(0, 1fr) 32px; }
     }
   </style>
 </head>
@@ -450,8 +501,8 @@
           <label class="zh">上传数据文件</label>
           <label class="en">Upload data files</label>
           <input id="fileInput" type="file" multiple accept=".csv,.txt,.xlsx,.xlsm,text/plain,text/csv">
-          <div class="hint zh">支持 CSV/TXT/XLSX/XLSM。文件只在本地浏览器解析。</div>
-          <div class="hint en">CSV/TXT/XLSX/XLSM supported. Files are parsed locally in this browser.</div>
+          <div class="hint zh">支持 CSV/TXT/XLSX/XLSM。可以分多次从不同文件夹选择，后选文件会追加到列表，不会覆盖前一批。</div>
+          <div class="hint en">CSV/TXT/XLSX/XLSM supported. You can select from different folders in several rounds; new files are appended instead of replacing earlier ones.</div>
         </div>
         <div class="actions">
           <button id="selectAllBtn" type="button"><span class="zh">全选</span><span class="en">Select all</span></button>
@@ -772,6 +823,18 @@
     function basename(name, stripExt) {
       const clean = String(name || "").split(/[\\/]/).pop();
       return stripExt ? clean.replace(/\.[^.]+$/, "") : clean;
+    }
+
+    function uniqueLegend(base, existing) {
+      let label = base || "curve";
+      let candidate = label;
+      let idx = 2;
+      const used = new Set(existing.map(item => item.legend));
+      while (used.has(candidate)) {
+        candidate = `${label} (${idx})`;
+        idx++;
+      }
+      return candidate;
     }
 
     function extension(name) {
@@ -1562,6 +1625,7 @@
           </div>
           <input class="legend-input" type="text" data-legend="${idx}" value="${escapeHtml(item.legend)}" title="legend">
           <input type="color" data-color="${idx}" value="${item.color}">
+          <button class="remove-file" type="button" data-remove="${idx}" title="remove">×</button>
         </div>
       `).join("");
       list.querySelectorAll("[data-check]").forEach(el => {
@@ -1572,6 +1636,19 @@
       });
       list.querySelectorAll("[data-color]").forEach(el => {
         el.addEventListener("input", () => state.files[Number(el.dataset.color)].color = el.value);
+      });
+      list.querySelectorAll("[data-remove]").forEach(button => {
+        button.addEventListener("click", () => {
+          state.files.splice(Number(button.dataset.remove), 1);
+          renderFileList();
+          if (state.files.some(item => item.selected)) {
+            plotSelected();
+          } else {
+            renderResults([]);
+            drawPlot([]);
+            disableRangeSliders();
+          }
+        });
       });
     }
 
@@ -1715,14 +1792,24 @@
         $("langBtn").textContent = state.lang === "zh" ? "English" : "中文";
       });
       $("fileInput").addEventListener("change", event => {
-        state.files = Array.from(event.target.files).map((file, idx) => ({
-          file,
-          selected: true,
-          legend: basename(file.name, $("stripExt").checked),
-          color: state.colors[idx % state.colors.length]
-        }));
+        const incoming = Array.from(event.target.files);
+        const startCount = state.files.length;
+        const strip = $("stripExt").checked;
+        const added = [];
+        for (const file of incoming) {
+          const baseLegend = basename(file.name, strip);
+          const item = {
+            file,
+            selected: true,
+            legend: uniqueLegend(baseLegend, state.files.concat(added)),
+            color: state.colors[(startCount + added.length) % state.colors.length]
+          };
+          added.push(item);
+        }
+        state.files = state.files.concat(added);
+        event.target.value = "";
         renderFileList();
-        setStatus(t(`已载入 ${state.files.length} 个文件。`, `${state.files.length} file(s) loaded.`));
+        setStatus(t(`已追加 ${added.length} 个文件，当前共 ${state.files.length} 个文件。`, `Added ${added.length} file(s); ${state.files.length} file(s) in total.`));
       });
       $("selectAllBtn").addEventListener("click", () => {
         state.files.forEach(item => item.selected = true);
