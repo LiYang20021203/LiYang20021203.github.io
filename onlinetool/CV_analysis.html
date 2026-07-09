@@ -138,6 +138,47 @@
     .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
     .btn{border:0;border-radius:999px;background:var(--primary);color:#fff;padding:10px 15px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px rgba(47,99,117,.20)}
     .btn.secondary{background:#fff;color:var(--primary2);border:1px solid var(--line2)}
+
+    /* 论文表述区：避免行内公式被单独挤到下一行，长公式统一用公式框承载 */
+    mjx-container[jax="SVG"]:not([display="true"]){
+      display:inline-block !important;
+      white-space:nowrap !important;
+      vertical-align:-0.12em !important;
+      margin:0 .06em !important;
+      max-width:100%;
+    }
+    #wording .thesis-writing{
+      background:#fbfdfe;
+      border-color:#d6e2e7;
+      padding:18px 18px;
+    }
+    #wording .thesis-writing p{
+      font-size:15.5px;
+      line-height:2.05;
+      text-align:justify;
+      margin:12px 0;
+    }
+    #wording .eq-note{
+      margin:14px 0 16px;
+      padding:13px 15px;
+      border:1px solid #d7e0e4;
+      border-left:4px solid #2f6375;
+      border-radius:12px;
+      background:#ffffff;
+    }
+    #wording .eq-note .label{
+      display:block;
+      font-size:13px;
+      color:#5f6c75;
+      margin-bottom:6px;
+      font-weight:700;
+    }
+    #wording .eq-note mjx-container[display="true"]{
+      margin:4px 0 !important;
+      overflow-x:auto;
+      overflow-y:hidden;
+    }
+
     @media (max-width:860px){
       .wrap{padding:16px 12px 36px}
       .hero{padding:26px 20px;border-radius:22px}
@@ -571,13 +612,15 @@
 <section id="wording">
 <div class="section-head">
 <h2>八、可直接写进论文的分析表述</h2>
-<p>下面是一段较稳妥的中文学术表述，可根据具体数据替换频率、偏压和拟合参数。</p>
+<p>下面是一段较稳妥的中文学术表述，可根据具体数据替换频率、偏压和拟合参数。这里已避免把长公式硬塞进正文行内，正文更适合直接放入论文。</p>
 </div>
 <div class="content">
-<div class="card soft">
-<p>为分析 PbS CQD 同质结器件中的空间电荷调制行为，对器件进行了多频 C–V 测试。C–V 测试通过在直流偏压上叠加小信号交流扰动，测量器件导纳 \(Y=G+j\omega C\)，其中 \(C\) 反映偏压调制下的电荷储存能力，\(G\) 反映漏电、陷阱释放及界面态耗散等非理想过程。对于理想结型器件，反向偏压增大时耗尽层宽度增加，电容降低；正向偏压增大时耗尽层宽度减小，电容升高。因此，多频 C–V 曲线可用于判断器件中是否存在可调制的空间电荷区。</p>
-<p>进一步地，为区分真实耗尽层电容与陷阱、界面态和慢极化贡献，计算损耗角正切 \(\tan\delta=G/(\omega C)\) 及 \(G/\omega\)。其中 \(\tan\delta\) 表征损耗电流与电容电流的相对大小，可用于判断 C–V 数据是否受漏电或注入过程污染；\(G/\omega\) 与陷阱态和界面态的交流响应相关，可用于分析不同偏压下缺陷态的活跃程度。</p>
-<p>在满足电容为正、损耗较低、频率色散较弱且 \(1/C^2-V\) 近似线性的偏压范围内，对 Mott–Schottky 曲线进行线性拟合。拟合关系为 \(1/C^2=mV+b\)，电压截距为 \(V_{int}=-b/m\)，斜率可用于估算表观有效载流子浓度 \(N_{eff,app}=2/(q\varepsilon A^2|m|)\)。由于 PbS CQD 薄膜存在配体、界面态、陷阱和颗粒间输运等非理想因素，所得参数应理解为表观参数，而非理想单晶 p–n 结中的严格掺杂浓度和内建电势。</p>
+<div class="card thesis-writing">
+<p>为分析 PbS CQD 同质结器件中的空间电荷调制行为，对器件进行了多频 C–V 测试。C–V 测试通过在直流偏压上叠加小信号交流扰动，测量器件的小信号导纳 \(Y=G+j\omega C\)。其中，\(C\) 反映偏压调制下的电荷储存能力，\(G\) 反映漏电、陷阱释放及界面态耗散等非理想过程。对于理想结型器件，反向偏压增大时耗尽层宽度增加，电容降低；正向偏压增大时耗尽层宽度减小，电容升高。因此，多频 C–V 曲线可用于判断器件中是否存在可调制的空间电荷区。</p>
+<p>进一步地，为区分真实耗尽层电容与陷阱、界面态和慢极化贡献，本文计算了损耗角正切 \(\tan\delta\) 及等效损耗项 \(G/\omega\)。其中，\(\tan\delta\) 表征损耗电流与电容电流的相对大小，可用于判断 C–V 数据是否受漏电或注入过程污染；\(G/\omega\) 与陷阱态和界面态的交流响应相关，可用于分析不同偏压下缺陷态的活跃程度。</p>
+<div class="eq-note"><span class="label">损耗分析中使用的关系式</span>\[\tan\delta=\frac{G}{\omega C}=\frac{G}{2\pi f C},\qquad \frac{G}{\omega}=\frac{G}{2\pi f}\]</div>
+<p>在满足电容为正、损耗较低、频率色散较弱且 \(1/C^2-V\) 近似线性的偏压范围内，对 Mott–Schottky 曲线进行线性拟合。拟合所得的电压截距可用于表征表观内建势垒，斜率可用于估算表观有效载流子浓度。由于 PbS CQD 薄膜存在配体、界面态、陷阱和颗粒间输运等非理想因素，所得参数应理解为表观参数，而非理想单晶 p–n 结中的严格掺杂浓度和内建电势。</p>
+<div class="eq-note"><span class="label">Mott–Schottky 拟合与表观浓度估算</span>\[\frac{1}{C^2}=mV+b,\qquad V_{\mathrm{int}}=-\frac{b}{m},\qquad N_{\mathrm{eff,app}}=\frac{2}{q\varepsilon A^2|m|}\]</div>
 </div>
 </div>
 </section>
