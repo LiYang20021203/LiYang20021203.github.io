@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>C–V 分析一般流程｜MathJax 公式版｜PbS CQD 同质结器件</title>
+<meta content="面向 PbS 胶体量子点同质结器件的 C–V 测试分析流程、物理意义、物理图像与步骤解释。" name="description"/>
+<style>
+    :root{
+      --bg:#f5f7f8;
+      --paper:#ffffff;
+      --ink:#1d262d;
+      --muted:#5f6c75;
+      --soft:#edf2f4;
+      --line:#d7e0e4;
+      --line2:#c6d2d8;
+      --primary:#2f6375;
+      --primary2:#184759;
+      --accent:#c48742;
+      --accent-soft:#fff2df;
+      --green:#55776b;
+      --blue-soft:#eaf3f6;
+      --danger:#9b4b40;
+      --danger-soft:#fff0ee;
+      --shadow:0 18px 45px rgba(16,33,43,.08);
+      --radius:18px;
+      --code:#10202a;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Noto Sans SC","Microsoft YaHei","PingFang SC",Arial,sans-serif;
+      color:var(--ink);
+      background:linear-gradient(180deg,#eef4f6 0%, var(--bg) 34%, #f8fafb 100%);
+      line-height:1.75;
+    }
+    .wrap{max-width:1180px;margin:0 auto;padding:26px 18px 54px}
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius:28px;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(196,135,66,.20), transparent 34%),
+        radial-gradient(circle at 85% 5%, rgba(47,99,117,.18), transparent 30%),
+        linear-gradient(135deg,#fff 0%,#f2f7f9 100%);
+      padding:36px 34px;
+      box-shadow:var(--shadow);
+    }
+    .hero:after{
+      content:"";
+      position:absolute;
+      width:360px;height:360px;
+      border:1px solid rgba(47,99,117,.12);
+      border-radius:50%;
+      right:-120px;bottom:-160px;
+      background:radial-gradient(circle,rgba(255,255,255,.35),transparent 62%);
+    }
+    .kicker{font-size:14px;color:var(--primary);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+    h1{font-size:34px;line-height:1.25;margin:0 0 14px;color:#13232b;letter-spacing:-.02em}
+    .subtitle{font-size:17px;color:var(--muted);max-width:900px;margin:0 0 22px}
+    .meta-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:24px;position:relative;z-index:1}
+    .meta-card{background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:16px;padding:13px 14px;backdrop-filter:blur(8px)}
+    .meta-card b{display:block;color:#172630;font-size:14px;margin-bottom:3px}
+    .meta-card span{font-size:13px;color:var(--muted)}
+    .toc{
+      margin:18px 0 24px;
+      display:flex;flex-wrap:wrap;gap:8px;
+    }
+    .toc a{display:inline-flex;text-decoration:none;color:var(--primary2);background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;box-shadow:0 4px 16px rgba(16,33,43,.04)}
+    section{margin:24px 0;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 10px 34px rgba(16,33,43,.055);overflow:hidden}
+    .section-head{padding:22px 24px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff,#fbfdfe)}
+    .section-head h2{margin:0;color:#142833;font-size:24px;line-height:1.35}
+    .section-head p{margin:7px 0 0;color:var(--muted);font-size:15px}
+    .content{padding:22px 24px 26px}
+    h3{font-size:19px;margin:20px 0 10px;color:#17313d}
+    h4{font-size:16px;margin:18px 0 8px;color:#24353d}
+    p{margin:10px 0}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:16px;box-shadow:0 6px 20px rgba(16,33,43,.035)}
+    .card.soft{background:var(--soft)}
+    .card.blue{background:var(--blue-soft)}
+    .card.accent{background:var(--accent-soft);border-color:#edd6b8}
+    .card.danger{background:var(--danger-soft);border-color:#efc8c2}
+    .tag{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:var(--primary);border-radius:999px;padding:2px 9px;margin-right:6px;vertical-align:middle}
+    .tag.alt{background:var(--accent)}
+    .formula{
+      margin:14px 0;
+      padding:14px 16px;
+      background:#f8fbfc;
+      border:1px solid var(--line);
+      border-left:4px solid var(--primary);
+      border-radius:12px;
+      color:#101d25;
+      overflow-x:auto;
+      font-size:17px;
+    }
+    .formula .MathJax, .formula mjx-container{
+      font-size:112% !important;
+    }
+    .formula mjx-container[display="true"]{
+      margin:0 !important;
+    }
+    .formula small{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;color:var(--muted);font-size:13px;margin-left:10px}
+    .note{border-left:4px solid var(--accent);background:#fffaf2;padding:12px 14px;border-radius:12px;margin:14px 0;color:#3f3428}
+    .warn{border-left:4px solid var(--danger);background:#fff3f1;padding:12px 14px;border-radius:12px;margin:14px 0;color:#442520}
+    table{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+    th,td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left;font-size:14px}
+    th{background:#f1f6f8;color:#1b3945;font-weight:700}
+    tr:last-child td{border-bottom:0}
+    code{background:#eef4f6;color:#14313d;border:1px solid #dce7eb;padding:1px 5px;border-radius:6px;font-family:Consolas,"SFMono-Regular",monospace;font-size:.92em}
+    .svgbox{background:#fbfdfe;border:1px solid var(--line);border-radius:16px;padding:12px;margin:14px 0;overflow:auto}
+    svg{max-width:100%;height:auto;display:block;margin:auto}
+    .caption{text-align:center;color:var(--muted);font-size:13px;margin-top:6px}
+    .step{display:grid;grid-template-columns:42px 1fr;gap:13px;padding:16px;border:1px solid var(--line);border-radius:16px;background:#fff;margin:12px 0}
+    .num{width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:Arial,sans-serif;box-shadow:0 8px 20px rgba(47,99,117,.18)}
+    .step h3{margin:0 0 7px;font-size:18px}
+    .step p{margin:6px 0;color:#384852}
+    .step ul{margin:8px 0 0 1.1em;padding:0;color:#384852}
+    .step li{margin:4px 0}
+    .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0}
+    .flow span{background:#fff;border:1px solid var(--line2);border-radius:12px;padding:9px 11px;color:#17313d;font-size:14px;box-shadow:0 6px 18px rgba(16,33,43,.04)}
+    .flow b{color:var(--accent);font-size:18px}
+    .mini{font-size:13px;color:var(--muted)}
+    .footer{
+      margin-top:28px;
+      border:1px solid var(--line);
+      border-radius:20px;
+      background:#fff;
+      padding:20px 22px;
+      color:var(--muted);
+      box-shadow:var(--shadow);
+    }
+    .footer a{color:var(--primary2);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(24,71,89,.35)}
+    .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .btn{border:0;border-radius:999px;background:var(--primary);color:#fff;padding:10px 15px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px rgba(47,99,117,.20)}
+    .btn.secondary{background:#fff;color:var(--primary2);border:1px solid var(--line2)}
+    @media (max-width:860px){
+      .wrap{padding:16px 12px 36px}
+      .hero{padding:26px 20px;border-radius:22px}
+      h1{font-size:27px}
+      .subtitle{font-size:15px}
+      .meta-grid,.grid-2,.grid-3{grid-template-columns:1fr}
+      .section-head,.content{padding-left:17px;padding-right:17px}
+      .step{grid-template-columns:36px 1fr;padding:13px}
+      .num{width:36px;height:36px}
+      table{display:block;overflow-x:auto;white-space:nowrap}
+    }
+    @media print{
+      body{background:#fff}
+      .toc,.btns{display:none}
+      section,.hero,.footer{box-shadow:none;break-inside:avoid}
+      .wrap{max-width:100%;padding:0}
+    }
+  </style>
+<script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(','\\)'], ['$', '$']], displayMath: [['\\[','\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<div class="kicker">C–V ANALYSIS WORKFLOW</div>
+<h1>C–V 测试分析一般流程：从数据、物理图像到结论写法</h1>
+<p class="subtitle">面向 PbS 胶体量子点同质结器件，尤其适用于 ITO/PbS-EDT 或 PbS-BDT/PbS-TBAI/Al 这类 p/n 分层结构。重点不是“直接套公式”，而是先判断电容是否可信，再区分耗尽层电容、陷阱电容、界面态响应和慢极化贡献。</p>
+<div class="btns">
+<button class="btn" onclick="window.print()">打印 / 另存为 PDF</button>
+<a class="btn secondary" href="https://liyang20021203.github.io/usefulweb/index.html" rel="noopener" target="_blank">黑科技VIP会客厅</a>
+</div>
+<div class="meta-grid">
+<div class="meta-card"><b>核心对象</b><span>结电容、损耗电导、频率色散</span></div>
+<div class="meta-card"><b>关键图</b><span>C–V、C–f、tanδ、G/ω、1/C²–V</span></div>
+<div class="meta-card"><b>适用器件</b><span>p–n 结、肖特基结、PbS CQD 同质结</span></div>
+<div class="meta-card"><b>参数定位</b><span>表观内建势、表观载流子浓度、界面态响应</span></div>
+</div>
+</header>
+<nav aria-label="目录" class="toc">
+<a href="#meaning">1. 数据物理意义</a>
+<a href="#picture">2. 物理图像</a>
+<a href="#precheck">3. 数据质检</a>
+<a href="#workflow">4. 分析流程</a>
+<a href="#ms">5. Mott–Schottky</a>
+<a href="#pbs">6. PbS CQD 特别注意</a>
+<a href="#figures">7. 论文图表建议</a>
+<a href="#wording">8. 可直接写进论文的表述</a>
+</nav>
+<section id="meaning">
+<div class="section-head">
+<h2>一、C–V 测试到底测到了什么？</h2>
+<p>C–V 并不是只测“一个电容”。仪器实际测的是器件在小信号交流扰动下的复导纳。</p>
+</div>
+<div class="content">
+<p>测试时，在直流偏压上叠加一个较小的交流电压：</p>
+<div class="formula">\[ V(t)=V_{\mathrm{DC}}+V_{\mathrm{AC}}\sin(\omega t),\qquad \omega=2\pi f \]</div>
+<p>器件的小信号响应可写成：</p>
+<div class="formula">\[ Y=G+j\omega C \]</div>
+<div class="grid-2">
+<div class="card blue">
+<h3><span class="tag">C</span>电容分量</h3>
+<p>表示器件在交流扰动下储存电荷的能力。理想结电容来自空间电荷区宽度随偏压变化。</p>
+<div class="formula">\[ C=\frac{dQ}{dV} \]</div>
+</div>
+<div class="card accent">
+<h3><span class="tag alt">G</span>电导分量</h3>
+<p>表示器件在交流扰动下的能量耗散，包括漏电、陷阱释放、界面态响应、载流子注入和非理想传输。</p>
+<div class="formula">\[ I_G=GV \]</div>
+</div>
+</div>
+<div class="note">因此，C–V 分析不能只看 C。必须同时看 G、tanδ 和 G/ω，否则容易把陷阱、漏电或慢极化误判成真实耗尽层电容。</div>
+</div>
+</section>
+<section id="picture">
+<div class="section-head">
+<h2>二、结电容的物理图像</h2>
+<p>对 PbS-EDT/BDT 与 PbS-TBAI 同质结，可以近似理解为 p 型量子点层与 n 型量子点层接触后形成内建电场。</p>
+</div>
+<div class="content">
+<h3>1. 器件结构与空间电荷区</h3>
+<div class="svgbox">
+<svg aria-label="PbS CQD 同质结器件结构与耗尽区示意图" height="270" role="img" viewbox="0 0 980 270" width="980">
+<defs>
+<lineargradient id="g1" x1="0" x2="1">
+<stop offset="0" stop-color="#d7e8ed"></stop>
+<stop offset="1" stop-color="#f8fafb"></stop>
+</lineargradient>
+<lineargradient id="pLayer" x1="0" x2="1">
+<stop offset="0" stop-color="#d9a66c"></stop>
+<stop offset="1" stop-color="#f2d0a8"></stop>
+</lineargradient>
+<lineargradient id="nLayer" x1="0" x2="1">
+<stop offset="0" stop-color="#bfd9e4"></stop>
+<stop offset="1" stop-color="#7aa5b6"></stop>
+</lineargradient>
+<marker id="arrow" markerheight="10" markerunits="strokeWidth" markerwidth="10" orient="auto" refx="8" refy="3">
+<path d="M0,0 L0,6 L9,3 z" fill="#2f6375"></path>
+</marker>
+</defs>
+<rect fill="url(#g1)" height="205" rx="22" stroke="#c9d7dd" width="910" x="35" y="30"></rect>
+<rect fill="#b8c7cc" height="42" rx="8" stroke="#8fa2aa" width="810" x="85" y="160"></rect>
+<text fill="#25353d" font-size="16" font-weight="700" text-anchor="middle" x="490" y="187">ITO 透明电极</text>
+<rect fill="url(#pLayer)" height="48" rx="8" stroke="#bb8449" width="405" x="85" y="112"></rect>
+<text fill="#442c16" font-size="16" font-weight="700" text-anchor="middle" x="287" y="142">PbS-EDT/BDT：偏 p 型</text>
+<rect fill="url(#nLayer)" height="48" rx="8" stroke="#5c8da0" width="405" x="490" y="112"></rect>
+<text fill="#17313d" font-size="16" font-weight="700" text-anchor="middle" x="692" y="142">PbS-TBAI：偏 n 型</text>
+<rect fill="#d6b36b" height="42" rx="8" stroke="#a7863e" width="810" x="85" y="70"></rect>
+<text fill="#3d2b0d" font-size="16" font-weight="700" text-anchor="middle" x="490" y="97">Al 顶电极</text>
+<rect fill="rgba(255,255,255,.58)" height="58" rx="10" stroke="#2f6375" stroke-dasharray="7 5" width="120" x="430" y="107"></rect>
+<text fill="#2f6375" font-size="15" font-weight="700" text-anchor="middle" x="490" y="62">EDT/BDT–TBAI 界面附近的耗尽区 / 空间电荷区</text>
+<line marker-end="url(#arrow)" stroke="#2f6375" stroke-width="2" x1="555" x2="518" y1="54" y2="106"></line>
+<line marker-end="url(#arrow)" stroke="#2f6375" stroke-width="3" x1="420" x2="560" y1="214" y2="214"></line>
+<text fill="#2f6375" font-size="14" text-anchor="middle" x="490" y="238">内建电场方向示意</text>
+</svg>
+<div class="caption">图 1：PbS CQD 同质结器件的空间电荷区示意。实际耗尽区可能并不只局限在几何界面，而是由配体、缺陷、电极接触和局部电荷分布共同决定。</div>
+</div>
+<h3>2. 偏压改变耗尽层宽度，进而改变电容</h3>
+<div class="grid-2">
+<div class="card">
+<h4>反偏</h4>
+<div class="formula">\[ W\uparrow \Rightarrow C\downarrow,\qquad C=\frac{\varepsilon A}{W} \]</div>
+<p>反偏增强内建电场，使空间电荷区变宽，等效电容降低。</p>
+</div>
+<div class="card">
+<h4>正偏</h4>
+<div class="formula">\[ W\downarrow \Rightarrow C\uparrow,\qquad C=\frac{\varepsilon A}{W} \]</div>
+<p>正偏降低势垒，使空间电荷区变窄，等效电容升高。但强正偏也会引入注入电流和扩散电容。</p>
+</div>
+</div>
+<div class="svgbox">
+<svg aria-label="C-V 曲线与偏压调制耗尽层宽度示意图" height="300" role="img" viewbox="0 0 940 300" width="940">
+<rect fill="#fbfdfe" height="235" rx="18" stroke="#d7e0e4" width="860" x="40" y="25"></rect>
+<line stroke="#24343c" stroke-width="2" x1="110" x2="810" y1="220" y2="220"></line>
+<line stroke="#24343c" stroke-width="2" x1="150" x2="150" y1="240" y2="55"></line>
+<text fill="#24343c" font-size="15" x="810" y="250">V</text>
+<text fill="#24343c" font-size="15" x="122" y="60">C</text>
+<line stroke="#829199" x1="480" x2="480" y1="225" y2="215"></line>
+<text fill="#5f6c75" font-size="13" text-anchor="middle" x="480" y="245">0</text>
+<path d="M155 195 C250 194, 330 188, 420 172 S580 125, 705 82" fill="none" stroke="#2f6375" stroke-linecap="round" stroke-width="5"></path>
+<text fill="#5f6c75" font-size="14" x="255" y="185">反偏：W 大，C 小</text>
+<text fill="#5f6c75" font-size="14" x="610" y="95">正偏：W 小，C 大</text>
+<circle cx="420" cy="172" fill="#c48742" r="5"></circle>
+<circle cx="705" cy="82" fill="#c48742" r="5"></circle>
+<line stroke="#2f6375" stroke-linecap="round" stroke-width="10" x1="250" x2="380" y1="270" y2="270"></line>
+<line stroke="#2f6375" stroke-linecap="round" stroke-width="10" x1="560" x2="625" y1="270" y2="270"></line>
+<text fill="#5f6c75" font-size="13" text-anchor="middle" x="315" y="292">反偏耗尽层较宽</text>
+<text fill="#5f6c75" font-size="13" text-anchor="middle" x="592" y="292">正偏耗尽层较窄</text>
+</svg>
+<div class="caption">图 2：理想结型器件的 C–V 物理图像。真实 PbS CQD 器件还会叠加陷阱电容、界面态和慢极化。</div>
+</div>
+</div>
+</section>
+<section id="precheck">
+<div class="section-head">
+<h2>三、正式分析前的数据质检</h2>
+<p>不要一上来就做 1/C²–V 拟合。先判断数据是否能代表电容主导的小信号响应。</p>
+</div>
+<div class="content">
+<table>
+<thead><tr><th>检查项</th><th>检查目的</th><th>异常时的处理</th></tr></thead>
+<tbody>
+<tr><td>偏压范围与步进</td><td>确认不同频率曲线可以横向比较。</td><td>统一插值或只取共同电压点。</td></tr>
+<tr><td>电容正负</td><td>常规结电容应为正。高频负电容多为模型失真、寄生相位误差或强损耗。</td><td>标记为异常，不参与 Mott–Schottky 提参。</td></tr>
+<tr><td>G 是否过大</td><td>判断电容是否被漏电、注入或陷阱耗散污染。</td><td>计算 tanδ，筛除损耗过大的频率和偏压区间。</td></tr>
+<tr><td>频率一致性</td><td>判断低频慢响应与高频寄生效应。</td><td>优先选择中频段分析。</td></tr>
+<tr><td>突变点/跳点</td><td>可能来自量程切换、接触不稳、局部击穿或数据采集异常。</td><td>标记异常点，不能机械拟合。</td></tr>
+<tr><td>正扫/反扫迟滞</td><td>判断离子迁移、慢极化或陷阱滞后。</td><td>分别分析正扫和反扫，不能简单合并。</td></tr>
+</tbody>
+</table>
+<div class="warn">对 PbS CQD 薄膜，低频大电容不一定代表强结电容，也可能来自量子点表面态、配体偶极、残余离子、孔洞界面和颗粒间极化。</div>
+</div>
+</section>
+<section id="workflow">
+<div class="section-head">
+<h2>四、推荐的 C–V 分析流程</h2>
+<p>下面这套顺序适合直接用于实验数据处理，也适合写进论文“测试与分析方法”部分。</p>
+</div>
+<div class="content">
+<div class="flow">
+<span>原始 V, C, G</span><b>→</b>
+<span>数据质检</span><b>→</b>
+<span>C–V</span><b>→</b>
+<span>C–f</span><b>→</b>
+<span>tanδ</span><b>→</b>
+<span>G/ω</span><b>→</b>
+<span>1/C²–V</span><b>→</b>
+<span>表观参数</span><b>→</b>
+<span>物理结论</span>
+</div>
+<div class="step">
+<div class="num">1</div>
+<div>
+<h3>整理原始数据：得到 C(V, f)、G(V, f)、1/C²(V, f)</h3>
+<p>第一列放偏压，后续列按频率排列。建议保留原始 C 与 G，不要只保存处理后的 1/C²。</p>
+<ul>
+<li>意义：保证不同频率可比较。</li>
+<li>输出：C 表、G 表、1/C² 表。</li>
+<li>注意：负电容或高损耗数据可以保留，但要单独标注。</li>
+</ul>
+</div>
+</div>
+<div class="step">
+<div class="num">2</div>
+<div>
+<h3>画多频率 C–V 曲线：先判断是否有结电容行为</h3>
+<p>观察反偏区电容是否降低、正偏区电容是否升高。</p>
+<div class="formula">\[ \text{反偏： } W\uparrow,\ C\downarrow;\qquad \text{正偏： } W\downarrow,\ C\uparrow \]</div>
+<ul>
+<li>意义：判断器件是否存在可被偏压调制的空间电荷区。</li>
+<li>若曲线完全无规律，说明器件可能不是结电容主导。</li>
+<li>若正偏电容急剧增大，同时 G 也急剧增大，要警惕注入电流和扩散电容。</li>
+</ul>
+</div>
+</div>
+<div class="step">
+<div class="num">3</div>
+<div>
+<h3>分析频率色散：画 C–f 或 C–log f</h3>
+<p>固定几个偏压点，例如 -1 V、-0.5 V、0 V、0.5 V、1 V，观察电容随频率变化。</p>
+<div class="formula">\[ C_{\mathrm{measured}}=C_{\mathrm{depletion}}+C_{\mathrm{trap}}+C_{\mathrm{polarization}} \]</div>
+<ul>
+<li>低频电容大：慢陷阱、离子、配体偶极、界面极化可以跟上交流信号。</li>
+<li>高频电容小：慢响应被冻结，更接近快速耗尽层电容或几何电容。</li>
+<li>意义：判断 C–V 是理想耗尽层主导，还是缺陷/极化主导。</li>
+</ul>
+</div>
+</div>
+<div class="step">
+<div class="num">4</div>
+<div>
+<h3>计算 tanδ–V：判断电容数据是否被损耗污染</h3>
+<div class="formula">\[ \tan\delta=\frac{G}{\omega C}=\frac{G}{2\pi f C} \]</div>
+<p>tanδ 表示损耗电流与电容电流的比值：</p>
+<div class="formula">\[ \tan\delta=\frac{I_G}{I_C} \]</div>
+<table>
+<thead><tr><th>tanδ 范围</th><th>含义</th><th>分析建议</th></tr></thead>
+<tbody>
+<tr><td>远小于 0.1</td><td>电容主导</td><td>可作为较可信 C–V 区间。</td></tr>
+<tr><td>0.1–1</td><td>电容与损耗都明显</td><td>谨慎用于拟合，需结合 C–V 和 G/ω。</td></tr>
+<tr><td>大于 1</td><td>损耗电流超过电容电流</td><td>不适合做严格结电容提参。</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="step">
+<div class="num">5</div>
+<div>
+<h3>画 G/ω–V：分析陷阱与界面态响应</h3>
+<div class="formula">\[ \frac{G}{\omega}=\frac{G}{2\pi f} \]</div>
+<p>G/ω 的单位与电容相同，可看作耗散过程的等效电容尺度。当某类陷阱满足：</p>
+<div class="formula">\[ \omega\tau\approx 1 \]</div>
+<p>陷阱响应和能量耗散最强，G/ω 可能出现峰值。</p>
+<ul>
+<li>意义：找出陷阱、界面态或慢响应电荷最活跃的偏压区间。</li>
+<li>峰随频率移动：说明存在不同时间常数的陷阱或极化过程。</li>
+<li>峰主要出现在低频：更可能对应慢陷阱、离子或配体偶极。</li>
+</ul>
+</div>
+</div>
+<div class="step">
+<div class="num">6</div>
+<div>
+<h3>画 1/C²–V：寻找 Mott–Schottky 线性区</h3>
+<p>如果某一偏压区间内 1/C² 与 V 近似线性，说明该区间可以用耗尽层近似进行表观分析。</p>
+<div class="formula">\[ \frac{1}{C^2}=mV+b \]</div>
+<ul>
+<li>意义：判断空间电荷区是否近似满足耗尽层模型。</li>
+<li>不要全电压区间机械拟合，要选择 tanδ 较小、C 为正、G 不异常的线性段。</li>
+<li>如果截距随频率显著漂移，只能称为表观截距，不能直接称为真实内建电势。</li>
+</ul>
+</div>
+</div>
+<div class="step">
+<div class="num">7</div>
+<div>
+<h3>计算表观参数：截距、斜率、R²、N<sub>eff,app</sub>、W</h3>
+<p>从线性拟合中提取 R²、斜率和电压截距：</p>
+<div class="formula">\[ V_{\mathrm{int}}=-\frac{b}{m} \]</div>
+<p>若面积 A 与介电常数 ε 已知，可估算表观有效载流子浓度：</p>
+<div class="formula">\[ N_{\mathrm{eff,app}}=\frac{2}{q\varepsilon A^2 |m|} \]</div>
+<p>也可估算表观耗尽层宽度：</p>
+<div class="formula">\[ W(V)=\frac{\varepsilon A}{C(V)} \]</div>
+<div class="note">在 PbS CQDs 中，N<sub>eff,app</sub> 更准确的叫法是“表观有效空间电荷密度”，因为它可能包含自由载流子、陷阱电荷、固定离子和界面态贡献。</div>
+</div>
+</div>
+</div>
+</section>
+<section id="ms">
+<div class="section-head">
+<h2>五、Mott–Schottky 分析的物理基础与使用边界</h2>
+<p>Mott–Schottky 分析建立在耗尽层近似上，对量子点薄膜只能作为“表观分析”。</p>
+</div>
+<div class="content">
+<h3>1. 推导核心</h3>
+<p>把空间电荷区近似为平板电容：</p>
+<div class="formula">\[ C=\frac{\varepsilon A}{W} \]</div>
+<p>耗尽层宽度随偏压变化：</p>
+<div class="formula">\[ W=\sqrt{\frac{2\varepsilon\left(V_{\mathrm{bi}}-V\right)}{qN_{\mathrm{eff}}}} \]</div>
+<p>代入得到：</p>
+<div class="formula">\[ \frac{1}{C^2}=\frac{2\left(V_{\mathrm{bi}}-V\right)}{q\varepsilon A^2N_{\mathrm{eff}}} \]</div>
+<p>因此，理想情况下：</p>
+<div class="formula">\[ \frac{1}{C^2}\ \text{与}\ V\ \text{应近似线性} \]</div>
+<h3>2. 拟合区间怎么选？</h3>
+<table>
+<thead><tr><th>筛选条件</th><th>原因</th></tr></thead>
+<tbody>
+<tr><td>C 必须为正</td><td>负电容通常说明并联模型或高频相位测量失真。</td></tr>
+<tr><td>tanδ 不能过大</td><td>损耗太强时，C 不再代表纯结电容。</td></tr>
+<tr><td>1/C²–V 有局部线性</td><td>只有线性区才近似满足耗尽层模型。</td></tr>
+<tr><td>避开强正偏</td><td>强正偏容易出现载流子注入、扩散电容和漏电。</td></tr>
+<tr><td>避开极高频异常区</td><td>寄生电容、电感、串联电阻和仪器相位误差会被放大。</td></tr>
+<tr><td>比较不同频率的截距漂移</td><td>截距稳定才更接近真实内建电势；漂移大则只能称为表观截距。</td></tr>
+</tbody>
+</table>
+<div class="svgbox">
+<svg aria-label="Mott-Schottky 线性拟合示意图" height="330" role="img" viewbox="0 0 960 330" width="960">
+<rect fill="#fbfdfe" height="260" rx="18" stroke="#d7e0e4" width="890" x="35" y="25"></rect>
+<line stroke="#24343c" stroke-width="2" x1="115" x2="830" y1="235" y2="235"></line>
+<line stroke="#24343c" stroke-width="2" x1="150" x2="150" y1="255" y2="60"></line>
+<text fill="#24343c" font-size="15" x="835" y="260">V</text>
+<text fill="#24343c" font-size="15" x="95" y="60">1/C²</text>
+<path d="M180 90 L720 210" stroke="#2f6375" stroke-linecap="round" stroke-width="4"></path>
+<path d="M720 210 L815 231" stroke="#2f6375" stroke-dasharray="8 6" stroke-width="3"></path>
+<circle cx="800" cy="228" fill="#c48742" r="5"></circle>
+<text fill="#c48742" font-size="14" text-anchor="middle" x="800" y="250">Vint = -b/m</text>
+<text fill="#2f6375" font-size="15" font-weight="700" x="455" y="120">拟合线：1/C² = mV + b</text>
+<rect fill="#fff2df" height="56" rx="12" stroke="#edd6b8" width="210" x="250" y="75"></rect>
+<text fill="#4a3214" font-size="14" text-anchor="middle" x="355" y="98">线性区才可拟合</text>
+<text fill="#4a3214" font-size="13" text-anchor="middle" x="355" y="118">R²、截距、斜率</text>
+</svg>
+<div class="caption">图 3：Mott–Schottky 拟合示意。对 PbS CQDs，应重点报告“表观截距”和“表观有效浓度”，并说明频率依赖。</div>
+</div>
+</div>
+</section>
+<section id="pbs">
+<div class="section-head">
+<h2>六、PbS CQD 同质结的特殊解释框架</h2>
+<p>PbS CQD 薄膜不是理想单晶半导体，C–V 结果通常是多种过程叠加。</p>
+</div>
+<div class="content">
+<div class="svgbox">
+<svg aria-label="PbS CQD C-V 等效电路示意图" height="300" role="img" viewbox="0 0 980 300" width="980">
+<defs>
+<marker id="arrow2" markerheight="10" markerunits="strokeWidth" markerwidth="10" orient="auto" refx="8" refy="3">
+<path d="M0,0 L0,6 L9,3 z" fill="#2f6375"></path>
+</marker>
+</defs>
+<rect fill="#fbfdfe" height="220" rx="20" stroke="#d7e0e4" width="900" x="40" y="35"></rect>
+<line stroke="#24343c" stroke-width="3" x1="95" x2="185" y1="145" y2="145"></line>
+<polyline fill="none" points="185,145 200,130 215,160 230,130 245,160 260,130 275,160 290,145" stroke="#24343c" stroke-width="3"></polyline>
+<line stroke="#24343c" stroke-width="3" x1="290" x2="365" y1="145" y2="145"></line>
+<text fill="#24343c" font-size="15" font-weight="700" text-anchor="middle" x="237" y="108">Rs</text>
+<line stroke="#24343c" stroke-width="3" x1="365" x2="365" y1="85" y2="220"></line>
+<line stroke="#24343c" stroke-width="3" x1="780" x2="780" y1="85" y2="220"></line>
+<line stroke="#24343c" stroke-width="3" x1="780" x2="875" y1="145" y2="145"></line>
+<line stroke="#24343c" stroke-width="3" x1="365" x2="520" y1="95" y2="95"></line>
+<line stroke="#24343c" stroke-width="3" x1="625" x2="780" y1="95" y2="95"></line>
+<line stroke="#24343c" stroke-width="4" x1="520" x2="520" y1="75" y2="115"></line>
+<line stroke="#24343c" stroke-width="4" x1="625" x2="625" y1="75" y2="115"></line>
+<text fill="#2f6375" font-size="15" font-weight="700" text-anchor="middle" x="573" y="66">Cdep</text>
+<line stroke="#24343c" stroke-width="3" x1="365" x2="520" y1="145" y2="145"></line>
+<line stroke="#24343c" stroke-width="3" x1="625" x2="780" y1="145" y2="145"></line>
+<line stroke="#24343c" stroke-width="4" x1="520" x2="520" y1="125" y2="165"></line>
+<line stroke="#24343c" stroke-width="4" x1="625" x2="625" y1="125" y2="165"></line>
+<text fill="#c48742" font-size="15" font-weight="700" text-anchor="middle" x="573" y="137">Ctrap / Cpol</text>
+<line stroke="#24343c" stroke-width="3" x1="365" x2="505" y1="200" y2="200"></line>
+<polyline fill="none" points="505,200 520,185 535,215 550,185 565,215 580,185 595,215 610,200" stroke="#24343c" stroke-width="3"></polyline>
+<line stroke="#24343c" stroke-width="3" x1="610" x2="780" y1="200" y2="200"></line>
+<text fill="#9b4b40" font-size="15" font-weight="700" text-anchor="middle" x="573" y="230">Gleak / Gtrap</text>
+<text fill="#5f6c75" font-size="13" text-anchor="middle" x="95" y="176">电极</text>
+<text fill="#5f6c75" font-size="13" text-anchor="middle" x="875" y="176">电极</text>
+</svg>
+<div class="caption">图 4：PbS CQD C–V 的等效电路图像。测得电容可能包含耗尽层电容 Cdep、陷阱/极化电容 Ctrap/Cpol、几何电容和寄生项；G 包含漏电和陷阱耗散。</div>
+</div>
+<h3>1. 你的器件可以通过 C–V 讨论哪些特质？</h3>
+<table>
+<thead><tr><th>可讨论对象</th><th>对应证据</th><th>谨慎点</th></tr></thead>
+<tbody>
+<tr><td>是否形成同质结</td><td>反偏电容降低、正偏电容升高；1/C²–V 出现局部线性。</td><td>只能说明存在可调制空间电荷区，不能直接证明理想 p–n 结。</td></tr>
+<tr><td>界面质量</td><td>频率色散强弱、tanδ 大小、G/ω 峰强度。</td><td>界面态、配体残留、氧化态和薄膜孔洞都会影响结果。</td></tr>
+<tr><td>配体方案差异</td><td>EDT/TBAI 与 BDT/TBAI 的 C–f、tanδ、G/ω、Mott–Schottky 截距漂移对比。</td><td>需要保证厚度、面积、测试条件一致。</td></tr>
+<tr><td>表观内建势</td><td>1/C²–V 拟合的电压截距。</td><td>截距随频率漂移时，只能称表观截距。</td></tr>
+<tr><td>表观载流子/空间电荷密度</td><td>Mott–Schottky 斜率。</td><td>依赖面积 A 与 εr，且受陷阱和极化影响。</td></tr>
+</tbody>
+</table>
+<h3>2. 对 EDT/BDT–TBAI 同质结的基本判断逻辑</h3>
+<div class="grid-3">
+<div class="card blue">
+<h4>理想结特征</h4>
+<p>C 随偏压单调或近似单调变化，反偏小、正偏大；1/C²–V 存在线性区。</p>
+</div>
+<div class="card accent">
+<h4>陷阱/界面态特征</h4>
+<p>低频电容明显偏大，G/ω 有峰，tanδ 在某些偏压下升高。</p>
+</div>
+<div class="card danger">
+<h4>不适合提参的特征</h4>
+<p>高频负电容、tanδ 大于 1、G 急剧增加、截距随频率大幅漂移。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="figures">
+<div class="section-head">
+<h2>七、论文或报告中建议保留的图与表</h2>
+<p>一个完整的 C–V 分析不应只有一张 1/C²–V 拟合图。</p>
+</div>
+<div class="content">
+<table>
+<thead><tr><th>图/表</th><th>必要性</th><th>说明的问题</th></tr></thead>
+<tbody>
+<tr><td>器件结构示意图</td><td>必须</td><td>说明 ITO/PbS-p/PbS-n/Al 的层级结构和同质结位置。</td></tr>
+<tr><td>多频率 C–V</td><td>必须</td><td>证明存在偏压调制电容，初步判断结行为。</td></tr>
+<tr><td>C–f 或 C–log f</td><td>必须</td><td>展示频率色散，判断慢陷阱/极化是否显著。</td></tr>
+<tr><td>tanδ–V</td><td>强烈建议</td><td>判断 C–V 是否被损耗污染，筛选可信电压区间。</td></tr>
+<tr><td>G/ω–V</td><td>强烈建议</td><td>分析界面态、陷阱和慢响应电荷的活跃区域。</td></tr>
+<tr><td>1/C²–V</td><td>必须</td><td>进行 Mott–Schottky 辅助分析。</td></tr>
+<tr><td>线性拟合放大图</td><td>必须</td><td>给出拟合区间、R²、斜率和电压截距。</td></tr>
+<tr><td>拟合参数汇总表</td><td>必须</td><td>对比不同频率下的 R²、截距和斜率。</td></tr>
+<tr><td>EDT vs BDT 对比图</td><td>强烈建议</td><td>体现配体方案对界面质量和频散行为的影响。</td></tr>
+<tr><td>等效电路图</td><td>建议</td><td>解释 PbS CQD 器件的非理想响应来源。</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="wording">
+<div class="section-head">
+<h2>八、可直接写进论文的分析表述</h2>
+<p>下面是一段较稳妥的中文学术表述，可根据具体数据替换频率、偏压和拟合参数。</p>
+</div>
+<div class="content">
+<div class="card soft">
+<p>为分析 PbS CQD 同质结器件中的空间电荷调制行为，对器件进行了多频 C–V 测试。C–V 测试通过在直流偏压上叠加小信号交流扰动，测量器件导纳 \(Y=G+j\omega C\)，其中 \(C\) 反映偏压调制下的电荷储存能力，\(G\) 反映漏电、陷阱释放及界面态耗散等非理想过程。对于理想结型器件，反向偏压增大时耗尽层宽度增加，电容降低；正向偏压增大时耗尽层宽度减小，电容升高。因此，多频 C–V 曲线可用于判断器件中是否存在可调制的空间电荷区。</p>
+<p>进一步地，为区分真实耗尽层电容与陷阱、界面态和慢极化贡献，计算损耗角正切 \(\tan\delta=G/(\omega C)\) 及 \(G/\omega\)。其中 \(\tan\delta\) 表征损耗电流与电容电流的相对大小，可用于判断 C–V 数据是否受漏电或注入过程污染；\(G/\omega\) 与陷阱态和界面态的交流响应相关，可用于分析不同偏压下缺陷态的活跃程度。</p>
+<p>在满足电容为正、损耗较低、频率色散较弱且 \(1/C^2-V\) 近似线性的偏压范围内，对 Mott–Schottky 曲线进行线性拟合。拟合关系为 \(1/C^2=mV+b\)，电压截距为 \(V_{int}=-b/m\)，斜率可用于估算表观有效载流子浓度 \(N_{eff,app}=2/(q\varepsilon A^2|m|)\)。由于 PbS CQD 薄膜存在配体、界面态、陷阱和颗粒间输运等非理想因素，所得参数应理解为表观参数，而非理想单晶 p–n 结中的严格掺杂浓度和内建电势。</p>
+</div>
+</div>
+</section>
+<section>
+<div class="section-head">
+<h2>九、C–V 分析最容易犯的错误</h2>
+<p>这些错误在量子点器件中尤其常见。</p>
+</div>
+<div class="content">
+<table>
+<thead><tr><th>错误做法</th><th>为什么不严谨</th><th>正确处理</th></tr></thead>
+<tbody>
+<tr><td>直接把低频大电容当成结电容</td><td>低频可能混入慢陷阱、离子、配体极化。</td><td>结合 C–f、tanδ、G/ω 判断。</td></tr>
+<tr><td>全电压范围做 Mott–Schottky 拟合</td><td>强正偏、强反偏和异常区不满足耗尽近似。</td><td>只拟合局部线性且损耗较小的区间。</td></tr>
+<tr><td>把截距直接写成真实内建电势</td><td>截距常随频率漂移，受陷阱和界面态影响。</td><td>写为表观截距或表观内建势。</td></tr>
+<tr><td>忽略 G 数据</td><td>G 决定 C 是否可信。</td><td>必须报告 tanδ 或至少说明损耗情况。</td></tr>
+<tr><td>强行解释高频负电容</td><td>多由模型失真、寄生参数或相位误差导致。</td><td>标记异常，不参与物理提参。</td></tr>
+<tr><td>把 PbS CQD 当作理想单晶半导体</td><td>CQD 薄膜包含颗粒间 hopping/tunneling、配体势垒和表面态。</td><td>使用“表观参数”和“复合响应”表述。</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<footer class="footer">
+<p><strong>更多工具与说明：</strong><a href="https://liyang20021203.github.io/usefulweb/index.html" rel="noopener" target="_blank">黑科技VIP会客厅</a> ｜ <span lang="en">Technology VIP Lounge</span></p>
+<p class="mini">本网页工具及界面文案为个人原创自制，仅供个人学习、科研数据处理与内部交流使用。未经作者许可，禁止转载、搬运、二次发布、商业化使用或去除署名后传播。使用者应自行核对数据处理结果。</p>
+</footer>
+</div>
+</body>
+</html>
