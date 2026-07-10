@@ -257,49 +257,73 @@
 <div class="note">因此，C–V 分析不能只看 C。必须同时看 G、tanδ 和 G/ω，否则容易把陷阱、漏电或慢极化误判成真实耗尽层电容。</div>
 </div>
 </section>
+
 <section id="picture">
 <div class="section-head">
 <h2>二、结电容的物理图像</h2>
-<p>对 PbS-EDT/BDT 与 PbS-TBAI 同质结，可以近似理解为 p 型量子点层与 n 型量子点层接触后形成内建电场。</p>
+<p>对 ITO/PbS-EDT（或 BDT）/PbS-TBAI/Al 这类同质结器件，更合理的物理图像是：两种不同配体交换的 PbS 量子点薄膜沿器件厚度方向上下堆叠，其中 EDT/BDT 层通常更偏 p 型，TBAI 层通常更偏 n 型。</p>
 </div>
 <div class="content">
-<h3>1. 器件结构与空间电荷区</h3>
+<h3>1. 器件结构与空间电荷区（上下堆叠）</h3>
 <div class="svgbox">
-<svg aria-label="PbS CQD 同质结器件结构与耗尽区示意图" height="270" role="img" viewbox="0 0 980 270" width="980">
+<svg aria-label="PbS CQD 同质结器件结构与耗尽区示意图（上下堆叠）" height="420" role="img" viewBox="0 0 980 420" width="980">
 <defs>
-<lineargradient id="g1" x1="0" x2="1">
-<stop offset="0" stop-color="#d7e8ed"></stop>
-<stop offset="1" stop-color="#f8fafb"></stop>
-</lineargradient>
-<lineargradient id="pLayer" x1="0" x2="1">
-<stop offset="0" stop-color="#d9a66c"></stop>
-<stop offset="1" stop-color="#f2d0a8"></stop>
-</lineargradient>
-<lineargradient id="nLayer" x1="0" x2="1">
-<stop offset="0" stop-color="#bfd9e4"></stop>
-<stop offset="1" stop-color="#7aa5b6"></stop>
-</lineargradient>
-<marker id="arrow" markerheight="10" markerunits="strokeWidth" markerwidth="10" orient="auto" refx="8" refy="3">
+<linearGradient id="bgCard" x1="0" x2="1">
+<stop offset="0" stop-color="#f6fafb"></stop>
+<stop offset="1" stop-color="#fbfdfe"></stop>
+</linearGradient>
+<linearGradient id="pFilm" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0" stop-color="#efd2ae"></stop>
+<stop offset="1" stop-color="#d5a065"></stop>
+</linearGradient>
+<linearGradient id="nFilm" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0" stop-color="#d8e8ee"></stop>
+<stop offset="1" stop-color="#7ea8b8"></stop>
+</linearGradient>
+<marker id="arrowDown" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" refX="8" refY="3">
 <path d="M0,0 L0,6 L9,3 z" fill="#2f6375"></path>
 </marker>
+<marker id="arrowSmall" markerHeight="9" markerUnits="strokeWidth" markerWidth="9" orient="auto" refX="7" refY="3">
+<path d="M0,0 L0,6 L8,3 z" fill="#c48742"></path>
+</marker>
 </defs>
-<rect fill="url(#g1)" height="205" rx="22" stroke="#c9d7dd" width="910" x="35" y="30"></rect>
-<rect fill="#b8c7cc" height="42" rx="8" stroke="#8fa2aa" width="810" x="85" y="160"></rect>
-<text fill="#25353d" font-size="16" font-weight="700" text-anchor="middle" x="490" y="187">ITO 透明电极</text>
-<rect fill="url(#pLayer)" height="48" rx="8" stroke="#bb8449" width="405" x="85" y="112"></rect>
-<text fill="#442c16" font-size="16" font-weight="700" text-anchor="middle" x="287" y="142">PbS-EDT/BDT：偏 p 型</text>
-<rect fill="url(#nLayer)" height="48" rx="8" stroke="#5c8da0" width="405" x="490" y="112"></rect>
-<text fill="#17313d" font-size="16" font-weight="700" text-anchor="middle" x="692" y="142">PbS-TBAI：偏 n 型</text>
-<rect fill="#d6b36b" height="42" rx="8" stroke="#a7863e" width="810" x="85" y="70"></rect>
-<text fill="#3d2b0d" font-size="16" font-weight="700" text-anchor="middle" x="490" y="97">Al 顶电极</text>
-<rect fill="rgba(255,255,255,.58)" height="58" rx="10" stroke="#2f6375" stroke-dasharray="7 5" width="120" x="430" y="107"></rect>
-<text fill="#2f6375" font-size="15" font-weight="700" text-anchor="middle" x="490" y="62">EDT/BDT–TBAI 界面附近的耗尽区 / 空间电荷区</text>
-<line marker-end="url(#arrow)" stroke="#2f6375" stroke-width="2" x1="555" x2="518" y1="54" y2="106"></line>
-<line marker-end="url(#arrow)" stroke="#2f6375" stroke-width="3" x1="420" x2="560" y1="214" y2="214"></line>
-<text fill="#2f6375" font-size="14" text-anchor="middle" x="490" y="238">内建电场方向示意</text>
+<rect fill="url(#bgCard)" height="360" rx="24" stroke="#c9d7dd" width="910" x="35" y="25"></rect>
+<rect fill="#d6b36b" height="42" rx="9" stroke="#a7863e" width="760" x="110" y="55"></rect>
+<text fill="#3d2b0d" font-size="17" font-weight="700" text-anchor="middle" x="490" y="81">Al 顶电极</text>
+<rect fill="#b8c7cc" height="42" rx="9" stroke="#8fa2aa" width="760" x="110" y="312"></rect>
+<text fill="#25353d" font-size="17" font-weight="700" text-anchor="middle" x="490" y="338">ITO 底电极</text>
+<rect fill="url(#nFilm)" height="88" rx="12" stroke="#5c8da0" width="760" x="110" y="110"></rect>
+<text fill="#17313d" font-size="17" font-weight="700" text-anchor="middle" x="490" y="132">PbS-TBAI 量子点层：通常偏 n 型</text>
+<text fill="#33505c" font-size="13" text-anchor="middle" x="490" y="151">电子较多；与下方 p 型 PbS 层接触后形成空间电荷区</text>
+<rect fill="url(#pFilm)" height="88" rx="12" stroke="#bb8449" width="760" x="110" y="198"></rect>
+<text fill="#4a3214" font-size="17" font-weight="700" text-anchor="middle" x="490" y="221">PbS-EDT / PbS-BDT 量子点层：通常偏 p 型</text>
+<text fill="#6b5032" font-size="13" text-anchor="middle" x="490" y="240">空穴较多；与上方 n 型 PbS 层接触后形成内建势垒</text>
+<g opacity="0.95"><g fill="#b8d5df" stroke="#5b8798" stroke-width="1.2">
+<circle cx="170" cy="171" r="14"></circle><circle cx="220" cy="171" r="14"></circle><circle cx="270" cy="171" r="14"></circle><circle cx="320" cy="171" r="14"></circle><circle cx="370" cy="171" r="14"></circle><circle cx="420" cy="171" r="14"></circle><circle cx="470" cy="171" r="14"></circle><circle cx="520" cy="171" r="14"></circle><circle cx="570" cy="171" r="14"></circle><circle cx="620" cy="171" r="14"></circle><circle cx="670" cy="171" r="14"></circle><circle cx="720" cy="171" r="14"></circle><circle cx="770" cy="171" r="14"></circle><circle cx="820" cy="171" r="14"></circle>
+<circle cx="195" cy="147" r="14"></circle><circle cx="245" cy="147" r="14"></circle><circle cx="295" cy="147" r="14"></circle><circle cx="345" cy="147" r="14"></circle><circle cx="395" cy="147" r="14"></circle><circle cx="445" cy="147" r="14"></circle><circle cx="495" cy="147" r="14"></circle><circle cx="545" cy="147" r="14"></circle><circle cx="595" cy="147" r="14"></circle><circle cx="645" cy="147" r="14"></circle><circle cx="695" cy="147" r="14"></circle><circle cx="745" cy="147" r="14"></circle><circle cx="795" cy="147" r="14"></circle>
+</g></g>
+<g opacity="0.97"><g fill="#edc99e" stroke="#b57a3c" stroke-width="1.2">
+<circle cx="170" cy="258" r="14"></circle><circle cx="220" cy="258" r="14"></circle><circle cx="270" cy="258" r="14"></circle><circle cx="320" cy="258" r="14"></circle><circle cx="370" cy="258" r="14"></circle><circle cx="420" cy="258" r="14"></circle><circle cx="470" cy="258" r="14"></circle><circle cx="520" cy="258" r="14"></circle><circle cx="570" cy="258" r="14"></circle><circle cx="620" cy="258" r="14"></circle><circle cx="670" cy="258" r="14"></circle><circle cx="720" cy="258" r="14"></circle><circle cx="770" cy="258" r="14"></circle><circle cx="820" cy="258" r="14"></circle>
+<circle cx="195" cy="234" r="14"></circle><circle cx="245" cy="234" r="14"></circle><circle cx="295" cy="234" r="14"></circle><circle cx="345" cy="234" r="14"></circle><circle cx="395" cy="234" r="14"></circle><circle cx="445" cy="234" r="14"></circle><circle cx="495" cy="234" r="14"></circle><circle cx="545" cy="234" r="14"></circle><circle cx="595" cy="234" r="14"></circle><circle cx="645" cy="234" r="14"></circle><circle cx="695" cy="234" r="14"></circle><circle cx="745" cy="234" r="14"></circle><circle cx="795" cy="234" r="14"></circle>
+</g></g>
+<rect fill="rgba(255,255,255,0.55)" height="30" rx="8" stroke="#2f6375" stroke-dasharray="8 6" width="760" x="110" y="184"></rect>
+<text fill="#2f6375" font-size="15" font-weight="700" text-anchor="middle" x="490" y="178">EDT/BDT–TBAI 接触界面附近的耗尽区 / 空间电荷区</text>
+<circle cx="305" cy="188" r="12" fill="#fff" stroke="#bb8449" stroke-width="2"></circle><text x="305" y="193" text-anchor="middle" font-size="16" font-weight="700" fill="#bb8449">−</text>
+<circle cx="355" cy="188" r="12" fill="#fff" stroke="#bb8449" stroke-width="2"></circle><text x="355" y="193" text-anchor="middle" font-size="16" font-weight="700" fill="#bb8449">−</text>
+<circle cx="625" cy="210" r="12" fill="#fff" stroke="#5c8da0" stroke-width="2"></circle><text x="625" y="215" text-anchor="middle" font-size="16" font-weight="700" fill="#5c8da0">+</text>
+<circle cx="675" cy="210" r="12" fill="#fff" stroke="#5c8da0" stroke-width="2"></circle><text x="675" y="215" text-anchor="middle" font-size="16" font-weight="700" fill="#5c8da0">+</text>
+<line marker-end="url(#arrowDown)" stroke="#2f6375" stroke-width="4" x1="905" x2="905" y1="150" y2="255"></line>
+<text fill="#2f6375" font-size="15" font-weight="700" text-anchor="end" x="885" y="172">内建电场 \(E_{bi}\)</text>
+<text fill="#2f6375" font-size="13" text-anchor="end" x="885" y="192">方向：从 n 型 TBAI 层指向 p 型 EDT/BDT 层</text>
+<text fill="#2f6375" font-size="13" text-anchor="end" x="885" y="210">即：从上向下（n → p）</text>
+<line marker-end="url(#arrowSmall)" stroke="#c48742" stroke-width="2.5" x1="490" x2="490" y1="230" y2="200"></line>
+<text fill="#8a5b26" font-size="12" text-anchor="middle" x="548" y="223">空穴扩散：p → n</text>
+<line marker-end="url(#arrowSmall)" stroke="#c48742" stroke-width="2.5" x1="530" x2="530" y1="170" y2="200"></line>
+<text fill="#8a5b26" font-size="12" text-anchor="middle" x="588" y="182">电子扩散：n → p</text>
 </svg>
-<div class="caption">图 1：PbS CQD 同质结器件的空间电荷区示意。实际耗尽区可能并不只局限在几何界面，而是由配体、缺陷、电极接触和局部电荷分布共同决定。</div>
+<div class="caption">图 1：更符合实际器件层次的 PbS CQD 同质结示意图。两种配体交换的量子点层是沿厚度方向上下堆叠的，而不是左右并排；界面附近形成空间电荷区，内建电场从 n 型 TBAI 层指向 p 型 EDT/BDT 层。</div>
 </div>
+<div class="note">对 p–n 型同质结而言，电子由 n 侧向 p 侧扩散、空穴由 p 侧向 n 侧扩散；扩散后，n 侧留下带正电的施主离子，p 侧留下带负电的受主离子，因此内建电场方向是 <b>n → p</b>。如果器件结构写成 <code>ITO / PbS-EDT(or BDT) / PbS-TBAI / Al</code>，那么内建电场就是 <b>从上方 TBAI 层指向下方 EDT/BDT 层</b>。</div>
 <h3>2. 偏压改变耗尽层宽度，进而改变电容</h3>
 <div class="grid-2">
 <div class="card">
@@ -314,7 +338,7 @@
 </div>
 </div>
 <div class="svgbox">
-<svg aria-label="C-V 曲线与偏压调制耗尽层宽度示意图" height="300" role="img" viewbox="0 0 940 300" width="940">
+<svg aria-label="C-V 曲线与偏压调制耗尽层宽度示意图" height="300" role="img" viewBox="0 0 940 300" width="940">
 <rect fill="#fbfdfe" height="235" rx="18" stroke="#d7e0e4" width="860" x="40" y="25"></rect>
 <line stroke="#24343c" stroke-width="2" x1="110" x2="810" y1="220" y2="220"></line>
 <line stroke="#24343c" stroke-width="2" x1="150" x2="150" y1="240" y2="55"></line>
@@ -336,6 +360,7 @@
 </div>
 </div>
 </section>
+
 <section id="precheck">
 <div class="section-head">
 <h2>三、正式分析前的数据质检</h2>
