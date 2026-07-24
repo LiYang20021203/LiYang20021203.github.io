@@ -411,9 +411,42 @@
       overflow-wrap: anywhere;
     }
 
+    .quick-results {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .quick-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .quick-head h2 {
+      margin: 0;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+    }
+
+    .quick-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+    }
+
     .table-wrap {
       overflow: auto;
       max-height: 560px;
+    }
+
+    .quick-results .table-wrap {
+      max-height: 420px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
     }
 
     table {
@@ -421,6 +454,16 @@
       min-width: 880px;
       border-collapse: collapse;
       font-size: 13px;
+    }
+
+    .quick-table {
+      min-width: 480px;
+      font-size: 14px;
+    }
+
+    .quick-table th,
+    .quick-table td {
+      padding: 13px 14px;
     }
 
     th, td {
@@ -447,6 +490,26 @@
     }
 
     tbody tr:hover { background: #fbfcfc; }
+
+    .detail-title {
+      padding: 16px 16px 10px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfc;
+    }
+
+    .detail-title h2 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .detail-title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
     .tax { color: var(--danger); font-weight: 900; }
     .net { color: var(--forest); font-weight: 900; }
     .empty {
@@ -588,6 +651,16 @@
         grid-template-columns: 1fr;
       }
 
+      .quick-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .quick-head p {
+        text-align: left;
+      }
+
       .summary-card strong {
         font-size: 20px;
       }
@@ -675,10 +748,10 @@
         <div class="action-row">
           <button class="btn primary" type="button" id="calcBtn" data-lang="zh">计算</button>
           <button class="btn primary" type="button" id="calcBtnEn" data-lang="en">Calculate</button>
-          <button class="btn" type="button" id="copyBtn" data-lang="zh">复制结果</button>
-          <button class="btn" type="button" id="copyBtnEn" data-lang="en">Copy Results</button>
-          <button class="btn" type="button" id="downloadBtn" data-lang="zh">导出 CSV</button>
-          <button class="btn" type="button" id="downloadBtnEn" data-lang="en">Export CSV</button>
+          <button class="btn" type="button" id="copyBtn" data-lang="zh">复制简版结果</button>
+          <button class="btn" type="button" id="copyBtnEn" data-lang="en">Copy Compact Results</button>
+          <button class="btn" type="button" id="downloadBtn" data-lang="zh">导出简版 CSV</button>
+          <button class="btn" type="button" id="downloadBtnEn" data-lang="en">Export Compact CSV</button>
         </div>
         <div class="mini-grid" aria-label="Example checks">
           <div class="mini-card">
@@ -695,6 +768,37 @@
       </aside>
 
       <section class="panel results" aria-label="Calculation results">
+        <div class="quick-results" id="quickResults">
+          <div class="quick-head">
+            <div>
+              <h2 data-lang="zh">简版结果表</h2>
+              <h2 data-lang="en">Compact Results</h2>
+            </div>
+            <p data-lang="zh">优先用于查看、复制和粘贴</p>
+            <p data-lang="en">Optimized for viewing, copying, and pasting</p>
+          </div>
+          <div class="table-wrap">
+            <table class="quick-table">
+              <thead>
+                <tr>
+                  <th data-lang="zh">税前收入</th>
+                  <th data-lang="en">Gross</th>
+                  <th data-lang="zh">应预扣税额</th>
+                  <th data-lang="en">Tax Withheld</th>
+                  <th data-lang="zh">实际到手</th>
+                  <th data-lang="en">Net</th>
+                </tr>
+              </thead>
+              <tbody id="quickResultBody">
+                <tr>
+                  <td colspan="3" class="empty" data-lang="zh">输入金额后点击计算，简版结果会显示在这里。</td>
+                  <td colspan="3" class="empty" data-lang="en">Enter income amounts and click Calculate. Compact results will appear here.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <div class="summary">
           <div class="summary-card">
             <span data-lang="zh">条目数</span>
@@ -716,6 +820,13 @@
             <span data-lang="en">Net Total</span>
             <strong id="sumNet">0.00</strong>
           </div>
+        </div>
+
+        <div class="detail-title">
+          <h2 data-lang="zh">详细计算表</h2>
+          <h2 data-lang="en">Detailed Calculation Table</h2>
+          <p data-lang="zh">用于核对减除费用、应纳税所得额、预扣率和速算扣除数。日常复制优先使用上方简版结果表。</p>
+          <p data-lang="en">Use this section to verify deduction, taxable income, withholding rate, and quick deduction. For routine copying, use the compact table above.</p>
         </div>
         <div class="table-wrap">
           <table>
@@ -741,8 +852,8 @@
             </thead>
             <tbody id="resultBody">
               <tr>
-                <td colspan="8" class="empty" data-lang="zh">输入金额后点击计算，结果会显示在这里。</td>
-                <td colspan="8" class="empty" data-lang="en">Enter income amounts and click Calculate. Results will appear here.</td>
+                <td colspan="8" class="empty" data-lang="zh">输入金额后点击计算，详细结果会显示在这里。</td>
+                <td colspan="8" class="empty" data-lang="en">Enter income amounts and click Calculate. Detailed results will appear here.</td>
               </tr>
             </tbody>
           </table>
@@ -829,25 +940,30 @@
 
     const labels = {
       zh: {
-        copied: "结果已复制。",
+        copied: "简版结果已复制。",
         noData: "没有可复制或导出的结果，请先输入金额并计算。",
-        downloaded: "CSV 已生成。",
+        downloaded: "简版 CSV 已生成。",
         invalid: "没有识别到有效金额。",
-        empty: "输入金额后点击计算，结果会显示在这里。",
-        headers: ["序号", "税前收入", "减除费用", "应纳税所得额", "预扣率", "速算扣除数", "应预扣税额", "实际到手"]
+        emptyQuick: "输入金额后点击计算，简版结果会显示在这里。",
+        emptyDetail: "输入金额后点击计算，详细结果会显示在这里。",
+        compactHeaders: ["税前收入", "应预扣税额", "实际到手"],
+        detailHeaders: ["序号", "税前收入", "减除费用", "应纳税所得额", "预扣率", "速算扣除数", "应预扣税额", "实际到手"]
       },
       en: {
-        copied: "Results copied.",
+        copied: "Compact results copied.",
         noData: "No results to copy or export. Please enter amounts and calculate first.",
-        downloaded: "CSV generated.",
+        downloaded: "Compact CSV generated.",
         invalid: "No valid amount was found.",
-        empty: "Enter income amounts and click Calculate. Results will appear here.",
-        headers: ["No.", "Gross", "Deduction", "Taxable Income", "Rate", "Quick Deduction", "Tax Withheld", "Net"]
+        emptyQuick: "Enter income amounts and click Calculate. Compact results will appear here.",
+        emptyDetail: "Enter income amounts and click Calculate. Detailed results will appear here.",
+        compactHeaders: ["Gross", "Tax Withheld", "Net"],
+        detailHeaders: ["No.", "Gross", "Deduction", "Taxable Income", "Rate", "Quick Deduction", "Tax Withheld", "Net"]
       }
     };
 
     const sample = "6000\n800\n4000\n30000\n62500";
     const input = document.getElementById("incomeInput");
+    const quickResultBody = document.getElementById("quickResultBody");
     const resultBody = document.getElementById("resultBody");
     const sumCount = document.getElementById("sumCount");
     const sumGross = document.getElementById("sumGross");
@@ -924,9 +1040,18 @@
       sumNet.textContent = money(totalNet);
 
       if (!rows.length) {
-        resultBody.innerHTML = `<tr><td colspan="8" class="empty">${labels[state.lang].empty}</td></tr>`;
+        quickResultBody.innerHTML = `<tr><td colspan="3" class="empty">${labels[state.lang].emptyQuick}</td></tr>`;
+        resultBody.innerHTML = `<tr><td colspan="8" class="empty">${labels[state.lang].emptyDetail}</td></tr>`;
         return;
       }
+
+      quickResultBody.innerHTML = rows.map((row) => `
+        <tr>
+          <td>${money(row.gross)}</td>
+          <td class="tax">${money(row.tax)}</td>
+          <td class="net">${money(row.net)}</td>
+        </tr>
+      `).join("");
 
       resultBody.innerHTML = rows.map((row) => `
         <tr>
@@ -956,35 +1081,38 @@
       showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 1800);
     }
 
-    function buildCsv() {
+    function buildDelimited(separator) {
       if (!state.rows.length) return "";
-      const header = labels[state.lang].headers.join(",");
+      const header = labels[state.lang].compactHeaders.join(separator);
       const lines = state.rows.map((row) => [
-        row.index,
         row.gross.toFixed(2),
-        row.deduction.toFixed(2),
-        row.taxable.toFixed(2),
-        rateText(row.rate),
-        row.quick.toFixed(2),
         row.tax.toFixed(2),
         row.net.toFixed(2)
-      ].join(","));
+      ].join(separator));
       return [header, ...lines].join("\n");
     }
 
+    function buildCsv() {
+      return buildDelimited(",");
+    }
+
+    function buildTsv() {
+      return buildDelimited("\t");
+    }
+
     async function copyResults() {
-      const csv = buildCsv();
-      if (!csv) {
+      const copiedText = buildTsv();
+      if (!copiedText) {
         showToast(labels[state.lang].noData);
         return;
       }
 
       try {
-        await navigator.clipboard.writeText(csv);
+        await navigator.clipboard.writeText(copiedText);
         showToast(labels[state.lang].copied);
       } catch (error) {
         const area = document.createElement("textarea");
-        area.value = csv;
+        area.value = copiedText;
         document.body.appendChild(area);
         area.select();
         document.execCommand("copy");
@@ -1004,7 +1132,7 @@
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "labor_remuneration_tax_results.csv";
+      link.download = "labor_remuneration_tax_compact_results.csv";
       document.body.appendChild(link);
       link.click();
       link.remove();
