@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PIN/NIP 光电器件：耗尽、漂移、扩散与载流子收集</title>
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},chtml:{scale:1}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1f21;--muted:#62676d;--line:#d8dadd;--blue:#2457a7;--blue2:#e9f1fb;--red:#b23a3a;--red2:#faecec;--gold:#a97917;--gold2:#fff7df;--green:#2f6f4e;--green2:#eaf5ee}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;font-size:16px;line-height:1.72}
+a{color:var(--blue);text-decoration:none}.sidebar{position:fixed;left:0;top:0;bottom:0;width:286px;background:#16191d;color:#eef1f4;padding:24px 18px 30px;overflow:auto}.brand{font-size:18px;font-weight:750}.subbrand{font-size:12px;color:#aeb5bd;margin:5px 0 18px}.toc-title{font-size:12px;letter-spacing:.12em;color:#8f98a3;margin:18px 0 8px}.toc a{display:block;color:#cbd1d8;font-size:13px;padding:6px 8px;border-radius:7px}.toc a:hover,.toc a.active{background:#2a3037;color:#fff}
+.main{margin-left:286px;max-width:1200px;padding:46px 54px 80px}.hero,section{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 5px 20px rgba(0,0,0,.045)}.hero{padding:34px 38px;margin-bottom:26px}.kicker{font-size:13px;color:var(--blue);font-weight:700;letter-spacing:.08em}h1{font-size:34px;line-height:1.28;margin:8px 0 14px}.hero p{color:var(--muted)}.summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}.summary-card{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fbfbfa}.summary-card b{display:block;margin-bottom:4px}
+section{padding:28px 32px;margin:18px 0}h2{font-size:25px;margin:0 0 14px}h3{font-size:19px;margin:24px 0 8px}p{margin:8px 0 12px}ul,ol{padding-left:1.45em}li{margin:5px 0}.note,.key,.warn,.formula-card{border-left:4px solid var(--blue);background:var(--blue2);padding:13px 16px;border-radius:8px;margin:14px 0}.key{border-left-color:var(--green);background:var(--green2)}.warn{border-left-color:var(--red);background:var(--red2)}.formula-card{border-left-color:var(--gold);background:var(--gold2)}
+.eq{overflow-x:auto;margin:12px 0 8px;padding:11px 14px;background:#fafaf8;border:1px solid #e2e3e1;border-radius:10px;text-align:center;font-size:17px;line-height:1.45}.main mjx-container[jax="CHTML"]{font-size:17px!important;line-height:1!important}.main mjx-container[jax="CHTML"][display="true"]{font-size:17px!important;margin:.12em 0!important;padding:0!important}.eq mjx-container[jax="CHTML"],.eq mjx-container[jax="CHTML"][display="true"]{font-size:17px!important;margin:0!important}.main mjx-math{font-size:inherit!important}.symbol-line{font-size:14px;color:#535960;background:#f6f7f7;border-left:3px solid #9ca3aa;padding:9px 11px;margin:0 0 12px;border-radius:6px}.symbol-line b{color:#202428}.notation-table td:first-child,.notation-table th:first-child{white-space:nowrap;text-align:center;font-weight:700}.notation-table td:nth-child(4){white-space:nowrap}.concept-chip{display:inline-block;border:1px solid #d6d9dc;background:#f5f6f7;border-radius:999px;padding:1px 8px;margin:0 3px 3px 0;font-size:12px;color:#47505a}.figure{border:1px solid var(--line);border-radius:14px;background:#fcfcfb;padding:16px;margin:18px 0}.figure-title{font-weight:700;margin-bottom:10px}.figure-caption{font-size:13px;color:var(--muted);margin-top:8px}svg{width:100%;height:auto;display:block}table{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px;line-height:1.6}th,td{padding:10px 11px;border-bottom:1px solid var(--line);vertical-align:top}th{text-align:left;background:#f2f3f4}.flow{display:flex;gap:8px;align-items:stretch;flex-wrap:wrap;margin:16px 0}.flow .box{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;min-width:140px;flex:1}.flow .arrow{display:flex;align-items:center;color:#8a9097;font-size:24px}.appendix{border-style:dashed}.small{font-size:13px;color:var(--muted)}.backtop{font-size:12px;float:right}
+@media(max-width:900px){.sidebar{position:relative;width:auto;height:auto}.main{margin-left:0;padding:24px 16px 60px}.summary-grid{grid-template-columns:1fr}.flow .arrow{display:none}}@media print{.sidebar{display:none}.main{margin:0;max-width:none;padding:0}section,.hero{box-shadow:none}}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+<div class="brand">PIN / NIP 光电器件物理</div>
+<div class="subbrand">本次对话完整知识脉络 · 主线 + 附录</div>
+<div class="toc-title">目录</div>
+<nav class="toc">
+<a href="#overview">0. 一页读懂主线</a>
+<a href="#notation">0.5 符号与英文术语统一</a>
+<a href="#structure">1. PIN/NIP 不只是层序</a>
+<a href="#stack">2. ZnO / PbS CQDs / NiOx</a>
+<a href="#absorption">3. 光从 n 侧进入后</a>
+<a href="#depletion">4. 为什么 i 层容易耗尽</a>
+<a href="#realpin">5. 实际 PIN 的典型状态</a>
+<a href="#transport">6. 漂移与扩散同时存在</a>
+<a href="#full">7. 完全耗尽时的主图像</a>
+<a href="#partial">8. 部分耗尽：先扩散再漂移</a>
+<a href="#minority">9. 少子与浓度梯度</a>
+<a href="#length">10. 扩散长度到底算什么</a>
+<a href="#nillum">11. n 侧入射为何关注空穴</a>
+<a href="#design">12. 厚度与设计判据</a>
+<a href="#experiment">13. 如何实验判断</a>
+<a href="#framework">14. 最终统一图像</a>
+<a href="#appendixA">附录 A. 公式总表</a>
+<a href="#appendixB">附录 B. SCLC / TOF / TPV / C–V</a>
+<a href="#appendixC">附录 C. 开路电压</a>
+<a href="#appendixD">附录 D. 关键纠正</a>
+</nav></aside>
+
+<main class="main" id="top">
+<div class="hero">
+<div class="kicker">SEMICONDUCTOR DEVICE PHYSICS · STUDY NOTE</div>
+<h1>PIN / NIP 光电器件：从吸收、耗尽到漂移与扩散</h1>
+<p>从“PIN 与 NIP 有什么区别”一直梳理到“实际 PIN 中吸收层是否完全耗尽、什么时候看扩散长度、为什么 n 侧入射时空穴更关键”。主线只保留决定器件物理图像的内容，SCLC、TPV、开路电压等放到附录。</p>
+<div class="summary-grid">
+<div class="summary-card"><b>核心结论 1</b>成熟 PIN 通常希望主要吸收层在工作偏压下基本完全耗尽，光生载流子以漂移收集为主。</div>
+<div class="summary-card"><b>核心结论 2</b>扩散长度主要判断弱场/准中性吸收区中的少数载流子，能否在复合前到达耗尽区。</div>
+<div class="summary-card"><b>核心结论 3</b>n 侧入射且吸收集中在 i 层靠近 n 侧时，空穴平均路径更长，因此重点看 \(\mu_p,\tau_p,E,l_p\)。</div>
+</div></div>
+
+<section id="overview"><a class="backtop" href="#top">返回顶部</a>
+<h2>0. 一页读懂主线</h2>
+<div class="flow"><div class="box"><b>器件结构</b><br>n / i / p 功能顺序</div><div class="arrow">→</div><div class="box"><b>主要吸收层</b><br>例如 PbS CQDs</div><div class="arrow">→</div><div class="box"><b>低掺杂 i 层</b><br>耗尽区优先进入</div><div class="arrow">→</div><div class="box"><b>工作偏压下完全耗尽</b><br>理想 PIN 目标</div><div class="arrow">→</div><div class="box"><b>漂移收集</b><br>电子 → n，空穴 → p</div></div>
+<div class="flow"><div class="box"><b>若未完全耗尽</b><br>留下弱场吸收区</div><div class="arrow">→</div><div class="box"><b>少子先扩散</b><br>扩散到耗尽区</div><div class="arrow">→</div><div class="box"><b>再由电场漂移</b><br>进入对应传输层</div><div class="arrow">→</div><div class="box"><b>多数载流子输运</b><br>继续到电极</div></div>
+<div class="key"><b>一句话：</b>真正要判断的是<strong>光在哪里被吸收、吸收区是否有电场、电子和空穴分别要走多远、它们在复合前能否完成收集</strong>。</div>
+</section>
+
+<section id="notation"><a class="backtop" href="#top">返回顶部</a>
+<div class="formula-card"><b>本页数学排版规则：</b>正文中的行内物理量与独立公式统一采用 <b>17 px</b> 的数学基准字号；上下标按数学排版规则自动缩小。图中的文字统一采用 16 px，并通过字重、颜色和位置区分层级。公式的整体字号不再随分式、根号或公式所在表格而变化。</div>
+
+<h2>0.5 阅读前先统一：重要物理量与英文术语</h2>
+<p>为避免同一个符号在不同章节中承担不同含义，本页采用以下统一记号。正文公式均按此表解释；带下标的量，例如 \(\mu_p\)、\(\tau_p\)，下标只表示对应载流子或区域。</p>
+<table class="notation-table">
+<tr><th>符号</th><th>中文名称</th><th>English</th><th>常用单位</th><th>本页约定</th></tr>
+<tr><td>\(q\)</td><td>元电荷大小</td><td>elementary charge</td><td>C</td><td>统一用 \(q\)；\(e^-\) 只表示电子。</td></tr>
+<tr><td>\(k_{\mathrm B}\)</td><td>玻尔兹曼常数</td><td>Boltzmann constant</td><td>J·K⁻¹</td><td>与 \(T\) 构成热能尺度。</td></tr>
+<tr><td>\(T\)</td><td>绝对温度</td><td>absolute temperature</td><td>K</td><td>默认温度均匀。</td></tr>
+<tr><td>\(E\)</td><td>电场强度</td><td>electric field</td><td>V·cm⁻¹</td><td>若无特别说明，指吸收层有效电场。</td></tr>
+<tr><td>\(\mu_n,\mu_p\)</td><td>电子/空穴迁移率</td><td>electron / hole mobility</td><td>cm²·V⁻¹·s⁻¹</td><td>下标 \(n,p\) 分别对应电子（electron）与空穴（hole）；这是半导体器件物理的常用记号。</td></tr>
+<tr><td>\(D_n,D_p\)</td><td>电子/空穴扩散系数</td><td>diffusion coefficient</td><td>cm²·s⁻¹</td><td>与迁移率由爱因斯坦关系（Einstein relation）联系。</td></tr>
+<tr><td>\(\tau_n,\tau_p\)</td><td>电子/空穴有效寿命</td><td>effective carrier lifetime</td><td>s</td><td>强调实际器件中的有效寿命。</td></tr>
+<tr><td>\(L_{\mathrm{diff}}\)</td><td>扩散长度（diffusion length）</td><td>diffusion length</td><td>nm、µm、cm</td><td>弱场/无场区中复合前的典型扩散距离。</td></tr>
+<tr><td>\(L_{\mathrm{drift}}\)</td><td>漂移长度</td><td>drift length</td><td>nm、µm、cm</td><td>有电场时复合前可被电场带动的典型距离。</td></tr>
+<tr><td>\(t_{\mathrm{tr}}\)</td><td>渡越时间</td><td>transit time</td><td>s</td><td>完成指定输运距离所需时间。</td></tr>
+<tr><td>\(W_{\mathrm{dep}}\)</td><td>总耗尽宽度</td><td>depletion width</td><td>nm、µm、cm</td><td>吸收层内耗尽部分写 \(W_{\mathrm{abs,dep}}\)。</td></tr>
+<tr><td>\(d_i,d_{\mathrm{abs}}\)</td><td>i 层厚度 / 吸收层厚度</td><td>i-layer / absorber thickness</td><td>nm、µm</td><td>本结构中通常 \(d_i\approx d_{\mathrm{abs}}\)。</td></tr>
+<tr><td>\(n,p\)</td><td>电子/空穴浓度</td><td>electron / hole concentration</td><td>cm⁻³</td><td>不要与 n 型、p 型层标签混淆。</td></tr>
+<tr><td>\(\Delta n,\Delta p\)</td><td>过剩电子/空穴浓度</td><td>excess carrier concentration</td><td>cm⁻³</td><td>光照相对暗态平衡新增的载流子。</td></tr>
+<tr><td>\(N_D,N_A,N_i\)</td><td>施主/受主/i层有效掺杂浓度</td><td>donor / acceptor / effective i-layer doping</td><td>cm⁻³</td><td>耗尽近似中的有效净掺杂。</td></tr>
+<tr><td>\(\alpha\)</td><td>吸收系数</td><td>absorption coefficient</td><td>cm⁻¹</td><td>决定吸收深度量级 \(1/\alpha\)。</td></tr>
+<tr><td>\(G(x)\)</td><td>光生率</td><td>photogeneration rate</td><td>cm⁻³·s⁻¹</td><td>单位体积、单位时间产生的 e⁻–h⁺ 对数。</td></tr>
+<tr><td>\(J\)</td><td>电流密度</td><td>current density</td><td>A·cm⁻²</td><td>\(J_n,J_p\) 分别为电子、空穴分量。</td></tr>
+<tr><td>\(\varepsilon_s\)</td><td>半导体介电常数</td><td>semiconductor permittivity</td><td>F·cm⁻¹</td><td>可写为 \(\varepsilon_0\varepsilon_r\)。</td></tr>
+<tr><td>\(A_{\mathrm{dev}}\)</td><td>器件有效面积</td><td>active device area</td><td>cm²</td><td>只表示几何面积。</td></tr>
+<tr><td>\(\mathcal A\)</td><td>吸收率</td><td>absorptance</td><td>无量纲</td><td>与器件面积 \(A_{\mathrm{dev}}\) 区分。</td></tr>
+</table>
+<div class="key"><b>重要概念英文：</b>
+<span class="concept-chip">耗尽区 depletion region</span><span class="concept-chip">空间电荷区 space-charge region</span><span class="concept-chip">漂移 drift</span><span class="concept-chip">扩散 diffusion</span><span class="concept-chip">多数载流子 majority carrier</span><span class="concept-chip">少数载流子 minority carrier</span><span class="concept-chip">复合 recombination</span><span class="concept-chip">光生载流子 photogenerated carrier</span><span class="concept-chip">选择性接触 selective contact</span>
+</div>
+
+<section id="structure"><a class="backtop" href="#top">返回顶部</a>
+<h2>1. PIN / NIP 不只是层序</h2>
+<p>PIN（p–i–n photodiode）与 NIP（n–i–p photodiode）的几何层序确实相反，但器件性能还取决于入射方向、吸收分布、电场分布、载流子输运方向与界面选择性。</p>
+<table><tr><th>比较项</th><th>PIN</th><th>NIP</th></tr><tr><td>层序</td><td>\(p/i/n\)</td><td>\(n/i/p\)</td></tr><tr><td>电子最终收集</td><td>n 侧</td><td>n 侧</td></tr><tr><td>空穴最终收集</td><td>p 侧</td><td>p 侧</td></tr><tr><td>真正关键</td><td colspan="2">哪一侧入光、光在哪一层吸收、哪一种载流子走得更远、吸收层是否耗尽</td></tr></table>
+<div class="note">因此“PIN 和 NIP 只是把 p/n 交换位置”只是第一层理解；器件设计真正关心的是<strong>载流子收集路径是否与材料的输运能力匹配</strong>。</div>
+</section>
+
+<section id="stack"><a class="backtop" href="#top">返回顶部</a>
+<h2>2. ZnO / PbS CQDs / NiOx 的相对位置与功能</h2>
+<p>本次对话最终采用的最简异质 PIN 物理模型：</p>
+<div class="figure"><div class="figure-title">图 1　典型异质 PIN 功能映射</div>
+<svg viewBox="0 0 980 240">
+<defs><marker id="arr1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#d98500"/></marker></defs>
+<text x="25" y="80" font-size="16" fill="#d98500" font-weight="700">入射光</text><line x1="20" y1="112" x2="140" y2="112" stroke="#d98500" stroke-width="8" marker-end="url(#arr1)"/>
+<rect x="150" y="55" width="120" height="120" fill="#f3f3f3" stroke="#333"/><rect x="270" y="55" width="160" height="120" fill="#e7f0fb" stroke="#333"/><rect x="430" y="55" width="300" height="120" fill="#f1f1ef" stroke="#333"/><rect x="730" y="55" width="150" height="120" fill="#fae8e8" stroke="#333"/><rect x="880" y="55" width="80" height="120" fill="#fff0b8" stroke="#333"/>
+<text x="195" y="118" font-size="16" font-weight="700">ITO</text><text x="315" y="105" font-size="16" fill="#2457a7" font-weight="700">ZnO</text><text x="302" y="138" font-size="16" fill="#2457a7">n 层 / ETL</text><text x="530" y="105" font-size="16" font-weight="700">PbS CQDs</text><text x="548" y="138" font-size="16">i 层 / 主要吸收层</text><text x="768" y="105" font-size="16" fill="#b23a3a" font-weight="700">NiOx</text><text x="750" y="138" font-size="16" fill="#b23a3a">p 层 / HTL</text><text x="900" y="118" font-size="16" font-weight="700">Au</text>
+</svg><div class="figure-caption">目标波段的主要光生过程发生在 PbS CQDs 中，而不是 ZnO 或 NiOx 中。</div></div>
+<div class="key"><b>关键修正：</b>不能把“n 区中的光生少数空穴”默认画在 ZnO 中。对这类宽带隙传输层 / 窄带隙吸收层结构，主要光生载流子应画在 PbS CQDs 吸收层里。</div>
+</section>
+
+<section id="absorption"><a class="backtop" href="#top">返回顶部</a>
+<h2>3. 光从 n 侧进入后发生什么</h2>
+<p>忽略薄膜干涉时，吸收层中的光强近似服从 Beer–Lambert 衰减：</p>
+<div class="eq">\[I(x)=I_0(1-R)e^{-\alpha x}\]</div>
+<div class="symbol-line"><b>物理量：</b>\(I(x)\)：位置 \(x\) 处光强（optical intensity）；\(I_0\)：入射光强（incident intensity）；\(R\)：反射率（reflectance）；\(\alpha\)：吸收系数（absorption coefficient）；\(x\)：从吸收层入光界面起算的深度。</div>
+<p>对应光生率：</p><div class="eq">\[G(x)=\alpha\Phi_0(1-R)e^{-\alpha x}\]</div>
+<div class="symbol-line"><b>物理量：</b>\(G(x)\)：光生率（photogeneration rate）；\(\Phi_0\)：入射光子通量（incident photon flux）；其余符号同上。</div>
+<p>如果 \(\alpha d\gtrsim1\)，载流子更集中在吸收层靠近入光侧的位置。</p>
+<div class="figure"><div class="figure-title">图 2　光生率沿吸收层的空间衰减</div>
+<svg viewBox="0 0 980 300"><line x1="100" y1="245" x2="900" y2="245" stroke="#333" stroke-width="2"/><line x1="100" y1="245" x2="100" y2="45" stroke="#333" stroke-width="2"/><text x="865" y="275" font-size="16">x → p 侧</text><text x="25" y="58" font-size="16">G(x)</text><path d="M110,65 C220,95 320,125 430,155 C560,188 700,218 890,235" fill="none" stroke="#d98500" stroke-width="5"/><rect x="100" y="255" width="790" height="28" fill="#f1f1ef" stroke="#aaa"/><text x="360" y="276" font-size="16">PbS CQDs 吸收层</text><text x="112" y="42" font-size="16" fill="#2457a7">靠近 n 侧：产生更多</text><text x="660" y="210" font-size="16" fill="#b23a3a">靠近 p 侧：产生较少</text></svg>
+<div class="figure-caption">“光从 n 侧进入，空穴平均要走更远”成立的前提，就是主要光生位置偏向吸收层的 n 侧。</div></div>
+</section>
+
+<section id="depletion"><a class="backtop" href="#top">返回顶部</a>
+<h2>4. 为什么 i 层容易被耗尽</h2>
+<p>对简化 i/p 界面，在耗尽近似（depletion approximation）下空间电荷守恒：</p><div class="eq">\[qN_iW_i=qN_pW_p\]</div>
+<div class="symbol-line"><b>物理量：</b>\(N_i,N_p\)：i 侧和 p 侧有效净掺杂浓度；\(W_i,W_p\)：耗尽区分别向两侧延伸的宽度；\(q\)：元电荷大小。</div><div class="eq">\[\frac{W_i}{W_p}=\frac{N_p}{N_i}\]</div>
+<p>当 \(N_i\ll N_p\) 时，\(W_i\gg W_p\)，耗尽区优先向低掺杂 i 层扩展。</p>
+<div class="warn"><b>但理论耗尽宽度不能无限超过真实 i 层厚度。</b>若 \(W_i^{\rm calc}>d_i\)，实际结果是 i 层先完全耗尽，额外耗尽宽度再向 n/p 层延伸。</div>
+<div class="figure"><div class="figure-title">图 3　理论耗尽宽度与物理 i 层厚度</div>
+<svg viewBox="0 0 980 280"><rect x="110" y="80" width="180" height="110" fill="#dce9f8" stroke="#333"/><rect x="290" y="80" width="430" height="110" fill="#eeeeec" stroke="#333"/><rect x="720" y="80" width="170" height="110" fill="#f7dddd" stroke="#333"/><text x="180" y="140" font-size="16" fill="#2457a7" font-weight="700">n⁺</text><text x="495" y="140" font-size="16" font-weight="700">i</text><text x="785" y="140" font-size="16" fill="#b23a3a" font-weight="700">p⁺</text><rect x="250" y="60" width="510" height="150" fill="none" stroke="#2f6f4e" stroke-width="4" stroke-dasharray="10,8"/><text x="335" y="45" font-size="16" fill="#2f6f4e" font-weight="700">总耗尽区可覆盖整个 i 层，并略延伸进 n⁺ / p⁺</text><line x1="290" y1="225" x2="720" y2="225" stroke="#333" stroke-width="2"/><text x="470" y="255" font-size="16">i 层物理厚度 dᵢ</text></svg></div>
+<div class="key"><b>结论：</b>经典 PIN 的重要目标之一，就是让 i 吸收层在工作状态下基本全部处于耗尽区。</div>
+</section>
+
+<section id="realpin"><a class="backtop" href="#top">返回顶部</a>
+<h2>5. 实际应用中的 PIN：通常是什么状态</h2>
+<p>实际成熟 PIN 光电探测器并不要求在零偏压下就完全耗尽，但在<strong>设计工作偏压</strong>下，通常希望主要吸收层基本完全耗尽。</p>
+<table><tr><th>状态</th><th>吸收层情况</th><th>主要输运</th></tr>
+<tr><td>理想/高速 PIN</td><td>主要吸收层基本全部耗尽</td><td>漂移为主</td></tr>
+<tr><td>普通实际 PIN</td><td>主体耗尽，边缘可能有少量弱场区</td><td>漂移为主 + 少量扩散</td></tr>
+<tr><td>明显未完全耗尽</td><td>存在可观准中性吸收区</td><td>先扩散再漂移</td></tr>
+<tr><td>CQD / 薄膜“PIN”</td><td>掺杂、电场、陷阱与界面更非理想</td><td>漂移、扩散、陷阱输运共同存在</td></tr></table>
+<p>随着反向偏压（reverse bias）增大，先表现为耗尽宽度增加；当吸收层已经基本全部耗尽后，继续加反偏主要提高内部电场 \(E\)，从而减小渡越时间，而不是让耗尽区无限增长。</p>
+</section>
+
+<section id="transport"><a class="backtop" href="#top">返回顶部</a>
+<h2>6. 电场区域里不是“只有漂移”：漂移与扩散可以同时存在</h2>
+<p>载流子总电流一般同时包含漂移（drift）与扩散（diffusion）：</p>
+<div class="eq">\[J_n=qn\mu_nE+qD_n\frac{dn}{dx}\]</div>
+<div class="symbol-line"><b>电子电流：</b>\(J_n\) 为电子电流密度；\(n\) 为电子浓度；\(\mu_n\) 为电子迁移率；\(D_n\) 为电子扩散系数；\(E\) 为电场。第一项是漂移电流（drift current），第二项是扩散电流（diffusion current）。</div>
+<div class="eq">\[J_p=qp\mu_pE-qD_p\frac{dp}{dx}\]</div>
+<div class="symbol-line"><b>空穴电流：</b>\(J_p\) 为空穴电流密度；\(p\) 为空穴浓度；\(\mu_p\) 为空穴迁移率；\(D_p\) 为空穴扩散系数。符号正负来自电荷符号与传统电流方向约定。</div>
+<ul><li>有电场 \(E\) → 有漂移趋势。</li><li>有载流子浓度梯度 \(dn/dx\) 或 \(dp/dx\) → 有净扩散。</li><li>两者可以同向，也可以反向。</li></ul>
+<div class="note"><b>“耗尽区里主要靠漂移”不是说扩散严格为零。</b>只是通常 \(|J_{\mathrm{drift}}|\gg |J_{\mathrm{diff}}|\)，所以漂移占主导。</div>
+<h3>为什么“有浓度差”更准确地说成“有浓度梯度”</h3>
+<p>扩散是局部过程，真正决定净扩散的是：</p><div class="eq">\[\frac{dn}{dx}\neq0\quad\text{或}\quad\frac{dp}{dx}\neq0\]</div>
+<p>即使载流子始终存在随机热运动，只要浓度处处均匀，左右随机运动在统计上互相抵消，净扩散电流仍为零。</p>
+<h3>热平衡 p–n 结是最典型的反例</h3>
+<p>热平衡时结区既有电场又有浓度梯度，漂移与扩散都存在，但二者互相抵消：</p>
+<div class="eq">\[J_{\mathrm{drift}}+J_{\mathrm{diff}}=0\]</div>
+</section>
+
+<section id="full"><a class="backtop" href="#top">返回顶部</a>
+<h2>7. 吸收层基本完全耗尽时：标准 PIN 的主物理图像</h2>
+<p>当 PbS CQDs 吸收层基本完全处于耗尽区时，光生电子和空穴在产生后立即受到电场作用：</p>
+<div class="eq">\[e^- \xrightarrow{\mathrm{drift}} n\text{侧},\qquad h^+ \xrightarrow{\mathrm{drift}} p\text{侧}\]</div>
+<div class="figure"><div class="figure-title">图 4　n 侧入射、吸收层完全耗尽时的载流子路径</div>
+<svg viewBox="0 0 980 270">
+<defs><marker id="bluearr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#2457a7"/></marker><marker id="redarr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#b23a3a"/></marker><marker id="orgarr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#d98500"/></marker></defs>
+<text x="20" y="58" font-size="16" fill="#d98500" font-weight="700">光</text><line x1="20" y1="85" x2="110" y2="85" stroke="#d98500" stroke-width="7" marker-end="url(#orgarr)"/>
+<rect x="120" y="55" width="145" height="140" fill="#e7f0fb" stroke="#333"/><rect x="265" y="55" width="475" height="140" fill="#f1f1ef" stroke="#333"/><rect x="740" y="55" width="130" height="140" fill="#fae8e8" stroke="#333"/>
+<text x="160" y="95" font-size="16" fill="#2457a7" font-weight="700">ZnO / n</text><text x="430" y="90" font-size="16" font-weight="700">PbS CQDs / i（耗尽）</text><text x="775" y="95" font-size="16" fill="#b23a3a" font-weight="700">NiOx / p</text>
+<circle cx="355" cy="135" r="24" fill="#dce9f8" stroke="#2457a7" stroke-width="3"/><circle cx="410" cy="135" r="24" fill="#fae3e3" stroke="#b23a3a" stroke-width="3"/><text x="342" y="143" font-size="16" fill="#2457a7">e⁻</text><text x="397" y="143" font-size="16" fill="#b23a3a">h⁺</text>
+<line x1="330" y1="135" x2="180" y2="135" stroke="#2457a7" stroke-width="6" marker-end="url(#bluearr)"/><line x1="435" y1="135" x2="805" y2="135" stroke="#b23a3a" stroke-width="6" marker-end="url(#redarr)"/>
+<text x="165" y="175" font-size="16" fill="#2457a7">电子：短距离漂移</text><text x="505" y="175" font-size="16" fill="#b23a3a">空穴：长距离漂移</text><text x="330" y="225" font-size="16">入射越靠近 n 侧 → 平均电子路径更短、空穴路径更长</text>
+</svg></div>
+<p>更应该比较空穴渡越时间与寿命：</p><div class="eq">\[t_{\mathrm{tr},p}\approx\frac{l_p}{\mu_pE}\]</div>
+<div class="symbol-line"><b>物理量：</b>\(t_{\mathrm{tr},p}\)：空穴渡越时间（hole transit time）；\(l_p\)：空穴实际输运距离；\(\mu_p\)：空穴迁移率；\(E\)：有效电场。</div>
+<div class="eq">\[t_{\mathrm{tr},p}\ll\tau_p\]</div>
+<p>或写成漂移长度：</p><div class="eq">\[L_{\mathrm{drift},p}=\mu_pE\tau_p\gtrsim l_p\]</div>
+<div class="symbol-line"><b>判据：</b>\(L_{\mathrm{drift},p}\) 为空穴漂移长度（hole drift length）；\(\tau_p\) 为空穴有效寿命。漂移长度不小于实际路径时，长距离收集更有利。</div>
+<div class="key"><b>这里不是“只看寿命”。</b>决定长距离空穴能否收集的是 \(\mu_p\)、\(\tau_p\)、\(E\) 和实际输运距离 \(l_p\) 的共同结果。</div>
+</section>
+
+<section id="partial"><a class="backtop" href="#top">返回顶部</a>
+<h2>8. 如果吸收层没有完全耗尽：才出现“先扩散，再漂移”</h2>
+<p>若吸收层总厚度 \(d_{\mathrm{abs}}\) 大于吸收层内实际耗尽宽度 \(W_{\mathrm{abs,dep}}\)，会剩下一段弱场/准中性吸收区（quasi-neutral / weak-field absorber region）：</p>
+<div class="eq">\[d_{\mathrm{neutral}}=d_{\mathrm{abs}}-W_{\mathrm{abs,dep}}\]</div>
+<div class="symbol-line"><b>物理量：</b>\(d_{\mathrm{neutral}}\)：未耗尽/弱场吸收区厚度；\(d_{\mathrm{abs}}\)：吸收层总厚度；\(W_{\mathrm{abs,dep}}\)：吸收层内部实际耗尽宽度。</div>
+<p>若这段弱场区偏 n 型，其中光生空穴就是少数载流子（minority carrier），其典型路径为：</p>
+<div class="eq">\[
+h^+:\quad\text{弱场区扩散}\rightarrow\text{耗尽区漂移}\rightarrow p\text{型传输层}\rightarrow p\text{电极}
+\]</div>
+<div class="figure"><div class="figure-title">图 5　部分耗尽时：扩散段 + 漂移段</div>
+<svg viewBox="0 0 980 300">
+<defs><marker id="rarr2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#b23a3a"/></marker></defs>
+<rect x="90" y="60" width="150" height="140" fill="#e7f0fb" stroke="#333"/><rect x="240" y="60" width="250" height="140" fill="#eef5fb" stroke="#333"/><rect x="490" y="60" width="300" height="140" fill="#efefed" stroke="#333"/><rect x="790" y="60" width="120" height="140" fill="#fae8e8" stroke="#333"/>
+<text x="125" y="92" font-size="16" fill="#2457a7" font-weight="700">ZnO / n</text><text x="275" y="92" font-size="16" fill="#2457a7" font-weight="700">PbS 弱场 / 准中性区</text><text x="585" y="92" font-size="16" font-weight="700">PbS 耗尽区</text><text x="812" y="92" font-size="16" fill="#b23a3a" font-weight="700">NiOx / p</text>
+<circle cx="330" cy="140" r="22" fill="#fae3e3" stroke="#b23a3a" stroke-width="3"/><text x="318" y="147" font-size="16" fill="#b23a3a">h⁺</text>
+<path d="M355,140 C390,120 420,160 455,138" fill="none" stroke="#b23a3a" stroke-width="4" stroke-dasharray="8,7" marker-end="url(#rarr2)"/><line x1="500" y1="140" x2="850" y2="140" stroke="#b23a3a" stroke-width="6" marker-end="url(#rarr2)"/>
+<text x="300" y="185" font-size="16" fill="#b23a3a">少子扩散</text><text x="610" y="185" font-size="16" fill="#b23a3a">进入耗尽区后漂移</text><line x1="492" y1="45" x2="492" y2="220" stroke="#888" stroke-width="2" stroke-dasharray="6,6"/><text x="405" y="240" font-size="16">耗尽区边缘相当于“快速收集端”</text>
+</svg><div class="figure-caption">这才是经典的“少数载流子先扩散到耗尽区，再被内建电场扫走”的场景。</div></div>
+</section>
+
+<section id="minority"><a class="backtop" href="#top">返回顶部</a>
+<h2>9. 少子不是“非光生载流子”：少子描述的是所在区域中的相对浓度</h2>
+<p>光吸收总是同时产生一对载流子：</p><div class="eq">\[h\nu\rightarrow e^-+h^+\]</div>
+<p>“光生”描述来源，“多数/少数”描述它在某个掺杂区域里的身份。</p>
+<table><tr><th>所在区域</th><th>多数载流子</th><th>少数载流子</th></tr><tr><td>n 型区</td><td>电子</td><td>空穴</td></tr><tr><td>p 型区</td><td>空穴</td><td>电子</td></tr></table>
+<h3>为什么 n 区空穴浓度本来很低，仍然会有扩散？</h3>
+<p>暗态平衡少子浓度：</p><div class="eq">\[p_{n0}=\frac{n_i^2}{N_D}\]</div>
+<div class="symbol-line"><b>物理量：</b>\(p_{n0}\)：n 型区暗态平衡空穴浓度；\(n_i\)：本征载流子浓度（intrinsic carrier concentration）；\(N_D\)：施主浓度（donor concentration）。</div>
+<p>光照后：</p><div class="eq">\[p(x)=p_{n0}+\Delta p(x)\]</div>
+<div class="symbol-line"><b>物理量：</b>\(\Delta p(x)\)：光照造成的过剩空穴浓度（excess hole concentration）。扩散主要由过剩少子的空间梯度驱动。</div>
+<p>真正驱动扩散的是：</p><div class="eq">\[\frac{dp}{dx}\approx\frac{d\Delta p}{dx}\neq0\]</div>
+<p>并不是要求空穴绝对浓度很高。耗尽区边缘会快速抽走到达的少子，所以边缘的过剩少子浓度往往较低，形成指向耗尽区的浓度梯度。</p>
+<div class="figure"><div class="figure-title">图 6　弱场 n 型吸收区中的过剩空穴浓度示意</div>
+<svg viewBox="0 0 980 300"><line x1="110" y1="245" x2="880" y2="245" stroke="#333" stroke-width="2"/><line x1="110" y1="245" x2="110" y2="45" stroke="#333" stroke-width="2"/><text x="40" y="60" font-size="16">Δp</text><text x="820" y="275" font-size="16">→ 耗尽区</text><path d="M130,80 C260,95 420,130 560,165 C690,195 775,215 840,235" fill="none" stroke="#b23a3a" stroke-width="5"/><line x1="850" y1="55" x2="850" y2="245" stroke="#2f6f4e" stroke-width="3" stroke-dasharray="8,7"/><text x="660" y="48" font-size="16" fill="#2f6f4e">耗尽区边缘：快速抽取</text><text x="130" y="115" font-size="16" fill="#b23a3a">过剩空穴较多</text><text x="610" y="205" font-size="16" fill="#b23a3a">越靠近耗尽区越低</text></svg></div>
+<h3>为什么少数空穴不会“立刻全部复合”</h3>
+<p>扩散和复合是竞争过程。稳态下可由连续性方程描述：</p>
+<div class="eq">\[D_p\frac{d^2\Delta p}{dx^2}-\frac{\Delta p}{\tau_p}+G(x)=0\]</div>
+<div class="symbol-line"><b>连续性方程（steady-state continuity equation）：</b>第一项表示扩散净流入/流出，第二项表示复合损失，第三项 \(G(x)\) 表示光生；三者共同决定稳态少子分布。</div>
+<p>少子一边扩散，一边复合；扩散长度就是这场竞争的特征尺度。</p>
+</section>
+
+<section id="length"><a class="backtop" href="#top">返回顶部</a>
+<h2>10. 扩散长度（diffusion length）到底是在“算什么”</h2>
+<div class="key"><b>定义：</b>扩散长度回答“一个过剩载流子在弱场/无场区域中，发生复合之前，依靠扩散典型能走多远？”</div>
+<div class="eq">\[L_{\mathrm{diff}}=\sqrt{D\tau}\]</div>
+<div class="eq">\[D=\frac{k_{\mathrm B}T}{q}\mu\]</div>
+<div class="symbol-line"><b>爱因斯坦关系（Einstein relation）：</b>\(D\) 为扩散系数，\(\mu\) 为迁移率，\(k_{\mathrm B}\) 为玻尔兹曼常数，\(T\) 为绝对温度，\(q\) 为元电荷大小。</div>
+<div class="eq">\[\boxed{L_{\mathrm{diff}}=\sqrt{\frac{k_{\mathrm B}T}{q}\mu\tau}}\]</div>
+<div class="symbol-line"><b>物理量：</b>\(L_{\mathrm{diff}}\)：扩散长度（diffusion length）；\(\tau\)：对应载流子的有效寿命。若专指空穴，传统上常写 \(L_p\)。</div>
+<div class="warn"><b>本次对话中的公式纠正：</b>你师兄给的 \(L=kT\mu\tau/e\) 从量纲上是长度平方，对应 \(L^2\)。标准扩散长度必须带平方根。</div>
+<table><tr><th>量</th><th>公式</th><th>回答的问题</th></tr><tr><td>扩散长度（diffusion length）</td><td>\(L_{\mathrm{diff}}=\sqrt{D\tau}\)</td><td>弱场/无场中，复合前能靠扩散传播多远</td></tr><tr><td>漂移长度</td><td>\(L_{\mathrm{drift}}=\mu E\tau\)</td><td>有电场时，复合前能被电场带多远</td></tr><tr><td>渡越时间</td><td>\(t_{\mathrm{tr}}=l/(\mu E)\)</td><td>走完指定距离 \(l\) 需要多久</td></tr></table>
+</section>
+
+<section id="nillum"><a class="backtop" href="#top">返回顶部</a>
+<h2>11. 为什么光从 n 侧入射时，更要关注空穴</h2>
+<p>若光主要在 i 吸收层靠近 n 侧产生，那么对在位置 \(x\) 产生的一对载流子：</p>
+<div class="eq">\[l_n=x,\qquad l_p=d_i-x\]</div>
+<div class="symbol-line"><b>物理量：</b>\(l_e,l_h\)：电子/空穴到各自选择性接触方向的近似输运距离；\(x\)：光生位置距 n/i 界面的深度；\(d_i\)：i 吸收层厚度。</div>
+<p>当 \(x\ll d_i\) 时：</p><div class="eq">\[l_n\ll l_p\]</div>
+<p>于是电子只需短距离到 n 侧，空穴要穿过大部分吸收层到 p 侧。若 i 层基本完全耗尽，核心限制更接近：</p>
+<div class="eq">\[\frac{d_i}{\mu_pE}\ll\tau_p\]</div>
+<div class="symbol-line"><b>含义：</b>空穴穿过吸收层所需渡越时间远短于其有效寿命；适用于光生位置靠近 n 侧、空穴路径近似为 \(d_i\) 的情况。</div>
+<p>因此真正要关注的是：</p><div class="eq">\[\boxed{\mu_p,\;\tau_p,\;E,\;l_p}\]</div>
+<div class="note">“把 i 层做成 p 型就好了”并不完整。掺杂会同时改变耗尽宽度、电场、费米能级、暗电流和界面注入。真正目标是较低陷阱、足够的 \(\mu\tau\)、合理掺杂与合适电场。</div>
+</section>
+
+<section id="design"><a class="backtop" href="#top">返回顶部</a>
+<h2>12. 吸收层厚度、耗尽宽度与器件设计判据</h2>
+<h3>第一优先：尽量让主要吸收层处于耗尽区内</h3>
+<div class="eq">\[d_{\mathrm{abs}}\lesssim W_{\rm dep}\]</div>
+<p>更准确地说，希望吸收层内的耗尽宽度满足：</p><div class="eq">\[W_{\mathrm{abs,dep}}\approx d_{\mathrm{abs}}\]</div>
+<h3>如果无法完全耗尽</h3>
+<div class="eq">\[d_{\mathrm{neutral}}=d_{\mathrm{abs}}-W_{\mathrm{abs,dep}}\]</div>
+<p>则希望：</p><div class="eq">\[d_{\mathrm{neutral}}\lesssim L_p\]</div>
+<div class="symbol-line"><b>物理量：</b>\(L_p\) 为空穴扩散长度（hole diffusion length）。这里对应本页重点讨论的“弱场吸收区偏 n 型”情况；若弱场区偏 p 型，则相应比较电子扩散长度 \(L_n\)。</div>
+<p>也可写成一个近似的一阶准则：</p><div class="eq">\[\boxed{d_{\mathrm{abs}}\lesssim W_{\mathrm{abs,dep}}+L_p}\]</div>
+<div class="warn">这不是严格性能边界。即使 \(d_{\mathrm{neutral}}>L\)，器件仍能工作，只是远离耗尽区产生的少数载流子收集概率会快速下降。</div>
+<h3>工程上的实际折中</h3>
+<p>吸收层越厚，吸收更强：</p><div class="eq">\[\mathcal A=1-e^{-\alpha d_{\mathrm{abs}}}\]</div>
+<div class="symbol-line"><b>物理量：</b>\(\mathcal A\)：单程近似吸收率（absorptance）；\(\alpha\)：吸收系数；\(d_{\mathrm{abs}}\)：吸收层厚度。忽略多重反射与薄膜干涉。</div>
+<p>但厚度增加也可能带来更长渡越时间、更高复合概率和更复杂的电场分布。因此实际 PIN 需要在<strong>吸收效率、速度、结电容、暗电流</strong>之间折中。</p>
+</section>
+
+<section id="experiment"><a class="backtop" href="#top">返回顶部</a>
+<h2>13. 如何用实验判断你的 PbS CQD 器件处于哪种状态</h2>
+<ol>
+<li><b>先确认实际吸收层厚度 \(d_{\rm PbS}\)</b>：截面 SEM、椭偏、轮廓仪或 AFM 台阶。</li>
+<li><b>做 C–V / Mott–Schottky</b>：估算有效耗尽宽度与有效掺杂趋势。理想平板近似下 \(W_{\mathrm{dep}}=\varepsilon_s A_{\mathrm{dev}}/C_j\)，其中 \(C_j\) 为结电容（junction capacitance）。</li>
+<li><b>看 C–V 频率色散</b>：若很强，说明陷阱/界面态参与，简单耗尽近似要谨慎。</li>
+<li><b>比较零偏与反偏 EQE / 响应度</b>：反偏显著提升常提示电场增强后收集改善。</li>
+<li><b>做厚度系列</b>：若厚度增加后吸收继续增强但 EQE/响应快速下降，说明收集长度开始成为限制。</li>
+<li><b>结合瞬态测试</b>：分析渡越时间、复合寿命和陷阱拖尾。</li>
+</ol>
+<div class="key"><b>对 CQD 器件尤其重要：</b>不要先验假定“它叫 PIN，所以整个 PbS 一定耗尽”。CQD 中的残余掺杂、陷阱、电荷积累和界面势垒都可能让电场分布偏离理想模型。</div>
+</section>
+
+<section id="framework"><a class="backtop" href="#top">返回顶部</a>
+<h2>14. 最终统一物理图像</h2>
+<div class="figure"><div class="figure-title">图 7　整个对话最终收敛到的判断框架</div>
+<svg viewBox="0 0 980 430">
+<defs><marker id="garr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#596168"/></marker></defs>
+<rect x="330" y="25" width="320" height="58" rx="10" fill="#eef1f4" stroke="#596168"/><text x="395" y="61" font-size="16" font-weight="700">光主要在哪里被吸收？</text>
+<line x1="490" y1="83" x2="490" y2="120" stroke="#596168" stroke-width="3" marker-end="url(#garr)"/>
+<rect x="290" y="125" width="400" height="58" rx="10" fill="#f1f1ef" stroke="#596168"/><text x="355" y="161" font-size="16" font-weight="700">主要在 i / PbS 吸收层</text>
+<line x1="490" y1="183" x2="490" y2="220" stroke="#596168" stroke-width="3" marker-end="url(#garr)"/>
+<rect x="320" y="225" width="340" height="58" rx="10" fill="#fff7df" stroke="#a97917"/><text x="365" y="261" font-size="16" font-weight="700">吸收层是否基本耗尽？</text>
+<line x1="320" y1="254" x2="180" y2="320" stroke="#596168" stroke-width="3" marker-end="url(#garr)"/><line x1="660" y1="254" x2="800" y2="320" stroke="#596168" stroke-width="3" marker-end="url(#garr)"/>
+<text x="215" y="285" font-size="16" fill="#2f6f4e" font-weight="700">是</text><text x="735" y="285" font-size="16" fill="#b23a3a" font-weight="700">否</text>
+<rect x="55" y="325" width="310" height="78" rx="10" fill="#eaf5ee" stroke="#2f6f4e"/><text x="92" y="356" font-size="16" font-weight="700">漂移为主</text><text x="92" y="385" font-size="16">看 μEτ 或 t_tr ≪ τ</text>
+<rect x="615" y="325" width="310" height="78" rx="10" fill="#faecec" stroke="#b23a3a"/><text x="652" y="356" font-size="16" font-weight="700">弱场区：先扩散，再漂移</text><text x="652" y="385" font-size="16">看 L_diff 与弱场区厚度</text>
+</svg></div>
+<div class="key"><b>最终记忆模板：</b><br>① 光生位置由吸收决定；② 输运机制由电场与浓度梯度决定；③ 是否需要扩散长度，首先看吸收区有没有明显未耗尽/弱场部分；④ n 侧入射只是在几何上让空穴平均路径更长，并不自动意味着“只看空穴寿命”。</div>
+</section>
+
+<section id="appendixA" class="appendix"><a class="backtop" href="#top">返回顶部</a>
+<h2>附录 A. 公式总表</h2>
+<table>
+<tr><th>公式</th><th>物理意义</th></tr>
+<tr><td>\(I(x)=I_0(1-R)e^{-\alpha x}\)</td><td>光强沿吸收层指数衰减（Beer–Lambert attenuation）</td></tr>
+<tr><td>\(G(x)=\alpha\Phi_0(1-R)e^{-\alpha x}\)</td><td>光生率（photogeneration rate）</td></tr>
+<tr><td>\(N_iW_i=N_pW_p\)</td><td>简化耗尽近似下两侧空间电荷守恒（charge neutrality in depletion approximation）</td></tr>
+<tr><td>\(J_n=qn\mu_nE+qD_n\,dn/dx\)</td><td>电子漂移 + 扩散电流（drift + diffusion current）</td></tr>
+<tr><td>\(J_p=qp\mu_pE-qD_p\,dp/dx\)</td><td>空穴漂移 + 扩散电流（drift + diffusion current）</td></tr>
+<tr><td>\(D=(k_{\mathrm B}T/q)\mu\)</td><td>爱因斯坦关系（Einstein relation）</td></tr>
+<tr><td>\(L_{\mathrm{diff}}=\sqrt{D\tau}=\sqrt{k_{\mathrm B}T\mu\tau/q}\)</td><td>扩散长度（diffusion length）</td></tr>
+<tr><td>\(L_{\mathrm{drift}}=\mu E\tau\)</td><td>漂移长度（drift length）</td></tr>
+<tr><td>\(t_{\mathrm{tr}}=l/(\mu E)\)</td><td>渡越时间（transit time）</td></tr>
+<tr><td>\(\mathcal A=1-e^{-\alpha d_{\mathrm{abs}}}\)</td><td>单程近似吸收率（absorptance）</td></tr>
+<tr><td>\(W_{\mathrm{dep}}=\varepsilon_s A_{\mathrm{dev}}/C_j\)</td><td>理想平板 C–V 耗尽宽度估算（depletion-width estimate）</td></tr>
+</table>
+</section>
+
+<section id="appendixB" class="appendix"><a class="backtop" href="#top">返回顶部</a>
+<h2>附录 B. SCLC / TOF / TPV / C–V 在这条主线中的位置</h2>
+<h3>SCLC：空间电荷限制电流（Space-Charge-Limited Current）</h3>
+<div class="eq">\[J=\frac{9}{8}\varepsilon_0\varepsilon_r\mu\frac{V_{\rm eff}^2}{d^3}\]</div>
+<p>结果强烈依赖膜厚、欧姆接触、单载流子注入、介电常数、拟合区间、串联电阻和陷阱。尤其 \(\mu\propto d^3\)，膜厚误差会被放大。SCLC 不是“完全不准”，更适合在相同结构和条件下做相对比较。</p>
+
+<h3>TOF：飞行时间法（Time of Flight）</h3>
+<div class="eq">\[\mu=\frac{d^2}{V_{\rm eff}t_{\mathrm{tr}}}\]</div>
+<p>需要能可靠识别渡越时间。CQD 中色散输运与陷阱可能使瞬态拐点不清楚，所以不能笼统说“一定比 SCLC 更准”。</p>
+
+<h3>TPV：瞬态光电压（Transient Photovoltage）</h3>
+<div class="eq">\[\Delta V(t)=\Delta V_0e^{-t/\tau_{\rm TPV}}\]</div>
+<p>TPV 通常在开路条件下测量，得到的是器件在特定工作点下的有效小信号复合时间，不一定等于纯材料某一种少子的本征寿命；RC、界面复合与陷阱释放都可能混入。</p>
+
+<h3>C–V：电容–电压测试（Capacitance–Voltage）</h3>
+<p>对“PbS 是否基本完全耗尽”这个主问题，C–V 比单独讨论扩散长度更直接。CQD 器件还要同时关注频率色散与界面态，否则理想结模型会失真。</p>
+
+<h3>UPS 为什么不该和 SCLC 简单归为“都不准”</h3>
+<p>UPS 测的是表面/近表面的功函数与价带信息，SCLC 测的是特定器件条件下的注入与输运；二者物理量完全不同，误差来源也不同。对话中将二者笼统类比为“波动大、不准”并不严谨。</p>
+</section>
+
+<section id="appendixC" class="appendix"><a class="backtop" href="#top">返回顶部</a>
+<h2>附录 C. 开路电压（open-circuit voltage）</h2>
+<p>开路表示外电路净电流为零：</p><div class="eq">\[J=0\]</div>
+<p>光照下器件两端建立的光生电势差称为开路电压（open-circuit voltage） \(V_{\mathrm{oc}}\)。理想二极管近似中：</p>
+<div class="eq">\[V_{\mathrm{oc}}=\frac{n_{\mathrm{id}}k_{\mathrm B}T}{q}\ln\!\left(\frac{J_{\mathrm{ph}}}{J_0}+1\right)\]</div>
+<div class="symbol-line"><b>物理量：</b>\(V_{\mathrm{oc}}\)：开路电压（open-circuit voltage）；\(n_{\mathrm{id}}\)：二极管理想因子（ideality factor）；\(J_{\mathrm{ph}}\)：光生电流密度；\(J_0\)：暗态反向饱和电流密度。</div>
+<p>从能带角度看，它与电子、空穴准费米能级分裂相关：</p><div class="eq">\[qV_{\mathrm{oc}}\approx E_{Fn}-E_{Fp}\]</div>
+<p>TPV 正是在开路工作点附近施加微小光扰动，观察 \(\Delta V(t)\) 的衰减。</p>
+</section>
+
+<section id="appendixD" class="appendix"><a class="backtop" href="#top">返回顶部</a>
+<h2>附录 D. 本次对话中最重要的几个纠正点</h2>
+<table>
+<tr><th>早期表述</th><th>最终修正</th></tr>
+<tr><td>PIN/NIP 只是 p、n 顺序相反</td><td>结构上是，但性能还取决于入射方向、吸收分布、电场、输运与界面。</td></tr>
+<tr><td>n 侧入射时，空穴从 n 区进入 i 区</td><td>对 ZnO/PbS/NiOx 结构，主要光生载流子是在 PbS 吸收层内产生，不是先在 ZnO 中产生。</td></tr>
+<tr><td>耗尽区里只有漂移</td><td>漂移和扩散可以同时存在，只是强电场区通常漂移主导。</td></tr>
+<tr><td>少子不是光生载流子</td><td>“光生”是来源，“少子”是它在某个掺杂区域中的身份；光生载流子当然可以是少子。</td></tr>
+<tr><td>\(L=kT\mu\tau/e\)</td><td>标准扩散长度应为 \(L=\sqrt{k_{\mathrm B}T\mu\tau/q}\)。原式对应 \(L^2\)。</td></tr>
+<tr><td>吸收层一般比耗尽区宽，所以先扩散再漂移</td><td>经典 PIN 反而希望主要吸收层在工作偏压下基本全部耗尽；“先扩散再漂移”是未完全耗尽时的补充情形。</td></tr>
+<tr><td>只需要看空穴寿命</td><td>应同时看 \(\mu_p,\tau_p,E,l_p\)，本质是比较渡越时间与寿命，或漂移长度与输运距离。</td></tr>
+<tr><td>进入 p/n 区后就不用管了</td><td>仍需输运到电极，只是进入多数载流子区后，通常不再由“少子扩散长度”控制，而更关注电导率、迁移率、接触和串联电阻。</td></tr>
+</table>
+</section>
+
+<p class="small">说明：本页按本次对话的学习逻辑整理，重点是建立统一物理图像；对实际 PbS CQD 器件，最终仍需用膜厚、C–V、频率色散、偏压依赖响应与瞬态数据验证具体电场和收集机制。</p>
+</main>
+<script>
+const links=[...document.querySelectorAll('.toc a')];
+const sections=[...document.querySelectorAll('main section')];
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));}})},{rootMargin:'-20% 0px -70% 0px',threshold:0});
+sections.forEach(s=>obs.observe(s));
+</script>
+</body></html>
