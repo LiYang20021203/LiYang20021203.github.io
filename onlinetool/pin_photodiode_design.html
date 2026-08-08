@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PIN/NIP 光电器件：耗尽、漂移、扩散与载流子收集</title>
+<title>PIN光电器件：耗尽、漂移、扩散与载流子收集</title>
 <script>
 window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},chtml:{scale:1}};
 </script>
@@ -21,7 +21,7 @@ section{padding:28px 32px;margin:18px 0}h2{font-size:25px;margin:0 0 14px}h3{fon
 <body>
 <aside class="sidebar">
 <div class="brand">PIN / NIP 光电器件物理</div>
-<div class="subbrand">本次对话完整知识脉络 · 主线 + 附录</div>
+<div class="subbrand">完整知识脉络 · 主线 + 附录</div>
 <div class="toc-title">目录</div>
 <nav class="toc">
 <a href="#overview">0. 一页读懂主线</a>
@@ -50,7 +50,6 @@ section{padding:28px 32px;margin:18px 0}h2{font-size:25px;margin:0 0 14px}h3{fon
 <div class="hero">
 <div class="kicker">SEMICONDUCTOR DEVICE PHYSICS · STUDY NOTE</div>
 <h1>PIN / NIP 光电器件：从吸收、耗尽到漂移与扩散</h1>
-<p>从“PIN 与 NIP 有什么区别”一直梳理到“实际 PIN 中吸收层是否完全耗尽、什么时候看扩散长度、为什么 n 侧入射时空穴更关键”。主线只保留决定器件物理图像的内容，SCLC、TPV、开路电压等放到附录。</p>
 <div class="summary-grid">
 <div class="summary-card"><b>核心结论 1</b>成熟 PIN 通常希望主要吸收层在工作偏压下基本完全耗尽，光生载流子以漂移收集为主。</div>
 <div class="summary-card"><b>核心结论 2</b>扩散长度主要判断弱场/准中性吸收区中的少数载流子，能否在复合前到达耗尽区。</div>
@@ -65,7 +64,6 @@ section{padding:28px 32px;margin:18px 0}h2{font-size:25px;margin:0 0 14px}h3{fon
 </section>
 
 <section id="notation"><a class="backtop" href="#top">返回顶部</a>
-<div class="formula-card"><b>本页数学排版规则：</b>正文中的行内物理量与独立公式统一采用 <b>17 px</b> 的数学基准字号；上下标按数学排版规则自动缩小。图中的文字统一采用 16 px，并通过字重、颜色和位置区分层级。公式的整体字号不再随分式、根号或公式所在表格而变化。</div>
 
 <h2>0.5 阅读前先统一：重要物理量与英文术语</h2>
 <p>为避免同一个符号在不同章节中承担不同含义，本页采用以下统一记号。正文公式均按此表解释；带下标的量，例如 \(\mu_p\)、\(\tau_p\)，下标只表示对应载流子或区域。</p>
@@ -106,7 +104,7 @@ section{padding:28px 32px;margin:18px 0}h2{font-size:25px;margin:0 0 14px}h3{fon
 
 <section id="stack"><a class="backtop" href="#top">返回顶部</a>
 <h2>2. ZnO / PbS CQDs / NiOx 的相对位置与功能</h2>
-<p>本次对话最终采用的最简异质 PIN 物理模型：</p>
+<p>采用的最简异质 PIN 物理模型：</p>
 <div class="figure"><div class="figure-title">图 1　典型异质 PIN 功能映射</div>
 <svg viewBox="0 0 980 240">
 <defs><marker id="arr1" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#d98500"/></marker></defs>
@@ -240,7 +238,6 @@ h^+:\quad\text{弱场区扩散}\rightarrow\text{耗尽区漂移}\rightarrow p\te
 <div class="symbol-line"><b>爱因斯坦关系（Einstein relation）：</b>\(D\) 为扩散系数，\(\mu\) 为迁移率，\(k_{\mathrm B}\) 为玻尔兹曼常数，\(T\) 为绝对温度，\(q\) 为元电荷大小。</div>
 <div class="eq">\[\boxed{L_{\mathrm{diff}}=\sqrt{\frac{k_{\mathrm B}T}{q}\mu\tau}}\]</div>
 <div class="symbol-line"><b>物理量：</b>\(L_{\mathrm{diff}}\)：扩散长度（diffusion length）；\(\tau\)：对应载流子的有效寿命。若专指空穴，传统上常写 \(L_p\)。</div>
-<div class="warn"><b>本次对话中的公式纠正：</b>你师兄给的 \(L=kT\mu\tau/e\) 从量纲上是长度平方，对应 \(L^2\)。标准扩散长度必须带平方根。</div>
 <table><tr><th>量</th><th>公式</th><th>回答的问题</th></tr><tr><td>扩散长度（diffusion length）</td><td>\(L_{\mathrm{diff}}=\sqrt{D\tau}\)</td><td>弱场/无场中，复合前能靠扩散传播多远</td></tr><tr><td>漂移长度</td><td>\(L_{\mathrm{drift}}=\mu E\tau\)</td><td>有电场时，复合前能被电场带多远</td></tr><tr><td>渡越时间</td><td>\(t_{\mathrm{tr}}=l/(\mu E)\)</td><td>走完指定距离 \(l\) 需要多久</td></tr></table>
 </section>
 
@@ -289,7 +286,7 @@ h^+:\quad\text{弱场区扩散}\rightarrow\text{耗尽区漂移}\rightarrow p\te
 
 <section id="framework"><a class="backtop" href="#top">返回顶部</a>
 <h2>14. 最终统一物理图像</h2>
-<div class="figure"><div class="figure-title">图 7　整个对话最终收敛到的判断框架</div>
+<div class="figure"><div class="figure-title">图 7　最终收敛到的判断框架</div>
 <svg viewBox="0 0 980 430">
 <defs><marker id="garr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#596168"/></marker></defs>
 <rect x="330" y="25" width="320" height="58" rx="10" fill="#eef1f4" stroke="#596168"/><text x="395" y="61" font-size="16" font-weight="700">光主要在哪里被吸收？</text>
@@ -341,7 +338,7 @@ h^+:\quad\text{弱场区扩散}\rightarrow\text{耗尽区漂移}\rightarrow p\te
 <p>对“PbS 是否基本完全耗尽”这个主问题，C–V 比单独讨论扩散长度更直接。CQD 器件还要同时关注频率色散与界面态，否则理想结模型会失真。</p>
 
 <h3>UPS 为什么不该和 SCLC 简单归为“都不准”</h3>
-<p>UPS 测的是表面/近表面的功函数与价带信息，SCLC 测的是特定器件条件下的注入与输运；二者物理量完全不同，误差来源也不同。对话中将二者笼统类比为“波动大、不准”并不严谨。</p>
+<p>UPS 测的是表面/近表面的功函数与价带信息，SCLC 测的是特定器件条件下的注入与输运；二者物理量完全不同，误差来源也不同。将二者笼统类比为“波动大、不准”并不严谨。</p>
 </section>
 
 <section id="appendixC" class="appendix"><a class="backtop" href="#top">返回顶部</a>
@@ -355,7 +352,7 @@ h^+:\quad\text{弱场区扩散}\rightarrow\text{耗尽区漂移}\rightarrow p\te
 </section>
 
 <section id="appendixD" class="appendix"><a class="backtop" href="#top">返回顶部</a>
-<h2>附录 D. 本次对话中最重要的几个纠正点</h2>
+<h2>附录 D. 几个纠正点</h2>
 <table>
 <tr><th>早期表述</th><th>最终修正</th></tr>
 <tr><td>PIN/NIP 只是 p、n 顺序相反</td><td>结构上是，但性能还取决于入射方向、吸收分布、电场、输运与界面。</td></tr>
@@ -369,7 +366,7 @@ h^+:\quad\text{弱场区扩散}\rightarrow\text{耗尽区漂移}\rightarrow p\te
 </table>
 </section>
 
-<p class="small">说明：本页按本次对话的学习逻辑整理，重点是建立统一物理图像；对实际 PbS CQD 器件，最终仍需用膜厚、C–V、频率色散、偏压依赖响应与瞬态数据验证具体电场和收集机制。</p>
+<p class="small">说明：本次学习逻辑整理，重点是建立统一物理图像；对实际 PbS CQD 器件，最终仍需用膜厚、C–V、频率色散、偏压依赖响应与瞬态数据验证具体电场和收集机制。</p>
 </main>
 <script>
 const links=[...document.querySelectorAll('.toc a')];
