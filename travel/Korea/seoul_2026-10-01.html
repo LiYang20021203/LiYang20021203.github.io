@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="light" name="color-scheme"/>
+<title>首尔 · 2026年10月1日机场中转半日现场攻略</title>
+<meta content="2026-09-07-seoul-halfday-v3-arex-hongdae-verified" name="guide-revision"/>
+<style>
+:root{
+  --charcoal:#443E46; --cream:#F6DEB8; --lavender:#908CA4;
+  --blue:#57659E; --rose:#E8752F; --coral:#D83A2E;
+  --paper:#fbf0d7; --ink:#282833; --muted:#666473; --white:#fffaf0;
+  --line:#c8bfd0; --softblue:#e9e8f2; --deep:#242531;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:74px}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.68 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR","PingFang SC","Microsoft YaHei",sans-serif}
+a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+button,input{font:inherit}
+.topbar{height:58px;background:var(--charcoal);color:var(--cream);display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:30;border-bottom:3px solid var(--coral)}
+.topbar a{color:var(--cream)} .wordmark{font-size:12px;font-weight:800;letter-spacing:.18em}
+.topbar button{border:1px solid #b9afbb;color:var(--cream);background:none;padding:6px 12px;border-radius:2px}
+.layout{max-width:1380px;margin:auto;display:grid;grid-template-columns:200px minmax(0,1fr)}
+.sidebar{position:sticky;top:58px;height:calc(100vh - 58px);overflow:auto;padding:24px 14px;background:#ede7dc;border-right:1px solid #cfc3b7}
+.sidebar .eyebrow{display:block;margin:0 10px 12px;color:var(--blue)}
+.sidebar nav{display:grid;gap:4px}.sidebar nav a{padding:9px 10px;border-left:3px solid transparent;color:var(--ink);font-size:12px}
+.sidebar nav a:hover,.sidebar nav a.active{background:var(--blue);color:#fff;border-left-color:var(--coral);text-decoration:none}
+.sidebar input{width:100%;margin-top:17px;padding:8px 9px;border:1px solid #beb5c4;background:var(--white)}
+.search-results{display:grid;gap:4px;margin-top:6px}.search-results a{background:var(--white);padding:6px 8px;font-size:11px}
+main{min-width:0;padding:28px 34px 65px}
+h1,h2,h3,h4,p{margin:0} h1,h2,.destination h3{font-family:"Noto Serif CJK SC","Songti SC","STSong","Noto Serif KR",serif}
+.eyebrow{font-size:10px;font-weight:850;letter-spacing:.14em;color:var(--coral)}
+.hero{position:relative;min-height:250px;overflow:hidden;background:var(--blue);color:#fff;padding:28px 30px;border:1px solid #49568b}
+.hero-copy{position:relative;z-index:3;max-width:660px}.hero h1{font-size:38px;line-height:1.2;color:var(--cream);margin:9px 0 9px}.hero p{font-size:15px;color:#fff5e5}
+.hero .date{display:inline-block;margin-top:18px;padding:8px 12px;background:var(--coral);color:#222;font-weight:850}
+.seoul-art{position:absolute;inset:0;pointer-events:none;opacity:.98}
+.seoul-art svg{width:100%;height:100%;display:block}
+.palette{display:flex;gap:0;height:8px;margin:0 0 22px}.palette i{flex:1}.palette i:nth-child(1){background:#443E46}.palette i:nth-child(2){background:#F6DEB8}.palette i:nth-child(3){background:#908CA4}.palette i:nth-child(4){background:#57659E}.palette i:nth-child(5){background:#E8752F}.palette i:nth-child(6){background:#D83A2E}
+.mobile-nav{display:none}
+.notice-strip{margin:18px 0 0;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #bfb7c5;background:var(--white)}
+.notice-strip>div{padding:12px 13px;border-right:1px solid #d6ccd9}.notice-strip>div:last-child{border-right:0}.notice-strip b{display:block;color:var(--coral);font-size:12px}.notice-strip span{font-size:12px;color:var(--muted)}
+.route-atlas{margin:28px 0 0;border-top:4px solid var(--charcoal);padding-top:18px;scroll-margin-top:72px}
+.atlas-head{display:flex;justify-content:space-between;gap:22px;align-items:flex-start;margin-bottom:13px}.atlas-head h2{font-size:28px;margin:4px 0}.atlas-head p{font-size:12px;color:var(--muted)}
+.north-badge{background:var(--softblue);border:1px solid var(--lavender);padding:8px 12px;min-width:135px;color:var(--blue);font-weight:850}
+.atlas-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;align-items:stretch}
+.map-card{background:var(--white);border:1px solid #cec2cc;padding:15px;min-width:0;display:flex;flex-direction:column}
+.map-card-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;min-height:55px}.map-card-head h3{font-size:18px}.map-kicker{font-size:10px;color:var(--coral);font-weight:850;letter-spacing:.09em}.scale-note{font-size:10px;color:var(--muted);text-align:right}
+.route-svg{width:100%;height:330px;display:block;border:1px solid #d4c9d1;background:#f9efd9}
+.route-svg text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR","PingFang SC",sans-serif}
+.route-main{fill:none;stroke:var(--blue);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}.route-taxi{fill:none;stroke:var(--coral);stroke-width:8;stroke-linecap:round;stroke-dasharray:11 8}.route-walk{fill:none;stroke:var(--rose);stroke-width:8;stroke-linecap:round}
+.map-dot{fill:#fff8e8;stroke:var(--charcoal);stroke-width:3}.map-dot.major{fill:var(--coral);stroke:#fff8e8}.map-label{font-size:14px;fill:#30303a;font-weight:750}.map-sub{font-size:11px;fill:#676474}
+.map-key{margin-top:auto;padding-top:9px;display:flex;flex-wrap:wrap;gap:7px 14px;font-size:11px;color:var(--muted)}.keyline{display:inline-block;width:27px;height:4px;vertical-align:middle;margin-right:5px;background:var(--blue)}.keyline.taxi{background:var(--coral)}.keyline.walk{background:var(--rose)}
+.detail-tabs{display:flex;gap:6px;margin:7px 0 10px}.detail-tabs button{border:1px solid var(--blue);background:transparent;color:var(--blue);padding:6px 9px;font-size:11px}.detail-tabs button.active{background:var(--blue);color:#fff}
+.overview{margin:25px 0}.overview-heading{display:flex;justify-content:space-between;align-items:baseline;gap:15px;margin-bottom:10px}.overview-heading h2{font-size:23px}.overview-heading span{font-size:11px;color:var(--muted)}
+.dayline{border-top:3px solid var(--blue);border-bottom:1px solid #cdbfc6;background:var(--white)}
+.day-row{display:grid;grid-template-columns:110px 170px 1fr 20px;gap:12px;align-items:center;padding:11px 15px;border-bottom:1px solid #e4d8db;color:var(--ink)}.day-row:last-child{border:0}.day-row:hover{background:#f2e7d3;text-decoration:none}
+.day-row time{color:var(--coral);font-size:13px;font-weight:850;font-variant-numeric:tabular-nums}.day-row strong{font-size:16px}.day-row span{font-size:12px;color:var(--muted)}.day-row i{font-style:normal;color:var(--blue)}
+.day-row.air{background:#ebe9f2}.day-row.shop{background:#f3e4cc}.day-row.deadline{background:#f3dfc5}
+.guardrails{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:11px}.guardrails>div{border-left:4px solid var(--coral);background:#f3e9dc;padding:10px 12px}.guardrails b{display:block;font-size:12px;color:var(--charcoal)}.guardrails p{font-size:11px;color:var(--muted);margin-top:3px}
+.chapter{margin-top:38px;scroll-margin-top:70px}.section-title{display:flex;gap:13px;align-items:center;margin-bottom:13px}.section-no{font:32px/1 Georgia,serif;color:var(--coral);min-width:40px}.section-title h2{font-size:23px}.section-title p{font-size:11px;color:var(--muted);margin-top:4px}
+.destination{background:var(--white);border:1px solid #d4c4c7;border-left:5px solid var(--coral);padding:19px 22px;margin-bottom:13px;box-shadow:0 3px 0 #dfd4ca}
+.dest-header{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.destination h3{font-size:26px}.visit-time{color:var(--coral);font-size:12px;font-weight:800;text-align:right}
+.purpose{font-size:20px;font-weight:760;line-height:1.45;margin:8px 0;color:var(--charcoal)}
+.languages{display:flex;gap:4px 14px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin:4px 0 8px}.languages .ko{font-weight:750;color:var(--blue)}
+.highlights{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}.highlights span{font-size:11px;border:1px solid #d8c9ce;background:#f5e9d5;padding:3px 7px}
+.description{font-size:12px;color:#5d5967}.address{font-size:11px;color:#73707d;margin-top:9px}.address b{color:var(--charcoal)}
+.maplinks{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.maplink{display:inline-block;padding:5px 8px;border:1px solid #aaa0b2;font-size:10.5px;font-weight:700}.maplink.naver{background:#e8f1e8;color:#215e37}.maplink.kakao{background:#fff4b7;color:#584c00}.maplink.google{background:#edf0f6;color:#40507a}
+.copybtn{border:1px solid #b6a8b5;background:transparent;color:var(--charcoal);padding:4px 7px;font-size:10px;margin-left:5px;cursor:pointer}
+.leave{margin-top:12px;padding:9px 11px;background:#f1dfc5;font-size:12px}.leave b{color:var(--coral)}
+.travel{background:#e8e8f1;border:1px solid #c4bfd0;border-left:4px solid var(--blue);padding:0 16px;margin:13px 0}.travel-head{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #c8c2d1}.travel-head b{font-size:14px}.travel-head span{font-size:11px;color:var(--muted)}
+.stops{list-style:none;counter-reset:step;padding:0;margin:0}.stops li{counter-increment:step;position:relative;padding:12px 0 12px 31px;border-bottom:1px solid #cbc5d4}.stops li:last-child{border:0}.stops li:before{content:counter(step);position:absolute;left:0;top:13px;width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font:11px Georgia,serif}
+.place-title{display:flex;gap:7px;align-items:baseline;flex-wrap:wrap}.place-title h4{font-size:14px}.kind{font-size:9.5px;color:#5f668d;border-bottom:1px solid #9ca5c8}.instruction{font-size:12.5px}.instruction b{color:var(--charcoal)}.minor{font-size:11px;color:var(--muted);margin-top:3px}
+.mode-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.mode-card{background:var(--white);border:1px solid #d0c3ca;padding:13px 15px}.mode-card.reco{border-top:4px solid var(--coral)}.mode-card.save{border-top:4px solid var(--blue)}.mode-card h3{font-size:15px;margin-bottom:5px}.mode-card p{font-size:12px;color:var(--muted);margin:4px 0}.mode-card strong{color:var(--charcoal)}
+.decision{background:#f0dec4;border-left:4px solid var(--coral);padding:11px 13px;margin:12px 0}.decision b{color:var(--coral)}.decision p{font-size:12px}
+.shop-grid,.app-grid,.source-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.shop-card,.app-card{background:var(--white);border:1px solid #d1c4ca;padding:14px 16px}.shop-card h3,.app-card h3{font-size:16px}.shop-card .open,.app-card .role{font-size:10px;font-weight:850;color:var(--coral);letter-spacing:.06em}.shop-card p,.app-card p{font-size:12px;color:var(--muted);margin-top:6px}.shop-card .priority{margin-top:7px;font-size:11px;color:var(--charcoal);font-weight:700}
+.deadline-box{background:var(--charcoal);color:var(--cream);padding:15px 17px;margin:13px 0}.deadline-box strong{color:#FF9A3D;font-size:17px}.deadline-box p{font-size:12px;margin-top:5px;color:#f4ead3}
+details{border:1px solid #cfc1c8;background:#f3e8dc;padding:0 15px;margin-top:11px}summary{padding:11px 0;font-weight:760;cursor:pointer;font-size:12px}details>div{padding:0 0 13px;font-size:11px;color:var(--muted)}details p+p{margin-top:7px}
+.practical{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.practical article{background:#eee8f1;border-top:3px solid var(--rose);padding:13px 15px}.practical h3{font-size:15px}.practical p{font-size:11.5px;color:var(--muted);margin-top:6px}.practical b{color:var(--charcoal)}
+.source-grid a{font-size:11px;background:var(--white);border:1px solid #d2c5cb;padding:8px 10px}
+.footer{margin-top:34px;padding-top:17px;border-top:1px solid #cfc2c1;font-size:10.5px;color:var(--muted);display:flex;justify-content:space-between;gap:20px}
+.badge{display:inline-block;font-size:9px;font-weight:850;padding:2px 5px;background:var(--coral);color:#222;margin-left:5px}
+@media(max-width:1050px){.layout{grid-template-columns:175px minmax(0,1fr)}main{padding:24px}.atlas-grid{grid-template-columns:1fr}.route-svg{height:auto}.notice-strip{grid-template-columns:1fr 1fr}.notice-strip>div:nth-child(2){border-right:0}.notice-strip>div:nth-child(-n+2){border-bottom:1px solid #d6ccd9}}
+@media(max-width:820px){.layout{display:block}.sidebar{display:none}.mobile-nav{display:flex;position:sticky;top:58px;z-index:20;gap:5px;overflow:auto;padding:7px 10px;background:#ede7dc;border-bottom:1px solid #c8bcc5}.mobile-nav a{flex:0 0 auto;font-size:10.5px;padding:5px 8px;background:var(--white);border:1px solid #c7b9c3}.hero{min-height:235px;padding:22px}.hero h1{font-size:31px}.day-row{grid-template-columns:100px 145px 1fr 16px}.mode-pair,.shop-grid,.app-grid,.practical{grid-template-columns:1fr}}
+@media(max-width:900px){.guardrails{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){html{scroll-padding-top:102px}.topbar{height:48px;padding:0 13px}.mobile-nav{top:48px}.wordmark{font-size:10px}.topbar button{font-size:10px}.layout main{padding:14px 11px 38px}.hero{min-height:225px;padding:18px}.hero h1{font-size:27px;max-width:78%}.hero p{font-size:12px;max-width:80%}.hero .date{font-size:11px}.notice-strip{grid-template-columns:1fr}.notice-strip>div{border-right:0!important;border-bottom:1px solid #d6ccd9}.notice-strip>div:last-child{border-bottom:0}.atlas-head{display:block}.north-badge{margin-top:8px;display:inline-block}.map-card{padding:9px}.map-card-head{min-height:auto;margin-bottom:7px}.route-svg{height:auto}.map-label{font-size:16px}.map-sub{font-size:12px}.overview-heading{display:block}.overview-heading span{display:block;margin-top:3px}.day-row{grid-template-columns:88px 1fr 14px;gap:2px 7px;padding:9px 10px}.day-row time{grid-row:1/3}.day-row strong{grid-column:2}.day-row span{grid-column:2}.day-row i{grid-column:3;grid-row:1/3}.guardrails{grid-template-columns:1fr}.section-title h2{font-size:20px}.section-no{font-size:27px;min-width:33px}.destination{padding:14px}.dest-header{display:block}.destination h3{font-size:23px}.visit-time{text-align:left;margin-top:3px}.purpose{font-size:18px}.travel{padding:0 11px}.travel-head{display:block}.travel-head span{display:block;margin-top:3px}.maplinks{gap:5px}.maplink{padding:5px 6px}.footer{display:block}}
+@media print{.topbar,.sidebar,.mobile-nav,.copybtn{display:none!important}.layout{display:block}main{padding:0}.hero{min-height:170px}.chapter{margin-top:24px}.destination,.mode-card,.shop-card,.app-card{break-inside:avoid}.map-card{break-inside:avoid}.route-svg{height:280px}.footer{margin-top:16px}}
+</style>
+<style id="seoul-v2-overrides">
+.hero-copy{background:rgba(68,62,70,.94);padding:22px 24px 20px;border-left:5px solid var(--coral);box-shadow:0 8px 30px rgba(28,29,37,.24);max-width:720px}
+.hero h1{color:var(--cream);text-shadow:none}.hero p{color:#fff8e9}.hero .eyebrow{color:#FFB15A!important}.hero .date{background:var(--rose);color:#221f22}
+.palette i:nth-child(5){background:#E8752F}.palette i:nth-child(6){background:#D83A2E}
+.route-atlas .atlas-grid{grid-template-columns:1fr!important;max-width:980px}
+.map-card{border-top:3px solid var(--blue)}
+.day-row.shop{background:#f3e4cc}.day-row.deadline{background:#f3dfc5}
+.decision,.deadline-box+.decision{background:#f0dec4}
+@media(max-width:600px){.hero-copy{max-width:88%;padding:16px 16px 15px}.hero h1{max-width:none}.hero p{max-width:none}}
+</style>
+</head>
+<body id="top">
+<header class="topbar"><a class="wordmark" href="#top">SEOUL / 서울 · HALF-DAY FIELD GUIDE</a><button id="print">打印 / PDF</button></header>
+<nav aria-label="快速目录" class="mobile-nav"><a href="#map">地图</a><a href="#overview">概览</a><a href="#airport">机场→西村</a><a href="#seochon">西村</a><a href="#hongdae">弘大</a><a href="#return">回机场</a><a href="#fallback">备选</a><a href="#apps">APP</a></nav>
+<div class="layout">
+<aside class="sidebar">
+<span class="eyebrow">10.01 · 首尔现场路线</span>
+<nav><a href="#map">路线地图</a><a href="#overview">全天概览</a><a href="#airport">01 仁川 T2 → 西村</a><a href="#seochon">02 西村清晨路线</a><a href="#transfer">03 西村 → 弘大</a><a href="#hongdae">04 弘大购物</a><a href="#return">05 AREX 回 T2</a><a href="#fallback">晚到／堵车备选</a><a href="#apps">APP 与地图</a><a href="#practical">费用与随身准备</a><a href="#sources">官方来源</a></nav>
+<input aria-label="搜索地点" id="search" placeholder="查地点 / 站名 / 店铺" type="search"/>
+<div aria-live="polite" class="search-results" id="search-results"></div>
+</aside>
+<main>
+<section class="hero">
+<div aria-hidden="true" class="seoul-art">
+<svg preserveaspectratio="xMidYMid slice" viewbox="0 0 1200 300">
+<rect fill="#57659E" height="300" width="1200"></rect>
+<path d="M0 0H520L410 50L310 62L190 123L0 173Z" fill="#F6DEB8" opacity=".98"></path>
+<path d="M0 300V219L92 195V154H155V208H210V111H280V300Z" fill="#141722"></path>
+<path d="M260 300V180H340V146H410V300Z" fill="#443E46"></path>
+<path d="M400 300V205H470V128H560V300Z" fill="#171923"></path>
+<path d="M545 300V176H650V100H720V300Z" fill="#F6DEB8"></path>
+<path d="M690 300V183H760V145H823V300Z" fill="#151722"></path>
+<path d="M870 300V187H962V142H1040V300Z" fill="#F6DEB8"></path>
+<path d="M955 300V231H1040V300Z" fill="#D83A2E"></path>
+<g transform="translate(1035,33)">
+<rect fill="#111522" height="142" width="8" x="47" y="74"></rect>
+<rect fill="#111522" height="61" width="12" x="45" y="22"></rect>
+<rect fill="#D83A2E" height="30" width="8" x="47" y="0"></rect>
+<ellipse cx="51" cy="91" fill="#F6DEB8" rx="58" ry="18" stroke="#111522" stroke-width="5"></ellipse>
+<ellipse cx="51" cy="94" fill="#111522" rx="49" ry="13"></ellipse>
+</g>
+<g opacity=".95"><rect fill="#E8752F" height="78" width="12" x="488" y="150"></rect><rect fill="#D83A2E" height="78" width="8" x="508" y="150"></rect><rect fill="#E8752F" height="78" width="6" x="531" y="150"></rect></g>
+<text fill="#F6DEB8" font-size="20" font-weight="800" letter-spacing="5" x="60" y="267">서울 · SEOUL</text>
+<text fill="#443E46" font-size="18" font-weight="800" x="797" y="272">서촌 → 홍대 → 공항</text>
+</svg>
+</div>
+<div class="hero-copy">
+<span class="eyebrow" style="color:#FFB15A">INCHEON T2 · SEOCHON · HONGDAE</span>
+<h1>首尔中转的半天</h1>
+<p>西村清晨街巷 → 通仁市场 → 通义洞 → 弘大购物 → AREX 直回仁川 T2</p>
+<span class="date">2026.10.01 · 周四 · KST</span>
+</div>
+</section>
+<div aria-label="页面配色取自用户上传参考图" class="palette"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="notice-strip">
+<div><b>04:50 落地 T2</b><span>已有有效韩国签证；托运行李按既定直挂安排，不取大箱。</span></div>
+<div><b>13:20 到 T2 三层出发大厅</b><span>这是“到出发大厅”的硬截止，不是 AREX 列车到站时间。</span></div>
+<div><b>两次短途 Taxi</b><span>主用 DiDi 叫车；普通出租车合计约 ₩21,000–27,000，堵车时切地铁。</span></div>
+<div><b>地图原则</b><span>NAVER Map 主用；KakaoMap 备用；Google 只作辅助定位。</span></div>
+</div>
+<section class="route-atlas" id="map">
+<div class="atlas-head">
+<div><span class="eyebrow">先看这里 · 当天路线总图</span><h2>西村 / 弘大现场街区地图</h2><p>只保留现场步行最有用的两张街区图；机场与市区之间的交通按正文站点执行。</p></div>
+<div class="north-badge">↑ 北 N · 西 W ← → 东 E</div>
+</div>
+<div class="atlas-grid">
+
+<article class="map-card">
+<div class="map-card-head"><div><span class="map-kicker">街区放大</span><h3>西村 / 弘大步行路线</h3></div><span class="scale-note">切换查看两个街区</span></div>
+<div class="detail-tabs"><button class="detail-tab active" data-map="seochon-map">西村 서촌</button><button class="detail-tab" data-map="hongdae-map">弘大 홍대</button></div>
+<svg aria-label="西村清晨步行示意图：Pirundae-ro 45、Nuha-dong、通仁市场、Jahamun-ro 10-gil、通义洞、景福宫站" class="route-svg detail-map" id="seochon-map" role="img" viewbox="0 0 900 560">
+<defs><marker id="arrOrangeV2" markerheight="8" markerwidth="8" orient="auto" refx="7" refy="4"><path d="M0,0 L8,4 L0,8 z" fill="#E8752F"></path></marker></defs>
+<rect fill="#f9efd9" height="560" rx="20" width="900"></rect>
+<path d="M0 0H245L220 560H0Z" fill="#dedce8"></path>
+<text fill="#57659E" font-size="20" font-weight="800" x="46" y="70">仁王山方向 / 인왕산</text>
+<path d="M255 118L325 170L430 235L540 300L655 355L735 425L790 472" fill="none" marker-end="url(#arrOrangeV2)" stroke="#E8752F" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"></path>
+<circle class="map-dot major" cx="255" cy="118" r="12"></circle><text class="map-label" x="280" y="112">필운대로 45</text><text class="map-sub" x="280" y="133">45 Pirundae-ro · Taxi下车</text>
+<circle class="map-dot" cx="325" cy="170" r="8"></circle><text class="map-label" x="347" y="167">Nuha-dong 小巷</text><text class="map-sub" x="347" y="187">누하동 · 低层居民区</text>
+<circle class="map-dot major" cx="430" cy="235" r="11"></circle><text class="map-label" x="454" y="232">通仁市场</text><text class="map-sub" x="454" y="252">통인시장 · 西口→东向穿行</text>
+<circle class="map-dot" cx="540" cy="300" r="9"></circle><text class="map-label" x="564" y="297">Jahamun-ro 10-gil</text><text class="map-sub" x="564" y="317">자하문로10길</text>
+<circle class="map-dot major" cx="655" cy="355" r="10"></circle><text class="map-label" x="680" y="351">通义洞街巷区域</text><text class="map-sub" x="680" y="371">통의동 골목 일대 · 非单一景点</text>
+<circle class="map-dot" cx="735" cy="425" r="8"></circle><text class="map-label" x="575" y="449">道路锚点：자하문로6길</text><text class="map-sub" x="575" y="468">Jahamun-ro 6-gil</text><text class="map-label" x="575" y="493">道路锚点：효자로7길</text><text class="map-sub" x="575" y="512">Hyoja-ro 7-gil</text>
+<circle class="map-dot major" cx="790" cy="472" r="11"></circle><text class="map-label" x="704" y="510">景福宫站</text><text class="map-sub" x="704" y="530">경복궁역 · 09:10–09:20</text>
+<text class="map-sub" x="45" y="520">方向：西村西侧居民区 → 市场 → 通义洞 → 景福宫站。</text>
+</svg>
+<svg aria-label="弘大购物单向步行示意图：New Era、R3与街巷、thisisneverthat、MUSINSA或Kakao Friends、弘大入口站" class="route-svg detail-map" hidden="" id="hongdae-map" role="img" viewbox="0 0 900 560">
+<defs><marker id="arrRose2" markerheight="8" markerwidth="8" orient="auto" refx="7" refy="4"><path d="M0,0 L8,4 L0,8 z" fill="#E8752F"></path></marker></defs>
+<rect fill="#f9efd9" height="560" rx="20" width="900"></rect>
+<path d="M690 24V536" stroke="#d6cbd1" stroke-width="46"></path><text class="map-sub" transform="rotate(90 724 86)" x="724" y="86">Yanghwa-ro / 양화로</text>
+<rect fill="#ece7f0" height="300" rx="24" stroke="#908CA4" stroke-width="2" width="450" x="105" y="135"></rect><text fill="#57659E" font-size="18" font-weight="850" x="128" y="166">R3 / Eoulmadang-ro / Jandari-ro</text>
+<path class="route-walk" d="M235 425L330 340L435 300L520 235" marker-end="url(#arrRose2)"></path>
+<path class="route-walk" d="M520 235L615 325" marker-end="url(#arrRose2)" stroke-dasharray="11 8"></path>
+<path class="route-walk" d="M520 235L705 250" marker-end="url(#arrRose2)" stroke-dasharray="11 8"></path>
+<path class="route-walk" d="M615 325L705 115" marker-end="url(#arrRose2)"></path>
+<path class="route-walk" d="M705 250L705 115" marker-end="url(#arrRose2)"></path>
+<circle class="map-dot major" cx="235" cy="425" r="12"></circle><text class="map-label" x="260" y="417">① New Era Hongdae</text><text class="map-sub" x="260" y="438">48 Eoulmadang-ro · Taxi直接下车</text>
+<circle class="map-dot" cx="330" cy="340" r="9"></circle><text class="map-label" x="352" y="335">② 街巷浏览</text><text class="map-sub" x="352" y="355">Eoulmadang-ro · R3 · Jandari-ro</text>
+<circle class="map-dot major" cx="520" cy="235" r="11"></circle><text class="map-label" x="542" y="229">③ thisisneverthat</text><text class="map-sub" x="542" y="249">11:00 开 · 韩国街头品牌</text>
+<circle class="map-dot" cx="615" cy="325" r="9"></circle><text class="map-label" x="635" y="321">④A MUSINSA</text><text class="map-sub" x="635" y="340">想看衣服时选</text>
+<circle class="map-dot" cx="705" cy="250" r="9"></circle><text class="map-label" x="725" y="244">④B Kakao Friends</text><text class="map-sub" x="725" y="263">想买小纪念品时选</text>
+<circle class="map-dot major" cx="705" cy="115" r="12"></circle><text class="map-label" x="548" y="93">⑤ 弘大入口站</text><text class="map-sub" x="548" y="112">11:50前进站 · 找 AREX B3</text>
+<text class="map-sub" x="62" y="505">主线只走单向：New Era → 街巷 → thisisneverthat → 二选一 → 弘大入口站。</text>
+<text class="map-sub" x="62" y="526">11:35停止购物；Homi不进入正式路线。</text>
+</svg>
+<div class="map-key"><span><i class="keyline walk"></i>步行主线</span><span>西村按到达时间动态压缩；弘大 11:35 硬收尾</span></div>
+</article>
+</div>
+</section>
+<section class="overview" id="overview">
+<div class="overview-heading"><h2>半天怎么走</h2><span>2026年10月1日 · 周四 · 韩国时间 KST</span></div>
+<div class="dayline"><a class="day-row air" href="#airport"><time>04:50</time><strong>仁川 T2 落地</strong><span>入境 → 海关 → AREX；不取直挂行李</span><i>↗</i></a><a class="day-row air" href="#airport"><time>目标06:00–06:15</time><strong>AREX 普通列车</strong><span>T2 A11 → 孔德 A02；06:20以后才上车则自动删 Nuha-dong 15分钟</span><i>↗</i></a><a class="day-row" href="#seochon"><time>07:30–07:45</time><strong>Nuha-dong 居民巷</strong><span>Taxi 到 필운대로 45；低层住宅小巷随便走</span><i>↗</i></a><a class="day-row" href="#seochon"><time>07:45–08:05</time><strong>通仁市场</strong><span>从西口进去，整条穿过去</span><i>↗</i></a><a class="day-row" href="#seochon"><time>08:05–08:25</time><strong>Jahamun-ro 10-gil</strong><span>韩屋、住宅、小店、仁王山方向街景</span><i>↗</i></a><a class="day-row" href="#seochon"><time>08:25–08:45</time><strong>通义洞街巷区域</strong><span>以 자하문로6길 / 효자로7길 为道路锚点，不当作单一景点</span><i>↗</i></a><a class="day-row" href="#seochon"><time>08:45–09:05</time><strong>通义洞 / 西村住宅街区</strong><span>普通住宅、零散韩屋与旧街巷混合；继续自由走</span><i>↗</i></a><a class="day-row" href="#transfer"><time>09:10–09:20</time><strong>景福宫站附近</strong><span>结束西村 → Taxi / 地铁去弘大</span><i>↗</i></a><a class="day-row shop" href="#hongdae"><time>10:00–11:35</time><strong>弘大购物</strong><span>New Era → 街巷/R3 → thisisneverthat → MUSINSA 或 Kakao 二选一</span><i>↗</i></a><a class="day-row deadline" href="#return"><time>11:35</time><strong>停止扩张行程</strong><span>往弘大入口站 AREX 月台移动</span><i>↗</i></a><a class="day-row air" href="#return"><time>12:03 / 12:07</time><strong>目标 / 最后 AREX</strong><span>12:03目标；12:07最后可接受。只上终点显示 인천공항2터미널 的车</span><i>↗</i></a><a class="day-row air" href="#return"><time>13:20前</time><strong>到 T2 三层出发大厅</strong><span>不是“列车到站”；随后 SmartPass → 15:50 大韩航空飞神户</span><i>↗</i></a></div>
+<div class="guardrails">
+<div><b>06:20后才上 AREX → 先删 Nuha</b><p>早晨时间以实际上车为准；晚一班不要挤压机场返程余量。</p></div><div><b>09:10左右开始收西村</b><p>到景福宫站附近就结束，不再往北追加北村或景点。</p></div>
+<div><b>西村→弘大先看实时路况</b><p>Taxi显示明显拥堵时改地铁，不必为了“打车方案”硬坐堵车。</p></div>
+<div><b>11:35是硬节点</b><p>之后只往弘大入口站移动，不再临时加延南洞或延禧洞。</p></div>
+</div>
+</section>
+
+<section class="chapter" id="airport">
+<div class="section-title"><span class="section-no">01</span><div><h2>仁川 T2 → 孔德 → 西村西侧</h2><p>主计划：AREX 普通列车 + Taxi 到 필운대로 45</p></div></div>
+<article class="destination findable" id="p-t2">
+<div class="dest-header"><div><span class="eyebrow">机场起点</span><h3>仁川国际机场 第2航站楼</h3></div><div class="visit-time">04:50 落地</div></div>
+<p class="purpose">先把入境完成；目标 06:00–06:15 上 AREX，实际班次决定西村是否删 Nuha-dong</p>
+<p class="languages"><span>仁川国际机场 第2航站楼</span><span>Incheon Int’l Airport Terminal 2</span><span class="ko">인천국제공항 제2여객터미널</span></p>
+<p class="description">你已有有效韩国签证，托运行李按既定安排直挂神户，因此不在首尔提取大箱。出关后先快速买便携早餐和水，再按「공항철도 / Airport Railroad / AREX」标识去交通中心。T2 一般区域有 24 小时便利店与餐饮可用，不把通仁市场当可靠早餐点。</p>
+<p class="address"><b>地址：</b>446 Je2terminal-daero, Jung-gu, Incheon · 인천광역시 중구 제2터미널대로 446 <button class="copybtn" data-copy="인천공항2터미널">复制韩文</button></p>
+<div class="maplinks">
+<a class="maplink naver" href="https://map.naver.com/p/search/%EC%9D%B8%EC%B2%9C%EA%B3%B5%ED%95%AD2%ED%84%B0%EB%AF%B8%EB%84%90" rel="noopener" target="_blank">NAVER Map ↗</a>
+<a class="maplink kakao" href="https://map.kakao.com/link/search/%EC%9D%B8%EC%B2%9C%EA%B3%B5%ED%95%AD2%ED%84%B0%EB%AF%B8%EB%84%90" rel="noopener" target="_blank">KakaoMap ↗</a>
+<a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Incheon%20International%20Airport%20Terminal%202" rel="noopener" target="_blank">Google Maps ↗</a>
+</div>
+</article>
+<div class="travel">
+<div class="travel-head"><b>主线 · T2 → 孔德 Gongdeok</b><span>目标 06:00–06:15 上车 · AREX All-Stop / 일반열차</span></div>
+<ol class="stops">
+<li class="findable"><div class="place-title"><h4>仁川机场2号航站楼站</h4><span class="kind">AREX A11</span></div><p class="languages"><span>Incheon Airport T2</span><span class="ko">인천공항2터미널역</span></p><p class="instruction">坐 <b>AREX 普通列车（一般列车）→ 首尔站方向</b>。不要买只停首尔站的 Express 直达车，因为你要在孔德下。T2→孔德按约62分钟量级理解；<b>若06:20以后才上车，直接执行“删 Nuha-dong”方案。</b></p></li>
+<li class="findable"><div class="place-title"><h4>弘大入口站</h4><span class="kind">经过不停留 A03</span></div><p class="languages"><span>Hongik Univ.</span><span class="ko">홍대입구역</span></p><p class="instruction">此时 <b>不要下车</b>；继续1站到孔德。上午购物后再回弘大。</p></li>
+<li class="findable" id="p-gongdeok"><div class="place-title"><h4>孔德站</h4><span class="kind">AREX A02 / 地铁5·6号线</span></div><p class="languages"><span>Gongdeok Station</span><span class="ko">공덕역</span></p><p class="instruction">T2 → 孔德后出站，叫普通 Taxi 去 <b>필운대로 45 / 45 Pirundae-ro</b>。</p><p class="address">서울특별시 마포구 공덕동 · Gongdeok-dong, Mapo-gu, Seoul <button class="copybtn" data-copy="공덕역">复制韩文</button></p><div class="maplinks">
+<a class="maplink naver" href="https://map.naver.com/p/search/%EA%B3%B5%EB%8D%95%EC%97%AD" rel="noopener" target="_blank">NAVER Map ↗</a>
+<a class="maplink kakao" href="https://map.kakao.com/link/search/%EA%B3%B5%EB%8D%95%EC%97%AD" rel="noopener" target="_blank">KakaoMap ↗</a>
+<a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Gongdeok%20Station%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a>
+</div></li>
+</ol>
+</div>
+<div class="mode-pair">
+<article class="mode-card reco"><h3>方案 A · 推荐 Taxi</h3><p><strong>孔德站 → 필운대로 45 / 45 Pirundae-ro</strong></p><p>普通出租车按约 <strong>₩10,000–13,000</strong> 预留。目的地是 Nuha-dong 西侧居民区的道路门牌，不是景点。</p><p>给司机看：<b>필운대로 45로 가 주세요.</b>（请去 Pirundae-ro 45。）</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%ED%95%84%EC%9A%B4%EB%8C%80%EB%A1%9C%2045" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%ED%95%84%EC%9A%B4%EB%8C%80%EB%A1%9C%2045" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=45%20Pirundae-ro%2C%20Jongno-gu%2C%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></article>
+<article class="mode-card save"><h3>方案 B · 全程公共交通</h3><p><strong>孔德 Line 5 → 钟路3街 → 换 Line 3 → 景福宫站</strong></p><p>从景福宫站再步行约15–20分钟向西到 <b>필운대로 45</b>。这版更省钱，但会增加步行和换乘；若入境已晚，反而可以直接从景福宫站进入西村中段。</p></article>
+</div>
+</section>
+<section class="chapter" id="seochon">
+<div class="section-title"><span class="section-no">02</span><div><h2>西村清晨步行</h2><p>实际到达后动态执行 · Nuha-dong（可删）→ 通仁市场 → 通义洞 → 景福宫站</p></div></div>
+
+
+<article class="destination findable" id="p-pirundae">
+<div class="dest-header"><div><span class="eyebrow">07:30 · 西村起点</span><h3>Pirundae-ro 45 / Nuha-dong</h3></div><div class="visit-time">07:30–07:45</div></div>
+<p class="purpose">Taxi 在门牌附近下车，先在低层居民区小巷随便走</p>
+<p class="languages"><span>首尔钟路区弼云大路45 / 楼下居民区</span><span>45 Pirundae-ro / Nuha-dong</span><span class="ko">필운대로 45 / 누하동</span></p>
+<p class="description">这是路线起点，不是必须参观的店或景点。重点是从西村西侧较安静的低层住宅区开始，沿东侧方向自然进入市场和通义洞。<b>若06:20以后才上 AREX，则这一段直接删除。</b></p>
+<p class="address"><b>准确道路地址：</b>45, Pirundae-ro, Jongno-gu, Seoul · 서울특별시 종로구 필운대로 45 (누하동) <button class="copybtn" data-copy="서울특별시 종로구 필운대로 45">复制韩文</button></p>
+<div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%ED%95%84%EC%9A%B4%EB%8C%80%EB%A1%9C%2045" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%ED%95%84%EC%9A%B4%EB%8C%80%EB%A1%9C%2045" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=45%20Pirundae-ro%2C%20Jongno-gu%2C%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></article><div class="travel">
+<div class="travel-head"><b>西村步行主线</b><span>按时间段走；街巷本身是内容，不需要每50米重新导航</span></div>
+<ol class="stops">
+<li class="findable" id="p-nuha"><div class="place-title"><h4>Nuha-dong 低层居民区</h4><span class="kind">07:30–07:45</span></div><p class="languages"><span>楼下居民小巷</span><span>Nuha-dong</span><span class="ko">누하동</span></p><p class="instruction">从 <b>필운대로 45</b> 附近开始，挑顺路的小巷随便走；不要往仁王山上爬，也不需要寻找某个固定打卡点。</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%EB%88%84%ED%95%98%EB%8F%99" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%EB%88%84%ED%95%98%EB%8F%99" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Nuha-dong%2C%20Jongno-gu%2C%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></li>
+<li class="findable" id="p-tongin-v2"><div class="place-title"><h4>通仁市场</h4><span class="kind">07:45–08:05</span></div><p class="languages"><span>通仁市场</span><span>Tongin Traditional Market</span><span class="ko">통인시장</span></p><p class="instruction"><b>从西侧入口进入，整条穿过去。</b> 07:45 可穿行，但很多餐饮与游客型摊位尚未营业；只把它当街区穿行，不当作可靠早餐点。早餐已在 T2 购买。</p><p class="address">18 Jahamun-ro 15-gil, Jongno-gu, Seoul · 서울 종로구 자하문로15길 18</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%ED%86%B5%EC%9D%B8%EC%8B%9C%EC%9E%A5" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%ED%86%B5%EC%9D%B8%EC%8B%9C%EC%9E%A5" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Tongin%20Traditional%20Market%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></li>
+<li class="findable" id="p-jaha-v2"><div class="place-title"><h4>Jahamun-ro 10-gil</h4><span class="kind">08:05–08:25</span></div><p class="languages"><span>紫霞门路10街</span><span>Jahamun-ro 10-gil</span><span class="ko">자하문로10길</span></p><p class="instruction">这一段看 <b>韩屋、普通住宅、小店与朝仁王山方向的街景</b>。它是一条街巷区域，不是单一景点。</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%EC%9E%90%ED%95%98%EB%AC%B8%EB%A1%9C10%EA%B8%B8" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%EC%9E%90%ED%95%98%EB%AC%B8%EB%A1%9C10%EA%B8%B8" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Jahamun-ro%2010-gil%2C%20Jongno-gu%2C%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></li>
+<li class="findable" id="p-tongui"><div class="place-title"><h4>通义洞街巷区域</h4><span class="kind">08:25–08:45</span></div><p class="languages"><span>通义洞街巷区域</span><span>Tongui-dong street lanes</span><span class="ko">통의동 골목 일대</span></p><p class="instruction">这里不是有固定入口的单一景点。把 <b>자하문로6길（Jahamun-ro 6-gil）</b> 与 <b>효자로7길（Hyoja-ro 7-gil）</b> 当作两个道路锚点，沿小巷向东/东南自然走。</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%ED%86%B5%EC%9D%98%EB%8F%99%20%EA%B3%A8%EB%AA%A9" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%ED%86%B5%EC%9D%98%EB%8F%99%20%EA%B3%A8%EB%AA%A9" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Tongui-dong%2C%20Jongno-gu%2C%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></li>
+<li class="findable" id="p-tongui-free"><div class="place-title"><h4>通义洞 / 西村住宅街区</h4><span class="kind">08:45–09:05</span></div><p class="languages"><span>西村普通住宅、零散韩屋与旧街巷混合区域</span><span>Seochon / Tongui-dong</span><span class="ko">서촌 · 통의동</span></p><p class="instruction">这里不像北村那样是成片整齐韩屋。继续在普通住宅、零散韩屋与旧街巷混合区域自由走。<b>清晨降低音量，不拍居民门窗内部，不在住户门口长时间停留；09:05左右开始往景福宫站方向收。</b></p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%EC%84%9C%EC%B4%8C%ED%95%9C%EC%98%A5%EB%A7%88%EC%9D%84" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%EC%84%9C%EC%B4%8C%ED%95%9C%EC%98%A5%EB%A7%88%EC%9D%84" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Seochon%20Hanok%20Village%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></li>
+<li class="findable" id="p-gyeong-v2"><div class="place-title"><h4>景福宫站附近</h4><span class="kind">约09:10–09:20</span></div><p class="languages"><span>景福宫站</span><span>Gyeongbokgung Station</span><span class="ko">경복궁역</span></p><p class="instruction">到这里结束西村。打开 NAVER 看去弘大的实时路况，再决定 <b>Taxi 或地铁</b>。</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%97%AD" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%97%AD" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Gyeongbokgung%20Station%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></li>
+</ol>
+</div></section>
+<section class="chapter" id="transfer">
+<div class="section-title"><span class="section-no">03</span><div><h2>西村 → 弘大</h2><p>约09:10–09:20 · 在景福宫站附近看 NAVER 实时拥堵再选 Taxi / 地铁</p></div></div>
+<div class="mode-pair">
+<article class="mode-card reco"><h3>方案 A · DiDi / Taxi 优先</h3><p><strong>景福宫/西村 → New Era Hongdae</strong></p><p>叫车终点直接设为 <strong>서울 마포구 어울마당로 48 / 48 Eoulmadang-ro</strong>，不要再用“R3 Fashion Street”这种区域名。正常预留 <strong>15–25分钟</strong>；普通出租车约 <strong>₩11,000–14,000</strong>。</p><p>给司机看：<b>서울 마포구 어울마당로 48로 가 주세요.</b></p><div class="maplinks">
+<a class="maplink naver" href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EB%A7%88%ED%8F%AC%EA%B5%AC%20%EC%96%B4%EC%9A%B8%EB%A7%88%EB%8B%B9%EB%A1%9C%2048" rel="noopener" target="_blank">NAVER Map ↗</a>
+<a class="maplink kakao" href="https://map.kakao.com/link/search/%EC%84%9C%EC%9A%B8%20%EB%A7%88%ED%8F%AC%EA%B5%AC%20%EC%96%B4%EC%9A%B8%EB%A7%88%EB%8B%B9%EB%A1%9C%2048" rel="noopener" target="_blank">KakaoMap ↗</a>
+<a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=48%20Eoulmadang-ro%2C%20Mapo-gu%2C%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a>
+</div></article>
+<article class="mode-card save"><h3>方案 B · 堵车时改地铁</h3><p><strong>경복궁역 Line 3 → 을지로3가 → 换 Line 2 → 홍대입구역</strong></p><p>约30–40分钟量级。Line 3 往 <b>오금 / 市区东南方向</b> 到乙支路3街；换2号线往 <b>시청·홍대입구方向</b>。</p><p><strong>判断阈值：</strong>Taxi 显示 ≥30–35分钟时，用地铁更稳。</p></article>
+</div>
+</section>
+<section class="chapter" id="hongdae">
+<div class="section-title"><span class="section-no">04</span><div><h2>弘大：单向购物，不走回头路</h2><p>约09:50–11:35 · New Era → Eoulmadang-ro / R3 / Jandari-ro → thisisneverthat → 二选一 → 弘大入口站</p></div></div>
+<div class="decision"><b>New Era 营业时间存在当前信息冲突</b><p>地址已确认：<strong>서울 마포구 어울마당로 48 / 48 Eoulmadang-ro</strong>。2026年更新的旅游数据与 Waze 显示周四 10:00–22:00，但 New Era Korea 官方门店页目前显示 11:00–22:00。<strong>9月30日晚再核对 NAVER/门店页；下方主线按“10:00开门已确认”执行。</strong>若最终显示11:00开门，直接用后面的 11:00 开门备选。</p></div>
+<div class="travel">
+<div class="travel-head"><b>正式购物顺序</b><span>95分钟上限 · 11:35强制停止</span></div>
+<ol class="stops">
+<li><div class="place-title"><h4>New Era Hongdae</h4><span class="kind">09:50到 · 10:00–10:35</span></div><p class="instruction">DiDi 直接下车到 <b>48 Eoulmadang-ro</b>。若提前到就在附近等开门；这里优先解决帽子。</p></li>
+<li><div class="place-title"><h4>Eoulmadang-ro / R3 / Jandari-ro</h4><span class="kind">10:35–10:55</span></div><p class="instruction">从 New Era 开始一路向北/东北浏览街区，不单独追店、不折返。</p></li>
+<li><div class="place-title"><h4>thisisneverthat Hongdae</h4><span class="kind">11:00–11:15</span></div><p class="instruction">韩国本土 streetwear，重点看韩国品牌服饰与配件。</p></li>
+<li><div class="place-title"><h4>MUSINSA 或 Kakao Friends 二选一</h4><span class="kind">11:15–11:35</span></div><p class="instruction"><b>想看衣服 → MUSINSA STANDARD；想买小纪念品 → Kakao Friends。</b> 不做两家都逛。</p></li>
+<li><div class="place-title"><h4>弘大入口站</h4><span class="kind">11:35停止购物 · 11:50前进站</span></div><p class="instruction">立即找 <b>공항철도 / Airport Railroad</b>，目标 12:03；12:07 是最后可接受班次。</p></li>
+</ol>
+</div>
+<article class="destination findable" id="p-r3">
+<div class="dest-header"><div><span class="eyebrow">街区本身</span><h3>R3 / Eoulmadang-ro / Jandari-ro</h3></div><div class="visit-time">10:35–10:55</div></div>
+<p class="purpose">它是连接店铺的购物街区，不再作为 Taxi 下车点</p>
+<p class="languages"><span>弘大 R3 时尚街周边</span><span>Hongdae R3 area</span><span class="ko">홍대 R3 패션거리 일대</span></p>
+<p class="description">这段只负责从 New Era 向 thisisneverthat 单向移动，边走边看。不要为了“完整逛 R3”扩张到延南洞或延禧洞。</p>
+</article>
+<div class="shop-grid">
+<article class="shop-card findable" id="p-newera"><span class="open">优先级 1 · 帽子 · 营业时间9/30终核</span><h3>New Era Cap Hongdae / 뉴에라 캡 홍대</h3><p>棒球帽、不同帽款与尺码集中。它是国际品牌，但这趟是最直接的帽子试戴点。</p><p class="address"><b>准确地址：</b>48 Eoulmadang-ro, Mapo-gu, Seoul · 서울 마포구 어울마당로 48</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EB%A7%88%ED%8F%AC%EA%B5%AC%20%EC%96%B4%EC%9A%B8%EB%A7%88%EB%8B%B9%EB%A1%9C%2048" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%EC%84%9C%EC%9A%B8%20%EB%A7%88%ED%8F%AC%EA%B5%AC%20%EC%96%B4%EC%9A%B8%EB%A7%88%EB%8B%B9%EB%A1%9C%2048" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=48%20Eoulmadang-ro%2C%20Mapo-gu%2C%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></article>
+<article class="shop-card findable" id="p-tint"><span class="open">11:00–21:00 · 韩国街头服饰</span><h3>thisisneverthat Hongdae</h3><p>韩国本土 streetwear 品牌门店，常见帽子、T-shirt、卫衣和其他服装配件。</p><p class="address">1F 101, 32 Jandari-ro, Mapo-gu, Seoul · 서울 마포구 잔다리로 32 1층 101호</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%EB%94%94%EC%8A%A4%EC%9D%B4%EC%A6%88%EB%84%A4%EB%B2%84%EB%8C%93%20%ED%99%8D%EB%8C%80" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%EB%94%94%EC%8A%A4%EC%9D%B4%EC%A6%88%EB%84%A4%EB%B2%84%EB%8C%93%20%ED%99%8D%EB%8C%80" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=thisisneverthat%20Hongdae%20Flagship%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></article>
+<article class="shop-card findable" id="p-musinsa"><span class="open">11:00–21:00 · 二选一：看衣服</span><h3>MUSINSA STANDARD Hongdae</h3><p>MUSINSA 基础服饰门店。只有你更想看衣服时才选它。</p><p class="address">B1F–2F, 144 Yanghwa-ro, Mapo-gu, Seoul · 서울 마포구 양화로 144</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EC%8A%A4%ED%83%A0%EB%8B%A4%EB%93%9C%20%ED%99%8D%EB%8C%80" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%EB%AC%B4%EC%8B%A0%EC%82%AC%20%EC%8A%A4%ED%83%A0%EB%8B%A4%EB%93%9C%20%ED%99%8D%EB%8C%80" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Musinsa%20Standard%20Hongdae%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></article>
+<article class="shop-card findable" id="p-kakao"><span class="open">10:30–22:00 · 二选一：小纪念品</span><h3>Kakao Friends Hongdae</h3><p>钥匙扣、文具、杯子、小挂件等角色周边；只有你更想买小纪念品时才选它。</p><p class="address">162 Yanghwa-ro, Mapo-gu, Seoul · 서울 마포구 양화로 162</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%94%84%EB%A0%8C%EC%A6%88%20%ED%99%8D%EB%8C%80%20%ED%94%8C%EB%9E%98%EA%B7%B8%EC%8B%AD%20%EC%8A%A4%ED%86%A0%EC%96%B4" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%94%84%EB%A0%8C%EC%A6%88%20%ED%99%8D%EB%8C%80%20%ED%94%8C%EB%9E%98%EA%B7%B8%EC%8B%AD%20%EC%8A%A4%ED%86%A0%EC%96%B4" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Kakao%20Friends%20Hongdae%20Flagship%20Store%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></article>
+<article class="shop-card findable" id="p-hongik"><span class="open">11:35开始往这里收</span><h3>弘大入口站 / 홍대입구역</h3><p>AREX A03、2号线、京义中央线共站。你要找的是 <b>공항철도 / Airport Railroad</b>，不是2号线月台。</p><p class="address">Mapo-gu, Seoul · 서울 마포구 동교동 일대</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/p/search/%ED%99%8D%EB%8C%80%EC%9E%85%EA%B5%AC%EC%97%AD" rel="noopener" target="_blank">NAVER Map ↗</a><a class="maplink kakao" href="https://map.kakao.com/link/search/%ED%99%8D%EB%8C%80%EC%9E%85%EA%B5%AC%EC%97%AD" rel="noopener" target="_blank">KakaoMap ↗</a><a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Hongik%20University%20Station%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a></div></article>
+</div>
+<div class="deadline-box"><strong>11:35 = 强制收尾</strong><p>11:50前进入车站并开始找 AREX B3 月台；12:03目标，12:07最后可接受。之后不再加店。</p></div>
+<details><summary>如果 9月30日最终确认 New Era 11:00 才开</summary><div><p><b>09:50–10:25</b> 先走 Eoulmadang-ro / R3；<b>10:30–10:50</b> 可快速看 Kakao Friends；<b>11:00–11:20</b> New Era；<b>11:20–11:35</b> thisisneverthat。此时直接删 MUSINSA，不再做二选一。</p><p>这一备选仍保证 11:35 停止购物，因此不会挤压返程 AREX。</p></div></details>
+<details><summary>Homi 美术用品店（不进正式路线）</summary><div><p>只有提前抵达弘大、且你确实对美术用品感兴趣时才去。它与“买帽子、韩国品牌、纪念品”的核心目标关系较弱，不应占用正式购物时段。</p></div></details>
+</section>
+<section class="chapter" id="return">
+<div class="section-title"><span class="section-no">05</span><div><h2>弘大入口站 → 仁川 T2</h2><p>12:03目标；12:07最后可接受 · 13:20前必须到 T2 三层出发大厅</p></div></div>
+<article class="destination findable">
+<div class="dest-header"><div><span class="eyebrow">硬截止</span><h3>AREX 回机场</h3></div><div class="visit-time">约58分钟到 T2</div></div>
+<p class="purpose">宁可少逛10分钟，也不要把机场余量压成“理论上赶得上”</p>
+<p class="languages"><span>弘大入口站 → 仁川机场2号航站楼</span><span>Hongik Univ. → Incheon Airport T2</span><span class="ko">홍대입구역 → 인천공항2터미널역</span></p>
+<p class="description">AREX 官网平日表在“机场方向”会同时显示终到 <b>인천공항2터미널</b> 与终到 <b>검암</b> 的普通列车。本攻略只保留 <b>12:03 目标、12:07 最后可接受</b>，删除 12:14 备选。<b style="color:#D83A2E">只上车头/站台显示终点为 인천공항2터미널 的列车；显示 검암 的不能直达机场。</b></p>
+<div class="leave"><b>建议：</b>11:50 前进入弘大入口站；按「공항철도 / Airport Railroad」找 B3 AREX 月台。13:20 的硬截止定义为“人已到 T2 三层出发大厅”。</div>
+<div class="maplinks">
+<a class="maplink naver" href="https://map.naver.com/p/search/%ED%99%8D%EB%8C%80%EC%9E%85%EA%B5%AC%EC%97%AD" rel="noopener" target="_blank">NAVER Map ↗</a>
+<a class="maplink kakao" href="https://map.kakao.com/link/search/%ED%99%8D%EB%8C%80%EC%9E%85%EA%B5%AC%EC%97%AD" rel="noopener" target="_blank">KakaoMap ↗</a>
+<a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Hongik%20University%20Station%20Seoul" rel="noopener" target="_blank">Google Maps ↗</a>
+</div>
+<div class="maplinks">
+<a class="maplink naver" href="https://map.naver.com/p/search/%EC%9D%B8%EC%B2%9C%EA%B3%B5%ED%95%AD2%ED%84%B0%EB%AF%B8%EB%84%90" rel="noopener" target="_blank">NAVER Map ↗</a>
+<a class="maplink kakao" href="https://map.kakao.com/link/search/%EC%9D%B8%EC%B2%9C%EA%B3%B5%ED%95%AD2%ED%84%B0%EB%AF%B8%EB%84%90" rel="noopener" target="_blank">KakaoMap ↗</a>
+<a class="maplink google" href="https://www.google.com/maps/search/?api=1&amp;query=Incheon%20International%20Airport%20Terminal%202" rel="noopener" target="_blank">Google Maps ↗</a>
+</div>
+</article>
+<div class="travel">
+<div class="travel-head"><b>回程站点</b><span>AREX All-Stop / 一般列车</span></div>
+<ol class="stops">
+<li><div class="place-title"><h4>弘大入口 A03</h4><span class="kind">上车</span></div><p class="instruction"><b style="color:#D83A2E">先看终点显示。</b> 只上 <b>인천공항2터미널 / Incheon Airport T2</b>；显示 <b>검암 / Geomam</b> 的列车不能直达机场。</p></li>
+<li><div class="place-title"><h4>仁川机场 T1 A10</h4><span class="kind">经过</span></div><p class="instruction">不要下车；再坐一站到 T2。</p></li>
+<li><div class="place-title"><h4>仁川机场 T2 A11</h4><span class="kind">下车</span></div><p class="instruction">列车到站后立即向 <b>T2 3F 出发大厅</b> 移动；<b>13:20前到三层大厅</b>才算完成返程目标。SmartPass 不替代护照和登机牌。</p></li>
+</ol>
+</div>
+</section>
+<section class="chapter" id="fallback">
+<div class="section-title"><span class="section-no">换</span><div><h2>晚到、堵车或购物超时时</h2><p>按下面顺序删，不要现场重新设计一条新路线</p></div></div>
+<div class="shop-grid"><article class="shop-card"><span class="open">06:20以后才上 AREX</span><h3>自动删 Nuha-dong 15分钟</h3><p>到孔德后 DiDi 直接设通仁市场西侧，从“通仁市场 → Jahamun-ro 10-gil → 通义洞”开始。</p></article><article class="shop-card"><span class="open">08:10后才到西村</span><h3>从 Jahamun-ro 10-gil 开始</h3><p>跳过 Nuha-dong 和市场，把时间留给通义洞与后面的弘大。</p></article><article class="shop-card"><span class="open">09:10以后西村还没收尾</span><h3>直接往景福宫站走</h3><p>不再增加支巷。先保证 10:00 左右进入弘大购物区。</p></article><article class="shop-card"><span class="open">西村→弘大 Taxi 堵车</span><h3>Taxi ≥30–35min → 地铁</h3><p>景福宫 Line 3 → 乙支路3街 → Line 2 → 弘大入口。</p></article><article class="shop-card"><span class="open">11:20购物还没结束</span><h3>删最后一个可选店</h3><p>11:35准时向车站移动。<b>12:07就是最后可接受班次，不再保留12:14。</b></p></article></div>
+</section><section class="chapter" id="apps">
+<div class="section-title"><span class="section-no">APP</span><div><h2>当天要用的 APP</h2><p>放在备选方案后，出发前一次性装好即可</p></div></div>
+<div class="app-grid">
+<article class="app-card"><span class="role">主地图 · 必装</span><h3>NAVER Map / 네이버 지도</h3><p>当天步行、地铁、出口、公交与实时路线主用。提前收藏：필운대로 45、통인시장、자하문로10길、자하문로6길、효자로7길、서울 마포구 어울마당로 48、디스이즈네버댓 홍대、무신사 스탠다드 홍대、카카오프렌즈 홍대、홍대입구역。</p><div class="maplinks"><a class="maplink naver" href="https://map.naver.com/" rel="noopener" target="_blank">打开 NAVER Map ↗</a></div></article>
+<article class="app-card"><span class="role">备用地图</span><h3>KakaoMap / 카카오맵</h3><p>NAVER 搜不到小店时交叉核对；也适合看道路与公交。页面内每个地点都放了 KakaoMap 搜索链接。</p><div class="maplinks"><a class="maplink kakao" href="https://map.kakao.com/" rel="noopener" target="_blank">打开 KakaoMap ↗</a></div></article>
+<article class="app-card"><span class="role">叫车 · 主用</span><h3>DiDi Rider / 滴滴</h3><p>按你的计划，两段市区 Taxi 主用 DiDi。2026年 Tmoney Mobility 已与 DiDi 开通韩国叫车联动，可在首尔调用合作出租车。下单前核对车牌、预计车费和支付方式；不要误选高端车型。</p><div class="maplinks"><a class="maplink kakao" href="https://www.tmoney.co.kr/aeb/cmnctn/news/readNewsView.dev?bdSeqNo=3950" rel="noopener" target="_blank">Tmoney × DiDi 说明 ↗</a></div></article>
+<article class="app-card"><span class="role">翻译 · 备用</span><h3>Papago / 파파고</h3><p>店名搜不到时，把中文/英文转换为韩文再贴进 NAVER；也可以直接把页面里的韩文名称复制给司机。</p><div class="maplinks"><a class="maplink naver" href="https://papago.naver.com/" rel="noopener" target="_blank">Papago ↗</a></div></article>
+<article class="app-card"><span class="role">机场 · 必检查</span><h3>ICN SMARTPASS</h3><p>提前完成护照、人脸与登机牌相关注册。SmartPass 不替代护照/登机牌，仍需随身携带。</p><div class="maplinks"><a class="maplink google" href="https://www.airport.kr/ap_en/1416/subview.do" rel="noopener" target="_blank">仁川机场官方 SmartPass ↗</a></div></article>
+<article class="app-card"><span class="role">交通卡</span><h3>T-money 实体卡</h3><p>如果没有现成卡，普通卡本体约 <b>₩3,000–5,000</b>。建议用你现有的韩元现金购买并充值；这趟 AREX 普通列车与首尔地铁直接刷卡最省事。</p></article>
+</div>
+</section>
+<section class="chapter" id="practical">
+<div class="section-title"><span class="section-no">备</span><div><h2>费用、打车、早餐与随身准备</h2><p>你已有 ₩100,000 现金；Taxi 主用 DiDi，现金主要留给 T-money、早餐与应急</p></div></div>
+<div class="practical">
+<article><h3>Taxi 费用 / DiDi</h3><p>普通出租车白天起步价按 <b>₩4,800 / 1.6km</b> 理解。两段短途预留：孔德→필운대로 45 <b>₩10,000–13,000</b>；西村→New Era <b>₩11,000–14,000</b>。</p><p>主用 DiDi 下单，实际以 APP 展示、车种和道路情况为准。</p></article>
+<article><h3>总交通准备额</h3><p>把 AREX、地铁、两段普通 Taxi 与 T-money 卡本体都考虑进去，按约 <b>₩35,000–45,000</b> 准备更稳妥。</p><p>你现有 <b>₩100,000 现金已足够</b>，不需要额外换韩元；不要把全部现金一次性充进 T-money。</p></article>
+<article><h3>T-money</h3><p>若没有现成卡，卡本体约 <b>₩3,000–5,000</b>。建议先充值约 <b>₩20,000–30,000</b>，足够这趟 AREX/地铁并留余量；其余现金保留应急。</p></article>
+<article><h3>早餐</h3><p>两个航段都不安排机上餐，<b>入境后就在 T2 一般区域买便携早餐和水</b>。官方列表显示 T2 一般区域有 24 小时 GS25、Paul Bassett、strEAT 等选择。</p><p>通仁市场清晨只当穿行路线，不承担早餐任务。</p></article>
+<article><h3>给司机看的韩文</h3><p><b>필운대로 45로 가 주세요.</b><br/>请去 45 Pirundae-ro。</p><p><b>서울 마포구 어울마당로 48로 가 주세요.</b><br/>请去 New Era 弘大店这个地址。</p></article>
+<article><h3>随身</h3><p>护照、登机牌、韩国签证相关材料、T-money、韩元现金、充电宝、数据网络、轻便雨具。SmartPass 不替代护照/登机牌。</p></article>
+</div>
+</section>
+<section class="chapter" id="sources">
+<div class="section-title"><span class="section-no">源</span><div><h2>出发前复核入口</h2><p>攻略内固定逻辑可离线用；班次、营业时间与 SmartPass 状态在 9月30日再看一次</p></div></div>
+<div class="source-grid">
+<a href="https://www.airport.kr/ap_en/1416/subview.do" rel="noopener" target="_blank">仁川机场 · SmartPass 官方 ↗</a>
+<a href="https://english.seoul.go.kr/service/entry/getting-to-seoul-from-incheon-airport/" rel="noopener" target="_blank">首尔市 · 仁川机场进城交通 / AREX 时间 ↗</a>
+<a href="https://www.airportrailroad.com/train/normal/info/030/0" rel="noopener" target="_blank">AREX · 弘大入口站时刻与终点筛选 ↗</a>
+<a href="https://news.seoul.go.kr/traffic/archives/1659" rel="noopener" target="_blank">首尔市 · 出租车现行计价 ↗</a>
+<a href="https://english.visitseoul.net/editorspicks/2026-Seochon/ENNyqrull" rel="noopener" target="_blank">Visit Seoul · 2026 西村街区路线 ↗</a>
+
+<a href="https://english.visitseoul.net/area/HONGDAE-R3/ENPc8w958" rel="noopener" target="_blank">Visit Seoul · Hongdae R3 Fashion Street ↗</a>
+<a href="https://intl.thisisneverthat.com/stores/thisisneverthat-n-flagship" rel="noopener" target="_blank">thisisneverthat · Hongdae Flagship ↗</a>
+<a href="https://locations.musinsa.com/en/stndhd" rel="noopener" target="_blank">MUSINSA STANDARD Hongdae · 官方门店页 ↗</a>
+<a href="https://english.visitkorea.or.kr/svc/whereToGo/locIntrdn/rgnContentsView.do?vcontsId=63223" rel="noopener" target="_blank">VISITKOREA · Kakao Friends Hongdae ↗</a>
+<a href="https://dorojuso.kr/1111011000100150000030126/" rel="noopener" target="_blank">道路名地址 · 필운대로 45 / 45 Pirundae-ro ↗</a>
+<a href="https://www.neweracapkorea.com/m/page.html?id=2" rel="noopener" target="_blank">New Era Korea · 弘大店官方门店页 ↗</a>
+<a href="https://www.koreatriptips.com/en/shopping/4030787.html" rel="noopener" target="_blank">Korea Trip Tips · New Era 2026营业信息 ↗</a>
+<a href="https://www.airport.kr/ap_en/1534/subview.do" rel="noopener" target="_blank">仁川机场 T2 · 餐饮营业列表 ↗</a>
+<a href="https://www.airport.kr/ap_en/1532/subview.do" rel="noopener" target="_blank">仁川机场 T2 · 24H便利店 ↗</a>
+<a href="https://english.visitkorea.or.kr/svc/contents/infoBscView.do?vcontsId=140663" rel="noopener" target="_blank">VISITKOREA · T-money 卡价与购买 ↗</a>
+<a href="https://www.tmoney.co.kr/aeb/cmnctn/news/readNewsView.dev?bdSeqNo=3950" rel="noopener" target="_blank">Tmoney · DiDi 韩国叫车联动 ↗</a></div>
+<details><summary>需要在出发前一天再次核对什么？</summary><div><p>① 10月1日 AREX 弘大→T2 的 12:03 / 12:07 及其实际终点显示；② New Era 最终到底是10:00还是11:00开门；③ thisisneverthat / MUSINSA / Kakao Friends 当天营业状态；④ DiDi 韩国叫车与支付方式是否正常；⑤ SmartPass 是否已成功关联当天大韩航空登机牌。</p><p>如果 New Era 最终确认11:00开门，直接执行弘大章节里的“11:00开门备选”；无论如何 11:35 都停止购物。</p></div></details>
+</section>
+<footer class="footer"><span>首尔半日现场攻略 · 2026.10.01 KST<br/>配色：#443E46 · #F6DEB8 · #908CA4 · #57659E · #E8752F · #D83A2E</span><a href="#top">回到顶部 ↑</a></footer>
+</main>
+</div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+document.getElementById('print').onclick=()=>window.print();
+$$('.copybtn').forEach(btn=>btn.addEventListener('click',async()=>{
+  const t=btn.dataset.copy;
+  try{await navigator.clipboard.writeText(t);btn.textContent='已复制';setTimeout(()=>btn.textContent='复制韩文',1200)}
+  catch(e){btn.textContent=t}
+}));
+$$('.detail-tab').forEach(btn=>btn.addEventListener('click',()=>{
+  $$('.detail-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  $$('.detail-map').forEach(m=>m.hidden=true);document.getElementById(btn.dataset.map).hidden=false;
+}));
+const entries=$$('.findable').map(n=>({id:n.id,name:(n.querySelector('h3,h4')?.textContent||'地点'),text:n.textContent.toLowerCase()})).filter(x=>x.id);
+$('#search').addEventListener('input',e=>{
+  const q=e.target.value.trim().toLowerCase(), box=$('#search-results'); box.replaceChildren(); if(!q)return;
+  const found=entries.filter(x=>x.text.includes(q)).slice(0,10);
+  found.forEach(x=>{const a=document.createElement('a');a.href='#'+x.id;a.textContent=x.name;box.append(a)});
+  if(!found.length){const p=document.createElement('span');p.textContent='未找到，请换韩文/中文关键词';p.style.fontSize='11px';box.append(p)}
+});
+const navLinks=$$('.sidebar nav a');
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(es=>{const e=es.find(x=>x.isIntersecting);if(e)navLinks.forEach(a=>a.classList.toggle('active',a.hash==='#'+e.target.id))},{rootMargin:'-12% 0px -68% 0px'});
+  $$('main>section').forEach(s=>io.observe(s));
+}
+</script>
+</body>
+</html>
