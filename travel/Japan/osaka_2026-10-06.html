@@ -313,6 +313,39 @@ details p+p{margin-top:7px}
   .memory-photo figcaption strong{font-size:10.5px}
 }
 
+
+@media(min-width:821px){
+  .memory-photo{
+    height:clamp(235px,24vw,315px);
+    background:#D8CBB8;
+    isolation:isolate;
+  }
+  .memory-photo::before{
+    content:"";
+    position:absolute;
+    inset:-16px;
+    z-index:0;
+    background-image:var(--memory-bg);
+    background-position:center;
+    background-size:cover;
+    filter:blur(18px) saturate(.68);
+    opacity:.30;
+    transform:scale(1.05);
+  }
+  .memory-photo img{
+    position:relative;
+    z-index:1;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center center;
+    filter:saturate(.90) contrast(.97);
+  }
+  .memory-photo figcaption{
+    z-index:2;
+  }
+}
+
 @media(max-width:1080px){
   .layout{grid-template-columns:175px minmax(0,1fr)}
   main{padding:24px}
@@ -488,7 +521,7 @@ details p+p{margin-top:7px}
 
   <article class="destination findable" id="p-castle">
     <div class="dest-header"><div><span class="eyebrow">必去</span><h3>大阪城公园 / 大阪城天守阁</h3></div><div class="visit-time">09:00–11:20</div></div>
-    <figure class="memory-photo" data-memory-for="p-castle">
+    <figure class="memory-photo" data-memory-for="p-castle" style="--memory-bg:url('https://cdn.osaka-info.jp/page_translation/content/fe20c480-04c1-11e8-b577-06326e701dd4.jpeg')">
       <img src="https://cdn.osaka-info.jp/page_translation/content/fe20c480-04c1-11e8-b577-06326e701dd4.jpeg" alt="大阪城天守阁、石垣与护城河" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fail');this.remove();"/>
       <figcaption><strong>现场识别｜白绿天守阁 + 外濠石垣</strong><a href="https://osaka-info.jp/zh-CHS/spot/osaka-castle-main-keep/" target="_blank" rel="noopener">图源 OSAKA-INFO ↗</a></figcaption>
     </figure>
@@ -518,7 +551,7 @@ details p+p{margin-top:7px}
 
   <article class="destination findable" id="p-kuromon">
     <div class="dest-header"><div><span class="eyebrow">午餐 / 市场</span><h3>黑门市场</h3></div><div class="visit-time">11:50–12:55</div></div>
-    <figure class="memory-photo" data-memory-for="p-kuromon">
+    <figure class="memory-photo" data-memory-for="p-kuromon" style="--memory-bg:url('https://cdn.osaka-info.jp/page_translation/content/6d4564fa-c317-11e9-9851-06326e701dd4.jpeg')">
       <img src="https://cdn.osaka-info.jp/page_translation/content/6d4564fa-c317-11e9-9851-06326e701dd4.jpeg" alt="黑门市场入口与写有黑门市场字样的灯笼" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fail');this.remove();"/>
       <figcaption><strong>现场识别｜「黒門市場」灯笼入口</strong><a href="https://osaka-info.jp/spot/gastronomy-kuromon/" target="_blank" rel="noopener">图源 OSAKA-INFO ↗</a></figcaption>
     </figure>
@@ -557,7 +590,7 @@ details p+p{margin-top:7px}
 
   <article class="destination findable" id="p-shinsekai">
     <div class="dest-header"><div><span class="eyebrow">老大阪街景</span><h3>新世界 / 通天阁</h3></div><div class="visit-time">13:15–14:10</div></div>
-    <figure class="memory-photo" data-memory-for="p-shinsekai">
+    <figure class="memory-photo" data-memory-for="p-shinsekai" style="--memory-bg:url('https://osaka-info.jp/spot/images/321399a2dded3a2639b9304ab723dd76df23f106.JPG')">
       <img src="https://osaka-info.jp/spot/images/321399a2dded3a2639b9304ab723dd76df23f106.JPG" alt="新世界商业街与远处的通天阁" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fail');this.remove();"/>
       <figcaption><strong>现场识别｜通天阁正对新世界商店街</strong><a href="https://osaka-info.jp/spot/tsutenkaku/" target="_blank" rel="noopener">图源 OSAKA-INFO ↗</a></figcaption>
     </figure>
@@ -579,7 +612,7 @@ details p+p{margin-top:7px}
 
   <article class="destination findable" id="p-dendentown">
     <div class="dest-header"><div><span class="eyebrow">街区本身也值得逛</span><h3>日本桥电电城 / Ota Road</h3></div><div class="visit-time">约14:20–14:45</div></div>
-    <figure class="memory-photo" data-memory-for="p-dendentown">
+    <figure class="memory-photo" data-memory-for="p-dendentown" style="--memory-bg:url('https://cdn.osaka-info.jp/page_translation/content/42c8edb6-f944-11e8-9515-06326e701dd4.jpeg')">
       <img src="https://cdn.osaka-info.jp/page_translation/content/42c8edb6-f944-11e8-9515-06326e701dd4.jpeg" alt="大阪日本桥 Ota Road 动漫和电器商店街" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fail');this.remove();"/>
       <figcaption><strong>现场识别｜密集动漫 / 电器招牌的日本桥街区</strong><a href="https://osaka-info.jp/osaka/pop-culture/pop-culture-osakanippombashi-otaroad/" target="_blank" rel="noopener">图源 OSAKA-INFO ↗</a></figcaption>
     </figure>
@@ -638,7 +671,7 @@ details p+p{margin-top:7px}
 
   <article class="destination findable" id="p-hozenji">
     <div class="dest-header"><div><span class="eyebrow">先从安静进入热闹</span><h3>法善寺横丁</h3></div><div class="visit-time">约17:50–18:10</div></div>
-    <figure class="memory-photo" data-memory-for="p-hozenji">
+    <figure class="memory-photo" data-memory-for="p-hozenji" style="--memory-bg:url('https://cdn.osaka-info.jp/page_translation/content/09783a16-c320-11e9-b296-06326e701dd4.jpeg')">
       <img src="https://cdn.osaka-info.jp/page_translation/content/09783a16-c320-11e9-b296-06326e701dd4.jpeg" alt="法善寺横丁红灯笼与石板小巷" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fail');this.remove();"/>
       <figcaption><strong>现场识别｜红灯笼 + 石板路的小巷</strong><a href="https://osaka-info.jp/spot/gastronomy-hozenjiyokocho/" target="_blank" rel="noopener">图源 OSAKA-INFO ↗</a></figcaption>
     </figure>
@@ -650,7 +683,7 @@ details p+p{margin-top:7px}
 
   <article class="destination findable" id="p-dotonbori">
     <div class="dest-header"><div><span class="eyebrow">夜间核心</span><h3>道顿堀 / とんぼり Riverwalk</h3></div><div class="visit-time">约18:10–19:30</div></div>
-    <figure class="memory-photo" data-memory-for="p-dotonbori">
+    <figure class="memory-photo" data-memory-for="p-dotonbori" style="--memory-bg:url('https://cdn.osaka-info.jp/page_translation/content/d7be60b0-04bf-11e8-aa07-06326e701dd4.jpeg')">
       <img src="https://cdn.osaka-info.jp/page_translation/content/d7be60b0-04bf-11e8-aa07-06326e701dd4.jpeg" alt="道顿堀川、Glico 广告牌和夜间霓虹" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fail');this.remove();"/>
       <figcaption><strong>现场识别｜道顿堀川 + Glico 霓虹</strong><a href="https://osaka-info.jp/spot/tombori-riverwalk/" target="_blank" rel="noopener">图源 OSAKA-INFO ↗</a></figcaption>
     </figure>
@@ -684,7 +717,7 @@ details p+p{margin-top:7px}
 
   <article class="destination findable" id="p-shinsaibashi">
     <div class="dest-header"><div><span class="eyebrow">购物 / 回酒店方向</span><h3>心斋桥筋商店街</h3></div><div class="visit-time">约19:45–20:45+</div></div>
-    <figure class="memory-photo" data-memory-for="p-shinsaibashi">
+    <figure class="memory-photo" data-memory-for="p-shinsaibashi" style="--memory-bg:url('https://cdn.osaka-info.jp/page_translation/content/784363ec-04bf-11e8-9e38-06326e701dd4.jpeg')">
       <img src="https://cdn.osaka-info.jp/page_translation/content/784363ec-04bf-11e8-9e38-06326e701dd4.jpeg" alt="心斋桥筋商店街入口" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fail');this.remove();"/>
       <figcaption><strong>现场识别｜「心斎橋筋」有顶商店街入口</strong><a href="https://osaka-info.jp/en/spot/shinsaibashi-suji-shopping-street/" target="_blank" rel="noopener">图源 OSAKA-INFO ↗</a></figcaption>
     </figure>
