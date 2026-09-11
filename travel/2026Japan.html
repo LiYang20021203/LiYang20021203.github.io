@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#f0eadf" />
+<title>26国庆</title>
+<style>
+:root{
+  --paper:#f0eadf;
+  --paper-deep:#e5dccd;
+  --ink:#19282a;
+  --muted:#6e756f;
+  --line:rgba(25,40,42,.18);
+  --line-strong:rgba(25,40,42,.42);
+  --indigo:#244d58;
+  --vermilion:#a24734;
+  --gold:#a98652;
+  --white:#fbf8f1;
+  --ease:cubic-bezier(.22,.8,.24,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 9%,rgba(255,255,255,.66),transparent 27%),
+    radial-gradient(circle at 82% 18%,rgba(169,134,82,.07),transparent 23%),
+    linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px),
+    var(--paper);
+  background-size:auto,auto,42px 42px,auto;
+  font-family:Inter,"Helvetica Neue",Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  min-height:100vh;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+.shell{min-height:100vh;display:grid;grid-template-columns:minmax(510px,1.12fr) minmax(400px,.88fr)}
+.index-pane{padding:42px 54px 48px 62px;border-right:1px solid var(--line);position:relative}
+.index-pane:before{content:"";position:fixed;left:20px;top:24px;bottom:24px;width:1px;background:var(--line)}
+.masthead{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:36px}
+.kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h1{font-family:Georgia,"Songti SC","STSong",serif;font-weight:500;font-size:clamp(58px,6.7vw,104px);line-height:.84;letter-spacing:-.055em;margin:10px 0 0}
+.mast-meta{text-align:right;padding-top:4px}
+.mast-meta strong{display:block;font-size:13px;letter-spacing:.1em;font-weight:700}
+.mast-meta span{display:block;margin-top:7px;font-size:10px;letter-spacing:.18em;color:var(--muted)}
+.days{border-top:1px solid var(--line-strong)}
+.day{
+  position:relative;
+  display:grid;
+  grid-template-columns:66px 106px minmax(0,1fr) 32px;
+  align-items:center;
+  gap:16px;
+  min-height:88px;
+  border-bottom:1px solid var(--line);
+  transition:background .28s var(--ease),padding .28s var(--ease),border-color .28s var(--ease);
+  cursor:pointer;
+  outline:none;
+}
+.day:before{content:"";position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--vermilion);transition:width .38s var(--ease)}
+.day:hover,.day:focus-visible,.day.active{padding-left:12px;background:rgba(251,248,241,.42);border-color:transparent}
+.day:hover:before,.day:focus-visible:before,.day.active:before{width:100%}
+.day-no{font-family:Georgia,serif;font-size:28px;line-height:1;color:var(--vermilion);font-variant-numeric:tabular-nums}
+.day-city{font-size:11px;letter-spacing:.17em;font-weight:800;color:var(--indigo)}
+.day-city small{display:block;margin-top:5px;letter-spacing:.08em;font-size:10px;color:var(--muted);font-weight:600}
+.day-main{min-width:0}
+.day-title{font-family:Georgia,"Songti SC","STSong",serif;font-size:21px;line-height:1.2;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.day-route{margin-top:6px;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.015em}
+.day-arrow{font-size:21px;text-align:right;transition:transform .28s var(--ease),color .28s var(--ease)}
+.day:hover .day-arrow,.day:focus-visible .day-arrow,.day.active .day-arrow{transform:translateX(5px);color:var(--vermilion)}
+.footnote{display:flex;justify-content:space-between;gap:20px;margin-top:24px;color:var(--muted);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+
+.route-pane{position:relative;min-height:100vh;padding:42px 50px 40px 48px;background:rgba(251,248,241,.32);overflow:hidden}
+.route-pane:after{content:"旅\A 行";white-space:pre;position:absolute;right:-8px;bottom:-22px;font-family:Georgia,"Songti SC",serif;font-size:118px;line-height:.82;color:rgba(25,40,42,.035);pointer-events:none}
+.sticky{position:sticky;top:34px;min-height:calc(100vh - 74px);display:flex;flex-direction:column}
+.route-head{display:flex;justify-content:space-between;align-items:end;border-bottom:1px solid var(--line-strong);padding-bottom:14px}
+.route-head h2{margin:0;font-family:Georgia,serif;font-size:14px;letter-spacing:.12em;font-weight:600}
+.route-head span{font-size:10px;letter-spacing:.17em;color:var(--muted)}
+.journey{position:relative;flex:1;min-height:455px;margin:22px 0 18px;padding:10px 0 10px 0}
+.journey-line{position:absolute;left:34px;top:28px;bottom:28px;width:1px;background:var(--line-strong)}
+.journey-progress{position:absolute;left:34px;top:28px;width:1px;height:0;background:var(--vermilion);transition:height .48s var(--ease)}
+.node{position:absolute;left:0;width:100%;height:44px;display:grid;grid-template-columns:69px 1fr;align-items:center;transform:translateY(-50%);pointer-events:none}
+.node:nth-of-type(1){top:7%}.node:nth-of-type(2){top:22%}.node:nth-of-type(3){top:36%}.node:nth-of-type(4){top:50%}.node:nth-of-type(5){top:65%}.node:nth-of-type(6){top:80%}.node:nth-of-type(7){top:94%}
+.dot{width:9px;height:9px;border:1.5px solid var(--indigo);border-radius:50%;background:var(--paper);margin-left:30px;position:relative;z-index:2;transition:all .28s var(--ease)}
+.node-label{display:flex;align-items:baseline;gap:12px;opacity:.42;transition:opacity .28s var(--ease),transform .28s var(--ease)}
+.node-label b{font-family:Georgia,serif;font-size:12px;font-weight:600;letter-spacing:.08em}
+.node-label span{font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.node.passed .dot{background:var(--indigo);border-color:var(--indigo)}
+.node.passed .node-label{opacity:.66}
+.node.active .dot{width:13px;height:13px;margin-left:28px;background:var(--vermilion);border-color:var(--vermilion);box-shadow:0 0 0 7px rgba(162,71,52,.09)}
+.node.active .node-label{opacity:1;transform:translateX(4px)}
+.node.active .node-label b{color:var(--vermilion)}
+.focus{border-top:1px solid var(--line-strong);padding-top:20px;min-height:182px;position:relative;z-index:3}
+.focus-top{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.focus-top .bar{width:36px;height:1px;background:var(--vermilion)}
+.focus h3{font-family:Georgia,"Songti SC","STSong",serif;font-weight:500;font-size:30px;line-height:1.06;margin:12px 0 8px;letter-spacing:-.02em}
+.focus-route{font-size:12px;color:var(--muted);min-height:18px}
+.focus-actions{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-top:21px}
+.open-guide{display:inline-flex;align-items:center;gap:12px;font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;border-bottom:1px solid var(--ink);padding-bottom:5px;transition:color .25s,border-color .25s}
+.open-guide:hover{color:var(--vermilion);border-color:var(--vermilion)}
+.focus-date{font-family:Georgia,serif;font-size:12px;color:var(--muted);letter-spacing:.08em}
+
+.departure{
+  display:none;
+  margin-top:18px;
+  border-top:1px solid var(--line);
+  padding-top:15px;
+  font-size:12px;
+  line-height:1.75;
+  color:var(--muted);
+}
+.departure.show{display:block}
+.departure b{color:var(--ink);font-weight:700}
+.departure-row{display:grid;grid-template-columns:72px 1fr;gap:10px;padding:5px 0}
+.departure-row span:first-child{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--vermilion);font-weight:800}
+
+@media(max-width:980px){
+  .shell{grid-template-columns:1fr}
+  .index-pane{padding:30px 22px 24px;border-right:0}
+  .index-pane:before{display:none}
+  .masthead{margin-bottom:26px}
+  h1{font-size:72px}
+  .route-pane{min-height:auto;padding:22px 22px 34px;border-top:1px solid var(--line-strong)}
+  .sticky{position:static;min-height:auto}
+  .journey{min-height:360px}
+  .focus{min-height:0}
+  .route-pane:after{font-size:90px}
+}
+@media(max-width:640px){
+  body{background-size:auto,auto,34px 34px,auto}
+  .index-pane{padding:24px 16px 18px}
+  .masthead{align-items:flex-end;margin-bottom:22px}
+  .kicker{font-size:9px}
+  h1{font-size:58px}
+  .mast-meta strong{font-size:11px}.mast-meta span{font-size:8px}
+  .day{grid-template-columns:46px 72px minmax(0,1fr) 18px;gap:8px;min-height:74px}
+  .day:hover,.day:focus-visible,.day.active{padding-left:5px}
+  .day-no{font-size:22px}.day-city{font-size:9px}.day-city small{font-size:8px}
+  .day-title{font-size:17px}.day-route{font-size:10.5px;margin-top:4px}.day-arrow{font-size:17px}
+  .footnote{font-size:8px;margin-top:17px}
+  .route-pane{padding:20px 16px 28px}
+  .route-head h2{font-size:12px}.route-head span{font-size:8px}
+  .journey{min-height:330px;margin:12px 0 10px}
+  .journey-line,.journey-progress{left:25px}.journey-line,.journey-progress{top:22px;bottom:22px}
+  .node{grid-template-columns:50px 1fr;height:38px}
+  .dot{margin-left:21px}.node.active .dot{margin-left:19px}
+  .node-label b{font-size:11px}.node-label span{font-size:8px}
+  .focus{padding-top:16px}.focus h3{font-size:25px}.focus-route{font-size:11px}.focus-actions{margin-top:16px}
+  .departure-row{grid-template-columns:60px 1fr}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <section class="index-pane" aria-label="行程目录">
+    <header class="masthead">
+      <div>
+        <div class="kicker">SEOUL · KYOTO · NARA · OSAKA · KOBE</div>
+        <h1>26国庆</h1>
+      </div>
+      <div class="mast-meta"><strong>10.01 — 10.07</strong><span>2026 / 7 DAYS</span></div>
+    </header>
+
+    <div class="days" id="days">
+      <a class="day active" data-day="0" href="https://liyang20021203.github.io/travel/Korea/seoul_2026-10-01.html" target="_blank" rel="noopener">
+        <div class="day-no">01</div><div class="day-city">SEOUL<small>首尔</small></div>
+        <div class="day-main"><div class="day-title">首尔中转的半天</div><div class="day-route">仁川 T2 → 西村 → 弘大 → T2</div></div><div class="day-arrow">↗</div>
+      </a>
+      <a class="day" data-day="1" href="https://liyang20021203.github.io/travel/Japan/kyoto_2026-10-02.html" target="_blank" rel="noopener">
+        <div class="day-no">02</div><div class="day-city">KYOTO<small>京都</small></div>
+        <div class="day-main"><div class="day-title">京都城下与设计</div><div class="day-route">二条城 → 烏丸御池 → 文创 → 京料理</div></div><div class="day-arrow">↗</div>
+      </a>
+      <a class="day" data-day="2" href="https://liyang20021203.github.io/travel/Japan/kyoto_2026-10-03.html" target="_blank" rel="noopener">
+        <div class="day-no">03</div><div class="day-city">KYOTO<small>京都</small></div>
+        <div class="day-main"><div class="day-title">京都山里</div><div class="day-route">八濑 → 鞍马 → 翻山 → 贵船</div></div><div class="day-arrow">↗</div>
+      </a>
+      <a class="day" data-day="3" href="https://liyang20021203.github.io/travel/Japan/kyoto_2026-10-04.html" target="_blank" rel="noopener">
+        <div class="day-no">04</div><div class="day-city">KYOTO<small>京都</small></div>
+        <div class="day-main"><div class="day-title">东山 · 东寺 · 永观堂 · 鸭川</div><div class="day-route">东山 → 东寺古董市 → 永观堂 → 鸭川</div></div><div class="day-arrow">↗</div>
+      </a>
+      <a class="day" data-day="4" href="https://liyang20021203.github.io/travel/Japan/nara_2026-10-05.html" target="_blank" rel="noopener">
+        <div class="day-no">05</div><div class="day-city">NARA<small>奈良</small></div>
+        <div class="day-main"><div class="day-title">京都 → 奈良 → 大阪</div><div class="day-route">春日大社 → 若草山 → 东大寺 → 奈良公园</div></div><div class="day-arrow">↗</div>
+      </a>
+      <a class="day" data-day="5" href="https://liyang20021203.github.io/travel/Japan/osaka_2026-10-06.html" target="_blank" rel="noopener">
+        <div class="day-no">06</div><div class="day-city">OSAKA<small>大阪</small></div>
+        <div class="day-main"><div class="day-title">从城郭走进霓虹</div><div class="day-route">大阪城 → 新世界 → 日本桥 → 道顿堀</div></div><div class="day-arrow">↗</div>
+      </a>
+      <button class="day" data-day="6" id="departureBtn" type="button" style="width:100%;border-left:0;border-right:0;border-top:0;background:transparent;text-align:left">
+        <div class="day-no">07</div><div class="day-city">KOBE<small>神户</small></div>
+        <div class="day-main"><div class="day-title">回程</div><div class="day-route">大阪本町 → 神户三宫 → 神户机场</div></div><div class="day-arrow">↓</div>
+      </button>
+    </div>
+    <div class="footnote"><span>FIELD GUIDE INDEX</span><span>JST / KST</span></div>
+  </section>
+
+  <aside class="route-pane" aria-label="旅行线路">
+    <div class="sticky">
+      <div class="route-head"><h2>JOURNEY LINE</h2><span>01 — 07 OCT</span></div>
+      <div class="journey" id="journey">
+        <div class="journey-line"></div><div class="journey-progress" id="progress"></div>
+        <div class="node active"><div class="dot"></div><div class="node-label"><b>SEOUL</b><span>Incheon · Seochon · Hongdae</span></div></div>
+        <div class="node"><div class="dot"></div><div class="node-label"><b>KYOTO 01</b><span>Nijo · Teramachi</span></div></div>
+        <div class="node"><div class="dot"></div><div class="node-label"><b>KYOTO 02</b><span>Yase · Kurama · Kifune</span></div></div>
+        <div class="node"><div class="dot"></div><div class="node-label"><b>KYOTO 03</b><span>Higashiyama · Toji · Kamo</span></div></div>
+        <div class="node"><div class="dot"></div><div class="node-label"><b>NARA</b><span>Kasuga · Todaiji</span></div></div>
+        <div class="node"><div class="dot"></div><div class="node-label"><b>OSAKA</b><span>Castle · Nipponbashi · Dotonbori</span></div></div>
+        <div class="node"><div class="dot"></div><div class="node-label"><b>KOBE</b><span>Departure</span></div></div>
+      </div>
+
+      <section class="focus" aria-live="polite">
+        <div class="focus-top"><span class="bar"></span><span id="focusCity">SEOUL · DAY 01</span></div>
+        <h3 id="focusTitle">首尔中转的半天</h3>
+        <div class="focus-route" id="focusRoute">仁川 T2 → 西村 → 弘大 → T2</div>
+        <div class="focus-actions">
+          <a class="open-guide" id="focusLink" href="https://liyang20021203.github.io/travel/Korea/seoul_2026-10-01.html" target="_blank" rel="noopener">OPEN GUIDE <span>↗</span></a>
+          <div class="focus-date" id="focusDate">2026.10.01</div>
+        </div>
+        <div class="departure" id="departure">
+          <div class="departure-row"><span>TRANSIT</span><div><b>大阪本町 → 神户三宫 → Port Liner → 神户机场</b></div></div>
+          <div class="departure-row"><span>MEMORY</span><div>离开大阪前，在自动售票机打印 <b>ICOCA 利用履历 / 乘车记录</b> 留作纪念。</div></div>
+          <div class="departure-row"><span>TAX FREE</span><div>免税品和护照随身；离境如遇海关核验按现场指示配合，不额外安排购物行程。</div></div>
+        </div>
+      </section>
+    </div>
+  </aside>
+</main>
+<script>
+const data=[
+  {city:'SEOUL · DAY 01',title:'首尔中转的半天',route:'仁川 T2 → 西村 → 弘大 → T2',date:'2026.10.01',url:'https://liyang20021203.github.io/travel/Korea/seoul_2026-10-01.html'},
+  {city:'KYOTO · DAY 02',title:'京都城下与设计',route:'二条城 → 烏丸御池 → 文创 → 京料理',date:'2026.10.02',url:'https://liyang20021203.github.io/travel/Japan/kyoto_2026-10-02.html'},
+  {city:'KYOTO · DAY 03',title:'京都山里',route:'八濑 → 鞍马 → 翻山 → 贵船',date:'2026.10.03',url:'https://liyang20021203.github.io/travel/Japan/kyoto_2026-10-03.html'},
+  {city:'KYOTO · DAY 04',title:'东山 · 东寺 · 永观堂 · 鸭川',route:'东山 → 东寺古董市 → 永观堂 → 鸭川',date:'2026.10.04',url:'https://liyang20021203.github.io/travel/Japan/kyoto_2026-10-04.html'},
+  {city:'NARA · DAY 05',title:'京都 → 奈良 → 大阪',route:'春日大社 → 若草山 → 东大寺 → 奈良公园',date:'2026.10.05',url:'https://liyang20021203.github.io/travel/Japan/nara_2026-10-05.html'},
+  {city:'OSAKA · DAY 06',title:'从城郭走进霓虹',route:'大阪城 → 新世界 → 日本桥 → 道顿堀',date:'2026.10.06',url:'https://liyang20021203.github.io/travel/Japan/osaka_2026-10-06.html'},
+  {city:'KOBE · DAY 07',title:'回程',route:'大阪本町 → 神户三宫 → 神户机场',date:'2026.10.07',url:null}
+];
+const days=[...document.querySelectorAll('.day')];
+const nodes=[...document.querySelectorAll('.node')];
+const progress=document.getElementById('progress');
+const focusCity=document.getElementById('focusCity');
+const focusTitle=document.getElementById('focusTitle');
+const focusRoute=document.getElementById('focusRoute');
+const focusDate=document.getElementById('focusDate');
+const focusLink=document.getElementById('focusLink');
+const departure=document.getElementById('departure');
+let active=0;
+function setActive(i,showDeparture=false){
+  active=i;
+  days.forEach((d,n)=>d.classList.toggle('active',n===i));
+  nodes.forEach((n,idx)=>{n.classList.toggle('active',idx===i);n.classList.toggle('passed',idx<i)});
+  const pct=[0,15,30,45,60,75,92][i];
+  progress.style.height=`${pct}%`;
+  const x=data[i];focusCity.textContent=x.city;focusTitle.textContent=x.title;focusRoute.textContent=x.route;focusDate.textContent=x.date;
+  if(x.url){focusLink.style.display='inline-flex';focusLink.href=x.url;focusLink.innerHTML='OPEN GUIDE <span>↗</span>';departure.classList.remove('show');}
+  else{focusLink.style.display='none';departure.classList.toggle('show',showDeparture||i===6);}
+}
+days.forEach((d,i)=>{
+  d.addEventListener('mouseenter',()=>setActive(i,false));
+  d.addEventListener('focus',()=>setActive(i,false));
+  if(d.tagName==='BUTTON') d.addEventListener('click',()=>{setActive(i,true);document.querySelector('.route-pane').scrollIntoView({behavior:'smooth',block:'start'});});
+});
+setActive(0,false);
+</script>
+</body>
+</html>
