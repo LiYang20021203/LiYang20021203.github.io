@@ -1,395 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="color-scheme" content="light"/>
-<meta name="guide-revision" content="2026-09-08-kyoto-1002-final-v3"/>
-<title>京都 · 10月2日现场行程｜二条城与设计小店</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="guide-revision" content="2026-09-12-kyoto-1002-compact-mobile">
+<title>京都 · 10月2日｜二条城与设计小店</title>
 <style>
-:root{
-  --paper:#f1ecdf;--ink:#203b43;--indigo:#204957;--bluewash:#dfe8e9;
-  --vermilion:#a34835;--muted:#616b68;--gold:#92723e;--white:#fffcf4;
-  --line:#d6cdbf;--soft:#ece5d8;--warn:#f0e4d4
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:120px}
-body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
-a{color:var(--indigo);text-decoration:none} a:hover{text-decoration:underline}
-a,button,summary{touch-action:manipulation}
-button,input,select{font:inherit} button{cursor:pointer}
-a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-h1,h2,h3,h4,p{margin:0} h1,h2,.destination h3{font-family:"Noto Serif CJK SC","Songti SC","STSong",serif}
-h1{font-size:35px;line-height:1.28;letter-spacing:.04em} h2{font-size:25px;line-height:1.4} h3{font-size:18px} h4{font-size:15px}
-.topbar{height:58px;background:var(--indigo);color:var(--paper);display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:30}
-.wordmark{color:var(--paper);font-size:12px;letter-spacing:.18em}
-.topbar button{border:1px solid #8da1a5;color:var(--paper);background:none;border-radius:3px;padding:5px 12px;font-size:12px}
-.mobile-nav{display:none;position:sticky;top:58px;z-index:25;background:var(--bluewash);border-bottom:1px solid #bed0d2;padding:7px 14px}
-.mobile-nav nav{display:flex;gap:5px;overflow-x:auto}.mobile-nav a{flex:0 0 auto;padding:6px 10px;font-size:12px;background:var(--bluewash);color:var(--indigo);border:1px solid #bdcfd2}
-.layout{max-width:1320px;margin:auto;display:grid;grid-template-columns:190px minmax(0,1fr)}
-.sidebar{background:var(--bluewash);margin-top:26px;height:calc(100vh - 100px);position:sticky;top:76px;padding:22px 14px;border-top:4px solid var(--indigo);overflow:auto}
-.sidebar .eyebrow{display:block;margin:0 10px 12px;color:var(--indigo)}.sidebar nav{display:grid;gap:4px}
-.sidebar a{font-size:13px;padding:10px 12px;border-left:2px solid transparent}.sidebar a:hover,.sidebar a.active{background:var(--indigo);color:#fff9ee;border-left-color:#b45c43;text-decoration:none}
-.sidebar input{width:100%;margin-top:18px;border:1px solid #b9c6c7;padding:8px;background:var(--white);border-radius:2px;font-size:12px}
-.search-results{display:grid;gap:5px;margin-top:7px}.search-results a{padding:6px 8px;background:var(--white);font-size:12px}.search-result-empty{padding:8px;color:var(--muted);font-size:12px}
-main{padding:26px 32px 60px;min-width:0}
-.hero{border-top:3px solid var(--vermilion);padding:18px 0 20px;border-bottom:1px solid #d5ccbd;display:flex;justify-content:space-between;gap:20px}
-.eyebrow{font-size:11px;letter-spacing:.12em;color:var(--gold);font-weight:750}.hero .eyebrow{color:var(--indigo)}
-.hero h1{margin:7px 0 8px}.hero p{font-size:14px;color:var(--muted)}
-.date-seal{align-self:flex-start;border:1px solid var(--vermilion);color:var(--vermilion);padding:11px 13px;text-align:center;min-width:86px;font-size:12px}.date-seal strong{font:27px/1.3 Georgia,serif;display:block}
-.route-atlas{margin:24px 0 0;border-top:4px solid var(--indigo);padding-top:18px;scroll-margin-top:120px}
-.atlas-heading{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;margin-bottom:14px}.atlas-heading h2{font-size:29px;margin:4px 0}.atlas-heading p{font-size:13px;color:var(--muted)}
-.north-badge{min-width:145px;display:grid;grid-template-columns:26px auto;align-items:center;border:1px solid #bdc9c8;background:var(--bluewash);padding:9px 12px;color:var(--indigo)}.north-badge b{font-size:13px}.north-badge small{grid-column:1/-1;font-size:10px;color:var(--muted)}
-.atlas-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,.65fr);gap:14px;align-items:stretch}
-.map-card,.route-key{background:var(--white);border:1px solid #d7cdbd;padding:15px}
-.map-card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:10px}.map-kicker{display:block;font-size:10px;letter-spacing:.1em;color:var(--vermilion);font-weight:750}.map-card-head h3{font-size:18px;margin-top:2px}.scale-note{font-size:10px;color:var(--muted)}
-.route-map{width:100%;height:auto;display:block;border:1px solid #ddd3c3;background:#f8f4ea}.route-map text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
-.route-key h3{font-size:17px;margin-bottom:10px}.key-list{display:grid;gap:9px}.key-row{display:grid;grid-template-columns:52px 1fr;gap:10px;border-bottom:1px solid #e5ded1;padding-bottom:9px}.key-row:last-child{border:0}.key-row b{font-size:12px;color:var(--vermilion)}.key-row strong{font-size:14px;display:block}.key-row span{font-size:11px;color:var(--muted)}
-.deadline{margin-top:13px;background:var(--warn);border-left:4px solid var(--vermilion);padding:11px 12px;font-size:12px}.deadline strong{display:block;color:var(--vermilion);font-size:15px}
-.overview{margin:24px 0 0;scroll-margin-top:120px}.overview-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.overview-heading h2{font-size:23px}.overview-heading span{font-size:12px;color:var(--muted)}
-.dayline{border-top:2px solid var(--indigo);border-bottom:1px solid #c9cec5;background:var(--white)}.day-row{display:grid;grid-template-columns:112px 160px 1fr 18px;gap:14px;align-items:center;padding:11px 16px;border-bottom:1px solid #e1ded3;color:var(--ink)}.day-row:last-child{border:0}.day-row:hover{background:#e9eee9;text-decoration:none}.day-row time{font-size:13px;font-weight:750;color:var(--vermilion);font-variant-numeric:tabular-nums}.day-row strong{font-size:17px}.day-row span{font-size:13px;color:var(--muted)}.day-row i{font-style:normal;color:var(--indigo)}.day-row.start,.day-row.end{background:var(--bluewash)}.day-row.meal{background:#ede5d3}
-.time-note{font-size:12px;color:var(--muted);margin:9px 0}.guardrails{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:13px 0 0}.guardrails>div{border-left:2px solid var(--vermilion);padding-left:10px}.guardrails b{display:block;color:var(--vermilion);font-size:14px}.guardrails p{font-size:12px;color:var(--muted);margin-top:3px}
-.chapter{margin-top:38px;scroll-margin-top:120px}.section-title{display:flex;gap:12px;align-items:center;margin-bottom:12px}.section-no{font:28px/1 Georgia,serif;color:var(--vermilion);min-width:34px}.section-title p{font-size:12px;color:var(--muted);margin-top:3px}
-.travel{background:var(--bluewash);border:1px solid #c4d2d4;border-left:3px solid var(--indigo);padding:0 17px;margin-bottom:14px}.travel-head{padding:11px 0;display:flex;gap:12px;justify-content:space-between;align-items:baseline;border-bottom:1px solid #c7d3d9}.travel-head b{font-size:14px}.travel-head span{font-size:12px;color:#496070}
-.stops{list-style:none;counter-reset:step;padding:0;margin:0}.stops li{counter-increment:step;position:relative;padding:11px 0 11px 30px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;border-bottom:1px solid #c6d4d6}.stops li:last-child{border:0}.stops li:before{content:counter(step);position:absolute;left:0;top:12px;width:19px;height:19px;line-height:19px;text-align:center;border-radius:50%;background:var(--indigo);color:white;font:11px/19px Georgia,serif}
-.place-title{display:flex;gap:6px 9px;align-items:baseline;flex-wrap:wrap}.kind{font-size:10px;color:#4d6574;border-bottom:1px solid #aabfc9}.languages{display:flex;gap:4px 14px;flex-wrap:wrap;font-size:11px;color:#687371;margin:2px 0 5px}.instruction{font-size:13px}.instruction b{font-size:14px;color:#193e58}.minor{font-size:12px;line-height:1.5;color:var(--muted);margin-top:3px}.maplink{display:inline-block;white-space:nowrap;font-size:11px;border-bottom:1px solid #9bafba;padding:4px 0}
-.destination{background:var(--white);border:1px solid #d9ccba;border-left:5px solid var(--vermilion);padding:20px 24px;margin-bottom:14px;box-shadow:0 3px 0 #e7e0d1}.dest-header{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.destination h3{font-size:28px;margin:2px 0}.visit-time{font-size:13px;font-weight:650;line-height:1.7;color:var(--vermilion);text-align:right;white-space:nowrap}.purpose{font-size:22px;line-height:1.5;letter-spacing:.01em;margin:9px 0 7px;font-weight:750;color:var(--ink)}.highlights{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 11px}.highlights span{font-size:12px;color:var(--vermilion);font-weight:650;border-bottom:1px solid #d4b1a0;padding-bottom:2px}.facts{display:flex;gap:0;flex-wrap:wrap;margin:10px 0}.facts span{font-size:12px;padding:0 12px 0 0;margin-right:12px;border-right:1px solid #d5cab9}.facts span:last-child{border:0}.description{font-size:13px;color:#5e6866}.leave{background:var(--warn);padding:10px 12px;margin-top:13px;display:flex;gap:12px;align-items:baseline;font-size:14px}.leave>b{font-size:12px;color:var(--vermilion);white-space:nowrap}.leave strong{font-size:16px;color:var(--vermilion)}.dest-footer{margin-top:10px;display:flex;align-items:baseline;gap:14px;justify-content:space-between}.address{font-size:11px;color:#737b78}
-.photo-card{margin:14px 0 0;background:#e8e0d1;border:1px solid #d4c8b7;overflow:hidden}.photo-card img{width:100%;height:250px;display:block;object-fit:cover;background:#ddd4c5}.photo-card img.fit-contain{object-fit:contain;background:#eee7da}.photo-card figcaption{display:flex;justify-content:space-between;gap:10px;padding:7px 10px;font-size:10px;color:var(--muted)}.photo-card figcaption a{font-size:10px}
-.decision{border:1px solid #d9b9ac;background:#f1e3d9;padding:13px 18px;margin:14px 0}.decision>b{color:var(--vermilion)}.decision p{font-size:13px;margin-top:4px}
-.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.shop-card{background:var(--white);border:1px solid #ddd4c6;padding:16px 18px}.shop-card h3{font-size:17px}.shop-card p{font-size:13px;margin-top:8px}.shop-card .facts{margin:8px 0}.optional{border-top:3px solid var(--gold)}.priority{border-top:3px solid var(--vermilion)}
-.notice{margin-top:9px;border-left:3px solid var(--gold);background:#f1eadc;padding:8px 10px;font-size:12px;color:#5f625c}
-.practical{display:grid;grid-template-columns:1fr 1fr;gap:14px}.practical article{border-top:2px solid var(--gold);padding:15px 17px;background:#ede7db}.practical h3{font-size:16px;margin-bottom:7px}.practical p{font-size:13px}.practical p+p{margin-top:8px}
-.alternatives{display:grid;gap:10px}.alternative{display:grid;grid-template-columns:190px 1fr;border:1px solid #dcd2c2;background:var(--white)}.alternative h3{font-size:14px;padding:15px;background:#eee6d8}.alternative p{font-size:13px;padding:15px}.alternative strong{color:var(--vermilion)}
-.live-map{display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);gap:14px}.map-controls{background:var(--bluewash);border-left:4px solid var(--indigo);padding:14px}.map-controls label{display:block;font-size:12px;font-weight:750;margin-bottom:7px}.map-controls select{width:100%;padding:10px;background:var(--white);color:var(--ink);border:1px solid #9eb5ba}.map-controls p{font-size:11px;color:var(--muted);margin-top:9px}.map-frame{width:100%;height:330px;border:1px solid #ccc8bd;background:#e9e5dc}
-details{border:1px solid #d6d1c5;background:#f0ece3;margin-top:13px;padding:0 17px}summary{padding:13px 0;font-size:13px;font-weight:650;cursor:pointer}details>div{padding:0 0 16px;font-size:12px;color:#53616a}details p+p{margin-top:9px}.sources{display:flex;flex-wrap:wrap;gap:9px 18px}.sources a{font-size:12px}
-.footer{margin-top:36px;padding-top:18px;border-top:1px solid #d5ccbd;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:20px}
-@media(max-width:1100px){.layout{grid-template-columns:170px minmax(0,1fr)}main{padding:24px}.atlas-grid{grid-template-columns:1fr}.day-row{grid-template-columns:104px 145px 1fr 15px;gap:9px}.photo-card img{height:230px}}
-@media(max-width:900px){.layout{display:block}.sidebar{display:none}.mobile-nav{display:block}html{scroll-padding-top:125px}.route-atlas,.overview,.chapter{scroll-margin-top:125px}.day-row{grid-template-columns:108px 145px 1fr 15px}}
-@media(max-width:640px){
-  .topbar{height:46px;padding:0 15px}.mobile-nav{top:46px;padding:6px 10px}main{padding:15px 12px 35px}.hero{gap:8px;padding-top:14px}.hero h1{font-size:28px}.hero p{font-size:12px}.date-seal{padding:7px;min-width:64px}.date-seal strong{font-size:22px}
-  .atlas-heading{display:block}.atlas-heading h2{font-size:24px}.north-badge{margin-top:10px}.map-card,.route-key{padding:10px}.route-map .secondary-label{display:none}.route-key{padding:12px}.key-row{grid-template-columns:48px 1fr}.overview-heading{display:block}.overview-heading span{display:block;margin-top:4px}
-  .day-row{grid-template-columns:94px minmax(0,1fr) 14px;gap:1px 8px;padding:10px 11px}.day-row time{grid-row:1/3;align-self:center;font-size:12px}.day-row strong{grid-column:2;font-size:16px}.day-row span{grid-column:2;font-size:11px}.day-row i{grid-column:3;grid-row:1/3}
-  .guardrails{grid-template-columns:1fr;gap:9px}.guardrails>div{display:grid;grid-template-columns:112px 1fr;gap:8px}.guardrails b{font-size:12px}.guardrails p{font-size:11px;margin:0}
-  .chapter{margin-top:28px}.section-title{gap:9px}.section-no{font-size:25px;min-width:30px}.section-title h2{font-size:21px}.travel{padding:0 12px}.travel-head{display:block}.travel-head span{display:block;margin-top:3px}.stops li{grid-template-columns:1fr;gap:2px}
-  .dest-header{display:block}.destination{padding:15px;border-left-width:4px}.destination h3{font-size:24px}.purpose{font-size:20px}.visit-time{text-align:left;white-space:normal;margin-top:2px}.leave{display:block}.leave>b{display:block;margin-bottom:3px}.dest-footer{display:block}.dest-footer .maplink{margin-top:4px}
-  .photo-card img{height:205px;object-fit:cover}.photo-card figcaption{display:block}.shop-grid,.practical,.live-map{grid-template-columns:1fr}.alternative{grid-template-columns:1fr}.alternative h3{padding:11px 14px}.alternative p{padding:12px 14px}.map-frame{height:290px}.footer{display:block}.footer a{display:inline-block;margin-top:8px}
-}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-@media print{body{background:white;font-size:10pt}.topbar,.sidebar,.mobile-nav,.map-controls{display:none!important}.layout{display:block}main{padding:0}.chapter{margin-top:20px}.destination,.shop-card,.alternative,.dayline,.map-card{break-inside:avoid}.destination{box-shadow:none}.photo-card img{height:170px}.live-map{display:block}.map-frame{height:260px}a{color:#294e66}}
+:root{--paper:#f1ecdf;--ink:#203b43;--indigo:#204957;--blue:#dfe8e9;--red:#a34835;--muted:#616b68;--gold:#92723e;--white:#fffcf4;--line:#d6cdbf;--warn:#f0e4d4}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:108px}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}a{color:var(--indigo);text-decoration:none}a:hover{text-decoration:underline}h1,h2,h3,p{margin:0}h1,h2,h3{font-family:"Noto Serif CJK SC","Songti SC","STSong",serif}.topbar{height:52px;position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:var(--indigo);color:#fff}.topbar a{color:#fff;font-size:12px;letter-spacing:.14em}.topbar button{border:1px solid #9badb0;background:none;color:#fff;padding:5px 10px;font-size:11px}.quicknav{position:sticky;top:52px;z-index:25;background:rgba(223,232,233,.96);border-bottom:1px solid #c4d0d1;padding:6px 12px}.quicknav nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}.quicknav nav::-webkit-scrollbar{display:none}.quicknav a{flex:none;border:1px solid #bdcfd2;padding:6px 10px;font-size:11px;color:var(--indigo);background:#eef3f2}.wrap{max-width:970px;margin:auto;padding:24px 26px 56px}.hero{display:flex;justify-content:space-between;gap:20px;border-top:3px solid var(--red);border-bottom:1px solid var(--line);padding:18px 0 20px}.eyebrow{font-size:10px;letter-spacing:.12em;font-weight:750;color:var(--gold)}.hero .eyebrow{color:var(--indigo)}.hero h1{font-size:34px;line-height:1.25;margin:6px 0}.hero p{color:var(--muted);font-size:13px}.date{min-width:84px;border:1px solid var(--red);color:var(--red);padding:9px 10px;text-align:center;font-size:11px;align-self:flex-start}.date strong{display:block;font:27px/1.15 Georgia,serif}.critical{display:grid;grid-template-columns:repeat(3,1fr);margin:18px 0 0;background:var(--white);border:1px solid #d9cdbd}.critical div{padding:11px 13px;border-right:1px solid #e1d8ca}.critical div:last-child{border:0}.critical b{display:block;color:var(--red);font-size:16px}.critical span{font-size:11px;color:var(--muted)}.section{margin-top:28px;scroll-margin-top:108px}.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}.section-head h2{font-size:23px}.section-head span{font-size:11px;color:var(--muted)}.timeline{background:var(--white);border-top:3px solid var(--indigo);border-bottom:1px solid var(--line)}.row{display:grid;grid-template-columns:108px 175px 1fr;gap:14px;padding:10px 14px;border-bottom:1px solid #e7e0d5}.row:last-child{border:0}.row time{color:var(--red);font-weight:750;font-variant-numeric:tabular-nums}.row strong{font-size:15px}.row span{font-size:12px;color:var(--muted)}.row.optional{background:#f2eadc}.priority-note{margin-top:9px;padding:9px 11px;border-left:3px solid var(--gold);background:#eee7da;font-size:12px}.atlas{background:var(--white);border:1px solid #d8cdbd;padding:12px}.atlas summary{cursor:pointer;font-weight:750;color:var(--indigo);list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}.atlas summary::-webkit-details-marker{display:none}.atlas summary:after{content:"展开 / 收起";font:10px sans-serif;color:var(--muted)}.atlas-body{margin-top:10px}.route-map{width:100%;height:auto;display:block;border:1px solid #e0d7c9;background:#f8f4ea}.route-caption{font-size:11px;color:var(--muted);margin-top:7px}.card{background:var(--white);border:1px solid #d9ccba;border-left:4px solid var(--red);padding:17px 19px;margin-top:12px}.card-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.card h3{font-size:24px;line-height:1.3}.when{white-space:nowrap;color:var(--red);font-weight:700;font-size:12px;text-align:right}.lead{font-weight:700;font-size:16px;margin-top:8px}.chips{display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:8px}.chips span{font-size:11px;color:var(--red);border-bottom:1px solid #d4b1a0}.meta{font-size:12px;color:var(--muted);margin-top:8px}.action{margin-top:10px;padding:9px 11px;background:var(--warn);font-size:12px}.action b{color:var(--red)}.footerline{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-top:9px}.address{font-size:10px;color:#737b78}.gm{display:inline-block;white-space:nowrap;border-bottom:1px solid #9bafba;padding:3px 0;font-size:11px}.photo{margin:12px 0 0;background:#ece4d6;border:1px solid #d6c9b6;overflow:hidden}.photo img{display:block;width:100%;height:auto;max-height:360px;object-fit:contain;background:#eee7da}.photo figcaption{display:flex;justify-content:space-between;gap:10px;padding:6px 8px;font-size:10px;color:var(--muted)}.photo figcaption a{font-size:10px}.transit{margin-top:12px;background:var(--blue);border-left:3px solid var(--indigo);padding:10px 12px}.transit b{color:var(--indigo)}.transit p{font-size:12px;margin-top:4px}.transit .links{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}.shops{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.mini{background:var(--white);border:1px solid #ddd3c4;padding:13px 14px}.mini h3{font-size:16px}.mini .when{display:block;text-align:left;margin-top:4px}.mini p{font-size:12px;margin-top:6px}.mini.optional{border-top:3px solid var(--gold)}.mini.priority{border-top:3px solid var(--red)}.decision{margin-top:12px;padding:10px 12px;background:#f1e3d9;border-left:3px solid var(--red);font-size:12px}.compact-route{display:none}.route-strip{display:grid;gap:7px}.route-stop{display:grid;grid-template-columns:56px 1fr;gap:9px;padding:7px 0;border-bottom:1px solid #e3dbce}.route-stop:last-child{border:0}.route-stop b{color:var(--red);font-size:11px}.route-stop strong{display:block;font-size:13px}.route-stop span{font-size:11px;color:var(--muted)}details.fold{margin-top:12px;border:1px solid #d8d1c4;background:#f0ece3;padding:0 14px}details.fold summary{cursor:pointer;padding:11px 0;font-weight:700;font-size:12px}details.fold>div{padding:0 0 13px;font-size:12px;color:#55615f}.source-list{display:flex;flex-wrap:wrap;gap:8px 15px}.source-list a{font-size:11px}.mapbox{display:grid;grid-template-columns:260px 1fr;gap:10px}.map-controls{padding:12px;background:var(--blue);border-left:3px solid var(--indigo)}.map-controls label{display:block;font-weight:700;font-size:12px}.map-controls select{width:100%;margin-top:7px;padding:9px;border:1px solid #9fb5b9;background:var(--white);color:var(--ink)}.map-controls .gm{margin-top:8px}.map-frame{width:100%;height:290px;border:1px solid #d0c9bd;background:#eee}.site-footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;gap:12px}
+@media(max-width:700px){html{scroll-padding-top:96px}.wrap{padding:15px 12px 36px}.hero{padding:13px 0 15px;gap:9px}.hero h1{font-size:25px}.hero p{font-size:11.5px}.date{min-width:64px;padding:7px 6px}.date strong{font-size:21px}.critical{grid-template-columns:1fr}.critical div{display:grid;grid-template-columns:70px 1fr;gap:8px;border-right:0;border-bottom:1px solid #e1d8ca;padding:8px 10px}.critical div:last-child{border:0}.critical b{font-size:14px}.critical span{font-size:11px;align-self:center}.section{margin-top:22px;scroll-margin-top:96px}.section-head{display:block}.section-head h2{font-size:20px}.section-head span{display:block;margin-top:2px}.row{grid-template-columns:82px 1fr;gap:2px 9px;padding:9px 10px}.row time{grid-row:1/3;font-size:11.5px;align-self:center}.row strong{font-size:14px}.row span{grid-column:2;font-size:11px}.atlas .route-map{display:none}.compact-route{display:block}.route-caption{display:none}.card{padding:14px 13px;border-left-width:3px}.card-head{display:block}.card h3{font-size:21px}.when{text-align:left;margin-top:3px}.lead{font-size:14.5px;margin-top:7px}.chips{margin-top:6px}.meta{font-size:11.5px}.action{font-size:11.5px}.footerline{display:block}.footerline .gm{margin-top:5px}.photo{margin-top:10px}.photo img{max-height:280px}.photo figcaption{display:block}.photo figcaption a{display:inline-block;margin-top:2px}.transit{padding:9px 10px}.transit p{font-size:11.5px}.shops{grid-template-columns:1fr}.mini{padding:12px 13px}.mapbox{grid-template-columns:1fr}.map-frame{height:245px}.site-footer{display:block}.site-footer a{display:inline-block;margin-top:5px}}
+@media(max-width:390px){.topbar{height:48px;padding:0 12px}.quicknav{top:48px;padding:5px 9px}.quicknav a{padding:5px 8px}.wrap{padding-left:10px;padding-right:10px}.hero h1{font-size:23px}.hero .eyebrow{font-size:9px}.date{min-width:59px}.critical div{grid-template-columns:64px 1fr}.row{grid-template-columns:76px 1fr}.photo img{max-height:240px}}
+@media print{.topbar,.quicknav,.mapbox{display:none!important}.wrap{max-width:none;padding:0}.atlas .route-map{display:block!important}.compact-route{display:none!important}.card,.mini,.timeline,.atlas{break-inside:avoid}.photo img{max-height:230px}}
 </style>
 </head>
 <body id="top">
+<header class="topbar"><a href="#top">KYOTO / 10·02</a><button onclick="window.print()">打印 / PDF</button></header>
+<div class="quicknav"><nav><a href="#overview">概览</a><a href="#map">路线</a><a href="#nijo">二条城</a><a href="#traveler">文创</a><a href="#sousou">SOU・SOU</a><a href="#return">回酒店</a><a href="#dinner">18:00</a></nav></div>
+<main class="wrap">
+<section class="hero">
+  <div><span class="eyebrow">NIJO · KARASUMA OIKE · TERAMACHI · KAWARAMACHI</span><h1>京都城下与设计小店</h1><p>晚起 → 二条城 → 烏丸御池午饭 → 文创购物 → 回酒店 → 18:00 Shishiou</p></div>
+  <div class="date">2026<strong>10.02</strong>周五</div>
+</section>
+<div class="critical" aria-label="三个关键时间"><div><b>13:00</b><span>离开二条城，先坐地铁再午饭</span></div><div><b>17:05</b><span>最晚结束购物，开始回酒店</span></div><div><b>18:00</b><span>Shishiou 预约，不可迟到</span></div></div>
 
-<header class="topbar">
-  <a class="wordmark" href="#top">KYOTO / 京都城下与设计</a>
-  <button id="print">打印 / PDF</button>
-</header>
-
-<div class="mobile-nav">
-<nav aria-label="行程快速跳转">
-  <a href="#map">路线地图</a><a href="#overview">概览</a><a href="#nijo">二条城</a>
-  <a href="#lunch">午饭</a><a href="#traveler">文创</a><a href="#sousou">SOU・SOU</a>
-  <a href="#return">回酒店</a><a href="#dinner">18:00晚餐</a>
-</nav>
-</div>
-
-<div class="layout">
-<aside class="sidebar">
-  <span class="eyebrow">10月2日 · 现场路线</span>
-  <nav>
-    <a href="#map">路线方位与地点地图</a><a href="#overview">全天概览</a>
-    <a href="#start">00 晚起与轻食</a><a href="#nijo">01 二条城</a>
-    <a href="#lunch">02 地铁 + 烏丸御池午饭</a><a href="#traveler">03 TRAVELER'S FACTORY</a>
-    <a href="#center">04 寺町 / LOFT</a><a href="#sousou">05 SOU・SOU</a>
-    <a href="#ddepartment">06 D&DEPARTMENT 可选</a><a href="#return">07 回酒店休息</a>
-    <a href="#dinner">08 Shishiou 18:00</a><a href="#alternatives">晚起 / 超时怎么删</a>
-    <a href="#live-map-section">在线地图</a>
-  </nav>
-  <input id="search" type="search" placeholder="查地点 / 店铺" aria-label="搜索地点或店铺"/>
-  <div id="search-results" class="search-results" aria-live="polite"></div>
-</aside>
-
-<main>
-<header class="hero">
-  <div>
-    <span class="eyebrow">NIJO · KARASUMA OIKE · TERAMACHI · KAWARAMACHI</span>
-    <h1>京都城下与设计小店的一天</h1>
-    <p>晚起轻食 → 二条城 → 烏丸御池午饭 → 文具与设计选物 → 回酒店放东西（拿现金） → 18:00 京料理</p>
+<section class="section" id="overview">
+  <div class="section-head"><h2>全天时间轴</h2><span>只保留现场真正需要看的时间</span></div>
+  <div class="timeline">
+    <div class="row"><time>10:30–11:15</time><strong>起床 · 整理 · 轻食</strong><span>酒店早餐已结束；饿就便利店简单垫一下。</span></div>
+    <div class="row"><time>11:30–13:00</time><strong>二条城</strong><span>唐门 → 二之丸御殿 → 二之丸庭园。</span></div>
+    <div class="row"><time>13:00–13:55</time><strong>地铁 → 烏丸御池午饭</strong><span>东西线1站；13:20左右到，简单午饭。</span></div>
+    <div class="row"><time>14:00–14:35</time><strong>TRAVELER'S FACTORY</strong><span>今天文创优先级最高。</span></div>
+    <div class="row"><time>14:45–15:30</time><strong>寺町三条 · tag / LOFT</strong><span>tag 顺路；LOFT 可删。</span></div>
+    <div class="row"><time>15:40–16:20</time><strong>SOU・SOU</strong><span>店群挑感兴趣的2–3家。</span></div>
+    <div class="row optional"><time>16:35–17:05</time><strong>D&DEPARTMENT（可选）</strong><span>累了直接删；17:05必须撤。</span></div>
+    <div class="row"><time>17:20–17:40</time><strong>回酒店 · 放东西 · 再出门</strong><span>最迟17:40离开酒店。</span></div>
+    <div class="row"><time>18:00</time><strong>Shishiou 晚餐</strong><span>目标17:50–17:55到店。</span></div>
   </div>
-  <div class="date-seal">2026<strong>10.02</strong>周五 · JST</div>
-</header>
-
-<section class="route-atlas" id="map">
-<div class="atlas-heading">
-  <div><span class="eyebrow">先看这里 · 当天空间关系</span><h2>路线方位与地点地图</h2>
-  <p>北向上。先在酒店附近解决二条城，再坐地铁1站到烏丸御池；从这里开始一路向东、向南逛店，17点前结束购物并回酒店。</p></div>
-  <div class="north-badge">↑<b>北 N</b><small>示意图非等比例</small></div>
-</div>
-
-<div class="atlas-grid">
-<article class="map-card">
-  <div class="map-card-head"><div><span class="map-kicker">01 / 全天总图</span><h3>酒店 → 二条城 → 烏丸御池 → 市中心文创 → 回酒店 → 晚餐</h3></div><span class="scale-note">路线示意 · 非导航替代</span></div>
-  <svg class="route-map" viewBox="0 0 920 520" role="img" aria-label="京都10月2日路线示意图">
-  <defs>
-    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#204957"/></marker>
-    <marker id="arrow-red" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#a34835"/></marker>
-  </defs>
-  <rect width="920" height="520" fill="#f8f4ea"/>
-  <g stroke="#ddd7ca" stroke-width="2"><path d="M90 70H860"/><path d="M90 145H860"/><path d="M90 220H860"/><path d="M90 295H860"/><path d="M90 370H860"/><path d="M90 445H860"/><path d="M150 40V480"/><path d="M280 40V480"/><path d="M410 40V480"/><path d="M540 40V480"/><path d="M670 40V480"/><path d="M800 40V480"/></g>
-  <g fill="#9aa39f" font-size="13"><text x="548" y="61" class="secondary-label">御池通 / Oike-dori</text><text x="676" y="211" class="secondary-label">三条 / Sanjo</text><text x="675" y="362" class="secondary-label">四条 / Shijo</text><text x="417" y="475" class="secondary-label">烏丸通 / Karasuma-dori</text><text x="805" y="475" class="secondary-label">河原町 / Kawaramachi</text></g>
-  <rect x="122" y="84" width="220" height="124" rx="4" fill="#e5e8df" stroke="#7e918a" stroke-width="3"/><rect x="136" y="98" width="192" height="96" fill="none" stroke="#9da99f" stroke-width="2"/>
-  <text x="232" y="132" text-anchor="middle" font-size="22" font-weight="750" fill="#203b43">二条城</text><text x="232" y="158" text-anchor="middle" font-size="13" fill="#616b68">Nijō Castle</text>
-
-  <path d="M210 315 C185 285 175 245 185 205" fill="none" stroke="#204957" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/>
-  <path d="M342 150 C440 138 520 128 590 125" fill="none" stroke="#204957" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/>
-  <path d="M590 125 C666 145 718 179 745 219" fill="none" stroke="#204957" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/>
-  <path d="M745 219 C770 265 778 310 764 349" fill="none" stroke="#204957" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/>
-  <path d="M760 352 C690 365 620 376 548 395" fill="none" stroke="#204957" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/>
-  <path d="M548 395 C455 416 330 399 235 330" fill="none" stroke="#204957" stroke-width="6" stroke-dasharray="11 8" stroke-linecap="round" marker-end="url(#arrow)"/>
-  <path d="M235 330 C258 303 292 286 326 274" fill="none" stroke="#a34835" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow-red)"/>
-
-  <circle cx="210" cy="315" r="12" fill="#a34835" stroke="#fffdf7" stroke-width="4"/><text x="210" y="346" text-anchor="middle" font-size="15" font-weight="750" fill="#203b43">酒店</text><text x="210" y="365" text-anchor="middle" font-size="11" fill="#616b68">Toyoko Inn</text>
-  <circle cx="590" cy="125" r="12" fill="#a34835" stroke="#fffdf7" stroke-width="4"/><text x="590" y="102" text-anchor="middle" font-size="15" font-weight="750" fill="#203b43">TRAVELER'S FACTORY</text><text x="590" y="83" text-anchor="middle" font-size="11" fill="#616b68">新風館 / 烏丸御池</text>
-  <circle cx="745" cy="219" r="10" fill="#fffdf7" stroke="#204957" stroke-width="4"/><text x="745" y="198" text-anchor="middle" font-size="14" font-weight="750" fill="#203b43">tag 文具</text>
-  <circle cx="790" cy="265" r="10" fill="#fffdf7" stroke="#204957" stroke-width="4"/><text x="818" y="269" font-size="13" font-weight="700" fill="#203b43">LOFT 可选</text>
-  <circle cx="764" cy="349" r="12" fill="#a34835" stroke="#fffdf7" stroke-width="4"/><text x="764" y="385" text-anchor="middle" font-size="15" font-weight="750" fill="#203b43">SOU・SOU</text>
-  <circle cx="548" cy="395" r="10" fill="#fffdf7" stroke="#92723e" stroke-width="4"/><text x="548" y="426" text-anchor="middle" font-size="14" font-weight="750" fill="#203b43">D&DEPARTMENT</text><text x="548" y="445" text-anchor="middle" font-size="11" fill="#616b68">体力足够才去</text>
-  <circle cx="326" cy="274" r="12" fill="#a34835" stroke="#fffdf7" stroke-width="4"/><text x="326" y="252" text-anchor="middle" font-size="15" font-weight="750" fill="#203b43">Shishiou</text><text x="326" y="232" text-anchor="middle" font-size="11" fill="#a34835">18:00 必须到</text>
-  <g transform="translate(830,46)" fill="#204957"><path d="M0 30 L12 0 L24 30 L12 23 Z"/><text x="12" y="45" text-anchor="middle" font-size="13" font-weight="750">N</text></g>
-  </svg>
-</article>
-
-<aside class="route-key">
-  <h3>现场只记 7 件事</h3>
-  <div class="key-list">
-    <div class="key-row"><b>10:30</b><div><strong>晚起</strong><span>酒店早餐已结束；饿就便利店少量垫一下。</span></div></div>
-    <div class="key-row"><b>11:30</b><div><strong>二条城开始</strong><span>不追求开门第一批。</span></div></div>
-    <div class="key-row"><b>13:00</b><div><strong>先去烏丸御池</strong><span>坐地铁1站，再在核心区域午饭。</span></div></div>
-    <div class="key-row"><b>14:00</b><div><strong>TRAVELER'S FACTORY</strong><span>今天文创优先级最高。</span></div></div>
-    <div class="key-row"><b>15:40</b><div><strong>SOU・SOU</strong><span>给足时间，不去暂休的染めおり。</span></div></div>
-    <div class="key-row"><b>17:05</b><div><strong>最晚结束购物</strong><span>D&DEPARTMENT 不得侵占回酒店时间。</span></div></div>
-    <div class="key-row"><b>17:35</b><div><strong>开始准备离开酒店，拿现金</strong><span>17:35–17:40 出门，目标17:50–17:55到餐厅。</span></div></div>
-    <div class="key-row"><b>18:00</b><div><strong>Shishiou</strong><span>全天唯一不可滑动时间点。</span></div></div>
-  </div>
-  <div class="deadline"><strong>硬约束：18:00 到店</strong>17:05 左右必须从最后一家店撤；目标17:20–17:30回酒店。短暂放购物袋、补水后，<b>17:35–17:40从酒店出门</b>，目标17:50–17:55到Shishiou。</div>
-</aside>
-</div>
+  <div class="priority-note"><b>晚点删减顺序：</b>先删 LOFT → 再删 D&DEPARTMENT；若 14:30 还没到新風館，tag 也删，只保留 TRAVELER'S FACTORY + SOU・SOU。</div>
 </section>
 
-<section id="overview" class="overview">
-<div class="overview-heading"><h2>一天怎么走</h2><span>2026年10月2日 · 周五 · 日本时间</span></div>
-<div class="dayline">
-  <a class="day-row start" href="#start"><time>10:30–11:15</time><strong>便利店轻食</strong><span>酒店早餐 6:30–9:00；此时已结束</span><i>↗</i></a>
-  <a class="day-row" href="#nijo"><time>11:30–13:00</time><strong>二条城</strong><span>唐门 → 二之丸御殿 → 二之丸庭园</span><i>↗</i></a>
-  <a class="day-row" href="#lunch"><time>13:00–13:20</time><strong>二条城 → 烏丸御池</strong><span>出城步行到站 + 等车 + 东西线1站，预留完整20分钟</span><i>↗</i></a>
-  <a class="day-row meal" href="#lunch"><time>13:20–13:55</time><strong>烏丸御池简单午饭</strong><span>定食 / 荞麦 / 乌冬 / 咖喱；不排长队</span><i>↗</i></a>
-  <a class="day-row" href="#traveler"><time>14:00–14:35</time><strong>TRAVELER'S FACTORY</strong><span>旅行手账 · 京都限定 · 文具杂货</span><i>↗</i></a>
-  <a class="day-row" href="#center"><time>14:45–15:30</time><strong>寺町三条 / LOFT</strong><span>tag 顺路；LOFT 看兴趣快速进出</span><i>↗</i></a>
-  <a class="day-row" href="#sousou"><time>15:40–16:20</time><strong>SOU・SOU</strong><span>伊势木棉 · 足袋 · 包袋 · 京都设计</span><i>↗</i></a>
-  <a class="day-row" href="#ddepartment"><time>16:35–17:05</time><strong>D&DEPARTMENT 可选</strong><span>体力足才去；营业以当天公告为准</span><i>↗</i></a>
-  <a class="day-row end" href="#return"><time>17:20–17:35</time><strong>回酒店 拿现金</strong><span>放购物袋、补水；不要把休息拖长</span><i>↗</i></a>
-  <a class="day-row" href="#return"><time>17:35–17:40</time><strong>从酒店出发</strong><span>步行去Shishiou；目标17:50–17:55到</span><i>↗</i></a>
-  <a class="day-row meal" href="#dinner"><time>18:00</time><strong>Shishiou 晚餐</strong><span>预约时间不可迟到</span><i>↗</i></a>
-</div>
-<p class="time-note">下午优先级：<b>TRAVELER'S FACTORY + SOU・SOU 为核心</b>。进度落后时先删 <b>LOFT</b>；仍落后则不去 <b>D&DEPARTMENT</b>；只有到14:30还没到新風館时，才连 <b>tag</b> 一起删。</p>
-<div class="guardrails">
-  <div><b>酒店早餐不是午餐</b><p>免费自助早餐只供应 6:30–9:00；10:30起床后不再安排酒店用餐。</p></div>
-  <div><b>先转场再午饭</b><p>二条城结束后先到烏丸御池，避免吃完午饭再赶地铁卡14:00。</p></div>
-  <div><b>17:05 截止</b><p>最后一家店无论是否逛完都撤，保证18:00晚餐。</p></div>
-</div>
+<section class="section" id="map">
+  <div class="section-head"><h2>路线方位</h2><span>北向上 · 示意图非等比例</span></div>
+  <details class="atlas" open>
+    <summary>酒店 → 二条城 → 烏丸御池 → 河原町 → 酒店 → 晚餐</summary>
+    <div class="atlas-body">
+      <svg class="route-map" viewBox="0 0 920 520" role="img" aria-label="京都10月2日路线示意图">
+        <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#204957"/></marker><marker id="arrow-red" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#a34835"/></marker></defs>
+        <rect width="920" height="520" fill="#f8f4ea"/>
+        <g stroke="#ddd7ca" stroke-width="2"><path d="M90 70H860"/><path d="M90 145H860"/><path d="M90 220H860"/><path d="M90 295H860"/><path d="M90 370H860"/><path d="M90 445H860"/><path d="M150 40V480"/><path d="M280 40V480"/><path d="M410 40V480"/><path d="M540 40V480"/><path d="M670 40V480"/><path d="M800 40V480"/></g>
+        <g fill="#9aa39f" font-size="13"><text x="548" y="61">御池通</text><text x="676" y="211">三条</text><text x="675" y="362">四条</text></g>
+        <rect x="122" y="84" width="220" height="124" rx="4" fill="#e5e8df" stroke="#7e918a" stroke-width="3"/><rect x="136" y="98" width="192" height="96" fill="none" stroke="#9da99f" stroke-width="2"/><text x="232" y="137" text-anchor="middle" font-size="22" font-weight="750" fill="#203b43">二条城</text>
+        <path d="M210 315 C185 285 175 245 185 205" fill="none" stroke="#204957" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/><path d="M342 150 C440 138 520 128 590 125" fill="none" stroke="#204957" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/><path d="M590 125 C666 145 718 179 745 219" fill="none" stroke="#204957" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/><path d="M745 219 C770 265 778 310 764 349" fill="none" stroke="#204957" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/><path d="M760 352 C690 365 620 376 548 395" fill="none" stroke="#204957" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow)"/><path d="M548 395 C455 416 330 399 235 330" fill="none" stroke="#204957" stroke-width="6" stroke-dasharray="11 8" stroke-linecap="round" marker-end="url(#arrow)"/><path d="M235 330 C258 303 292 286 326 274" fill="none" stroke="#a34835" stroke-width="7" stroke-linecap="round" marker-end="url(#arrow-red)"/>
+        <circle cx="210" cy="315" r="12" fill="#a34835" stroke="#fffdf7" stroke-width="4"/><text x="210" y="347" text-anchor="middle" font-size="15" font-weight="750" fill="#203b43">酒店</text>
+        <circle cx="590" cy="125" r="12" fill="#a34835" stroke="#fffdf7" stroke-width="4"/><text x="590" y="102" text-anchor="middle" font-size="15" font-weight="750" fill="#203b43">TRAVELER'S</text><text x="590" y="83" text-anchor="middle" font-size="11" fill="#616b68">烏丸御池</text>
+        <circle cx="745" cy="219" r="10" fill="#fffdf7" stroke="#204957" stroke-width="4"/><text x="745" y="198" text-anchor="middle" font-size="14" font-weight="750" fill="#203b43">tag</text>
+        <circle cx="790" cy="265" r="10" fill="#fffdf7" stroke="#204957" stroke-width="4"/><text x="818" y="269" font-size="13" font-weight="700" fill="#203b43">LOFT</text>
+        <circle cx="764" cy="349" r="12" fill="#a34835" stroke="#fffdf7" stroke-width="4"/><text x="764" y="385" text-anchor="middle" font-size="15" font-weight="750" fill="#203b43">SOU・SOU</text>
+        <circle cx="548" cy="395" r="10" fill="#fffdf7" stroke="#92723e" stroke-width="4"/><text x="548" y="426" text-anchor="middle" font-size="14" font-weight="750" fill="#203b43">D&DEPARTMENT</text>
+        <circle cx="326" cy="274" r="12" fill="#a34835" stroke="#fffdf7" stroke-width="4"/><text x="326" y="252" text-anchor="middle" font-size="15" font-weight="750" fill="#203b43">Shishiou</text><text x="326" y="232" text-anchor="middle" font-size="11" fill="#a34835">18:00</text>
+        <g transform="translate(830,46)" fill="#204957"><path d="M0 30 L12 0 L24 30 L12 23 Z"/><text x="12" y="45" text-anchor="middle" font-size="13" font-weight="750">N</text></g>
+      </svg>
+      <div class="compact-route">
+        <div class="route-strip"><div class="route-stop"><b>11:30</b><div><strong>二条城</strong><span>酒店步行前往</span></div></div><div class="route-stop"><b>13:00</b><div><strong>烏丸御池</strong><span>东西线1站 → 午饭</span></div></div><div class="route-stop"><b>14:00</b><div><strong>TRAVELER'S → tag / LOFT → SOU・SOU</strong><span>一路向东、向南逛</span></div></div><div class="route-stop"><b>16:35</b><div><strong>D&DEPARTMENT</strong><span>可选；17:05撤</span></div></div><div class="route-stop"><b>17:20</b><div><strong>回酒店</strong><span>放购物袋</span></div></div><div class="route-stop"><b>18:00</b><div><strong>Shishiou</strong><span>预约晚餐</span></div></div></div>
+      </div>
+      <p class="route-caption">手机端默认用纵向路线代替密集地图文字；完整方位图在平板 / 电脑端显示。</p>
+    </div>
+  </details>
 </section>
 
-<section class="chapter findable" id="start">
-<div class="section-title"><span class="section-no">00</span><div><h2>晚起后的第一口｜便利店轻食</h2><p>不是早餐任务，只是避免空腹逛二条城</p></div></div>
-<div class="decision">
-  <b>为什么不吃酒店？</b>
-  <p>东横INN 京都二条城南官方目前明确：<strong>免费自助早餐 6:30–9:00</strong>。官网没有午餐服务信息，所以10:30左右起床后不把酒店作为吃饭地点。</p>
-</div>
-<div class="travel">
-  <div class="travel-head"><b>10:30–11:15｜起床、整理、按饥饿程度决定要不要垫一下</b><span>便利店只买少量，不在这里吃成正式午饭</span></div>
-  <ol class="stops">
-    <li><div><div class="place-title"><h4>如果不饿</h4><span class="kind">直接出发</span></div><p class="instruction">喝水或咖啡即可，<b>11:30左右开始二条城</b>。</p></div></li>
-    <li><div><div class="place-title"><h4>如果明显饿</h4><span class="kind">便利店</span></div><p class="instruction">买 <b>1个饭团 / 小三明治 + 咖啡或饮料</b> 即可。13:15左右还要吃正式午饭，不要在11点吃太多。</p></div></li>
-  </ol>
-</div>
+<section class="section" id="nijo">
+  <div class="section-head"><h2>01 · 二条城</h2><span>11:30–13:00</span></div>
+  <div class="transit"><b>酒店 → 二条城</b><p>步行前往东大手门；导航直接用二条城主入口。</p><div class="links"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Toyoko+Inn+Kyoto+Nijojo+Minami">酒店 ↗</a><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Nijo+Castle+Kyoto">二条城 ↗</a></div></div>
+  <article class="card"><div class="card-head"><div><span class="eyebrow">WORLD HERITAGE</span><h3>二条城</h3></div><div class="when">11:30–13:00</div></div><p class="lead">唐门 → 二之丸御殿 → 二之丸庭园；不追求完整城郭环线。</p><div class="chips"><span>唐门</span><span>二之丸御殿</span><span>莺张地板</span><span>二之丸庭园</span></div><p class="meta">8:45开城 · 16:00停止入城 · 17:00闭城 · 城+二之丸 ¥1,300。 本丸御殿需预约，不纳入今天主线。</p><div class="action"><b>13:00 离开：</b>先去二条城前站，不在城边找午饭。</div><div class="footerline"><span class="address">541 Nijojocho, Nakagyo Ward, Kyoto 604-8301</span><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Nijo+Castle+Kyoto">Google Maps ↗</a></div><figure class="photo"><img loading="lazy" alt="二条城二之丸御殿唐门" src="https://img.kojodan.com/photo/280897.jpg"><figcaption><span>二条城 · 唐门</span><a target="_blank" rel="noopener" href="https://kojodan.jp/castle/13/photo/9522.html">图片来源 ↗</a></figcaption></figure></article>
 </section>
 
-<section class="chapter findable" id="nijo">
-<div class="section-title"><span class="section-no">01</span><div><h2>二条城｜Nijō Castle｜元離宮二条城</h2><p>酒店附近最值得在这一天解决的核心景点</p></div></div>
-<div class="travel">
-  <div class="travel-head"><b>酒店 → 二条城东大手门</b><span>步行为主 · 给自己约15分钟导航缓冲</span></div>
-  <ol class="stops">
-    <li><div><div class="place-title"><h4>Toyoko Inn Kyoto Nijojo Minami</h4><span class="kind">酒店</span></div><p class="languages"><span>東横INN 京都二条城南</span><span>〒604-8257 京都市中京区橋浦町223</span></p><p class="instruction">整理好后出门，今天不要为了赶行程把恢复日重新变成早起日。</p></div><a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Toyoko+Inn+Kyoto+Nijojo+Minami">Google Maps ↗</a></li>
-    <li><div><div class="place-title"><h4>Higashi Ote-mon Gate / 東大手門</h4><span class="kind">二条城主入口</span></div><p class="instruction">导航直接填 <b>Nijō Castle / 二条城</b>，不绕其它门。</p></div><a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Nijo+Castle+Kyoto">地图 ↗</a></li>
-  </ol>
-</div>
-<article class="destination">
-  <div class="dest-header"><div><span class="eyebrow">WORLD HERITAGE · 城郭 / 御殿</span><h3>二条城</h3></div><div class="visit-time">11:30–13:00<br/>建议 90 min</div></div>
-  <p class="purpose">看最核心的幕府建筑与庭园，不追求完整城郭环线。</p>
-  <div class="highlights"><span>唐门</span><span>二之丸御殿</span><span>莺张地板</span><span>二之丸庭园</span></div>
-  <div class="facts"><span>8:45开城</span><span>16:00停止入城</span><span>17:00闭城</span><span>城+二之丸 ¥1,300</span></div>
-  <p class="description">现场顺序：东大手门 → 唐门 → 二之丸御殿 → 二之丸庭园 → 视时间看本丸区域外围后回东侧。<b>本丸御殿需预约指定时段，不纳入今天主线。</b></p>
-  <div class="leave"><b>13:00 离开</b><span>出来后先去二条城前站，不先找午饭。</span></div>
-  <div class="dest-footer"><span class="address">541 Nijojocho, Nakagyo Ward, Kyoto 604-8301</span><a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Nijo+Castle+Kyoto">打开二条城 ↗</a></div>
-  <figure class="photo-card"><img loading="lazy" alt="二条城二之丸御殿唐门" src="https://img.kojodan.com/photo/280897.jpg"/><figcaption><span>视觉识别：金饰木构的唐门。</span><a target="_blank" rel="noopener" href="https://kojodan.jp/castle/13/photo/9522.html">图片来源 ↗</a></figcaption></figure>
-</article>
+<section class="section" id="lunch">
+  <div class="section-head"><h2>02 · 烏丸御池午饭</h2><span>13:00–13:55</span></div>
+  <div class="transit"><b>二条城前駅 → 烏丸御池駅</b><p><b>2号站台</b>，乘东西线往 <b>六地蔵 / びわ湖浜大津方向</b>，1站。约13:15–13:20到，再吃简单午饭；不排长队。</p><div class="links"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Nijojo-mae+Station+Kyoto">二条城前駅 ↗</a><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Karasuma+Oike+Station+Kyoto">烏丸御池駅 ↗</a></div></div>
+  <div class="decision">午饭只作为补给：定食 / 荞麦 / 乌冬 / 咖喱均可，<b>13:55前结束</b>，14:00进入新風館。</div>
 </section>
 
-<section class="chapter findable" id="lunch">
-<div class="section-title"><span class="section-no">02</span><div><h2>先坐地铁，再在烏丸御池午饭</h2><p>这次调整后的关键：把交通放在午饭之前</p></div></div>
-<div class="travel">
-  <div class="travel-head"><b>二条城前 → 烏丸御池</b><span>京都市营地铁东西线 · 1站</span></div>
-  <ol class="stops">
-    <li><div><div class="place-title"><h4>Nijōjō-mae Station / 二条城前駅</h4><span class="kind">地铁</span></div><p class="instruction">去 <b>2号站台</b>，乘往 <b>六地蔵 / びわ湖浜大津方向（向东）</b> 的车。<b>不要去1号站台</b>的二条 / 太秦天神川方向。</p></div><a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Nijojo-mae+Station+Kyoto">地图 ↗</a></li>
-    <li><div><div class="place-title"><h4>Karasuma Oike Station / 烏丸御池駅</h4><span class="kind">下一站</span></div><p class="instruction">目标约13:15–13:20到。20分钟转场已经包含出城、步行到站、等车和出站缓冲；到达后先在烏丸御池 / 新風館周边吃饭，吃完直接进新風館。</p></div><a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Karasuma+Oike+Station+Kyoto">地图 ↗</a></li>
-  </ol>
-</div>
-<div class="decision"><b>13:20–13:55 午饭</b><p>定食、荞麦、乌冬、咖喱或咖啡简餐都可以。<strong>遇到排队超过约10分钟就换店。</strong>这顿只留约35分钟，18:00已有正式日料，不承担“名店打卡”。</p></div>
+<section class="section" id="traveler">
+  <div class="section-head"><h2>03 · TRAVELER'S FACTORY</h2><span>14:00–14:35</span></div>
+  <article class="card"><div class="card-head"><div><span class="eyebrow">PRIORITY · STATIONERY</span><h3>TRAVELER'S FACTORY KYOTO</h3></div><div class="when">11:00–20:00</div></div><p class="lead">旅行手账、皮革、黄铜配件、贴纸与京都限定；今天文创主线优先级最高。</p><div class="chips"><span>新風館 1F</span><span>KYOTO EDITION</span><span>限定贴纸</span><span>店内印章</span></div><div class="action"><b>14:35 离开：</b>向东步行去寺町三条。</div><div class="footerline"><span class="address">586-2 Banocho, Nakagyo-ku · 新風館 1F</span><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=TRAVELER%27S+FACTORY+KYOTO">Google Maps ↗</a></div><figure class="photo"><img loading="lazy" alt="TRAVELER'S FACTORY KYOTO 店内" src="https://assets.st-note.com/img/1773549694-OGTVpnuqaRIXviW2EkmfhgYx.jpg?width=1200"><figcaption><span>TRAVELER'S FACTORY KYOTO</span><a target="_blank" rel="noopener" href="https://note.com/stationary_log/n/nfda57aa53a65">图片来源 ↗</a></figcaption></figure></article>
 </section>
 
-<section class="chapter findable" id="traveler">
-<div class="section-title"><span class="section-no">03</span><div><h2>TRAVELER'S FACTORY KYOTO</h2><p>今天文创主线里优先级最高的一家</p></div></div>
-<article class="destination">
-  <div class="dest-header"><div><span class="eyebrow">STATIONERY · TRAVEL · KYOTO EDITION</span><h3>TRAVELER'S FACTORY KYOTO</h3></div><div class="visit-time">14:00–14:35<br/>11:00–20:00</div></div>
-  <p class="purpose">旅行手账、皮革、黄铜配件、贴纸和京都限定，比普通大型文具店更值得专门停一次。</p>
-  <div class="highlights"><span>TRAVELER'S notebook</span><span>KYOTO EDITION</span><span>限定贴纸</span><span>店内印章</span></div>
-  <div class="facts"><span>新風館 1F</span><span>烏丸御池站附近</span><span>11:00–20:00</span></div>
-  <p class="description">给完整30–35分钟。新風館可以顺便看，但不要让其它店挤掉后面的SOU・SOU。</p>
-  <div class="leave"><b>14:35 离开</b><span>向东步行去寺町三条。</span></div>
-  <div class="dest-footer"><span class="address">586-2 Banocho, Nakagyo-ku · 新風館 1F</span><a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=TRAVELER%27S+FACTORY+KYOTO">Google Maps ↗</a></div>
-  <figure class="photo-card">
-    <img class="fit-contain" loading="lazy" alt="TRAVELER'S FACTORY KYOTO 店内识别图" src="https://assets.st-note.com/img/1773549694-OGTVpnuqaRIXviW2EkmfhgYx.jpg?width=1200"/>
-    <figcaption><span>视觉识别：新風館内的工业风木质文具店；图片采用完整显示，PC端不裁切主体。</span><a target="_blank" rel="noopener" href="https://note.com/stationary_log/n/nfda57aa53a65">图片来源 ↗</a></figcaption>
-  </figure>
-</article>
+<section class="section" id="center">
+  <div class="section-head"><h2>04 · 寺町三条 → SOU・SOU</h2><span>14:45–16:20</span></div>
+  <div class="shops"><article class="mini priority" id="tag"><span class="eyebrow">顺路</span><h3>Stationery Shop tag</h3><span class="when">14:45–15:05 · 10:00–19:00</span><p>快速看笔、贴纸、纸品和小文具，约15–20分钟。</p><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Stationery+Shop+tag+Teramachi+Sanjo">Google Maps ↗</a></article><article class="mini optional" id="loft"><span class="eyebrow">可删第1项</span><h3>Kyoto LOFT</h3><span class="when">15:10–15:30 · 11:00–21:00</span><p>全国连锁；只有明确想买东西才进去。入口施工状态以当天现场为准。</p><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Kyoto+LOFT+Mina+Kyoto">Google Maps ↗</a></article></div>
+  <article class="card" id="sousou"><div class="card-head"><div><span class="eyebrow">KYOTO DESIGN</span><h3>SOU・SOU 店群</h3></div><div class="when">15:40–16:20</div></div><p class="lead">伊势木棉、足袋、包袋等；店群分散在相邻小巷，挑感兴趣的2–3家即可。</p><p class="meta">SOU・SOU 染めおり（2F）暂时休业，不排入现场可逛店。</p><div class="action"><b>16:20 判断：</b>累了直接回酒店；状态很好再去 D&DEPARTMENT。</div><div class="footerline"><span class="address">Nakanocho, Nakagyo Ward, Kyoto 604-8042 周边</span><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=SOU+SOU+Tabi+Kyoto">Google Maps ↗</a></div><figure class="photo"><img loading="lazy" alt="SOU・SOU 京都店群" src="https://keedan.com/track/files/2024/01/kyoto-travel-shopping-map-4-640x800.jpg"><figcaption><span>SOU・SOU 新京极周边店群</span><a target="_blank" rel="noopener" href="https://keedan.com/track/2024/01/30/kyoto-travel-shopping-map/">图片来源 ↗</a></figcaption></figure></article>
 </section>
 
-<section class="chapter findable" id="center">
-<div class="section-title"><span class="section-no">04</span><div><h2>寺町三条 → 京都 LOFT</h2><p>允许看兴趣，不需要全部完成</p></div></div>
-<div class="shop-grid">
-  <article class="shop-card priority findable" id="tag">
-    <span class="eyebrow">顺路 · 文具</span><h3>Stationery Shop tag - Teramachi Sanjo</h3>
-    <div class="facts"><span>14:45–15:05</span><span>10:00–19:00</span></div>
-    <p>位置正好卡在新風館→河原町路线中间。适合快速看笔、贴纸、纸品和小文具。</p><p><b>建议：</b>15–20分钟。</p>
-    <a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Stationery+Shop+tag+Teramachi+Sanjo">地图 ↗</a>
-  </article>
-  <article class="shop-card optional findable" id="loft">
-    <span class="eyebrow">可删 · 大型综合店</span><h3>Kyoto LOFT / 京都ロフト</h3>
-    <div class="facts"><span>15:10–15:30</span><span>11:00–21:00</span></div>
-    <p>全国连锁，只有明确想买东西才进去。<b>删减优先级第1。</b></p>
-    <div class="notice"><b>截至2026/9/7：</b>Mina Kyoto 1F入口处于施工状态，京都LOFT 4–6F正常营业。<b>10月2日以现场状态为准</b>；如果届时仍施工，按LOFT指示牌进入。</div>
-    <a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Kyoto+LOFT+Mina+Kyoto">地图 ↗</a>
-  </article>
-</div>
-<div class="travel" style="margin-top:14px">
-  <div class="travel-head"><b>寺町三条 → 河原町 / 新京极 → 四条</b><span>直接步行，把商业街本身当下午散步段</span></div>
-  <ol class="stops"><li><div><div class="place-title"><h4>Teramachi / 寺町</h4><span class="kind">商店街</span></div><p class="instruction">看到感兴趣的小店可以进去，但单家建议控制在 <b>10–15分钟</b>。</p></div></li><li><div><div class="place-title"><h4>Shinkyogoku / 新京極</h4><span class="kind">步行商业区</span></div><p class="instruction">真正需要留时间的是 <b>SOU・SOU 店群</b>，不要被连锁店拖住。</p></div></li></ol>
-</div>
+<section class="section" id="ddepartment">
+  <div class="section-head"><h2>05 · D&DEPARTMENT（可选）</h2><span>16:35–17:05</span></div>
+  <article class="card"><div class="card-head"><div><span class="eyebrow">OPTION · LONG-LIFE DESIGN</span><h3>D&DEPARTMENT KYOTO</h3></div><div class="when">当天公告优先</div></div><p class="lead">想继续看京都地方设计、工艺与器物就去；累了整段删除。</p><div class="chips"><span>本山佛光寺境内</span><span>京都地方设计</span><span>器物 / 生活用品</span></div><div class="action"><b>17:05 硬撤：</b>无论逛到哪里，都开始回酒店。</div><div class="footerline"><span class="address">397 Shinkaicho, Shimogyo Ward · 本山佛光寺内</span><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=D%26DEPARTMENT+KYOTO">Google Maps ↗</a></div><figure class="photo"><img loading="lazy" alt="D&DEPARTMENT KYOTO" src="https://tokyobentolife.com/wp-content/uploads/2017/11/IMG_5176.jpg"><figcaption><span>D&DEPARTMENT KYOTO · 本山佛光寺</span><a target="_blank" rel="noopener" href="https://tokyobentolife.com/kyoto/ddepartment">图片来源 ↗</a></figcaption></figure></article>
 </section>
 
-<section class="chapter findable" id="sousou">
-<div class="section-title"><span class="section-no">05</span><div><h2>SOU・SOU 京都河原町</h2><p>多个相邻小店组成的京都设计品牌集群</p></div></div>
-<article class="destination">
-  <div class="dest-header"><div><span class="eyebrow">TEXTILE · TABI · KYOTO DESIGN</span><h3>SOU・SOU</h3></div><div class="visit-time">15:40–16:20<br/>主力店 12:00–20:00</div></div>
-  <p class="purpose">比LOFT更有“在京都逛设计店”的价值，建议慢一点。</p>
-  <div class="highlights"><span>伊勢木綿</span><span>足袋</span><span>布袋</span><span>おくりもの</span><span>着衣 / Yousou.</span></div>
-  <div class="facts"><span>多个相邻小店</span><span>京都河原町 / 新京极附近</span><span>主力店 12:00–20:00</span></div>
-  <p class="description">优先看伊势木绵、足袋、布袋、赠礼、着衣、Yousou. 等感兴趣的2–3家。<b>SOU・SOU 染めおり（2F）自2024年1月3日起暂时休业，恢复日期未定，不纳入现场可逛店。</b></p>
-  <div class="leave"><b>16:20 判断</b><span>累了：直接回酒店。状态很好：再去D&DEPARTMENT，但17:05必须撤。</span></div>
-  <div class="dest-footer"><span class="address">Nakanocho, Nakagyo Ward, Kyoto 604-8042 周边</span><a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=SOU+SOU+Tabi+Kyoto">打开 SOU・SOU ↗</a></div>
-  <figure class="photo-card">
-    <img class="fit-contain" loading="lazy" alt="SOU・SOU 京都河原町店群识别图" src="https://keedan.com/track/files/2024/01/kyoto-travel-shopping-map-4-640x800.jpg"/>
-    <figcaption><span>视觉识别：新京极周边窄街中的SOU・SOU店面；店群分散在相邻小巷。</span><a target="_blank" rel="noopener" href="https://keedan.com/track/2024/01/30/kyoto-travel-shopping-map/">图片来源 ↗</a></figcaption>
-  </figure>
-</article>
+<section class="section" id="return">
+  <div class="section-head"><h2>06 · 回酒店 → 晚餐</h2><span>17:05以后</span></div>
+  <div class="transit"><b>最后一家店 → Toyoko Inn Kyoto Nijojo Minami</b><p>有购物袋时优先出租车。目标17:20–17:30回酒店；放东西、补水、简单整理，<b>17:35开始准备出门，最迟17:40离开</b>。</p><div class="links"><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Toyoko+Inn+Kyoto+Nijojo+Minami">酒店 Google Maps ↗</a></div></div>
 </section>
 
-<section class="chapter findable" id="ddepartment">
-<div class="section-title"><span class="section-no">06</span><div><h2>D&DEPARTMENT KYOTO｜体力足才去</h2><p>本山佛光寺内的京都 long-life design 选物</p></div></div>
-<article class="destination">
-  <div class="dest-header"><div><span class="eyebrow">OPTION · LONG-LIFE DESIGN</span><h3>D&DEPARTMENT KYOTO</h3></div><div class="visit-time">16:35–17:05<br/>当天公告优先</div></div>
-  <p class="purpose">如果还想看京都地方设计、工艺、器物就去；累了就整段删除。</p>
-  <div class="highlights"><span>本山佛光寺境内</span><span>京都地方设计</span><span>器物 / 生活用品</span></div>
-  <p class="description">官方当前要求营业时间和定休日以SNS最新公告为准，所以不再把“11:00–18:00”写成绝对固定值。出发前一天确认即可。</p>
-  <div class="dest-footer"><span class="address">397 Shinkaicho, Shimogyo Ward · 本山佛光寺内</span><a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=D%26DEPARTMENT+KYOTO">Google Maps ↗</a></div>
-  <figure class="photo-card">
-    <img class="fit-contain" loading="lazy" alt="D&DEPARTMENT KYOTO 本山佛光寺内店面识别图" src="https://tokyobentolife.com/wp-content/uploads/2017/11/IMG_5176.jpg"/>
-    <figcaption><span>视觉识别：本山佛光寺木构建筑里的设计选物店；作为体力充足时的尾段加项。</span><a target="_blank" rel="noopener" href="https://tokyobentolife.com/kyoto/ddepartment">图片来源 ↗</a></figcaption>
-  </figure>
-</article>
+<section class="section" id="dinner">
+  <div class="section-head"><h2>07 · Shishiou</h2><span>18:00</span></div>
+  <article class="card"><div class="card-head"><div><span class="eyebrow">DINNER · RESERVED</span><h3>京くずし料理 しし翁 / Shishiou</h3></div><div class="when">18:00 · 预约</div></div><p class="lead">目标17:50–17:55到店。</p><div class="chips"><span>京くずし料理</span><span>季节八寸</span><span>刺身</span><span>京野菜</span></div><p class="meta">18:00–22:00 · 不定休 · 8品主力课程 ¥7,000。</p><div class="footerline"><span class="address">367-14 Furushiro-cho, Nakagyo-ku, Kyoto 604-0045</span><a class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Shishiou+Kyoto">Google Maps ↗</a></div></article>
 </section>
 
-<section class="chapter findable" id="return">
-<div class="section-title"><span class="section-no">07</span><div><h2>回酒店｜放购物袋 + 休息</h2><p>为了保证晚餐体验的固定环节</p></div></div>
-<div class="travel">
-  <div class="travel-head"><b>最后一家店 → Toyoko Inn Kyoto Nijojo Minami</b><span>有购物袋时优先出租车</span></div>
-  <ol class="stops">
-    <li><div><div class="place-title"><h4>打车终点：Toyoko Inn Kyoto Nijojo Minami</h4><span class="kind">最省摩擦</span></div><p class="instruction">目标 <b>17:20–17:30 到酒店</b>。如果没去D&DEPARTMENT，会更早。</p></div><a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Toyoko+Inn+Kyoto+Nijojo+Minami">酒店 ↗</a></li>
-    <li><div><div class="place-title"><h4>17:20–17:35 放东西 / 短休</h4><span class="kind">固定缓冲</span></div><p class="instruction">放购物袋、补水、简单整理。<b>17:35开始准备出门，最迟17:40离开酒店</b>；目标17:50–17:55到Shishiou，不把18:00当成“出门时间”。</p></div></li>
-  </ol>
-</div>
-</section>
+<details class="fold" id="maps"><summary>所有地点地图</summary><div class="mapbox"><div class="map-controls"><label for="map-select">选择地点</label><select id="map-select"><option value="Toyoko Inn Kyoto Nijojo Minami">酒店</option><option value="Nijo Castle Kyoto">二条城</option><option value="Karasuma Oike Station Kyoto">烏丸御池駅</option><option value="TRAVELER'S FACTORY KYOTO">TRAVELER'S FACTORY</option><option value="Stationery Shop tag Teramachi Sanjo Kyoto">Stationery Shop tag</option><option value="Kyoto LOFT Mina Kyoto">Kyoto LOFT</option><option value="SOU SOU Tabi Kyoto">SOU・SOU</option><option value="D&DEPARTMENT KYOTO">D&DEPARTMENT</option><option value="Shishiou Kyoto">Shishiou</option></select><a id="map-open" class="gm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Toyoko+Inn+Kyoto+Nijojo+Minami">在 Google Maps 打开 ↗</a></div><iframe id="map-frame" class="map-frame" loading="lazy" title="地点地图" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Toyoko%20Inn%20Kyoto%20Nijojo%20Minami&output=embed&hl=zh-CN"></iframe></div></details>
 
-<section class="chapter findable" id="dinner">
-<div class="section-title"><span class="section-no">08</span><div><h2>18:00｜京くずし料理 しし翁 / Shishiou</h2><p>全天唯一不能推迟的时间点</p></div></div>
-<article class="destination">
-  <div class="dest-header"><div><span class="eyebrow">DINNER · HARD DEADLINE</span><h3>Shishiou / しし翁</h3></div><div class="visit-time">18:00 到店<br/>Dinner 18:00–22:00</div></div>
-  <p class="purpose">这一天所有下午店铺都围绕这顿晚餐倒推。</p>
-  <div class="highlights"><span>京くずし料理</span><span>季节八寸</span><span>刺身</span><span>京野菜</span></div>
-  <div class="facts"><span>8品主力课程 ¥7,000</span><span>18:00–22:00</span><span>不定休</span></div>
-  <div class="leave"><b>晚餐后</b><span>不设固定夜间任务，按体力步行回酒店或便利店补给。</span></div>
-  <div class="dest-footer"><span class="address">367-14 Furushiro-cho, Nakagyo-ku, Kyoto 604-0045</span><a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Shishiou+Kyoto">打开餐厅 ↗</a></div>
-</article>
-</section>
+<details class="fold" id="practical"><summary>临时营业与官方来源</summary><div><p><b>酒店早餐：</b>6:30–9:00；10:30起床时已结束。<br><b>D&DEPARTMENT：</b>营业时间 / 定休以官方当天公告为准。<br><b>Kyoto LOFT：</b>10月2日入口状态以现场指示为准。</p><div class="source-list"><a target="_blank" rel="noopener" href="https://www.toyoko-inn.com/search/detail/00344/">东横INN ↗</a><a target="_blank" rel="noopener" href="https://nijo-jocastle.city.kyoto.lg.jp/guide/annai/?lang=en">二条城开放 ↗</a><a target="_blank" rel="noopener" href="https://nijo-jocastle.city.kyoto.lg.jp/admission/ticket/?lang=en">二条城票价 ↗</a><a target="_blank" rel="noopener" href="https://www.travelers-factory.com/kyoto">TRAVELER'S FACTORY ↗</a><a target="_blank" rel="noopener" href="https://www.sousou.co.jp/pages/store-info">SOU・SOU ↗</a><a target="_blank" rel="noopener" href="https://www.loft.co.jp/shop_list/info.php?info_id=696375&shop_id=37">Kyoto LOFT ↗</a><a target="_blank" rel="noopener" href="https://www.d-department.com/ext/shop/kyoto.html">D&DEPARTMENT ↗</a><a target="_blank" rel="noopener" href="https://shishiou.jp/en/">Shishiou ↗</a></div></div></details>
 
-<section class="chapter" id="alternatives">
-<div class="section-title"><span class="section-no">备</span><div><h2>晚起 / 逛超时怎么改</h2><p>现场只按触发条件删，不重新规划</p></div></div>
-<div class="alternatives">
-  <article class="alternative"><h3>11:45以后才出酒店</h3><p>二条城压缩到 <strong>60–75分钟</strong>；午饭快吃。下午只保留 TRAVELER'S FACTORY + SOU・SOU。</p></article>
-  <article class="alternative"><h3>14:30还没到新風館</h3><p>进入严重晚点状态：执行 <strong>TRAVELER'S FACTORY → SOU・SOU</strong>；tag、LOFT取消，D&DEPARTMENT也不再考虑。</p></article>
-  <article class="alternative"><h3>SOU・SOU 到16:30+</h3><p><strong>D&DEPARTMENT取消。</strong>直接回酒店；LOFT本来就是第一删项，不为补逛而折返。</p></article>
-  <article class="alternative"><h3>下雨</h3><p>二条城减少庭园停留；二条城前→烏丸御池用地铁，回酒店出租车。商业街大多有遮挡，不必推翻全天。</p></article>
-  <article class="alternative"><h3>已经很累</h3><p>最简版：<strong>二条城 → TRAVELER'S FACTORY → 酒店 → 18:00 Shishiou</strong>。</p></article>
-</div>
-</section>
-
-
-<section class="chapter" id="practical">
-<div class="section-title"><span class="section-no">用</span><div><h2>出发前只复核这些</h2><p>固定路线可离线看；临时营业变化看官方</p></div></div>
-<div class="practical">
-  <article><h3>酒店吃饭</h3><p><b>免费早餐：</b>6:30–9:00，Buffet style。10:30起床时已经结束。</p><p>官方酒店页没有列午餐服务，因此当天不安排“回酒店吃午饭”。</p></article>
-  <article><h3>临时营业</h3><p>D&DEPARTMENT：按官方SNS当天公告。</p><p>Kyoto LOFT：截至9月7日Mina Kyoto 1F入口施工中；10月2日以现场状态为准，若仍施工则按LOFT指示进入4–6F。</p><p>SOU・SOU染めおり：暂时休业，不作为可逛节点。</p></article>
-</div>
-<details>
-  <summary>官方信息与核对入口</summary>
-  <div class="sources">
-    <a target="_blank" rel="noopener" href="https://www.toyoko-inn.com/search/detail/00344/">东横INN京都二条城南 · 早餐 ↗</a>
-    <a target="_blank" rel="noopener" href="https://nijo-jocastle.city.kyoto.lg.jp/guide/annai/?lang=en">二条城 · 开放时间 ↗</a>
-    <a target="_blank" rel="noopener" href="https://nijo-jocastle.city.kyoto.lg.jp/admission/ticket/?lang=en">二条城 · 票价 ↗</a>
-    <a target="_blank" rel="noopener" href="https://www.travelers-factory.com/kyoto">TRAVELER'S FACTORY KYOTO ↗</a>
-    <a target="_blank" rel="noopener" href="https://www.sousou.co.jp/pages/store-info">SOU・SOU · 店铺状态 ↗</a>
-    <a target="_blank" rel="noopener" href="https://www.loft.co.jp/shop_list/info.php?info_id=696375&shop_id=37">京都 LOFT · 入口施工公告 ↗</a>
-    <a target="_blank" rel="noopener" href="https://www.d-department.com/ext/shop/kyoto.html">D&DEPARTMENT KYOTO ↗</a>
-    <a target="_blank" rel="noopener" href="https://shishiou.jp/en/">Shishiou ↗</a>
-  </div>
-</details>
-</section>
-
-<footer class="footer"><span>行程日期 2026年10月2日 · 日本时间 JST<br/>信息复核 2026年9月8日 · 文字与方位图可离线查看；在线地图与外部图片需要网络</span><a href="#top">回到顶部 ↑</a></footer>
-
+<footer class="site-footer"><span>2026年10月2日 · 京都现场指南</span><a href="#top">回到顶部 ↑</a></footer>
 </main>
-</div>
-
 <script>
-const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-$('#print').onclick=()=>window.print();
-const select=$('#map-select'), iframe=$('#live-map'), mapOpen=$('#map-open');
-select.addEventListener('change',e=>{const q=encodeURIComponent(e.target.value);iframe.src='https://www.google.com/maps?q='+q+'&output=embed&hl=zh-CN';mapOpen.href='https://www.google.com/maps/search/?api=1&query='+q});
-const entries=$$('.findable').map(n=>({id:n.id,name:(n.querySelector('h2,h3,h4')?.textContent||'').trim(),text:n.textContent.toLowerCase()}));
-$('#search').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase(),box=$('#search-results');box.replaceChildren();if(!q)return;const found=entries.filter(n=>n.text.includes(q)).slice(0,10);for(const n of found){const a=document.createElement('a');a.href='#'+n.id;a.textContent=n.name;box.append(a)}if(!found.length){const p=document.createElement('p');p.className='search-result-empty';p.textContent='未找到，请换个名称';box.append(p)}});
-const navLinks=$$('.sidebar nav a');
-if('IntersectionObserver'in window){const io=new IntersectionObserver(es=>{const e=es.filter(x=>x.isIntersecting)[0];if(e)navLinks.forEach(a=>a.classList.toggle('active',a.hash==='#'+e.target.id))},{rootMargin:'-10% 0px -65% 0px'});$$('main>section').forEach(s=>io.observe(s))}
-let printState=[];window.addEventListener('beforeprint',()=>{printState=$$('details').map(d=>d.open);$$('details').forEach(d=>d.open=true)});window.addEventListener('afterprint',()=>{$$('details').forEach((d,i)=>d.open=printState[i])});
+const sel=document.getElementById('map-select'),frame=document.getElementById('map-frame'),openLink=document.getElementById('map-open');
+sel.addEventListener('change',()=>{const q=encodeURIComponent(sel.value);frame.src='https://www.google.com/maps?q='+q+'&output=embed&hl=zh-CN';openLink.href='https://www.google.com/maps/search/?api=1&query='+q});
+if(matchMedia('(max-width:700px)').matches){document.querySelector('.atlas')?.removeAttribute('open')}
 </script>
-</body>
-</html>
+</body></html>
