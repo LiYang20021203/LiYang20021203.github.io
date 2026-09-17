@@ -4,245 +4,190 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light">
-<meta name="guide-revision" content="2026-09-12-nara-compact-mobile">
-<title>奈良 10·05｜京都 → 奈良 → 大阪</title>
+<meta name="guide-revision" content="2026-09-12-nara-mobile-compact">
+<title>10.5 奈良｜京都 → 奈良 → 大阪</title>
 <style>
 :root{
-  --paper:#f4efe4;--white:#fffaf1;--ink:#273b40;--ink2:#40565a;
-  --blue:#31566c;--moss:#66755f;--red:#9d4938;--gold:#a8874f;
-  --sand:#e8ddc9;--line:#cdbfa9;--muted:#6b7371
+  --paper:#f3eee4;
+  --card:#fffaf2;
+  --ink:#25383c;
+  --muted:#687270;
+  --line:#d4c6b2;
+  --red:#984737;
+  --green:#64735e;
+  --blue:#31566c;
+  --gold:#aa8950;
+  --soft:#e9e0d1;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:94px}
 body{
   margin:0;background:var(--paper);color:var(--ink);
   font:14px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",
-  "PingFang SC","Microsoft YaHei",sans-serif
+  "PingFang SC","Microsoft YaHei",sans-serif;
 }
-a{color:var(--red);text-decoration:none}
-a:active{text-decoration:underline}
-button{font:inherit}
-h1,h2,h3,p{margin:0}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,p,figure{margin:0}
 h1,h2,h3{font-family:"Noto Serif CJK SC","Songti SC","STSong","Noto Serif JP",serif}
+b,strong{font-weight:800}
 
-.topbar{
-  position:sticky;top:0;z-index:30;height:52px;padding:0 14px;
+.top{
+  position:sticky;top:0;z-index:30;
+  height:50px;padding:0 14px;
   display:flex;align-items:center;justify-content:space-between;
-  background:var(--ink);border-bottom:3px solid var(--red);color:#fff8e9
+  color:#fff7e9;background:var(--ink);border-bottom:3px solid var(--red);
 }
-.wordmark{color:#fff8e9;font-size:11px;font-weight:800;letter-spacing:.12em}
-.topbar button{border:1px solid #879597;background:none;color:#fff8e9;padding:5px 10px;border-radius:3px}
-
-.mobile-nav{
-  position:sticky;top:52px;z-index:25;display:flex;gap:5px;overflow-x:auto;
-  padding:7px 10px;background:rgba(244,239,228,.97);border-bottom:1px solid var(--line);
-  scrollbar-width:none
+.top b{font-size:12px;letter-spacing:.12em}
+.top button{
+  border:1px solid #829093;background:transparent;color:#fff7e9;
+  padding:5px 9px;font:inherit;font-size:11px;
 }
-.mobile-nav::-webkit-scrollbar{display:none}
-.mobile-nav a{
-  flex:0 0 auto;padding:5px 8px;border:1px solid var(--line);
-  background:var(--white);color:var(--ink2);font-size:11px;font-weight:700
+.nav{
+  position:sticky;top:50px;z-index:25;
+  display:flex;gap:5px;overflow:auto;white-space:nowrap;
+  padding:7px 10px;background:rgba(243,238,228,.96);
+  border-bottom:1px solid var(--line);scrollbar-width:none;
 }
-
-main{max-width:980px;margin:auto;padding:16px 13px 42px}
+.nav::-webkit-scrollbar{display:none}
+.nav a{
+  flex:0 0 auto;padding:6px 9px;background:var(--card);
+  border:1px solid var(--line);font-size:11px;font-weight:750;
+}
+main{width:min(100%,960px);margin:auto;padding:15px 12px 44px}
 
 .hero{
-  padding:22px 18px;background:var(--ink2);color:#f6ead5;border-left:5px solid var(--red)
+  position:relative;overflow:hidden;
+  padding:24px 20px 22px;background:#3e5557;color:#f8ead2;
+  border:1px solid #314649;
 }
-.hero .eyebrow{font-size:10px;letter-spacing:.12em;color:#d9b979;font-weight:850}
-.hero h1{font-size:30px;line-height:1.18;margin:7px 0 5px}
-.hero p{font-size:12px;color:#eadfcf}
-.date{display:inline-block;margin-top:12px;padding:6px 9px;background:var(--red);font-size:11px;font-weight:800}
-
-.keyline{
-  margin:12px 0 18px;padding:11px 12px;background:var(--white);
-  border:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:8px
+.hero:after{
+  content:"";position:absolute;width:170px;height:170px;border-radius:50%;
+  right:-55px;top:-60px;background:rgba(168,135,79,.24);
 }
-.keyline div{min-width:0}
-.keyline b{display:block;font-size:11px;color:var(--red)}
-.keyline span{display:block;font-size:11px;color:var(--muted);margin-top:2px}
-
-section{scroll-margin-top:96px}
-.section-title{display:flex;align-items:baseline;gap:10px;margin:24px 0 10px}
-.section-title .no{font:26px/1 Georgia,serif;color:var(--red);min-width:32px}
-.section-title h2{font-size:21px}
-.section-title span.note{font-size:11px;color:var(--muted);margin-left:auto}
-
-.timeline{background:var(--white);border-top:3px solid var(--red);border-bottom:1px solid var(--line)}
-.trow{
-  display:grid;grid-template-columns:88px 1fr;gap:9px;padding:10px 11px;
-  border-bottom:1px solid #e2d7c5;color:var(--ink)
-}
-.trow:last-child{border-bottom:0}
-.trow time{font-weight:850;color:var(--red);font-size:12px;font-variant-numeric:tabular-nums}
-.trow strong{font-size:14px}
-.trow small{display:block;color:var(--muted);font-size:10.8px;margin-top:2px}
-.trow.special{background:#f0e1cd}
-.trow.end{background:#e5eadf}
+.hero .kicker{font-size:10px;letter-spacing:.16em;color:#d7bc88;font-weight:850}
+.hero h1{font-size:31px;line-height:1.12;margin:7px 0 9px}
+.hero p{max-width:650px;font-size:13px;color:#f3e5d2}
+.hero .date{display:inline-block;margin-top:13px;padding:6px 9px;background:var(--red);font-weight:800;font-size:12px}
 
 .route{
-  margin-top:13px;background:var(--white);border:1px solid var(--line);padding:12px
+  margin-top:12px;padding:12px 13px;background:var(--card);border:1px solid var(--line);
 }
-.route-head{font-size:11px;font-weight:800;color:var(--ink2);margin-bottom:9px}
-.route-flow{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.stop{position:relative;padding:8px 6px 7px;background:#efe5d4;text-align:center;font-size:10.8px;line-height:1.35}
-.stop b{display:block;color:var(--ink2);font-size:11.5px}
-.stop:after{
-  content:"→";position:absolute;right:-7px;top:50%;transform:translateY(-50%);
-  color:var(--red);font-weight:900;z-index:2
-}
-.stop:last-child:after{display:none}
-.route-note{font-size:10.5px;color:var(--muted);margin-top:8px}
+.route b{display:block;font-size:11px;color:var(--red);margin-bottom:6px}
+.route p{font-size:13px;font-weight:760;line-height:1.75}
 
-.travel{
-  margin:10px 0 14px;background:#e3e9e5;border:1px solid #c0cdca;border-left:4px solid var(--blue)
+.notice{
+  margin-top:10px;padding:10px 12px;background:#354a4c;color:#f6ead5;border-left:4px solid var(--gold);
+  font-size:12px;
 }
-.travel-head{
-  padding:9px 11px;border-bottom:1px solid #c4cfcc;display:flex;
-  justify-content:space-between;gap:8px
+.notice strong{color:#f3c878}
+
+.section{margin-top:24px;scroll-margin-top:98px}
+.section-head{
+  display:flex;align-items:baseline;gap:9px;padding-bottom:8px;
+  border-bottom:2px solid var(--ink);
 }
-.travel-head b{font-size:13px}.travel-head span{font-size:10.5px;color:var(--muted)}
-.steps{margin:0;padding:0 12px 0 34px}
-.steps li{padding:9px 0;border-bottom:1px solid #cad3d0;font-size:12px}
-.steps li:last-child{border-bottom:0}
-.steps b{color:var(--ink2)}
-.minor{font-size:10.5px;color:var(--muted);margin-top:2px}
+.no{font:700 21px/1 Georgia,serif;color:var(--red)}
+.section h2{font-size:21px}
+.sub{margin-top:5px;color:var(--muted);font-size:11px}
+
+.timeline{
+  margin-top:10px;background:var(--card);border-top:3px solid var(--red);border-bottom:1px solid var(--line);
+}
+.trow{
+  display:grid;grid-template-columns:82px 1fr;gap:8px;
+  padding:10px 11px;border-bottom:1px solid #e5dac8;
+}
+.trow:last-child{border-bottom:0}
+.trow time{font-size:12px;color:var(--red);font-weight:850;font-variant-numeric:tabular-nums}
+.trow strong{display:block;font-size:14px}
+.trow span{display:block;margin-top:2px;color:var(--muted);font-size:11px;line-height:1.45}
+.trow.special{background:#f1e2cf}
+.trow.end{background:#e7ece2}
 
 .card{
-  margin-bottom:13px;padding:15px 14px;background:var(--white);
-  border:1px solid #cfbea4;border-left:4px solid var(--red)
+  margin-top:10px;padding:14px;background:var(--card);
+  border:1px solid var(--line);border-left:4px solid var(--red);
 }
-.card-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.card h3{font-size:22px;line-height:1.3}
-.visit{white-space:nowrap;font-size:11px;font-weight:800;color:var(--red)}
-.languages{font-size:10.5px;color:var(--muted);margin-top:4px}
-.desc{font-size:12px;color:#596564;margin-top:8px}
-.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-.tags span{padding:2px 6px;background:#f0e7d7;border:1px solid #d4c5ad;font-size:10px}
-.maplinks{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
-.maplink{padding:5px 8px;border:1px solid #b7a990;font-size:10.5px;font-weight:700}
-.maplink.google{background:#f2e7d4;color:#702f28}
-.maplink.official{background:#e1e8e2;color:#394b4d}
+.card.green{border-left-color:var(--green)}
+.card.blue{border-left-color:var(--blue)}
+.card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.card h3{font-size:20px;line-height:1.25}
+.time{flex:0 0 auto;color:var(--red);font-size:11px;font-weight:850}
+.key{margin-top:7px;font-size:13px;font-weight:740;line-height:1.55}
+.note{margin-top:7px;color:var(--muted);font-size:12px}
+.compact-list{margin:8px 0 0;padding-left:18px}
+.compact-list li{margin:4px 0;font-size:12px;color:#52605f}
+.links{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.btn{
+  display:inline-block;padding:6px 9px;border:1px solid #b9ab94;
+  font-size:11px;font-weight:800;background:#efe5d4;color:#6f3029;
+}
+.btn.official{background:#e2e8e2;color:#3c4d4d}
 
 .photo{
-  margin:11px 0 0;background:#eee5d7;border:1px solid #d3c4ae;overflow:hidden
+  margin-top:11px;overflow:hidden;background:#ebe2d5;border:1px solid #d5c6af;
 }
-.photo img{
-  display:block;width:100%;height:auto;max-height:360px;object-fit:contain;
-  background:#eee5d7
+.photo img{display:block;width:100%;height:auto}
+.photo figcaption{padding:6px 8px;color:var(--muted);font-size:9.5px}
+
+.transport{
+  margin-top:10px;padding:12px 13px;background:#e2e8e5;border-left:4px solid var(--blue);
 }
-.photo figcaption{padding:6px 8px;font-size:9.5px;color:var(--muted)}
+.transport b{font-size:13px}
+.transport p{margin-top:5px;font-size:12px;color:#50605f}
+.transport .links{margin-top:8px}
 
-.leave{margin-top:9px;padding:7px 9px;background:#ead9bd;font-size:11px}
-.leave b{color:var(--red)}
-
-.foods{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.food{padding:12px;background:var(--white);border:1px solid #cfbea4}
-.food h3{font-size:16px}.food p{font-size:11px;color:var(--muted);margin-top:4px}
-.food.backup{border-left:4px solid var(--gold)}
-
-.special{
-  margin:10px 0 14px;padding:13px 14px;background:#472f2a;color:#f5ead8;border-left:5px solid var(--gold)
+.foods{display:grid;gap:9px;margin-top:10px}
+.food{
+  padding:12px 13px;background:var(--card);border:1px solid var(--line);
 }
-.special strong{color:#f0c37f}
-.special p{font-size:11.5px;margin-top:5px;color:#f3e4d0}
-.special .maplink{color:#ffe0b0;border-color:#8d6d4f;background:transparent}
+.food h3{font-size:17px}
+.food p{margin-top:5px;font-size:12px;color:var(--muted)}
 
-.compact-note{
-  margin:10px 0;padding:10px 11px;background:#e5e9df;border-left:4px solid var(--moss);
-  font-size:11px;color:#58615e
+.special-box{
+  margin-top:10px;padding:12px 13px;background:#4a302b;color:#f5ead8;border-left:4px solid var(--gold);
 }
-.compact-note b{color:var(--ink2)}
+.special-box strong{color:#f1c47e}
+.special-box p{margin-top:5px;font-size:12px;color:#f0e1ce}
 
 details{
-  margin-top:10px;background:var(--white);border:1px solid var(--line)
+  margin-top:10px;background:var(--soft);border:1px solid var(--line);padding:0 12px;
 }
-summary{
-  cursor:pointer;padding:11px 12px;font-weight:800;color:var(--ink2);font-size:12px
-}
-.details-body{padding:0 12px 12px}
-.details-body p,.details-body li{font-size:11px;color:#5e6868}
-.details-body ul{margin:4px 0 0;padding-left:18px}
-.sources{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.sources a{font-size:10px;padding:4px 7px;border:1px solid var(--line);background:#f1e9dc}
+summary{cursor:pointer;padding:10px 0;font-weight:800;font-size:12px}
+details>div{padding:0 0 11px;font-size:12px;color:var(--muted)}
+details p+p{margin-top:6px}
 
 .footer{
-  margin-top:28px;padding-top:13px;border-top:1px solid var(--line);
-  font-size:10px;color:var(--muted);display:flex;justify-content:space-between;gap:12px
+  margin-top:28px;padding-top:14px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:10px;text-align:center;
 }
 
-@media(min-width:760px){
-  main{padding:24px 26px 55px}
-  .hero{padding:27px 28px}.hero h1{font-size:36px}
-  .keyline{grid-template-columns:repeat(4,1fr)}
-  .timeline .trow{grid-template-columns:115px 1fr}
-  .photo img{max-height:420px}
-}
-@media(max-width:620px){
-  html{scroll-padding-top:94px}
-  .hero h1{font-size:27px}
-  .keyline{grid-template-columns:1fr 1fr}
-  .section-title{align-items:flex-start}.section-title span.note{display:none}
-  .route-flow{grid-template-columns:1fr}
-  .stop{text-align:left;padding:7px 9px}
-  .stop:after{content:"↓";right:10px;top:auto;bottom:-11px}
-  .foods{grid-template-columns:1fr}
-  .card-head{display:block}.visit{display:block;margin-top:3px}
-  .photo img{max-height:none}
-  .travel-head{display:block}.travel-head span{display:block;margin-top:2px}
+@media(min-width:720px){
+  main{padding:24px 24px 60px}
+  .hero{padding:31px}
+  .hero h1{font-size:38px}
+  .timeline{display:grid;grid-template-columns:1fr 1fr}
+  .trow:nth-child(odd){border-right:1px solid #e5dac8}
+  .foods{grid-template-columns:1fr 1fr}
+  .photo img{max-height:470px;object-fit:cover}
+  .card{padding:18px}
 }
 @media print{
-  .topbar,.mobile-nav{display:none!important}
-  main{max-width:none;padding:0}
-  .card,.travel,.food,.special,.route{break-inside:avoid}
+  .top,.nav{display:none}
+  html{scroll-padding-top:0}
+  main{padding:0}
+  .card,.transport,.food,.photo,.special-box{break-inside:avoid}
 }
-
-/* 原版路线图：保留两张，移动端改为单列 */
-.route-atlas{margin:18px 0 22px;scroll-margin-top:96px}
-.atlas-heading{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;margin-bottom:10px}
-.atlas-heading h2{font-size:21px}
-.atlas-heading p{font-size:10.5px;color:var(--muted);margin-top:3px}
-.north-badge{
-  flex:0 0 auto;padding:6px 9px;background:#e5d8bf;border:1px solid #b99b6b;
-  color:var(--ink2);font-size:10px;font-weight:800
-}
-.atlas-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.map-card{min-width:0;padding:10px;background:var(--white);border:1px solid var(--line);overflow:hidden}
-.map-card-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:7px}
-.map-card-head h3{font-size:15px;line-height:1.3}
-.map-kicker{display:block;font-size:9px;color:var(--red);font-weight:850;letter-spacing:.08em;margin-bottom:2px}
-.scale-note{font-size:8.5px;color:var(--muted);text-align:right;line-height:1.3}
-.route-svg{display:block;width:100%;height:auto;border:1px solid #d3c5b1;background:#f8f1e3}
-.route-rail,.route-bus,.route-walk{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:4}
-.route-rail{stroke:var(--blue)}.route-bus{stroke:var(--moss)}.route-walk{stroke:var(--red)}
-.map-dot{fill:#fffaf0;stroke:var(--ink2);stroke-width:2}
-.map-dot.major{fill:var(--red);stroke:#fff0db}.map-dot.hotel{fill:var(--gold);stroke:var(--ink2)}
-.map-label{font-size:13px;fill:#303b3d;font-weight:780}.map-sub{font-size:10.5px;fill:#6b7271}
-.map-key{display:flex;flex-wrap:wrap;gap:5px 12px;margin-top:7px;font-size:9.5px;color:var(--muted)}
-.keyline-map{display:inline-block;width:22px;height:3px;vertical-align:middle;margin-right:4px;background:var(--blue)}
-.keyline-map.bus{background:var(--moss)}.keyline-map.walk,.keyline-map.return{background:var(--red)}
-@media(max-width:620px){
-  .atlas-heading{display:block}
-  .north-badge{display:inline-block;margin-top:7px}
-  .atlas-grid{grid-template-columns:1fr}
-  .map-card{padding:8px}
-  .map-card-head h3{font-size:15px}
-  .route-svg .map-label{font-size:12px}
-  .route-svg .map-sub{font-size:9.5px}
-}
-
 </style>
 </head>
 <body id="top">
-
-<header class="topbar">
-  <a class="wordmark" href="#top">NARA / 10·05</a>
-  <button id="print">打印 / PDF</button>
+<header class="top">
+  <b>10.5 NARA</b>
+  <button onclick="window.print()">打印 / PDF</button>
 </header>
 
-<nav class="mobile-nav" aria-label="快速导航">
-  <a href="#map">路线图</a>
-  <a href="#overview">时间轴</a>
+<nav class="nav" aria-label="快速导航">
+  <a href="#overview">时间线</a>
   <a href="#transfer">京都→奈良</a>
   <a href="#kasuga">春日大社</a>
   <a href="#wakakusa">若草山</a>
@@ -253,277 +198,202 @@ summary{
 
 <main>
 <header class="hero">
-  <span class="eyebrow">KYOTO → NARA → OSAKA</span>
-  <h1>奈良 10·05</h1>
-  <p>换城日现场指南</p>
-  <span class="date">2026 · 10 · 05　周一</span>
+  <div class="kicker">KYOTO → NARA → OSAKA</div>
+  <h1>10.5 奈良</h1>
+  <p>京都退房后到近铁奈良寄存行李，从春日大社开始向西走：若草山 → 东大寺 → 奈良公园 → 回站取箱 → 大阪。</p>
+  <div class="date">2026.10.05 · 周一</div>
 </header>
 
-<div class="keyline">
-  <div><b>09:00</b><span>京都退房</span></div>
-  <div><b>近铁奈良</b><span>先寄存大箱</span></div>
-  <div><b>15:30</b><span>开始回站取箱</span></div>
-  <div><b>约17:15</b><span>大阪本町2</span></div>
+<div class="route">
+  <b>当天主线</b>
+  <p>京都酒店 → 近铁奈良（寄存）→ 春日大社 → 若草山山麓 → 午餐 → 东大寺 → 10/5 特别开扉 → 奈良公园 → 近铁奈良（取箱）→ 大阪本町2</p>
 </div>
 
+<div class="notice">
+  <strong>10/5 交通已确认：</strong>当天是周一，10/1 起的观光季方案下，平日仍有公交直达「春日大社本殿」。近铁奈良仍从 <b>1 号站台</b>乘车；优先看 <b>[77] / [197]</b> 等明确显示「春日大社本殿」的班次。若下一班直达车等待明显超过约 10 分钟，再考虑打车。
+</div>
 
-<section id="map" class="route-atlas">
-  <div class="atlas-heading">
-    <div>
-      <h2>路线图</h2>
-      <p>保留跨城方位与奈良步行主线。</p>
-    </div>
-    <div class="north-badge">↑ 北 N</div>
-  </div>
-
-  <div class="atlas-grid">
-    <article class="map-card">
-      <div class="map-card-head">
-        <div><span class="map-kicker">01 · 跨城</span><h3>京都 → 奈良 → 大阪本町</h3></div>
-        <span class="scale-note">方位示意<br>非等比例</span>
-      </div>
-      <svg class="route-svg" viewBox="0 0 900 560" preserveAspectRatio="xMidYMid meet" role="img" aria-label="京都奈良大阪跨城方位图">
-        <defs>
-          <marker id="regional-blue" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#31566c"/></marker>
-          <marker id="regional-red" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#9d4938"/></marker>
-        </defs>
-        <rect width="900" height="560" rx="18" fill="#f7efe0"/>
-        <path d="M0 210Q210 120 430 155T900 110V0H0Z" fill="#e2e6dc"/>
-        <text x="790" y="48" class="map-label">↑ 北 N</text>
-        <text x="45" y="520" class="map-sub">西 W ←</text><text x="790" y="520" class="map-sub">→ 东 E</text>
-        <path d="M520 120C530 205 550 275 575 350" class="route-rail" marker-end="url(#regional-blue)"/>
-        <path d="M565 365C450 375 330 375 180 365" class="route-rail" style="stroke:#9d4938" marker-end="url(#regional-red)"/>
-        <circle cx="500" cy="92" r="8" class="map-dot hotel"/><text x="522" y="89" class="map-label">京都酒店</text><text x="522" y="109" class="map-sub">東横INN京都二条城南</text>
-        <circle cx="535" cy="155" r="6" class="map-dot"/><text x="555" y="159" class="map-label">京都站 / 近铁京都</text>
-        <circle cx="575" cy="365" r="9" class="map-dot major"/><text x="595" y="359" class="map-label">近铁奈良</text><text x="595" y="380" class="map-sub">寄存 → 游览 → 取回</text>
-        <circle cx="310" cy="370" r="6" class="map-dot"/><text x="330" y="353" class="map-label">近铁日本桥</text><text x="330" y="375" class="map-sub">换堺筋线</text>
-        <circle cx="165" cy="365" r="8" class="map-dot hotel"/><text x="55" y="337" class="map-label">大阪酒店</text><text x="55" y="357" class="map-sub">堺筋本町 / 本町2</text>
-      </svg>
-      <div class="map-key"><span><i class="keyline-map"></i>京都 → 奈良</span><span><i class="keyline-map return"></i>奈良 → 大阪</span></div>
-    </article>
-
-    <article class="map-card">
-      <div class="map-card-head">
-        <div><span class="map-kicker">02 · 奈良</span><h3>春日大社 → 若草山 → 东大寺 → 近铁奈良</h3></div>
-        <span class="scale-note">节点方位<br>非等比例</span>
-      </div>
-      <svg class="route-svg" viewBox="0 0 900 560" preserveAspectRatio="xMidYMid meet" role="img" aria-label="近铁奈良春日大社若草山东大寺奈良公园路线图">
-        <defs>
-          <marker id="local-green" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#66755f"/></marker>
-          <marker id="local-red" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#9d4938"/></marker>
-        </defs>
-        <rect width="900" height="560" rx="18" fill="#f7efe0"/>
-        <path d="M525 20Q720 80 900 40V0H500Z" fill="#dfe5d8"/>
-        <text x="790" y="48" class="map-label">↑ 北 N</text>
-        <text x="42" y="520" class="map-sub">西 W ← 近铁奈良方向</text><text x="705" y="520" class="map-sub">春日山方向 → 东 E</text>
-        <path d="M120 382C300 392 510 402 745 397" class="route-bus" marker-end="url(#local-green)"/>
-        <path d="M745 397C760 315 754 220 720 128C610 125 535 147 455 175C378 202 330 252 278 300C225 347 165 372 120 382" class="route-walk" marker-end="url(#local-red)"/>
-        <circle cx="120" cy="382" r="9" class="map-dot major"/><text x="58" y="417" class="map-label">近铁奈良</text><text x="58" y="438" class="map-sub">行李留在这里</text>
-        <circle cx="745" cy="397" r="9" class="map-dot major"/><text x="655" y="432" class="map-label">春日大社</text><text x="655" y="452" class="map-sub">公交 / 必要时打车</text>
-        <circle cx="720" cy="128" r="8" class="map-dot major"/><text x="636" y="97" class="map-label">若草山南入口</text><text x="636" y="118" class="map-sub">山麓</text>
-        <circle cx="555" cy="154" r="6" class="map-dot"/><text x="526" y="132" class="map-label">午餐</text>
-        <circle cx="455" cy="175" r="9" class="map-dot major"/><text x="369" y="153" class="map-label">东大寺大佛殿</text>
-        <circle cx="378" cy="220" r="6" class="map-dot"/><text x="275" y="219" class="map-label">10/5 勧進所</text>
-        <circle cx="278" cy="300" r="7" class="map-dot"/><text x="189" y="285" class="map-label">奈良公园</text><text x="189" y="307" class="map-sub">回站方向</text>
-      </svg>
-      <div class="map-key"><span><i class="keyline-map bus"></i>公交 / 打车</span><span><i class="keyline-map walk"></i>步行主线</span></div>
-    </article>
-  </div>
-</section>
-
-
-<section id="overview">
-  <div class="section-title"><span class="no">00</span><h2>时间轴</h2></div>
-
+<section id="overview" class="section">
+  <div class="section-head"><span class="no">00</span><h2>时间线</h2></div>
   <div class="timeline">
-    <a class="trow" href="#transfer"><time>09:00</time><div><strong>京都酒店退房</strong><small>二条城前 → 乌丸御池 → 京都 → 近铁奈良</small></div></a>
-    <a class="trow" href="#transfer"><time>10:41–10:55</time><div><strong>近铁奈良</strong><small>到站先寄存大箱，再去1号公交站台</small></div></a>
-    <a class="trow" href="#kasuga"><time>11:15–12:05</time><div><strong>春日大社</strong><small>本殿直达车约10分钟内就坐；否则打车</small></div></a>
-    <a class="trow" href="#wakakusa"><time>12:20–12:40</time><div><strong>若草山山麓</strong><small>南入口附近停留，不安排登顶</small></div></a>
-    <a class="trow" href="#wakakusa"><time>12:55–13:30</time><div><strong>午餐</strong><small>さわらび亭优先；排队明显改あぜくらや</small></div></a>
-    <a class="trow" href="#todaiji"><time>13:35–14:20</time><div><strong>东大寺大佛殿</strong><small>之后步行约10分钟去勧進所</small></div></a>
-    <a class="trow special" href="#todaiji"><time>14:30–15:05</time><div><strong>10/5 特别开扉</strong><small>勧進所八幡殿 / 阿弥陀堂 / 公慶堂 · ¥800</small></div></a>
-    <a class="trow" href="#park"><time>15:05–15:30</time><div><strong>奈良公园</strong><small>边看鹿边往近铁奈良方向走</small></div></a>
-    <a class="trow end" href="#return"><time>15:30–15:45</time><div><strong>取箱</strong><small>找到原柜 → 补水 / 厕所 → 直接去大阪</small></div></a>
-    <a class="trow end" href="#return"><time>15:45–17:15</time><div><strong>近铁奈良 → 大阪酒店</strong><small>近铁日本桥换堺筋线</small></div></a>
+    <div class="trow"><time>09:00</time><div><strong>京都酒店退房</strong><span>二条城前 1 号出口电梯 → 京都站 → 近铁京都</span></div></div>
+    <div class="trow"><time>10:41–10:55</time><div><strong>近铁奈良</strong><span>到站先寄存大箱，再去 1 号公交站台</span></div></div>
+    <div class="trow"><time>11:15–12:05</time><div><strong>春日大社</strong><span>公交直达本殿优先；等太久就打车</span></div></div>
+    <div class="trow"><time>12:20–12:40</time><div><strong>若草山山麓</strong><span>只看山脚草坡和鹿，不强制登山</span></div></div>
+    <div class="trow"><time>12:55–13:30</time><div><strong>午餐</strong><span>さわらび亭；排队明显直接换あぜくらや</span></div></div>
+    <div class="trow special"><time>13:35–15:05</time><div><strong>东大寺</strong><span>大佛殿 13:35–14:20；14:30 后看 10/5 特别开扉</span></div></div>
+    <div class="trow"><time>15:05–15:45</time><div><strong>奈良公园 → 回站</strong><span>边看鹿边向西走，15:30 左右开始取箱</span></div></div>
+    <div class="trow end"><time>15:45–17:15</time><div><strong>去大阪酒店</strong><span>近铁日本桥换堺筋线 → 堺筋本町 → 本町2</span></div></div>
   </div>
-
-  <div class="compact-note"><b>当前唯一需要现场判断的交通：</b>近铁奈良 1 号站台若约 10 分钟内有明确写「春日大社本殿」的直达车就坐；没有、截短或等待更久就直接打车。</div>
 </section>
 
-<section id="transfer">
-  <div class="section-title"><span class="no">01</span><h2>京都 → 近铁奈良</h2><span class="note">09:00–10:45</span></div>
+<section id="transfer" class="section">
+  <div class="section-head"><span class="no">01</span><h2>京都 → 奈良</h2></div>
 
-  <div class="travel">
-    <div class="travel-head"><b>東横INN京都二条城南 → 近铁奈良</b><span>地铁 + 近铁</span></div>
-    <ol class="steps">
-      <li><b>09:00 左右退房</b>，带全部行李去二条城前站。<div class="maplinks"><a class="maplink google" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Toyoko+Inn+Kyoto+Nijojo+Minami">Google Maps ↗</a></div></li>
-      <li><b>二条城前 T14：</b>拖箱走 1 号出入口电梯 → 乌丸御池。</li>
-      <li><b>乌丸御池 K08 → 京都 K11：</b>换乌丸线竹田方向。</li>
-      <li><b>近铁京都 B01：</b>优先急行「近鉄奈良行」。原版目标为 09:52 左右发车、约 10:41 到；当天以电子牌 / 导航为准。</li>
-      <li><b>近铁奈良 A28：</b>先寄存大箱，拍下柜区和柜号。<div class="maplinks"><a class="maplink google" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Kintetsu+Nara+Station">Google Maps ↗</a><a class="maplink official" target="_blank" rel="noopener" href="https://www.kintetsu.co.jp/soukatsu/kounai/nara.html">站内图 ↗</a></div></li>
-    </ol>
+  <div class="transport">
+    <b>東横INN京都二条城南 → 近铁奈良</b>
+    <p>09:00 左右退房。二条城前站优先走 1 号出入口电梯；乌丸御池换乌丸线到京都站。近铁京都优先坐急行「近鉄奈良行」，当前工作日时刻表可把 09:52 左右发车、约 10:41 到作为参考，当天以导航和电子牌为准。</p>
+    <div class="links">
+      <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Toyoko+Inn+Kyoto+Nijojo+Minami">京都酒店 Google Maps ↗</a>
+    </div>
   </div>
 
-  <div class="compact-note"><b>行李：</b>Coin Locker 为默认方案。普通大箱按约 ¥600–1,000、特大按约 ¥800–1,500 预留即可；满柜再找站外寄存。</div>
+  <div class="card green">
+    <div class="card-head"><h3>近鉄奈良駅</h3><span class="time">约10:41–10:55</span></div>
+    <p class="key">先寄存行李。拍下柜区和柜号，再去 1 号公交站台。</p>
+    <p class="note">Coin Locker 作为默认方案；普通大箱预算约 ¥600–1,000。满柜再找站外人工寄存。</p>
+    <div class="links">
+      <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Kintetsu+Nara+Station">Google Maps ↗</a>
+      <a class="btn official" target="_blank" rel="noopener" href="https://www.kintetsu.co.jp/soukatsu/kounai/nara.html">站内图 ↗</a>
+    </div>
+  </div>
 </section>
 
-<section id="kasuga">
-  <div class="section-title"><span class="no">02</span><h2>春日大社</h2><span class="note">约11:15–12:05</span></div>
+<section id="kasuga" class="section">
+  <div class="section-head"><span class="no">02</span><h2>春日大社</h2></div>
 
-  <div class="travel">
-    <div class="travel-head"><b>近铁奈良 → 春日大社本殿</b><span>公交 / 必要时打车</span></div>
-    <ol class="steps">
-      <li>寄存后去 <b>1 号站台</b>。车头明确写「春日大社本殿」且约 10 分钟内发车 → 直接坐。</li>
-      <li>只到「東大寺大仏殿・春日大社前」、没有本殿直达或等待明显更久 → <b>打车到春日大社本殿</b>。</li>
-    </ol>
+  <div class="transport">
+    <b>近铁奈良 → 春日大社本殿｜10/1 新方案</b>
+    <p><b>10/5（周一）可直达本殿。</b>到近铁奈良 <b>1 号站台</b>，优先乘电子牌明确显示「春日大社本殿」的班次；可重点看 <b>[77]</b> 与新设的 <b>[197]</b>。原 <b>[97] 法隆寺前 → 春日大社本殿</b> 已于 10/1 废止，不再按 97 找车。</p>
+    <p class="note">观光季截短规则主要影响土日祝：六条山线在指定观光季土日祝改至「东大寺大佛殿・春日大社前」；奈良法隆寺线的新方案也将土日祝改为东大寺一带折返。10/5 是周一，因此这项截短不适用。公交参考 ¥250，可用 ICOCA / Suica；当天仍以站台电子牌为最终准确信息。</p>
   </div>
 
   <article class="card">
-    <div class="card-head"><h3>春日大社</h3><span class="visit">11:15–12:05</span></div>
-    <p class="languages">春日大社 · Kasugataisha Shrine</p>
-    <div class="tags"><span>朱红回廊</span><span>吊灯笼</span><span>中门</span></div>
-    <p class="desc">普通参拜区域免费；御本殿特别参拜现行初穗料 ¥700。约 12:05 离开，去若草山南入口。</p>
+    <div class="card-head"><h3>春日大社</h3><span class="time">11:15–12:05</span></div>
+    <p class="key">看朱红回廊、吊灯笼和森林神社氛围，控制在约 1 小时。</p>
+    <p class="note">普通参拜区域免费；御本殿特别参拜现行初穗料 ¥700。12:05 左右离开，步行约 15 分钟去若草山南入口。</p>
     <figure class="photo">
       <img loading="lazy" alt="春日大社回廊与吊灯笼" src="https://commons.wikimedia.org/wiki/Special:FilePath/Nara%20Kasuga-taisha%20Main%20Sanctuary%20Cloister%20Lanterns%201.jpg?width=1600">
-      <figcaption>春日大社吊灯笼 · Wikimedia Commons</figcaption>
+      <figcaption>春日大社</figcaption>
     </figure>
-    <div class="maplinks"><a class="maplink google" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Kasuga+Taisha+Nara">Google Maps ↗</a><a class="maplink official" target="_blank" rel="noopener" href="https://www.kasugataisha.or.jp/about/basic/">官方 ↗</a></div>
+    <div class="links">
+      <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Kasuga+Taisha+Nara">Google Maps ↗</a>
+      <a class="btn official" target="_blank" rel="noopener" href="https://www.kasugataisha.or.jp/about/basic/">官方 ↗</a>
+    </div>
   </article>
 </section>
 
-<section id="wakakusa">
-  <div class="section-title"><span class="no">03</span><h2>若草山 + 午餐</h2><span class="note">12:20–13:30</span></div>
+<section id="wakakusa" class="section">
+  <div class="section-head"><span class="no">03</span><h2>若草山 + 午餐</h2></div>
 
   <article class="card">
-    <div class="card-head"><h3>若草山南入口 / 山麓</h3><span class="visit">12:20–12:40</span></div>
-    <p class="languages">若草山 · 若草山 南ゲート</p>
-    <div class="tags"><span>草坡</span><span>鹿</span><span>不登顶</span></div>
-    <p class="desc">今天只停山麓；真正进山成人 ¥150。12:40 左右离开，预留约 10–15 分钟去午餐。</p>
+    <div class="card-head"><h3>若草山南入口</h3><span class="time">12:20–12:40</span></div>
+    <p class="key">只停山麓，看草坡和鹿；今天不把登山加入换酒店日。</p>
+    <p class="note">若进山成人 ¥150。12:40 左右离开，给午餐店预留约 10–15 分钟步行。</p>
     <figure class="photo">
       <img loading="lazy" alt="若草山草坡与鹿" src="https://commons.wikimedia.org/wiki/Special:FilePath/Wakakusayama.jpg?width=1600">
-      <figcaption>若草山 · Wikimedia Commons</figcaption>
+      <figcaption>若草山</figcaption>
     </figure>
-    <div class="maplinks"><a class="maplink google" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E8%8B%A5%E8%8D%89%E5%B1%B1+%E5%8D%97%E3%82%B2%E3%83%BC%E3%83%88">Google Maps · 南入口 ↗</a><a class="maplink official" target="_blank" rel="noopener" href="https://www.pref.nara.lg.jp/site/park/2585.html">奈良县官方 ↗</a></div>
+    <div class="links">
+      <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E8%8B%A5%E8%8D%89%E5%B1%B1+%E5%8D%97%E3%82%B2%E3%83%BC%E3%83%88">Google Maps · 南入口 ↗</a>
+      <a class="btn official" target="_blank" rel="noopener" href="https://www.pref.nara.lg.jp/site/park/2585.html">官方 ↗</a>
+    </div>
   </article>
 
   <div class="foods">
     <article class="food">
       <h3>さわらび亭</h3>
-      <p>主选。约 12:55–13:30；明显排队就不等。</p>
-      <div class="maplinks"><a class="maplink google" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E3%81%95%E3%82%8F%E3%82%89%E3%81%B3%E4%BA%AD+%E5%A5%88%E8%89%AF">Google Maps ↗</a></div>
+      <p>主选。12:55 左右开始吃；明显排队就放弃，不等。</p>
+      <div class="links"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E3%81%95%E3%82%8F%E3%82%89%E3%81%B3%E4%BA%AD+%E5%A5%88%E8%89%AF">Google Maps ↗</a></div>
     </article>
-    <article class="food backup">
+
+    <article class="food">
       <h3>あぜくらや</h3>
-      <p>明确备选。奈良市雑司町407；A 店排队时直接来这里。</p>
-      <div class="maplinks"><a class="maplink google" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E3%81%82%E3%81%9C%E3%81%8F%E3%82%89%E3%82%84+%E5%A5%88%E8%89%AF">Google Maps ↗</a><a class="maplink official" target="_blank" rel="noopener" href="https://azekuraya1.com/access.html">官方 ↗</a></div>
+      <p>备选。奈良市雑司町407，11:00–15:00；A 店排队明显就直接来这里。</p>
+      <div class="links">
+        <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E3%81%82%E3%81%9C%E3%81%8F%E3%82%89%E3%82%84+%E5%A5%88%E8%89%AF">Google Maps ↗</a>
+        <a class="btn official" target="_blank" rel="noopener" href="https://azekuraya1.com/access.html">官方 ↗</a>
+      </div>
     </article>
   </div>
 </section>
 
-<section id="todaiji">
-  <div class="section-title"><span class="no">04</span><h2>东大寺</h2><span class="note">13:35–15:05</span></div>
+<section id="todaiji" class="section">
+  <div class="section-head"><span class="no">04</span><h2>东大寺</h2></div>
 
   <article class="card">
-    <div class="card-head"><h3>东大寺大佛殿</h3><span class="visit">13:35–14:20</span></div>
-    <p class="languages">東大寺 大仏殿 · Tōdai-ji Daibutsuden</p>
-    <div class="tags"><span>大佛殿</span><span>卢舍那佛</span><span>现金</span></div>
-    <p class="desc">成人 ¥800；现行入堂费以现金支付。结束后从大佛殿后方向西，步行约 10 分钟到勧進所。</p>
+    <div class="card-head"><h3>东大寺大佛殿</h3><span class="time">13:35–14:20</span></div>
+    <p class="key">看大佛殿建筑尺度和卢舍那佛。</p>
+    <p class="note">10 月现行开放至 17:30；成人 ¥800。现行入堂费以现金支付。</p>
     <figure class="photo">
       <img loading="lazy" alt="东大寺大佛殿外观" src="https://commons.wikimedia.org/wiki/Special:FilePath/Nara%20Todai-ji%20Daibutsuden%20Exterior%20South%20Side%2001.jpg?width=1600">
-      <figcaption>东大寺大佛殿 · Wikimedia Commons</figcaption>
+      <figcaption>东大寺大佛殿</figcaption>
     </figure>
-    <div class="maplinks"><a class="maplink google" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Todaiji+Daibutsuden+Nara">Google Maps ↗</a><a class="maplink official" target="_blank" rel="noopener" href="https://www.todaiji.or.jp/information/haikan/">官方 ↗</a></div>
+    <div class="links">
+      <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Todaiji+Daibutsuden+Nara">Google Maps ↗</a>
+      <a class="btn official" target="_blank" rel="noopener" href="https://www.todaiji.or.jp/information/haikan/">官方 ↗</a>
+    </div>
   </article>
 
-  <div class="special">
-    <strong>10 月 5 日限定｜勧進所特别开扉</strong>
-    <p>八幡殿 / 阿弥陀堂 / 公慶堂约 10:00–16:00 开扉，入堂料 ¥800。计划 14:30–15:05；如果已明显晚于 15:15，可跳过以保证去大阪节奏。</p>
-    <div class="maplinks"><a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Todaiji+Kanjinsho+Nara">Google Maps · 勧進所 ↗</a><a class="maplink" target="_blank" rel="noopener" href="https://www.todaiji.or.jp/annual/hibutsu/">秘佛开扉 ↗</a></div>
+  <div class="special-box">
+    <strong>10/5 特别开扉｜14:30–15:05</strong>
+    <p>大佛殿结束后向西步行约 10 分钟到勧進所。八幡殿 / 阿弥陀堂 / 公慶堂特别开扉，入堂料 ¥800。若明显晚于 15:15，可跳过，优先保证返大阪节奏。</p>
+    <div class="links">
+      <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Todaiji+Kanjinsho+Nara">Google Maps · 勧進所 ↗</a>
+      <a class="btn official" target="_blank" rel="noopener" href="https://www.todaiji.or.jp/annual/hibutsu/">秘佛开扉 ↗</a>
+      <a class="btn official" target="_blank" rel="noopener" href="https://www.todaiji.or.jp/annual/event/">年中行事 ↗</a>
+    </div>
   </div>
 </section>
 
-<section id="park">
-  <div class="section-title"><span class="no">05</span><h2>奈良公园</h2><span class="note">15:05–15:30</span></div>
+<section id="park" class="section">
+  <div class="section-head"><span class="no">05</span><h2>奈良公园</h2></div>
 
-  <article class="card">
-    <div class="card-head"><h3>奈良公园</h3><span class="visit">15:05–15:30</span></div>
-    <p class="languages">奈良公園 · Nara Park</p>
-    <p class="desc">这一段只作为回站前的自由缓冲：看鹿、休息、买纪念品，同时往近铁奈良方向移动。</p>
+  <article class="card green">
+    <div class="card-head"><h3>奈良公园</h3><span class="time">15:05–15:30</span></div>
+    <p class="key">不单独“刷景点”，把它当成东大寺回近铁奈良途中看鹿、休息和买纪念品的自由段。</p>
     <figure class="photo">
       <img loading="lazy" alt="奈良公园的鹿" src="https://commons.wikimedia.org/wiki/Special:FilePath/Deer%20in%20Nara%20Park.jpg?width=1600">
-      <figcaption>奈良公园鹿群 · Wikimedia Commons</figcaption>
+      <figcaption>奈良公园</figcaption>
     </figure>
-    <div class="maplinks"><a class="maplink google" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Nara+Park">Google Maps ↗</a></div>
-    <div class="leave"><b>15:20 后进入回站模式：</b>15:30–15:45 回近铁奈良，取箱后直接去大阪。</div>
+    <div class="links">
+      <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Nara+Park">Google Maps ↗</a>
+    </div>
+    <p class="note"><b>15:30 左右回站。</b> 取箱、补水、上厕所后直接去大阪。</p>
   </article>
 </section>
 
-<section id="return">
-  <div class="section-title"><span class="no">06</span><h2>奈良 → 大阪本町2</h2><span class="note">15:30–17:15</span></div>
+<section id="return" class="section">
+  <div class="section-head"><span class="no">06</span><h2>奈良 → 大阪</h2></div>
 
-  <div class="travel">
-    <div class="travel-head"><b>近铁奈良 → 東横INN大阪本町2</b><span>近铁奈良线 + 堺筋线</span></div>
-    <ol class="steps">
-      <li><b>近铁奈良 A28 → 近铁日本桥 A02：</b>乘往大阪难波方向的适合班次。</li>
-      <li><b>近铁日本桥 → 日本桥 K17：</b>跟「堺筋線」标识换乘。</li>
-      <li><b>日本桥 K17 → 堺筋本町 K15：</b>北千里 / 天神橋筋六丁目方向，2 站。</li>
-      <li><b>堺筋本町 → 東横INN大阪本町2：</b>今天拖大箱，优先 6 号出口电梯；11 号出口虽最近但不作为拖箱优先。<div class="maplinks"><a class="maplink google" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Toyoko+Inn+Osaka+Hommachi+No.2">Google Maps ↗</a><a class="maplink official" target="_blank" rel="noopener" href="https://www.toyoko-inn.com/search/detail/00266/access/">酒店路线 ↗</a></div></li>
-    </ol>
+  <div class="transport">
+    <b>近铁奈良 → 東横INN大阪本町2</b>
+    <p>近铁奈良 → 近铁日本桥 → 换 Osaka Metro 堺筋线 → 堺筋本町。今天拖大箱，酒店官方路线优先使用 6 号出口电梯；无大箱时 11 号出口更近。</p>
+  </div>
+
+  <div class="card blue">
+    <div class="card-head"><h3>東横INN大阪本町2</h3><span class="time">约17:15</span></div>
+    <p class="key">到酒店后结束当天换城主线，不绕大阪站。</p>
+    <div class="links">
+      <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Toyoko+Inn+Osaka+Hommachi+No.2">Google Maps ↗</a>
+      <a class="btn official" target="_blank" rel="noopener" href="https://www.toyoko-inn.com/search/detail/00266/access/">酒店官方路线 ↗</a>
+    </div>
   </div>
 </section>
 
-<section id="extras">
-  <div class="section-title"><span class="no">+</span><h2>备选与实用信息</h2></div>
-
+<section class="section">
   <details>
-    <summary>晚点 / 排队 / 下雨</summary>
-    <div class="details-body">
-      <ul>
-        <li>春日大社本殿直达车等待明显超过约 10 分钟：直接打车。</li>
-        <li>さわらび亭明显排队：直接去あぜくらや。</li>
-        <li>下午明显疲劳：大佛殿保留；特别开扉或奈良公园可压缩。</li>
-        <li>下雨 / 草坡湿滑：若草山只到入口，必要时直接删。</li>
-      </ul>
+    <summary>晚点 / 排队时怎么删</summary>
+    <div>
+      <p><b>公交：</b>1 号站台看「春日大社本殿」方向；[77] / [197] 等直达班次约 10 分钟内就坐，否则打车。不要再按 [97] 找车。</p>
+      <p><b>午餐：</b>さわらび亭明显排队就切あぜくらや。</p>
+      <p><b>下午晚点：</b>大佛殿保留；特别开扉可跳过；奈良公园缩成回站路上的 15–20 分钟。</p>
+      <p><b>下雨：</b>春日大社和东大寺保留，若草山山麓缩短。</p>
     </div>
   </details>
 
   <details>
-    <summary>交通卡 / 现金 / 电梯</summary>
-    <div class="details-body">
-      <ul>
-        <li>京都地铁、近铁、Osaka Metro 以 ICOCA / Suica 等交通系 IC 为主。</li>
-        <li>奈良公交参考 ¥250/人；7 / 77 / 97 若按现行整理券方式运行，则后门上、前门下，IC 上下车各刷一次。</li>
-        <li>东大寺大佛殿 ¥800 需现金；若草山入山 ¥150；春日大社特别参拜现行 ¥700。</li>
-        <li>拖箱电梯：京都二条城前 1 号出入口；大阪堺筋本町 6 号出口。</li>
-      </ul>
+    <summary>10/1 后公交方案｜已确认</summary>
+    <div>
+      <p><b>10/5 周一：</b>近铁奈良 1 号站台 → 春日大社本殿仍可直达。10/1 起 [97] 废止并新设 [197]；观光季土日祝的东大寺截短规则不适用于当天。无需再等待 10 月方案公告，出发当天只需看电子牌确认最近一班本殿直达车。</p>
+      <p><a class="btn official" target="_blank" rel="noopener" href="https://www.narakotsu.co.jp/news/general/34372/">奈良交通｜观光季运行公告 ↗</a></p>
     </div>
   </details>
-
-  <details>
-    <summary>官方来源</summary>
-    <div class="details-body">
-      <div class="sources">
-        <a target="_blank" rel="noopener" href="https://www2.city.kyoto.lg.jp/kotsu/tikadia/hyperdia/menu0136.htm">二条城前 ↗</a>
-        <a target="_blank" rel="noopener" href="https://www.kintetsu.co.jp/gyoumu/coinlocker/">近铁储物柜 ↗</a>
-        <a target="_blank" rel="noopener" href="https://www.narakotsu.co.jp/route/noriba/">奈良交通站台 ↗</a>
-        <a target="_blank" rel="noopener" href="https://www.todaiji.or.jp/annual/hibutsu/">东大寺特别开扉 ↗</a>
-        <a target="_blank" rel="noopener" href="https://www.toyoko-inn.com/search/detail/00266/access/">大阪酒店交通 ↗</a>
-      </div>
-    </div>
-  </details>
-
-  <div class="compact-note"><b>公交提醒：</b>原版仍把 10 月观光季运行措施列为需要临近出发再确认的项目；这里保留同一判断逻辑，不在精简版中扩写。</div>
 </section>
 
 <footer class="footer">
-  <span>行程：2026年10月5日 · 内容沿用原最终版，仅做精简与移动端重排</span>
-  <a href="#top">回到顶部 ↑</a>
+  2026.10.05 · 京都 → 奈良 → 大阪
 </footer>
 </main>
-
-<script>
-document.getElementById('print').onclick=()=>window.print();
-</script>
 </body>
 </html>
